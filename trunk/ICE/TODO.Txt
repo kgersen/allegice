@@ -1,0 +1,144 @@
+1.60
+New from 1.50
+  - ships: display bug corrected (mask)
+  - projectiles: now show corresponding weapon(s)
+  - factions: added lifepod id
+1.70
+  - missing probes datas added.
+  - projectiles: added matching probes
+1.80
+  - bug: shield values
+  - globals (drop-down list display index in decimal / hex)
+  - "clear Pre" and "clear Def" (warning : "instant" apply, no undo)
+  - Ships: 
+    default loadout is now a multi-select list box with 2 states ("edit" check-box)
+    When edit is on  : select/deselect the items
+    When edit is off : only show the selected items
+    Only parts that are not upgrades of other parts are shown (ie mk1 parts)
+	Use the ship save button to apply changes
+1.85
+  - Armor damage modifiers have now their own interface ("globals" entry, top of objects tree).
+    I assume there is 20 sets of damage modifiers (DM00 to DM19).
+    Missiles & projectiles now use a dropdown list for their DM.
+    Each DM have 20 Armor classes modifiers. 
+    So i assume there is 20 Armor classes (AC), named according to spunky's post.
+    Ships & Stations now use a dropdown list for their AC (2 for stations).
+    That gives 400 (20 DM x 20 AC) globals.
+    There are 1 unfound DM (DM06) and 3 unusued DM (DM00,DM14,DM19).
+    May be the unfound DM is for mines/caltrop.
+    According to the values, there are 1 unfound AC (AC11) and 6 unusued AC (AC15 to AC19).
+    According to agc.dll, every 'concrete' object in the game have an armor class so may
+    be the unfound AC is for missiles and probes.
+    Otherwise these DM/AC look free to be used for our changes/adds.
+
+    The first undecoded 40 globals remain in the lower part of the interface.
+1.86
+  - Fix stupid bugs in probes (on save SS4 & proj are messed up and
+    negative entries couldnt be entered).
+1.90
+  - your inputs: nothing added yet, can u post a final status on recent probe values discoveries.
+  - "refresh" button now reselect the object in the main left tree.
+  - stations are no longer regrouped by faction (this regroupment was based on UIDs values
+    and worked because of the values used (no longer valid for new bases)). NB: AGM still
+    use this regroupment (so AGM might not handle correctly new bases (they will display  under gigacorp ).
+    
+  - ADDING (1st shoot, DELETE NOT IMPLEMENTED (:)):
+    Adding new object works by duplicating an existing one.
+    Use the "duplicate" button. The current object is copied and the left tree is reloaded
+    and expanded to the new copy. The new object is an exact copy except for its UID
+    which is generated to be unique, so its recommended to rename the new copy immediatly.
+    (Except for a projectile since its name is based on its UID).
+    To duplicate a missile,mine,probe or counter: duplicate its "proxy part" (ie invmiss,invmine,..).
+    ICE will duplicate both the proxy and the real part and link the two new copies together.
+
+1.95
+  - your inputs on factions and probes
+  - mines SS1/SS2 exposed
+  - known sound entries
+  - removed some bmp preview buttons
+  - added model pre-preview (ships only/not functionnal yet)
+    This will be moved to AMT (Allegiance Modeling Tool) when available.
+    
+  - all globals moved to 'globals' dialog.
+    Global can be named (use a config file 'ice.ini')
+    Use the 'set' button to change the value and/or the name of the selected global.
+    Use the inner 'save' button to update the 'ice.ini' with the new names.
+  - Tech tree interface reworked.
+    Type a value in the little box,use + or - to inc/dec this value.
+    When editing the litte box, the right most window shows infos on that value.
+    Use Toggle Pre/Def to add/remove this value from the Pre/Def set
+    Clear All Pre and Clear All Def as before
+1.96
+  - Changed: renaming an entry now refresh the main list(minor bug: the tech tree is clear, so reselect the entry)
+  - Added: 2 bookmarks (top of window), use leading '>' to store and trailing '>' to recall.
+  - Added: devel path entry allowing to move a devel from a path to another
+  - Aded: window can now be minimized 
+    
+1.98
+     * devel icon can now be changed. 
+     * some images name have a leading letter that indicates that the used bmp.mdl file is prefixed with this letter, (example in devel icon: acs48 -> iacs48bmp.mdl) (once saved, click on the image to refresh it)
+     * station SS0 =  drone UID
+     station SH2/SH3 as bits
+     * shields, todo, last 2 words = sounds
+     * cloak, SS1 and SS2 = sounds
+     * some cleanup (decode boxes removed)
+     * replacement problem fixed (entries sorted before saved).
+2.1
+     * your inputs on missile
+     * 'cargo playload' on mines,probes and missiles = cargo space the object occupies per slot
+     * proxy parts :1 bug fix upon saving + swarm in type
+2.2
+	* shields:  "B1" is now "Armor Class" with a dropdown list
+	* stations: SH2 & SH3 input values replaced by bit fields (see partial decode below)
+	* stations: "caps can dock" rename "caps can launch + Def 247"
+	* ships: "capital?" bug fixed, 'isdock' renamed 'carrier', 'figther?' renamed 'small ship'
+
+TO DECODE:
+	ships: 'captital?' (RLI) and 'F2048'(has Relayed Lead Indicator) flags 
+	SH2
+		b3=ripcord
+		b0=miners can offload here
+
+	SH3=
+		b5=heavy tele or special mines
+		b4=cap can dock 
+		b3=ref
+		b2=for "platform" only
+		b1=major base
+		b0=dockable base
+2.3
+	* added sorting option (for stations & devels only):
+		when 'sort' is clicked: entries are displayed alphabetically
+		when 'sort' in unclicked: entries are in the order they'll appear in game.
+		and u can use "move up" & "move down" buttons.
+	* ships: relay lead indicator (was "capital?") & has lead indicator (was F2048)
+	
+	
+2.4
+	* "loadout bmp" renamed "inactive model - loadout"
+	* you inputs on missiles and global #32
+	* drones:
+	   + ss1 = AI script ( miner=0,wingman=2,layer=5,con=6,carrier=9 )
+	   + added part uid for drones. Set mine/probe uid for AI script #5 (layer),
+	    -1 for other scripts.
+	    WARNING: if set to a probe uid, the probe object MUST have a projectile
+	    or the server will crash (when "build on aleph" is ordered).
+	* Mines & Probes can now be duplicated directly (ie without duplicating a linked
+	  proxy part). Mines & Probes duplicated that way can only be used by layers
+	  (drone).
+	* delete implemented (at last !).
+
+2.5
+	* sig% for parts exposed
+	* ss2/ss4 for weapons = sounds
+	* probes features bits (was SS3)
+	* "description" exposed for stations (oops :), funny no one noticed it was missing)
+	* compiled with VS.Net Release
+2.6
+    * TreasureSet !
+	* lotta new values exposed
+	* group for ships (0 or 4 for ships, -1 for miners/drones/cons (ie to hide it in F4 screen))
+	* Local techtree is station exposed
+	* station type renamed class 
+	
+

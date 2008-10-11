@@ -1,0 +1,28 @@
+Microsoft Visual Studio Solution File, Format Version 7.00
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ICE", "ICE.vcproj", "{37497268-7FD2-410C-863E-0E88E05AC7C7}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+	ProjectSection(SolutionConfiguration) = postProject
+		ProSec.ActiveCfg = ProSec|Win32
+		ProSec.Build.0 = ProSec|Win32
+		Lite Release.ActiveCfg = Lite Release|Win32
+		Lite Release.Build.0 = Lite Release|Win32
+		Release.ActiveCfg = Release|Win32
+		Release.Build.0 = Release|Win32
+		Debug.ActiveCfg = Debug|Win32
+		Debug.Build.0 = Debug|Win32
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfiguration) = preSolution
+		ConfigName.0 = ProSec
+		ConfigName.1 = Debug
+		ConfigName.2 = Release
+		ConfigName.3 = Lite Release
+		DoSign = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+	EndGlobalSection
+	GlobalSection(ExtensibilityAddIns) = postSolution
+	EndGlobalSection
+EndGlobal
