@@ -3,9 +3,9 @@
 
 #include "stdafx.h"
 //#include "ICE.h"
-#include "..\AMT\BitmapGlue.h"
+#include "external\BitmapGlue.h"
 #include "BMPMDLButton.h"
-#include "..\AMT\MDLFile.h"
+#include "external\MDLFile.h"
 
 // CBMPMDLButton
 
