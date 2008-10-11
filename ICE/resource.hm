@@ -1,0 +1,4 @@
+// Microsoft Visual C++ generated Help ID include file.
+// Used by ICE.rc
+//
+#define HIDC_BBACK                      0x806604f4    // IDD_ICE_DIALOG [Neutral]
