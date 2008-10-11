@@ -313,9 +313,7 @@ NEW IN 3.4
   * 'validate' button to find next error
   * shorcuts buttons and links everywhere to jump to referenced objects (successors, projectiles,...)
   * switchable DM/AC editing
-  * dump to xml or txt file
-  * compare with other core
-  * check artwork for missing files
+
 
 Known bugs:
 	none
