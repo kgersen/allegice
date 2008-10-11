@@ -136,7 +136,7 @@
 				InlineFunctionExpansion="1"
 				OmitFramePointers="true"
 				AdditionalIncludeDirectories="C:\dev\FreeImage\Dist"
-				PreprocessorDefinitions="__ICE;_ICEPUB"
+				PreprocessorDefinitions="__ICE;_ICEPUB;_CRT_SECURE_NO_DEPRECATE"
 				IgnoreStandardIncludePath="false"
 				StringPooling="true"
 				MinimalRebuild="true"
