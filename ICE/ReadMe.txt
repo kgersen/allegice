@@ -312,6 +312,7 @@ See TechTree.txt for documention on the techtree (NEW IN 1.95)
 NEW IN 3.4
   * 'validate' button to find next error
   * shorcuts buttons and links everywhere to jump to referenced objects (successors, projectiles,...)
+  * "return button" (blue button middle low) to return to previous object
   * switchable DM/AC editing
 
 
