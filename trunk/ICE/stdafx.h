@@ -42,5 +42,5 @@
 #include <afxcmn.h>			// MFC support for Windows Common Controls
 #endif // _AFX_NO_AFXCMN_SUPPORT
 
-#import "..\\bin\\agc.dll" no_namespace
-#import "..\\bin\\AllSrv32.exe" no_namespace
+#import "external\\agc.dll" no_namespace
+#import "external\\AllSrv32.exe" no_namespace

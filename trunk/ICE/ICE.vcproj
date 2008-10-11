@@ -412,10 +412,6 @@
 				>
 			</File>
 			<File
-				RelativePath="ICE.rc"
-				>
-			</File>
-			<File
 				RelativePath="ICEDlg.cpp"
 				>
 			</File>
@@ -598,6 +594,10 @@
 				>
 			</File>
 			<File
+				RelativePath="ICE.rc"
+				>
+			</File>
+			<File
 				RelativePath="res\ICE.rc2"
 				>
 			</File>
@@ -611,22 +611,22 @@
 			</File>
 		</Filter>
 		<Filter
-			Name="MDL"
+			Name="External"
 			>
 			<File
-				RelativePath="..\AMT\BitmapGlue.cpp"
+				RelativePath=".\External\BitmapGlue.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\AMT\BitmapGlue.h"
+				RelativePath=".\External\BitmapGlue.h"
 				>
 			</File>
 			<File
-				RelativePath="..\AMT\MDLFile.cpp"
+				RelativePath=".\External\MDLFile.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\AMT\MDLFile.h"
+				RelativePath=".\External\MDLFile.h"
 				>
 			</File>
 		</Filter>
@@ -636,10 +636,6 @@
 		</File>
 		<File
 			RelativePath="TechTree.txt"
-			>
-		</File>
-		<File
-			RelativePath="TODO.Txt"
 			>
 		</File>
 	</Files>
