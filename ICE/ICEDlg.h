@@ -94,7 +94,7 @@ public:
 	void OnClickedQuit(void);
 //	void OnSelchangeTechlist(void);
 //	void OnClickTechVal(void);
-	CString TTHaveBit(int ibit);
+	CString TTHaveBit(int ibit,CListBox* clb,CString prefix);
 	void OnClickedRefresh(void);
 	afx_msg void OnBnClickedClearpre();
 	afx_msg void OnBnClickedCleardef();
@@ -133,7 +133,7 @@ public:
 	afx_msg void OnBnClickedMovedown();
 	afx_msg void OnBnClickedTogglelocal();
 	afx_msg void OnBnClickedClearlocal();
-	afx_msg void OnTcnSelchangeMaintab(NMHDR *pNMHDR, LRESULT *pResult);
+//	afx_msg void OnTcnSelchangeMaintab(NMHDR *pNMHDR, LRESULT *pResult);
 	afx_msg void OnBnClickedButfilter();
 	afx_msg void OnBnClickedClearfilter();
 	afx_msg void OnBnClickedAddtofilter();
@@ -143,4 +143,6 @@ public:
 	afx_msg void OnBnClickedCompare();
 	afx_msg void OnBnClickedDump();
 	afx_msg void OnBnClickedChkart();
+	afx_msg void OnLbnSelchangeTtlist();
+	afx_msg void OnTcnSelchangeMaintab(NMHDR *pNMHDR, LRESULT *pResult);
 };

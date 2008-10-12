@@ -123,7 +123,7 @@ BEGIN_MESSAGE_MAP(CICEDlg, CDialog)
 	ON_BN_CLICKED(IDC_MOVEDOWN, OnBnClickedMovedown)
 	ON_BN_CLICKED(IDC_TOGGLELOCAL, OnBnClickedTogglelocal)
 	ON_BN_CLICKED(IDC_CLEARLOCAL, OnBnClickedClearlocal)
-	ON_NOTIFY(TCN_SELCHANGE, IDC_MAINTAB, OnTcnSelchangeMaintab)
+//	ON_NOTIFY(TCN_SELCHANGE, IDC_MAINTAB, OnTcnSelchangeMaintab)
 //	ON_WM_KEYDOWN()
 ON_BN_CLICKED(IDC_BUTFILTER, OnBnClickedButfilter)
 ON_BN_CLICKED(IDC_CLEARFILTER, OnBnClickedClearfilter)
@@ -136,6 +136,8 @@ ON_BN_CLICKED(IDC_BBACK, &CICEDlg::OnBnClickedBback)
 ON_BN_CLICKED(IDC_COMPARE, &CICEDlg::OnBnClickedCompare)
 ON_BN_CLICKED(IDC_DUMP, &CICEDlg::OnBnClickedDump)
 ON_BN_CLICKED(IDC_CHKART, &CICEDlg::OnBnClickedChkart)
+ON_LBN_SELCHANGE(IDC_TTLIST, &CICEDlg::OnLbnSelchangeTtlist)
+ON_NOTIFY(TCN_SELCHANGE, IDC_MAINTAB, &CICEDlg::OnTcnSelchangeMaintab)
 END_MESSAGE_MAP()
 
 
@@ -1017,12 +1019,13 @@ void CICEDlg::OnClickedQuit(void)
 	EndDialog(IDCANCEL);
 }
 
-CString CICEDlg::TTHaveBit(int ipBit)
+CString CICEDlg::TTHaveBit(int ipBit,CListBox *clb, CString prefix)
 {
 	int ibit = ipBit; 
 	int idx = ibit/8;
 	int imask = 1<<(ibit%8);
 	CString s ="";
+	CString t;
 	if (ibit>400){
 		ibit -=400;
 		//if (ibit == 1) s = "GP: Allow Devel\r\n";
@@ -1031,8 +1034,8 @@ CString CICEDlg::TTHaveBit(int ipBit)
 		if (ibit == 4) s = "GP: Allow tactical\r\n";
 		if (ibit == 5) s = "GP: Allow expansion\r\n";
 		if (ibit == 6) s = "GP: Allow shipyard\r\n";
-		//if (ibit == 7) s = "GP: CTF or money\r\n";
-		//if (s != "") return s;
+		if (ibit == 7) s = "GP: CTF or money\r\n";
+		if (s != "") clb->AddString(prefix+s);
 	}
 	ibit = ipBit;
 
@@ -1044,11 +1047,15 @@ CString CICEDlg::TTHaveBit(int ipBit)
 			PtrCoreCiv pciv = pigccore->cl_Civs.GetAt(j);
 			if (pciv->techtree[idxciv] & imask)
 			{
-				s.AppendFormat("Faction: %s (%d) 'Devel'\r\n",pciv->name,pciv->uid);
+				t.Format("Faction: %s (%d) 'Devel'\r\n",pciv->name,pciv->uid);
+				s+=t;
+				int idx = clb->AddString(prefix+t); clb->SetItemDataPtr(idx,pciv);
 			}
 			if (pciv->techtree[idx] & imask)
 			{
-				s.AppendFormat("Faction: %s (%d) 'No Devel'\r\n",pciv->name,pciv->uid);
+				t.Format("Faction: %s (%d) 'No Devel'\r\n",pciv->name,pciv->uid);
+				s+=t;
+				int idx = clb->AddString(prefix+t); clb->SetItemDataPtr(idx,pciv);
 			}
 		}
 		for (int j=0;j<pigccore->cl_StationTypes.GetSize();j++)
@@ -1056,7 +1063,9 @@ CString CICEDlg::TTHaveBit(int ipBit)
 			PtrCoreStationType p = pigccore->cl_StationTypes.GetAt(j);
 			if (p->TechTreeLocal[idxciv] & imask)
 			{
-				s.AppendFormat("Station: %s (%d) - local\r\n",p->name,p->uid);
+				t.Format("Station: %s (%d) - local\r\n",p->name,p->uid);
+				s+=t;
+				int idx = clb->AddString(prefix+t); clb->SetItemDataPtr(idx,p);
 			}
 		}
 
@@ -1068,7 +1077,9 @@ CString CICEDlg::TTHaveBit(int ipBit)
 		PtrCoreDevel p = pigccore->cl_Devels.GetAt(j);
 		if (p->techtree[idx] & imask)
 		{
-			s.AppendFormat("Devel: %s (%d)\r\n",p->name,p->uid);
+			t.Format("Devel: %s (%d)\r\n",p->name,p->uid);
+			s+=t;
+			int idx = clb->AddString(prefix+t); clb->SetItemDataPtr(idx,p);
 		}
 	}
 
@@ -1077,7 +1088,9 @@ CString CICEDlg::TTHaveBit(int ipBit)
 		PtrCoreShip pship = pigccore->cl_Ships.GetAt(j);
 		if (pship->techtree[idx] & imask)
 		{
-			s.AppendFormat("Ship: %s (%d)\r\n",pship->name,pship->uid);
+			t.Format("Ship: %s (%d)\r\n",pship->name,pship->uid);
+			s+=t;
+			int idx = clb->AddString(prefix+t); clb->SetItemDataPtr(idx,pship);
 		}
 	}
 
@@ -1086,7 +1099,9 @@ CString CICEDlg::TTHaveBit(int ipBit)
 		PtrCoreStationType p = pigccore->cl_StationTypes.GetAt(j);
 		if (p->techtree[idx] & imask)
 		{
-			s.AppendFormat("Station: %s (%d)\r\n",p->name,p->uid);
+			t.Format("Station: %s (%d)\r\n",p->name,p->uid);
+			s+=t;
+			int idx = clb->AddString(prefix+t); clb->SetItemDataPtr(idx,p);
 		}
 	}
 
@@ -1095,7 +1110,9 @@ CString CICEDlg::TTHaveBit(int ipBit)
 		PtrCoreDrone p = pigccore->cl_Drones.GetAt(j);
 		if (p->techtree[idx] & imask)
 		{
-			s.AppendFormat("Drone: %s (%d)\r\n",p->name,p->uid);
+			t.Format("Drone: %s (%d)\r\n",p->name,p->uid);
+			s+=t;
+			int idx = clb->AddString(prefix+t); clb->SetItemDataPtr(idx,p);
 		}
 	}
 	for (int j=0;j<pigccore->cl_Missiles.GetSize();j++)
@@ -1103,7 +1120,9 @@ CString CICEDlg::TTHaveBit(int ipBit)
 		PtrCoreMissile p = pigccore->cl_Missiles.GetAt(j);
 		if (p->techtree[idx] & imask)
 		{
-			s.AppendFormat("Missile: %s (%d)\r\n",p->name,p->uid);
+			t.Format("Missile: %s (%d)\r\n",p->name,p->uid);
+			s+=t;
+			int idx = clb->AddString(prefix+t); clb->SetItemDataPtr(idx,p);
 		}
 	}
 	for (int j=0;j<pigccore->cl_Parts.GetSize();j++)
@@ -1112,7 +1131,9 @@ CString CICEDlg::TTHaveBit(int ipBit)
 		if (!p->isspec)
 			if (p->techtree[idx] & imask)
 			{
-				s.AppendFormat("Part: %s (%d)\r\n",p->name,p->uid);
+				t.Format("Part: %s (%d)\r\n",p->name,p->uid);
+				s+=t;
+				int idx = clb->AddString(prefix+t); clb->SetItemDataPtr(idx,p);
 			}
 	}
 	for (int j=0;j<pigccore->cl_Mines.GetSize();j++)
@@ -1120,7 +1141,9 @@ CString CICEDlg::TTHaveBit(int ipBit)
 		PtrCoreMine p = pigccore->cl_Mines.GetAt(j);
 		if (p->techtree[idx] & imask)
 		{
-			s.AppendFormat("Mine: %s (%d)\r\n",p->name,p->uid);
+			t.Format("Mine: %s (%d)\r\n",p->name,p->uid);
+			s+=t;
+			int idx = clb->AddString(prefix+t); clb->SetItemDataPtr(idx,p);
 		}
 	}
 	for (int j=0;j<pigccore->cl_Counters.GetSize();j++)
@@ -1128,7 +1151,9 @@ CString CICEDlg::TTHaveBit(int ipBit)
 		PtrCoreCounter p = pigccore->cl_Counters.GetAt(j);
 		if (p->techtree[idx] & imask)
 		{
-			s.AppendFormat("Counter: %s (%d)\r\n",p->name,p->uid);
+			t.Format("Counter: %s (%d)\r\n",p->name,p->uid);
+			s+=t;
+			int idx = clb->AddString(prefix+t); clb->SetItemDataPtr(idx,p);
 		}
 	}
 	for (int j=0;j<pigccore->cl_Probes.GetSize();j++)
@@ -1136,7 +1161,9 @@ CString CICEDlg::TTHaveBit(int ipBit)
 		PtrCoreProbe p = pigccore->cl_Probes.GetAt(j);
 		if (p->techtree[idx] & imask)
 		{
-			s.AppendFormat("Probe: %s (%d)\r\n",p->name,p->uid);
+			t.Format("Probe: %s (%d)\r\n",p->name,p->uid);
+			s+=t;
+			int idx = clb->AddString(prefix+t); clb->SetItemDataPtr(idx,p);
 		}
 	}
 
@@ -1667,19 +1694,22 @@ void CICEDlg::OnBnClickedClearlocal()
 void CICEDlg::ShowTechBit(UCHAR *pTT,UCHAR *pTTLocal, int iBit)
 {
 	CString tt = "";
+	CString t="";
 	CString t2 = "";
 	if (!pigccore) return;
+	CListBox* clb = (CListBox*)GetDlgItem(IDC_TTLIST);
+	clb->ResetContent();
 	if (pTT)
 	{
-		tt = "Depends on:\r\n";
+		tt = "Depends on:\r\n"; clb->AddString(tt);
 		for (int i=0;i<50;i++)
 		{
 			for (int j=0;j<8;j++)
 			{
 				if (pTT[i] & (1<<j))
 				{
-					tt.AppendFormat("%d:\r\n",i*8+j);
-					CString hb = TTHaveBit(400+i*8+j);
+					t.Format("%d:\r\n",i*8+j); tt+=t; int idx = clb->AddString(t); clb->SetItemData(idx,i*8+j);
+					CString hb = TTHaveBit(400+i*8+j,clb,"  ");
 					hb.Replace("\r\n","\r\n  ");
 					tt.AppendFormat("  %s\r\n", hb);
 				}
@@ -1689,12 +1719,12 @@ void CICEDlg::ShowTechBit(UCHAR *pTT,UCHAR *pTTLocal, int iBit)
 	}
 	if ((pTT == NULL) & (iBit!=-1))
 	{
-		tt.Format("%d defined by:\r\n",iBit);
-		CString hb = TTHaveBit(400+iBit);
+		t.Format("%d defined by:\r\n",iBit); tt+=t; int idx = clb->AddString(t); clb->SetItemData(idx,iBit);
+		CString hb = TTHaveBit(400+iBit,clb,"  ");
 		hb.Replace("\r\n","\r\n  ");
 		tt.AppendFormat("  %s\r\n", hb);
-		tt.AppendFormat("%d pre-required in:\r\n",iBit);
-		hb = TTHaveBit(iBit);
+		t.Format("%d pre-required in:\r\n",iBit); tt+=t; idx = clb->AddString(t);  clb->SetItemData(idx,iBit);
+		hb = TTHaveBit(iBit,clb,"  ");
 		hb.Replace("\r\n","\r\n  ");
 		tt.AppendFormat("  %s\r\n", hb);
 		t2.Format("%s\r\n",tt);
@@ -1819,13 +1849,14 @@ void CICEDlg::ShowTechTree(int swf)
 	GetDlgItem(IDC_CLEARPRE)->ShowWindow(swf);
 	GetDlgItem(IDC_CLEARDEF)->ShowWindow(swf);
 	GetDlgItem(IDC_CLEARLOCAL)->ShowWindow(swf);
-	GetDlgItem(IDC_TECHTREE2)->ShowWindow(swf);
+	GetDlgItem(IDC_TECHTREE2)->ShowWindow(SW_HIDE); // never show this, keep it to debug TTLIST
+	GetDlgItem(IDC_TTLIST)->ShowWindow(swf);
+
 
 	GetDlgItem(IDC_BUTFILTER)->ShowWindow(swf);
 	GetDlgItem(IDC_CLEARFILTER)->ShowWindow(swf);
 	GetDlgItem(IDC_FILTER)->ShowWindow(swf);
-	//GetDlgItem(IDC_ADDTOFILTER)->ShowWindow(swf);
-	//GetDlgItem(IDC_REMFROMFILTER)->ShowWindow(swf);
+
 	GetDlgItem(IDC_FILTERLABEL)->ShowWindow(swf);
 	UpdateFilter(false);
 }
@@ -1892,7 +1923,10 @@ void CICEDlg::UpdateFilter(bool rebuild)
 		sfilt = "no filter";
 	SetDlgItemText(IDC_FILTER,sfilt);
 	if (rebuild)
+	{
+		FreeTreePCE();
 		BuildTree();
+	}
 }
 void CICEDlg::OnBnClickedButfilter()
 {
@@ -2019,4 +2053,24 @@ void CICEDlg::OnBnClickedDump()
 void CICEDlg::OnBnClickedChkart()
 {
 	// TODO: Add your control notification handler code here
+}
+
+void CICEDlg::OnLbnSelchangeTtlist()
+{
+	if (!pigccore) return;
+	CListBox *clb = (CListBox *)GetDlgItem(IDC_TTLIST);
+	int idx = clb->GetCurSel();
+	CString t=""; 
+	clb->GetText(idx,t);
+	if (!t.GetLength()) return;
+	if (isdigit(t.GetAt(0)))
+	{
+		SetDlgItemInt(IDC_TECHTREEIDX,clb->GetItemData(idx));
+		OnEnChangeTechtreeidx();
+	}
+	if (t.Left(2) == "  ")
+	{
+		LPARAM p = (LPARAM)clb->GetItemDataPtr(idx);
+		if (p!=-1) SelectPCE(p);
+	}
 }
