@@ -414,8 +414,8 @@
 #define IDC_BSUCC                       1273
 #define IDC_DMLABEL                     1274
 #define IDC_USEDBYLABEL                 1275
-#define IDC_LIST1                       1276
 #define IDC_TTLIST                      1276
+#define IDWRITE                         1278
 #define DYNMENUSID                      5000
 
 // Next default values for new objects
@@ -424,7 +424,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        148
 #define _APS_NEXT_COMMAND_VALUE         32771
-#define _APS_NEXT_CONTROL_VALUE         1277
+#define _APS_NEXT_CONTROL_VALUE         1279
 #define _APS_NEXT_SYMED_VALUE           117
 #endif
 #endif
