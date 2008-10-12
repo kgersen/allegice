@@ -95,7 +95,7 @@ void CTreasureDlg::DoDataExchange(CDataExchange* pDX)
 
 
 BEGIN_MESSAGE_MAP(CTreasureDlg, CDialog)
-	ON_BN_CLICKED(IDOK, OnBnClickedOk)
+	ON_BN_CLICKED(IDWRITE, OnBnClickedOk)
 	ON_BN_CLICKED(IDCANCEL, OnBnClickedCancel)
 	ON_LBN_SELCHANGE(IDC_TRESLIST, OnLbnSelchangeTreslist)
 	ON_BN_CLICKED(IDC_BTTOTRES, OnBnClickedBttotres)
