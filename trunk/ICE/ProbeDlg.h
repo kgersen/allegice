@@ -17,6 +17,7 @@ public:
 	void SetIcons(HICON iJumpIcon);
 	CBMPMDLButton mdlbmp;
 	CBMPMDLButton mdlbmp2;
+	CBMPMDLButton mdlbmp3;
 // Dialog Data
 	enum { IDD = IDD_PROBEDLG };
 

@@ -14,6 +14,10 @@ public:
 	PtrCore pcore;
 	IMainUI *MainUI;
 	void SetIcons(HICON iJumpIcon);
+	CString sArtPath;
+	CBMPMDLButton mdlbmp;
+	CBMPMDLButton mdlbmp2;
+	CBMPMDLButton mdlbmp3;
 	// Dialog Data
 	enum { IDD = IDD_PARTDLG };
 
@@ -23,8 +27,6 @@ protected:
 	DECLARE_MESSAGE_MAP()
 public:
 	BOOL OnInitDialog(void);
-	void OnClickedDecodeh(void);
-	void OnClickedDecodesel(void);
 	void OnClickedOk(void);
 	void OnClickedCancel(void);
 	afx_msg void OnBnClickedUsem0();

@@ -127,8 +127,8 @@ BEGIN_MESSAGE_MAP(CICEDlg, CDialog)
 //	ON_WM_KEYDOWN()
 ON_BN_CLICKED(IDC_BUTFILTER, OnBnClickedButfilter)
 ON_BN_CLICKED(IDC_CLEARFILTER, OnBnClickedClearfilter)
-ON_BN_CLICKED(IDC_ADDTOFILTER, OnBnClickedAddtofilter)
-ON_BN_CLICKED(IDC_REMFROMFILTER, OnBnClickedRemfromfilter)
+//ON_BN_CLICKED(IDC_ADDTOFILTER, OnBnClickedAddtofilter)
+//ON_BN_CLICKED(IDC_REMFROMFILTER, OnBnClickedRemfromfilter)
 //ON_NOTIFY(TVN_BEGINDRAG, IDC_MAINTREE, OnTvnBegindragMaintree)
 //ON_BN_CLICKED(IDC_GENHTML, OnBnClickedGenhtml)
 ON_BN_CLICKED(IDC_VALIDATE, &CICEDlg::OnBnClickedValidate)
@@ -212,10 +212,10 @@ BOOL CICEDlg::OnInitDialog()
 	dlgShipLoadout.sArtPath = cArtPath; dlgShipLoadout.MainUI = this;
 	dlgStation.sArtPath = cArtPath; dlgStation.MainUI = this; dlgStation.SetIcons(iJumpIcon);
 	dlgProbe.sArtPath = cArtPath; dlgProbe.MainUI = this; dlgProbe.SetIcons(iJumpIcon);
-	dlgMine.MainUI = this; dlgMine.SetIcons(iJumpIcon);
+	dlgMine.sArtPath = cArtPath; dlgMine.MainUI = this; dlgMine.SetIcons(iJumpIcon);
 	dlgMissile.sArtPath = cArtPath; dlgMissile.MainUI = this; dlgMissile.SetIcons(iJumpIcon);
 	dlgCiv.sArtPath = cArtPath; dlgCiv.MainUI = this; dlgCiv.SetIcons(iJumpIcon);
-	dlgPart.MainUI = this; dlgPart.SetIcons(iJumpIcon);
+	dlgPart.sArtPath = cArtPath; dlgPart.MainUI = this; dlgPart.SetIcons(iJumpIcon);
 	if (sCoreArg != "")
 	{
 		//AfxMessageBox(sCoreArg);
@@ -821,7 +821,7 @@ void CICEDlg::OnClickedLoad(void)
 #ifdef _ICEPUB
 	CFileDialog cfd(TRUE,"igc",NULL,OFN_FILEMUSTEXIST|OFN_NOCHANGEDIR|OFN_NONETWORKBUTTON,"Allegiance Core|*.igc|",this,OPENFILENAME_SIZE_VERSION_400);
 #else
-	CFileDialog cfd(TRUE,"igc",startpath,OFN_FILEMUSTEXIST|OFN_NOCHANGEDIR|OFN_NONETWORKBUTTON,"Allegiance Core|*.igc|",this,OPENFILENAME_SIZE_VERSION_400);
+	CFileDialog cfd(TRUE,"igc",startpath,OFN_FILEMUSTEXIST|OFN_NOCHANGEDIR|OFN_NONETWORKBUTTON,"Allegiance Core|*.igc|",this);//,OPENFILENAME_SIZE_VERSION_400);
 #endif
 	if (cfd.DoModal() == IDOK)
 	{
@@ -1943,30 +1943,6 @@ void CICEDlg::OnBnClickedButfilter()
 void CICEDlg::OnBnClickedClearfilter()
 {
 	ClearFilter();
-	UpdateFilter(true);
-}
-
-void CICEDlg::OnBnClickedAddtofilter()
-{
-	if (!pigccore) return;
-	if (!pTechTree) return;
-	int base = 50;
-	if (sTechName.Left(7) == "Faction")
-		base = 0;
-	for (int i=0;i<50;i++)
-		tFilter[i] |= pTechTree[base+i];
-	UpdateFilter(true);
-}
-
-void CICEDlg::OnBnClickedRemfromfilter()
-{
-	if (!pigccore) return;
-	if (!pTechTree) return;
-	int base = 50;
-	if (sTechName.Left(7) == "Faction")
-		base = 0;
-	for (int i=0;i<50;i++)
-		tFilter[i] &= ~(pTechTree[base+i]);
 	UpdateFilter(true);
 }
 

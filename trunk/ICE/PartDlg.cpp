@@ -29,7 +29,7 @@ void CPartDlg::SetIcons(HICON iJumpIcon)
 void CPartDlg::DoDataExchange(CDataExchange* pDX)
 {
 	CString name,model,obj,descr,slot;
-	CString todo1 = "";
+
 	int uid,usemask;
 	int ss5,ss1,ss2,ss3,ss4;
 	float s1,s2,s3,s4,*sigm;
@@ -101,6 +101,8 @@ void CPartDlg::DoDataExchange(CDataExchange* pDX)
 			model = ppart->model;
 			descr = ppart->description;
 			obj = ppart->icon;
+			mdlbmp2.LoadMDLFile(sArtPath +"\\"+ obj + "bmp.mdl");
+			mdlbmp.LoadMDLFile(sArtPath +"\\L"+ model + "bmp.mdl");
 			usemask = ppart->usemask;
 			for (int i=0;i<16;i++) 
 			{
@@ -117,8 +119,6 @@ void CPartDlg::DoDataExchange(CDataExchange* pDX)
 				}
 			}
 			OnBnClickedUsem0();
-			todo1.AppendFormat("GS1 = %g\r\n",ppart->stats_s1);
-			todo1.AppendFormat("usemask = %d (%04X)\r\n",ppart->usemask,ppart->usemask);
 			CButton *cbproj = (CButton *)CWnd::GetDlgItem(IDC_BPROJID);
 			cbproj->ShowWindow(SW_HIDE);
 			switch (ppart->type)
@@ -167,30 +167,17 @@ void CPartDlg::DoDataExchange(CDataExchange* pDX)
 		}
 		slot = ppart->slot;
 		uid = ppart->uid;
-		
-		todo1.AppendFormat("suk1 = %d (%04X)\r\n",ppart->suk1,ppart->suk1);
-		todo1.AppendFormat("suk2 = %d (%04X)\r\n",ppart->suk2,ppart->suk2);
-		char *p1 = (char *)ppart;
-		char *p2 = (char *)(&(ppart->TODO[0]));
-		int maxi = ppart->size-(int)(p2-p1);
-		for (int i=0;i<maxi;i++)
-		{
-			todo1.AppendFormat("%02X ",ppart->TODO[i]);
-			if (!((i+1)%16)) todo1.AppendFormat("\r\n");
-		}
-		todo1.AppendFormat("\r\nType = %04x\r\n",ppart->type);
-		todo1.AppendFormat("\r\npad3 = %02x\r\n",ppart->pad3[0]);
-		todo1.AppendFormat("\r\npad4 = %02x%02x\r\n",ppart->pad4[0],ppart->pad4[1]);
+
 	}
 	DDX_Text(pDX, IDC_NAME, name);
 	DDX_Text(pDX, IDC_MODEL, model);
 	DDX_Text(pDX, IDC_OBJ, obj);
 	DDX_Text(pDX, IDC_SLOT, slot);
 	DDX_Text(pDX, IDC_DESCRIPTION, descr);
-	DDX_Text(pDX, IDC_TODO1, todo1);
 	DDX_Text(pDX, IDC_UID, uid);
 	DDX_Text(pDX, IDC_OVUID, ppart->overriding_uid);
-	DDX_Text(pDX, IDC_SIZEOFTAG, ppart->size);
+
+	DDX_Text(pDX, IDC_COST, ppart->price);
 	cbac->ShowWindow(SW_HIDE);
 	GetDlgItem(IDC_ACC)->ShowWindow(SW_HIDE);
 	if (ppart->isspec)
@@ -303,7 +290,6 @@ void CPartDlg::DoDataExchange(CDataExchange* pDX)
 					ppart->specs.shld.shld_stats_s2 = s2;
 					ppart->specs.shld.shld_sound1 = ss1;
 					ppart->specs.shld.shld_sound2 = ss2;
-					//ppart->specs.shld.shld_b1 = ss3;
 					ppart->specs.shld.shld_AC = cbac->GetCurSel();
 				break;
 			}
@@ -321,6 +307,9 @@ BOOL CPartDlg::OnInitDialog(void)
 {
 	CDialog::OnInitDialog();
 
+	VERIFY(mdlbmp.SubclassDlgItem(IDC_PICT, this));
+	VERIFY(mdlbmp2.SubclassDlgItem(IDC_PICT2, this));
+
 	CComboBox *cbac = (CComboBox *)GetDlgItem(IDC_AC);
 	cbac->ResetContent();
 	for (int i=0;i<IGCACMAX;i++)
@@ -333,61 +322,61 @@ BOOL CPartDlg::OnInitDialog(void)
 	// EXCEPTION: OCX Property Pages should return FALSE
 }
 
-void CPartDlg::OnClickedDecodesel(void)
-{
-	CEdit *cetodo = (CEdit *) CWnd::GetDlgItem(IDC_TODO1);
-	int i,j;
-	cetodo->GetSel(i,j);
+//void CPartDlg::OnClickedDecodesel(void)
+//{
+//	CEdit *cetodo = (CEdit *) CWnd::GetDlgItem(IDC_TODO1);
+//	int i,j;
+//	cetodo->GetSel(i,j);
+//
+//	// NT SPECIFIC
+//   HLOCAL h = cetodo->GetHandle();
+//   LPCTSTR lpszText = (LPCTSTR)LocalLock(h);
+//	char res[1000];
+//	strncpy(res,&(lpszText[i]),j-i);
+//	SetDlgItemText(IDC_DECDEC,res);
+//	float f;
+//	unsigned char *pf;
+//	unsigned int b1,b2,b3,b4;
+//	pf = (unsigned char *)&f;
+//	sscanf(res,"%x %x %x %x",&b1,&b2,&b3,&b4);
+//	pf[0] = b1;
+//	pf[1] = b2;
+//	pf[2] = b3;
+//	pf[3] = b4;
+//	CString sres;
+//	sres.Format("%g",f);
+//	SetDlgItemText(IDC_DECFLOAT,sres);
+//	
+//   LocalUnlock(h);
+//	// END OF NT SPECIFIC
+//}
 
-	// NT SPECIFIC
-   HLOCAL h = cetodo->GetHandle();
-   LPCTSTR lpszText = (LPCTSTR)LocalLock(h);
-	char res[1000];
-	strncpy(res,&(lpszText[i]),j-i);
-	SetDlgItemText(IDC_DECDEC,res);
-	float f;
-	unsigned char *pf;
-	unsigned int b1,b2,b3,b4;
-	pf = (unsigned char *)&f;
-	sscanf(res,"%x %x %x %x",&b1,&b2,&b3,&b4);
-	pf[0] = b1;
-	pf[1] = b2;
-	pf[2] = b3;
-	pf[3] = b4;
-	CString sres;
-	sres.Format("%g",f);
-	SetDlgItemText(IDC_DECFLOAT,sres);
-	
-   LocalUnlock(h);
-	// END OF NT SPECIFIC
-}
-
-void CPartDlg::OnClickedDecodeh(void)
-{
-	CEdit *cetodo = (CEdit *) CWnd::GetDlgItem(IDC_TODO1);
-	int i,j;
-	cetodo->GetSel(i,j);
-
-	// NT SPECIFIC
-   HLOCAL h = cetodo->GetHandle();
-   LPCTSTR lpszText = (LPCTSTR)LocalLock(h);
-	char res[1000];
-	strncpy(res,&(lpszText[i]),j-i);
-	SetDlgItemText(IDC_DECDEC,res);
-	unsigned short f;
-	unsigned char *pf;
-	unsigned int b1,b2;
-	pf = (unsigned char *)&f;
-	sscanf(res,"%x %x",&b1,&b2);
-	pf[0] = b1;
-	pf[1] = b2;
-	CString sres;
-	sres.Format("%04X = %d",f,f);
-	SetDlgItemText(IDC_DECFLOAT,sres);
-	
-   LocalUnlock(h);
-	// END OF NT SPECIFIC
-}
+//void CPartDlg::OnClickedDecodeh(void)
+//{
+//	CEdit *cetodo = (CEdit *) CWnd::GetDlgItem(IDC_TODO1);
+//	int i,j;
+//	cetodo->GetSel(i,j);
+//
+//	// NT SPECIFIC
+//   HLOCAL h = cetodo->GetHandle();
+//   LPCTSTR lpszText = (LPCTSTR)LocalLock(h);
+//	char res[1000];
+//	strncpy(res,&(lpszText[i]),j-i);
+//	SetDlgItemText(IDC_DECDEC,res);
+//	unsigned short f;
+//	unsigned char *pf;
+//	unsigned int b1,b2;
+//	pf = (unsigned char *)&f;
+//	sscanf(res,"%x %x",&b1,&b2);
+//	pf[0] = b1;
+//	pf[1] = b2;
+//	CString sres;
+//	sres.Format("%04X = %d",f,f);
+//	SetDlgItemText(IDC_DECFLOAT,sres);
+//	
+//   LocalUnlock(h);
+//	// END OF NT SPECIFIC
+//}
 
 void CPartDlg::OnClickedOk(void)
 {
@@ -405,8 +394,8 @@ void CPartDlg::OnClickedCancel(void)
 }
 
 BEGIN_MESSAGE_MAP(CPartDlg, CDialog)
-	ON_BN_CLICKED(IDC_DECODEH, OnClickedDecodeh)
-	ON_BN_CLICKED(IDC_DECODESEL, OnClickedDecodesel)
+//	ON_BN_CLICKED(IDC_DECODEH, OnClickedDecodeh)
+//	ON_BN_CLICKED(IDC_DECODESEL, OnClickedDecodesel)
 	ON_BN_CLICKED(IDOK, OnClickedOk)
 	ON_BN_CLICKED(IDCANCEL, OnClickedCancel)
 	ON_BN_CLICKED(IDC_USEM0, OnBnClickedUsem0)

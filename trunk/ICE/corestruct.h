@@ -352,7 +352,8 @@ const CString ICGPartType[AGCEquipmentType_MAX] =
 #define IGC_PROXYPARTSIZE 0x18
 typedef struct SIGCCorePart // tag 0x1E, size = var
 {
-	UCHAR header[8]; // all zero
+    AGCMoney   price;
+    DWORD   timeToBuild;
 	char model[13];
 	char pad1; // CC
 	char icon[13];
@@ -505,7 +506,7 @@ typedef struct SIGCCoreMissile // tag = 0x17, size = 0x2C0
 	int pad2; // Zero - Checked
 	char model[13];
 	UCHAR pad3; // C - Checked
-	char type[13]; //part
+	char iconName[13]; //part (icon)
 	char name[25];
 	char description[200];
 	BYTE group;
@@ -550,8 +551,8 @@ typedef struct SIGCCoreMine // tag = 0x18, size = 480
 	float pcAlpha;
 	UCHAR pad0[4]; // all 'CC' (could be float 'scale')
 	float stats_s1; // rate rotation 
-	UCHAR pad1[13]; // all '00'
-	char icon[13]; //fxmine
+	char  modelName[13]; // all '00'
+	char  textureName[13]; //fxmine
 	UCHAR pad2[2]; // all 'CC'
 	float stats_s2; // load time
 	float stats_duration;
@@ -619,27 +620,28 @@ typedef struct SIGCCoreProbe // tag = 0x19 (AGC_ProbeType), size = 492
 	float stats_s3; // arming time
 	float stats_s4; // lifespan
 	float stats_s5; // sig
-	AGCMoney cost;
-	UCHAR TODO1[4];// all '0'
+// DataBuyableIGC
+	AGCMoney price;
+	DWORD timeToBuild;// all '0'
 	char ukbmp[13]; // inactive/loadout model
 	char pad2; // CC
-	char type[13]; // part
+	char iconName[13]; // part
 	char name[25];
 	char description[200];
 	BYTE group;
 	BYTE zero;
 	UCHAR techtree[100];
 	char pad3[2]; // CD CD
-	UCHAR TODO2[4];// all '0', might be a float 
-	float stats_s6; // mass
+	float signature; // 
+	float stats_s6;  // mass
 	unsigned short usemask; // usemask
-	unsigned short stats_ss2; // cargo playload
+	unsigned short stats_ss2; // cargo payload
 	float stats_s7; // hitpoints
 	BYTE AC;// 0B
 	char pad4; // CD
 	unsigned short uid;
 	unsigned short stats_ss3; //features (bits mask, as in AbilityBitMask in igc.h)
-	char icon[13];
+	char icon[13]; //DataExpendableTypeIGC.iconName
 	char pad5; // CD
 	float stats_s8; // scan range
 	float stats_s9; // shot interval

@@ -45,7 +45,8 @@ void CMissileDlg::DoDataExchange(CDataExchange* pDX)
 		ldbmp = pmissile->ldbmp;
 		mdlbmp2.LoadMDLFile(sArtPath +"\\l"+ ldbmp + "bmp.mdl");
 		descr = pmissile->description;
-		type = pmissile->type;
+		type = pmissile->iconName;
+		mdlbmp3.LoadMDLFile(sArtPath +"\\"+ type + "bmp.mdl");
 		uid = pmissile->uid;
 
 		cbse->SetCurSel(-1); // pmissile->special_effect);
@@ -125,7 +126,7 @@ void CMissileDlg::DoDataExchange(CDataExchange* pDX)
 		strcpy(pmissile->model,model);
 		strcpy(pmissile->ldbmp,ldbmp);
 		strcpy(pmissile->icon,icon);
-		strcpy(pmissile->type,type);
+		strcpy(pmissile->iconName,type);
 		strncpy(pmissile->description,descr,IGC_DESCRIPTIONMAX);
 		
 		pmissile->special_effect = ICGMissileEffectsValues[cbse->GetCurSel()];
@@ -216,6 +217,7 @@ BOOL CMissileDlg::OnInitDialog(void)
 
 	VERIFY(mdlbmp.SubclassDlgItem(IDC_PICT, this));
 	VERIFY(mdlbmp2.SubclassDlgItem(IDC_PICT2, this));
+	VERIFY(mdlbmp3.SubclassDlgItem(IDC_PICT3, this));
 
 	CComboBox *cbse = (CComboBox *)CWnd::GetDlgItem(IDC_SEFFECT);
 	for (int  i=0;i<IGCMISSILE_EFFECT_NBVALS;i++)

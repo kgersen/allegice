@@ -26,7 +26,7 @@ void CMineDlg::SetIcons(HICON iJumpIcon)
 }
 void CMineDlg::DoDataExchange(CDataExchange* pDX)
 {
-	CString name,model,type,icon,descr,ukbmp;
+	CString name,model,model2,type,icon,descr,ukbmp;
 	CString todo1 = "";
 	int uid,ss1,ss2;
 	if (!pmine) return;
@@ -67,10 +67,16 @@ void CMineDlg::DoDataExchange(CDataExchange* pDX)
 	{
 		name = pmine->name;
 		model = pmine->model;
+		model2 = pmine->modelName;
 		descr = pmine->description;
-		icon = pmine->icon;
+		icon = pmine->textureName;
 		type = pmine->type;
 		ukbmp = pmine->ukbmp;
+
+		mdlbmp2.LoadMDLFile(sArtPath +"\\"+ type + "bmp.mdl");
+		mdlbmp.LoadMDLFile(sArtPath +"\\l"+ model + "bmp.mdl");
+		mdlbmp3.LoadMDLFile(sArtPath +"\\"+ ukbmp + "bmp.mdl");
+
 		uid = pmine->uid;
 		ss1 = pmine->usemask;
 		for (int i=0;i<16;i++) 
@@ -104,6 +110,7 @@ void CMineDlg::DoDataExchange(CDataExchange* pDX)
 	}
 	DDX_Text(pDX, IDC_NAME, name);
 	DDX_Text(pDX, IDC_MODEL, model);
+	DDX_Text(pDX, IDC_MODEL2, model2);
 	DDX_Text(pDX, IDC_ICONE, icon);
 	DDX_Text(pDX, IDC_TYPE, type);
 	DDX_Text(pDX, IDC_UKBMP, ukbmp);
@@ -139,7 +146,8 @@ void CMineDlg::DoDataExchange(CDataExchange* pDX)
 	{
 		strcpy(pmine->name,name);
 		strcpy(pmine->model,model);
-		strcpy(pmine->icon,icon);
+		strcpy(pmine->modelName,model2);
+		strcpy(pmine->textureName,icon);
 		strcpy(pmine->type,type);
 		strcpy(pmine->ukbmp,ukbmp);
 		strncpy(pmine->description,descr,IGC_DESCRIPTIONMAX);
@@ -269,6 +277,10 @@ END_MESSAGE_MAP()
 BOOL CMineDlg::OnInitDialog()
 {
 	CDialog::OnInitDialog();
+
+	VERIFY(mdlbmp.SubclassDlgItem(IDC_PICT, this));
+	VERIFY(mdlbmp2.SubclassDlgItem(IDC_PICT2, this));
+	VERIFY(mdlbmp3.SubclassDlgItem(IDC_PICT3, this));
 
 	CComboBox *cbdm = (CComboBox *)GetDlgItem(IDC_DM);
 	cbdm->ResetContent();

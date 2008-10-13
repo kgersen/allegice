@@ -310,11 +310,16 @@ NEW IN 3.31
 See TechTree.txt for documention on the techtree (NEW IN 1.95)
 
 NEW IN 3.4
+  * updated to VC9 (runtime download link here)
   * 'validate' button to find next error (find common errors in core, but not all of them). You need to fix the current error and click again to find the next one.
   * Enhanced navigation between objects: shorcuts buttons and/or links everywhere to jump to referenced objects (successors, projectiles,...). Works also on tech tree numbers.
   * "return button" (blue button middle low) to return to previous object after using 'Enhanced navigation'. Clicking twice alternate between the last 2 objects.
   * switchable DM/AC editing. Allows reverse editing: choose an AC and view/edit all DM for it.
   * other minor bug fixes and UI updates.
+  * properties exposed/changed:
+      * price for all part type (including weapons,shlds,cloak,..)
+      * floating icon for all part types
+      * icon/loadout for all part types (was missing for some part types)
 
 Known bugs:
 	none

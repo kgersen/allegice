@@ -92,8 +92,6 @@ protected:
 	void LoadCore(CString);
 public:
 	void OnClickedQuit(void);
-//	void OnSelchangeTechlist(void);
-//	void OnClickTechVal(void);
 	CString TTHaveBit(int ibit,CListBox* clb,CString prefix);
 	void OnClickedRefresh(void);
 	afx_msg void OnBnClickedClearpre();
@@ -103,7 +101,6 @@ public:
 	void SelectPCE(LPARAM);
 	HICON GetJumpIcon();
 	void SelectPCE(LPARAM,HTREEITEM);
-//	afx_msg void OnEnChangeTechtree();
 	afx_msg void OnBnClickedTechtreeup();
 	afx_msg void OnBnClickedTechtreedown();
 	afx_msg void OnBnClickedTogglepre();
@@ -133,11 +130,8 @@ public:
 	afx_msg void OnBnClickedMovedown();
 	afx_msg void OnBnClickedTogglelocal();
 	afx_msg void OnBnClickedClearlocal();
-//	afx_msg void OnTcnSelchangeMaintab(NMHDR *pNMHDR, LRESULT *pResult);
 	afx_msg void OnBnClickedButfilter();
 	afx_msg void OnBnClickedClearfilter();
-	afx_msg void OnBnClickedAddtofilter();
-	afx_msg void OnBnClickedRemfromfilter();
 	afx_msg void OnBnClickedValidate();
 	afx_msg void OnBnClickedBback();
 	afx_msg void OnBnClickedCompare();
