@@ -1,4 +1,318 @@
-﻿using System;
+using namespace System;
+using namespace System::Collections;
+using namespace System::Drawing;
+
+namespace IGCLib
+{
+    public ref struct Constants
+    {
+	public:
+		array<float>^   floatConstants;// [c_fcidMax];
+		array<array<float>^>^ damageConstants;//[c_dmgidMax][c_defidMax];
+	//
+		void FromNative(::Constants* p)
+		{
+			floatConstants = gcnew array<float>(c_fcidMax);
+			pin_ptr<float> pinnedBuffer = &floatConstants[0];
+			memcpy(pinnedBuffer,(const void *)(&p->floatConstants[0]),sizeof(float)*c_fcidMax);
+			damageConstants = gcnew array<array<float>^>(c_dmgidMax);
+			for (int i=0;i<c_dmgidMax;i++)
+			{
+				damageConstants[i] = gcnew array<float>(c_defidMax);
+				pinnedBuffer = &damageConstants[i][0];
+				memcpy(pinnedBuffer,(const void *)(&p->damageConstants[i][0]),sizeof(float)*c_defidMax);
+			}
+		}
+		void ToNative(::Constants* p)
+		{
+			if (floatConstants->Length != c_fcidMax) throw gcnew ArgumentException("invalid size of floatConstants");
+            pin_ptr<float> pinnedBuffer = &floatConstants[0];
+			memcpy(&p->floatConstants[0],pinnedBuffer,sizeof(float)*c_fcidMax);
+
+			if (damageConstants->Length != c_dmgidMax*c_defidMax) throw gcnew ArgumentException("invalid size of damageConstants");
+			for (int i=0;i<c_dmgidMax;i++)
+			{
+				if (damageConstants[i]->Length != c_defidMax) throw gcnew ArgumentException("invalid subsize of damageConstants");
+				pinnedBuffer = &damageConstants[i][0];
+				memcpy(&p->damageConstants[i][0],pinnedBuffer,sizeof(float)*c_defidMax);
+			}
+		}
+    };
+
+
+    public ref struct GlobalAttributeSet
+    {
+	public:
+        array<float>^  Attributes; //[c_gaMax];
+		GlobalAttributeSet()
+		{
+			Attributes = gcnew array<float>(c_gaMax);
+		}
+		void FromNative(::GlobalAttributeSet gas)
+		{
+			for (int i=0;i<c_gaMax;i++)
+				Attributes[i]=gas.GetAttribute(i);
+		}
+		void ToNative (::GlobalAttributeSet *gas)
+		{
+			for (int i=0;i<c_gaMax;i++)
+				gas->SetAttribute(i,Attributes[i]);
+		}
+    };
+
+
+	public ref class TechTreeBitMask
+	{
+	public:
+		BitArray ^ bits;
+		TechTreeBitMask()
+		{
+			bits = gcnew BitArray(c_ttbMax,false);
+		}
+		void FromNative(::TechTreeBitMask ttbm)
+		{
+			for (int i=0;i<c_ttbMax;i++)
+				bits->Set(i,ttbm.GetBit(i));
+		}
+		void ToNative(::TechTreeBitMask* ttbm)
+		{
+			ttbm->ClearAll();
+			for (int i=0;i<c_ttbMax;i++)
+				if (bits->Get(i))
+					ttbm->SetBit(i);
+		}
+	};
+
+	public ref class  DataObjectIGC
+    {
+	public:
+		Color color;
+        float radius;
+        float rotation;
+		String^ modelName;
+        String^ textureName;
+
+		void FromNative(::DataObjectIGC *p)
+		{
+			color = Color::FromArgb((int)(p->color.a*255.0f),(int)(p->color.r*255.0f),(int)(p->color.g*255.0f),(int)(p->color.b*255.0f));
+			radius = p->radius;
+			rotation = p->rotation;
+			modelName = gcnew String(p->modelName);
+			textureName = gcnew String(p->textureName);
+		}
+		void ToNative(::DataObjectIGC *p)
+		{
+			p->color.a = (float)color.A / 255.0f;
+			p->color.r = (float)color.R / 255.0f;
+			p->color.g = (float)color.G / 255.0f;
+			p->color.b = (float)color.B / 255.0f;
+			p->radius = radius;
+			p->rotation = rotation;
+
+			array<Byte>^ bytes = System::Text::ASCIIEncoding::ASCII->GetBytes( modelName );
+			pin_ptr<unsigned char> pinnedbyte = &bytes[0];
+			strcpy_s(p->modelName, sizeof(p->modelName), reinterpret_cast<const char*>( pinnedbyte ));
+
+			bytes = System::Text::ASCIIEncoding::ASCII->GetBytes( textureName );
+			pinnedbyte = &bytes[0];
+			strcpy_s(p->textureName, sizeof(p->textureName), reinterpret_cast<const char*>( pinnedbyte ));
+		}
+    };
+
+	public ref class DataCivilizationIGC
+    {
+	public:
+		float incomeMoney;
+        float bonusMoney;
+        String^ name;
+        String^ iconName;
+        String^ hudName;
+        TechTreeBitMask^ ttbmBaseTechs;
+        TechTreeBitMask^ ttbmNoDevTechs;
+        GlobalAttributeSet gasBaseAttributes;
+		short lifepod;
+        short civilizationID;
+        short initialStationTypeID;
+
+		void FromNative(::DataCivilizationIGC* p)
+		{
+			incomeMoney = p->incomeMoney;
+			bonusMoney = p->bonusMoney;
+			name = gcnew String(p->name);
+			iconName = gcnew String(p->iconName);
+			hudName  = gcnew String(p->hudName);
+			ttbmBaseTechs = gcnew TechTreeBitMask(); ttbmBaseTechs->FromNative(p->ttbmBaseTechs);
+			ttbmNoDevTechs = gcnew TechTreeBitMask(); ttbmNoDevTechs->FromNative(p->ttbmNoDevTechs);
+			gasBaseAttributes.FromNative(p->gasBaseAttributes);
+			lifepod = p->lifepod;
+			civilizationID = p->civilizationID;
+			initialStationTypeID = p->initialStationTypeID;
+		}
+		void ToNative(::DataCivilizationIGC* p)
+		{
+			p->incomeMoney = incomeMoney;
+			p->bonusMoney = bonusMoney;
+			
+			array<Byte>^ bytes = System::Text::ASCIIEncoding::ASCII->GetBytes( name );
+			pin_ptr<unsigned char> pinnedbyte = &bytes[0];
+			strcpy_s(p->name, sizeof(p->name), reinterpret_cast<const char*>( pinnedbyte ));
+			
+			bytes = System::Text::ASCIIEncoding::ASCII->GetBytes( iconName );
+			pinnedbyte = &bytes[0];
+			strcpy_s(p->iconName, sizeof(p->iconName), reinterpret_cast<const char*>( pinnedbyte ));
+
+			bytes = System::Text::ASCIIEncoding::ASCII->GetBytes( hudName );
+			pinnedbyte = &bytes[0];
+			strcpy_s(p->hudName, sizeof(p->hudName), reinterpret_cast<const char*>( pinnedbyte ));
+
+			ttbmBaseTechs->ToNative(&p->ttbmBaseTechs);
+			ttbmNoDevTechs->ToNative(&p->ttbmNoDevTechs);
+			gasBaseAttributes.ToNative(&p->gasBaseAttributes);
+			p->lifepod = lifepod;
+			p->civilizationID = civilizationID;
+			p->initialStationTypeID = initialStationTypeID;
+
+		}
+    };
+
+
+    public ref class  DataBuyableIGC
+    {
+	public:
+		int price;
+        unsigned int timeToBuild;
+        String^ modelName;
+        String^ iconName;
+        String^ name;
+        String^ description;
+        Byte groupID;
+        TechTreeBitMask^ ttbmRequired;
+        TechTreeBitMask^ ttbmEffects;
+
+		void FromNative(::DataBuyableIGC *p)
+		{
+			price = p->price;
+			timeToBuild = p->timeToBuild;
+
+			modelName = gcnew String(p->modelName);
+			iconName = gcnew String(p->iconName);
+			name = gcnew String(p->name);
+			description = gcnew String(p->description);
+
+			groupID = p->groupID;
+			ttbmRequired->FromNative(p->ttbmRequired);
+			ttbmEffects->FromNative(p->ttbmEffects);
+		}
+		void ToNative(::DataBuyableIGC *p)
+		{
+			p->price = price;
+			p->timeToBuild = timeToBuild;
+
+			array<Byte>^ bytes = System::Text::ASCIIEncoding::ASCII->GetBytes( modelName );
+			pin_ptr<unsigned char> pinnedbyte = &bytes[0];
+			strcpy_s(p->modelName, sizeof(p->modelName), reinterpret_cast<const char*>( pinnedbyte ));
+
+			bytes = System::Text::ASCIIEncoding::ASCII->GetBytes( iconName );
+			pinnedbyte = &bytes[0];
+			strcpy_s(p->iconName, sizeof(p->iconName), reinterpret_cast<const char*>( pinnedbyte ));
+
+			bytes = System::Text::ASCIIEncoding::ASCII->GetBytes( name );
+			pinnedbyte = &bytes[0];
+			strcpy_s(p->name, sizeof(p->name), reinterpret_cast<const char*>( pinnedbyte ));
+
+			bytes = System::Text::ASCIIEncoding::ASCII->GetBytes( description );
+			pinnedbyte = &bytes[0];
+			strcpy_s(p->description, sizeof(p->description), reinterpret_cast<const char*>( pinnedbyte ));
+
+			p->groupID = groupID;
+			ttbmRequired->ToNative(&p->ttbmRequired);
+			ttbmEffects->ToNative(&p->ttbmEffects);
+		}
+    };
+
+    public ref class  DataProjectileTypeIGC : DataObjectIGC
+    {
+	public:
+		float power;
+		float blastPower;
+        float blastRadius;
+        float speed;
+        float lifespan;
+        short projectileTypeID;
+        Byte damageType;
+        bool absoluteF;
+        bool bDirectional;
+        float width;
+		short ambientSound;
+
+		static DataProjectileTypeIGC^ FromNative(char *data, int size)
+		{
+			::DataProjectileTypeIGC* p = (::DataProjectileTypeIGC*)data;
+			if (size != sizeof(::DataProjectileTypeIGC))
+				throw gcnew InvalidOperationException("bad core data size for Projectile");
+			DataProjectileTypeIGC^ proj = gcnew DataProjectileTypeIGC();
+			proj->FromNative(p);
+			return proj;
+		}
+		void FromNative(::DataProjectileTypeIGC* p)
+		{
+			DataObjectIGC::FromNative(p);
+			power = p->power;
+			blastPower = p->blastPower;
+			blastRadius = p->blastRadius;
+			speed = p->speed;
+			lifespan = p->lifespan;
+			projectileTypeID = p->projectileTypeID;
+			damageType = p->damageType;
+			absoluteF = p->absoluteF;
+			bDirectional = p->bDirectional;
+			width = p->width;
+			ambientSound = p->ambientSound;
+		}
+		void ToNative(::DataProjectileTypeIGC *p)
+		{
+			DataObjectIGC::ToNative(p);
+			p->power = power;
+			p->blastPower = blastPower;
+			p->blastRadius = blastRadius;
+			p->speed = speed;
+			p->lifespan = lifespan;
+			p->projectileTypeID = projectileTypeID;
+			p->damageType = damageType;
+			p->absoluteF = absoluteF;
+			p->bDirectional = bDirectional;
+			p->width = width;
+			p->ambientSound = ambientSound;
+		}
+    };
+
+	public ref class DataDevelopmentIGC : public DataBuyableIGC
+    {
+	public:
+		GlobalAttributeSet gas;
+        short developmentID;
+        short completionSound;
+
+		void FromNative(::DataDevelopmentIGC *p)
+		{
+			DataBuyableIGC::FromNative(p);
+			gas.FromNative(p->gas);
+			developmentID = p->developmentID;
+			completionSound = p->completionSound;
+		}
+		void ToNative(::DataDevelopmentIGC *p)
+		{
+			DataBuyableIGC::ToNative(p);
+			gas.ToNative(&p->gas);
+			p->developmentID = developmentID;
+			p->completionSound = completionSound;
+		}
+    };
+
+}
+
+/*
+?using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -410,3 +724,4 @@ namespace IGCLib
         public const short c_eabmRescueAny = StationAbilityBitMask.c_sabmRescueAny;  //0x4000 Rescue any lifepod that collide with it
     }
 }
+*/
