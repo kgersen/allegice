@@ -24,6 +24,7 @@ namespace ICECube
                 IGCCore core = new IGCCore();
                 core.Load(ofdCore.FileName);
                 IGCLib.DataCivilizationIGC civ;
+                DataWeaponTypeIGC wep;
             }
         }
     }
