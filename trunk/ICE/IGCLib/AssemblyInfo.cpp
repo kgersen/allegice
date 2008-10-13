@@ -11,11 +11,11 @@ using namespace System::Security::Permissions;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 //
-[assembly:AssemblyTitleAttribute("IGCProxy")];
+[assembly:AssemblyTitleAttribute("IGCLib")];
 [assembly:AssemblyDescriptionAttribute("")];
 [assembly:AssemblyConfigurationAttribute("")];
 [assembly:AssemblyCompanyAttribute(".")];
-[assembly:AssemblyProductAttribute("IGCProxy")];
+[assembly:AssemblyProductAttribute("IGCLib")];
 [assembly:AssemblyCopyrightAttribute("Copyright (c) . 2008")];
 [assembly:AssemblyTrademarkAttribute("")];
 [assembly:AssemblyCultureAttribute("")];

@@ -4,43 +4,16 @@ using namespace System::Drawing;
 
 namespace IGCLib
 {
-    public ref struct Constants
+
+
+	public ref struct Constants
     {
 	public:
 		array<float>^   floatConstants;// [c_fcidMax];
 		array<array<float>^>^ damageConstants;//[c_dmgidMax][c_defidMax];
-	//
-		void FromNative(::Constants* p)
-		{
-			floatConstants = gcnew array<float>(c_fcidMax);
-			pin_ptr<float> pinnedBuffer = &floatConstants[0];
-			memcpy(pinnedBuffer,(const void *)(&p->floatConstants[0]),sizeof(float)*c_fcidMax);
-			damageConstants = gcnew array<array<float>^>(c_dmgidMax);
-			for (int i=0;i<c_dmgidMax;i++)
-			{
-				damageConstants[i] = gcnew array<float>(c_defidMax);
-				pinnedBuffer = &damageConstants[i][0];
-				memcpy(pinnedBuffer,(const void *)(&p->damageConstants[i][0]),sizeof(float)*c_defidMax);
-			}
-		}
-		void ToNative(::Constants* p)
-		{
-			if (floatConstants->Length != c_fcidMax) throw gcnew ArgumentException("invalid size of floatConstants");
-            pin_ptr<float> pinnedBuffer = &floatConstants[0];
-			memcpy(&p->floatConstants[0],pinnedBuffer,sizeof(float)*c_fcidMax);
+	};
 
-			if (damageConstants->Length != c_dmgidMax*c_defidMax) throw gcnew ArgumentException("invalid size of damageConstants");
-			for (int i=0;i<c_dmgidMax;i++)
-			{
-				if (damageConstants[i]->Length != c_defidMax) throw gcnew ArgumentException("invalid subsize of damageConstants");
-				pinnedBuffer = &damageConstants[i][0];
-				memcpy(&p->damageConstants[i][0],pinnedBuffer,sizeof(float)*c_defidMax);
-			}
-		}
-    };
-
-
-    public ref struct GlobalAttributeSet
+	public ref struct GlobalAttributeSet
     {
 	public:
         array<float>^  Attributes; //[c_gaMax];
@@ -48,18 +21,7 @@ namespace IGCLib
 		{
 			Attributes = gcnew array<float>(c_gaMax);
 		}
-		void FromNative(::GlobalAttributeSet gas)
-		{
-			for (int i=0;i<c_gaMax;i++)
-				Attributes[i]=gas.GetAttribute(i);
-		}
-		void ToNative (::GlobalAttributeSet *gas)
-		{
-			for (int i=0;i<c_gaMax;i++)
-				gas->SetAttribute(i,Attributes[i]);
-		}
-    };
-
+	};
 
 	public ref class TechTreeBitMask
 	{
@@ -68,18 +30,6 @@ namespace IGCLib
 		TechTreeBitMask()
 		{
 			bits = gcnew BitArray(c_ttbMax,false);
-		}
-		void FromNative(::TechTreeBitMask ttbm)
-		{
-			for (int i=0;i<c_ttbMax;i++)
-				bits->Set(i,ttbm.GetBit(i));
-		}
-		void ToNative(::TechTreeBitMask* ttbm)
-		{
-			ttbm->ClearAll();
-			for (int i=0;i<c_ttbMax;i++)
-				if (bits->Get(i))
-					ttbm->SetBit(i);
 		}
 	};
 
@@ -91,33 +41,7 @@ namespace IGCLib
         float rotation;
 		String^ modelName;
         String^ textureName;
-
-		void FromNative(::DataObjectIGC *p)
-		{
-			color = Color::FromArgb((int)(p->color.a*255.0f),(int)(p->color.r*255.0f),(int)(p->color.g*255.0f),(int)(p->color.b*255.0f));
-			radius = p->radius;
-			rotation = p->rotation;
-			modelName = gcnew String(p->modelName);
-			textureName = gcnew String(p->textureName);
-		}
-		void ToNative(::DataObjectIGC *p)
-		{
-			p->color.a = (float)color.A / 255.0f;
-			p->color.r = (float)color.R / 255.0f;
-			p->color.g = (float)color.G / 255.0f;
-			p->color.b = (float)color.B / 255.0f;
-			p->radius = radius;
-			p->rotation = rotation;
-
-			array<Byte>^ bytes = System::Text::ASCIIEncoding::ASCII->GetBytes( modelName );
-			pin_ptr<unsigned char> pinnedbyte = &bytes[0];
-			strcpy_s(p->modelName, sizeof(p->modelName), reinterpret_cast<const char*>( pinnedbyte ));
-
-			bytes = System::Text::ASCIIEncoding::ASCII->GetBytes( textureName );
-			pinnedbyte = &bytes[0];
-			strcpy_s(p->textureName, sizeof(p->textureName), reinterpret_cast<const char*>( pinnedbyte ));
-		}
-    };
+	};
 
 	public ref class DataCivilizationIGC
     {
@@ -129,52 +53,17 @@ namespace IGCLib
         String^ hudName;
         TechTreeBitMask^ ttbmBaseTechs;
         TechTreeBitMask^ ttbmNoDevTechs;
-        GlobalAttributeSet gasBaseAttributes;
+        GlobalAttributeSet^ gasBaseAttributes;
 		short lifepod;
         short civilizationID;
         short initialStationTypeID;
-
-		void FromNative(::DataCivilizationIGC* p)
+		DataCivilizationIGC()
 		{
-			incomeMoney = p->incomeMoney;
-			bonusMoney = p->bonusMoney;
-			name = gcnew String(p->name);
-			iconName = gcnew String(p->iconName);
-			hudName  = gcnew String(p->hudName);
-			ttbmBaseTechs = gcnew TechTreeBitMask(); ttbmBaseTechs->FromNative(p->ttbmBaseTechs);
-			ttbmNoDevTechs = gcnew TechTreeBitMask(); ttbmNoDevTechs->FromNative(p->ttbmNoDevTechs);
-			gasBaseAttributes.FromNative(p->gasBaseAttributes);
-			lifepod = p->lifepod;
-			civilizationID = p->civilizationID;
-			initialStationTypeID = p->initialStationTypeID;
+			ttbmBaseTechs = gcnew TechTreeBitMask();
+			ttbmNoDevTechs = gcnew TechTreeBitMask();
+			gasBaseAttributes = gcnew GlobalAttributeSet();
 		}
-		void ToNative(::DataCivilizationIGC* p)
-		{
-			p->incomeMoney = incomeMoney;
-			p->bonusMoney = bonusMoney;
-			
-			array<Byte>^ bytes = System::Text::ASCIIEncoding::ASCII->GetBytes( name );
-			pin_ptr<unsigned char> pinnedbyte = &bytes[0];
-			strcpy_s(p->name, sizeof(p->name), reinterpret_cast<const char*>( pinnedbyte ));
-			
-			bytes = System::Text::ASCIIEncoding::ASCII->GetBytes( iconName );
-			pinnedbyte = &bytes[0];
-			strcpy_s(p->iconName, sizeof(p->iconName), reinterpret_cast<const char*>( pinnedbyte ));
-
-			bytes = System::Text::ASCIIEncoding::ASCII->GetBytes( hudName );
-			pinnedbyte = &bytes[0];
-			strcpy_s(p->hudName, sizeof(p->hudName), reinterpret_cast<const char*>( pinnedbyte ));
-
-			ttbmBaseTechs->ToNative(&p->ttbmBaseTechs);
-			ttbmNoDevTechs->ToNative(&p->ttbmNoDevTechs);
-			gasBaseAttributes.ToNative(&p->gasBaseAttributes);
-			p->lifepod = lifepod;
-			p->civilizationID = civilizationID;
-			p->initialStationTypeID = initialStationTypeID;
-
-		}
-    };
-
+	};
 
     public ref class  DataBuyableIGC
     {
@@ -188,45 +77,10 @@ namespace IGCLib
         Byte groupID;
         TechTreeBitMask^ ttbmRequired;
         TechTreeBitMask^ ttbmEffects;
-
-		void FromNative(::DataBuyableIGC *p)
+		DataBuyableIGC()
 		{
-			price = p->price;
-			timeToBuild = p->timeToBuild;
-
-			modelName = gcnew String(p->modelName);
-			iconName = gcnew String(p->iconName);
-			name = gcnew String(p->name);
-			description = gcnew String(p->description);
-
-			groupID = p->groupID;
-			ttbmRequired->FromNative(p->ttbmRequired);
-			ttbmEffects->FromNative(p->ttbmEffects);
-		}
-		void ToNative(::DataBuyableIGC *p)
-		{
-			p->price = price;
-			p->timeToBuild = timeToBuild;
-
-			array<Byte>^ bytes = System::Text::ASCIIEncoding::ASCII->GetBytes( modelName );
-			pin_ptr<unsigned char> pinnedbyte = &bytes[0];
-			strcpy_s(p->modelName, sizeof(p->modelName), reinterpret_cast<const char*>( pinnedbyte ));
-
-			bytes = System::Text::ASCIIEncoding::ASCII->GetBytes( iconName );
-			pinnedbyte = &bytes[0];
-			strcpy_s(p->iconName, sizeof(p->iconName), reinterpret_cast<const char*>( pinnedbyte ));
-
-			bytes = System::Text::ASCIIEncoding::ASCII->GetBytes( name );
-			pinnedbyte = &bytes[0];
-			strcpy_s(p->name, sizeof(p->name), reinterpret_cast<const char*>( pinnedbyte ));
-
-			bytes = System::Text::ASCIIEncoding::ASCII->GetBytes( description );
-			pinnedbyte = &bytes[0];
-			strcpy_s(p->description, sizeof(p->description), reinterpret_cast<const char*>( pinnedbyte ));
-
-			p->groupID = groupID;
-			ttbmRequired->ToNative(&p->ttbmRequired);
-			ttbmEffects->ToNative(&p->ttbmEffects);
+			ttbmRequired = gcnew TechTreeBitMask();
+			ttbmEffects = gcnew TechTreeBitMask();
 		}
     };
 
@@ -244,71 +98,222 @@ namespace IGCLib
         bool bDirectional;
         float width;
 		short ambientSound;
-
-		static DataProjectileTypeIGC^ FromNative(char *data, int size)
-		{
-			::DataProjectileTypeIGC* p = (::DataProjectileTypeIGC*)data;
-			if (size != sizeof(::DataProjectileTypeIGC))
-				throw gcnew InvalidOperationException("bad core data size for Projectile");
-			DataProjectileTypeIGC^ proj = gcnew DataProjectileTypeIGC();
-			proj->FromNative(p);
-			return proj;
-		}
-		void FromNative(::DataProjectileTypeIGC* p)
-		{
-			DataObjectIGC::FromNative(p);
-			power = p->power;
-			blastPower = p->blastPower;
-			blastRadius = p->blastRadius;
-			speed = p->speed;
-			lifespan = p->lifespan;
-			projectileTypeID = p->projectileTypeID;
-			damageType = p->damageType;
-			absoluteF = p->absoluteF;
-			bDirectional = p->bDirectional;
-			width = p->width;
-			ambientSound = p->ambientSound;
-		}
-		void ToNative(::DataProjectileTypeIGC *p)
-		{
-			DataObjectIGC::ToNative(p);
-			p->power = power;
-			p->blastPower = blastPower;
-			p->blastRadius = blastRadius;
-			p->speed = speed;
-			p->lifespan = lifespan;
-			p->projectileTypeID = projectileTypeID;
-			p->damageType = damageType;
-			p->absoluteF = absoluteF;
-			p->bDirectional = bDirectional;
-			p->width = width;
-			p->ambientSound = ambientSound;
-		}
-    };
+	};
 
 	public ref class DataDevelopmentIGC : public DataBuyableIGC
     {
 	public:
-		GlobalAttributeSet gas;
+		GlobalAttributeSet^ gas;
         short developmentID;
         short completionSound;
+		DataDevelopmentIGC() : DataBuyableIGC()
+		{
+			gas = gcnew GlobalAttributeSet();
+		}
+	};
 
-		void FromNative(::DataDevelopmentIGC *p)
-		{
-			DataBuyableIGC::FromNative(p);
-			gas.FromNative(p->gas);
-			developmentID = p->developmentID;
-			completionSound = p->completionSound;
-		}
-		void ToNative(::DataDevelopmentIGC *p)
-		{
-			DataBuyableIGC::ToNative(p);
-			gas.ToNative(&p->gas);
-			p->developmentID = developmentID;
-			p->completionSound = completionSound;
-		}
+	public enum EquipmentType : short
+    {
+       ET_ChaffLauncher  = 0,
+       ET_Weapon         = 1,
+       ET_Magazine       = 2,
+       ET_Dispenser      = 3,
+       ET_Shield         = 4,
+       ET_Cloak          = 5,
+       ET_Pack           = 6,
+       ET_Afterburner    = 7
     };
 
+    public ref class  DataPartTypeIGC : public DataBuyableIGC
+    {
+	public:
+		float mass;
+        float signature;
+        short partID;
+        short successorPartID;
+        EquipmentType equipmentType;
+        short partMask;
+        String^ inventoryLineMDL;
+    };		
+
+    public ref class DataWeaponTypeIGC : public DataPartTypeIGC
+    {
+	public:
+		float               dtimeReady;
+		float               dtimeBurst;
+		float               energyPerShot;
+		float               dispersion;
+		short               cAmmoPerShot;
+		ProjectileTypeID    projectileTypeID;
+		SoundID             activateSound;
+		SoundID             singleShotSound;
+		SoundID             burstSound;
+    };
+
+    public ref class DataShieldTypeIGC : public DataPartTypeIGC
+    {
+	public:
+		float           rateRegen;
+		float           maxStrength;
+		DefenseTypeID   defenseType;
+		SoundID         activateSound;
+		SoundID         deactivateSound;
+    };
+
+    public ref class DataCloakTypeIGC : public DataPartTypeIGC
+    {
+	public:
+		float           energyConsumption;
+		float           maxCloaking;
+		float           onRate;
+		float           offRate;
+		SoundID         engageSound;
+		SoundID         disengageSound;
+    };
+
+    public ref class DataAfterburnerTypeIGC : public DataPartTypeIGC
+    {
+	public:
+		float           fuelConsumption;
+		float           maxThrust;
+		float           onRate;
+		float           offRate;
+		SoundID         interiorSound;
+		SoundID         exteriorSound;
+    };
+
+    public enum PackType : Byte
+    {
+        c_packAmmo    = 0,
+        c_packFuel    = 1
+    };
+
+    public ref class DataPackTypeIGC : public DataPartTypeIGC
+    {
+	public:
+		PackType        packType;
+		short           amount;
+	};
+
+	public ref class LauncherDef : public DataBuyableIGC
+    {
+	public:
+		float               signature;
+		float               mass;
+		PartMask            partMask;
+		short               expendableSize;
+	};
+
+    public ref class DataExpendableTypeIGC : public DataObjectIGC
+    {
+	public:
+		float               loadTime;
+		float               lifespan;
+		float               signature;
+		LauncherDef^        launcherDef;
+		HitPoints           hitPoints;
+		DefenseTypeID       defenseType;
+		ExpendableTypeID    expendabletypeID;
+		AbilityBitMask      eabmCapabilities;
+		String^             iconName;
+    };
+
+	public ref class  DataMissileTypeIGC : public DataExpendableTypeIGC
+	{
+	public:
+		float               acceleration;
+		float               turnRate;
+		float               initialSpeed;
+		float               lockTime;
+		float               readyTime;
+		float               maxLock;
+		float               chaffResistance;
+		float               dispersion;
+		float               lockAngle;
+		float               power;
+		float               blastPower;
+		float               blastRadius;
+		float               width;
+
+		DamageTypeID        damageType;
+
+		bool                bDirectional;
+
+		SoundID             launchSound;
+		SoundID             ambientSound;
+	};
+
+	public ref class  DataMineTypeIGC : public DataExpendableTypeIGC
+	{
+	public:
+		float               radius;
+		float               power;
+		float               endurance;
+		DamageTypeID        damageType;
+	};
+
+	public ref class  DataChaffTypeIGC : public DataExpendableTypeIGC
+	{
+	public:
+		float               chaffStrength;
+	};
+
+	public ref class  DataProbeTypeIGC : public DataExpendableTypeIGC
+	{
+	public:
+		float               scannerRange;
+
+		float               dtimeBurst;
+		float               dispersion;
+		float               accuracy;
+
+		short               ammo;
+
+		ProjectileTypeID    projectileTypeID;
+
+		SoundID             ambientSound;
+		float               dtRipcord;
+	};
+
+    public enum TreasureCode : Byte
+    {
+        c_tcPart        = 1,
+        c_tcPowerup     = 2,
+        c_tcDevelopment = 3,
+        c_tcCash        = 4,
+        c_tcFlag        = 5
+    };
+
+    public ref struct PowerupCode
+    {
+	public:
+		static short   c_pcHull   = 0x01;
+        static short   c_pcShield = 0x02;
+        static short   c_pcEnergy = 0x04;
+        static short   c_pcFuel   = 0x08;
+        static short   c_pcAmmo   = 0x10;
+	};
+	public ref struct TreasureData
+	{
+	public:
+		ObjectID        treasureID;
+		TreasureCode    treasureCode;
+		unsigned char   chance;
+	};
+
+	public ref class DataTreasureSetIGC
+	{
+	public:
+		String^         name;
+		TreasureSetID   treasureSetID;
+		short           nTreasureData;
+		bool            bZoneOnly;
+		List<TreasureData^>^ treasureDatas;
+		DataTreasureSetIGC()
+		{
+			treasureDatas = gcnew List<TreasureData^>();
+		}
+	};
 }
 
 /*
@@ -322,195 +327,6 @@ using System.Drawing;
 namespace IGCLib
 {
 
-    public class  DataProjectileTypeIGC : DataObjectIGC
-    {
-        public float power { get; set; }
-        public float blastPower { get; set; }
-        public float blastRadius { get; set; }
-        public float speed { get; set; }
-        public float lifespan { get; set; }
-        public short projectileTypeID { get; set; }
-        public byte damageType { get; set; }
-        public bool absoluteF { get; set; }
-        public bool bDirectional { get; set; }
-        public float width { get; set; }
-        public short ambientSound { get; set; }
-    }
-    public enum EquipmentType : short
-    {
-       ET_ChaffLauncher  = 0,
-       ET_Weapon         = 1,
-       ET_Magazine       = 2,
-       ET_Dispenser      = 3,
-       ET_Shield         = 4,
-       ET_Cloak          = 5,
-       ET_Pack           = 6,
-       ET_Afterburner    = 7
-    }
-    public class  DataPartTypeIGC : DataBuyableIGC
-    {
-        public float mass { get; set; }
-        public float signature { get; set; }
-        public short partID { get; set; }
-        public DataPartTypeIGC successorPart { get; set; }
-        public EquipmentType equipmentType { get; set; }
-        public short partMask { get; set; }
-        public string inventoryLineMDL { get; set; }
-    }
-
-    public class DataWeaponTypeIGC : DataPartTypeIGC
-    {
-        public float dtimeReady { get; set; }
-        public float dtimeBurst { get; set; }
-        public float energyPerShot { get; set; }
-        public float dispersion { get; set; }
-        public short cAmmoPerShot { get; set; }
-        public DataProjectileTypeIGC projectile { get; set; }
-        public short activateSound { get; set; }
-        public short singleShotSound { get; set; }
-        public short burstSound { get; set; }
-    }
-
-    public class DataShieldTypeIGC : DataPartTypeIGC
-    {
-        public float rateRegen { get; set; }
-        public float maxStrength { get; set; }
-        public byte defenseType { get; set; }
-        public short activateSound { get; set; }
-        public short deactivateSound { get; set; }
-    }
-
-    public class DataCloakTypeIGC : DataPartTypeIGC
-    {
-        public float energyConsumption { get; set; }
-        public float maxCloaking { get; set; }
-        public float onRate { get; set; }
-        public float offRate { get; set; }
-        public short engageSound { get; set; }
-        public short disengageSound { get; set; }
-    }
-
-    public class DataAfterburnerTypeIGC : DataPartTypeIGC
-    {
-        public float fuelConsumption { get; set; }
-        public float maxThrust { get; set; }
-        public float onRate { get; set; }
-        public float offRate { get; set; }
-        public short interiorSound { get; set; }
-        public short exteriorSound { get; set; }
-    }
-
-    public enum PackType : byte
-    {
-        c_packAmmo    = 0,
-        c_packFuel    = 1
-    }
-
-    public class DataPackTypeIGC : DataPartTypeIGC
-    {
-        public PackType packType { get; set; }
-        public short amount { get; set; }
-    }
-
-    public class LauncherDef : DataBuyableIGC
-    {
-        public float signature { get; set; }
-        public float mass { get; set; }
-        public short partMask { get; set; }
-        public short expendableSize { get; set; }
-    }
-
-    public class DataExpendableTypeIGC : DataObjectIGC
-    {
-        public float loadTime { get; set; }
-        public float lifespan { get; set; }
-        public float signature { get; set; }
-        public LauncherDef launcherDef { get; set; }
-        public float hitPoints { get; set; }
-        public byte defenseType { get; set; }
-        public short expendabletypeID { get; set; }
-        public short eabmCapabilities { get; set; }
-        public string iconName { get; set; }
-    }
-
-    public class DataMissileTypeIGC : DataExpendableTypeIGC
-    {
-        public float acceleration { get; set; }
-        public float turnRate { get; set; }
-        public float initialSpeed { get; set; }
-        public float lockTime { get; set; }
-        public float readyTime { get; set; }
-        public float maxLock { get; set; }
-        public float chaffResistance { get; set; }
-        public float dispersion { get; set; }
-        public float lockAngle { get; set; }
-        public float power { get; set; }
-        public float blastPower { get; set; }
-        public float blastRadius { get; set; }
-        public float width { get; set; }
-        public byte damageType { get; set; }
-        public bool bDirectional { get; set; }
-        public short launchSound { get; set; }
-        public short ambientSound { get; set; }
-    }
-
-    public class DataMineTypeIGC : DataExpendableTypeIGC
-    {
-        public float mineradius { get; set; }
-        public float power { get; set; }
-        public float endurance { get; set; }
-        public byte damageType { get; set; }
-    }
-
-    public class DataChaffTypeIGC : DataExpendableTypeIGC
-    {
-        public float chaffStrength { get; set; }
-    }
-
-    public class DataProbeTypeIGC : DataExpendableTypeIGC
-    {
-        public float scannerRange { get; set; }
-        public float dtimeBurst { get; set; }
-        public float dispersion { get; set; }
-        public float accuracy { get; set; }
-        public short ammo { get; set; }
-        public DataProjectileTypeIGC projectile { get; set; }
-        public short ambientSound { get; set; }
-        public float dtRipcord { get; set; }
-    }
-
-    public enum TreasureCode : byte
-    {
-        c_tcPart        = 1,
-        c_tcPowerup     = 2,
-        c_tcDevelopment = 3,
-        c_tcCash        = 4,
-        c_tcFlag        = 5
-    }
-
-    public struct PowerupCode
-    {
-        public const short   c_pcHull   = 0x01;
-        public const short   c_pcShield = 0x02;
-        public const short   c_pcEnergy = 0x04;
-        public const short   c_pcFuel   = 0x08;
-        public const short   c_pcAmmo   = 0x10;
-    }
-
-    public class  TreasureData
-    {
-        public short treasureID{ get; set; }
-        public TreasureCode treasureCode { get; set; }
-        public byte  chance{ get; set; }
-    }
-
-    public class DataTreasureSetIGC
-    {
-        public string  name { get; set; }
-        public short   treasureSetID { get; set; }
-        public bool    bZoneOnly { get; set; }
-        public TreasureData[] data { get; set; }
-    }
 
     public enum StationClassID : byte
     {
