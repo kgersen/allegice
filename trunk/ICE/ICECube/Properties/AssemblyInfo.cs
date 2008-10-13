@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("IGCLib")]
+[assembly: AssemblyTitle("ICECube")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany(".")]
-[assembly: AssemblyProduct("IGCLib")]
+[assembly: AssemblyProduct("ICECube")]
 [assembly: AssemblyCopyright("Copyright © . 2008")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("c8cc98ee-2bc2-4c6c-a2c2-e5fb46999abd")]
+[assembly: Guid("3d10f8b3-702f-459e-a106-dc3604e3e0e4")]
 
 // Version information for an assembly consists of the following four values:
 //
