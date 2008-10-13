@@ -509,6 +509,252 @@ namespace IGCLib {
 			TreasureData_Save(m->treasureDatas[i],p->treasureData0()+i*sizeof(::TreasureData));
 		}
 	}
+// DataStationTypeIGC
+	void DataStationTypeIGC_Load(DataStationTypeIGC^ m,::DataStationTypeIGC* p)
+	{
+		DataBuyableIGC_Load(m,p);
+		PtoM(signature);
+		PtoM(maxArmorHitPoints);
+		PtoM(maxShieldHitPoints);
+		PtoM(armorRegeneration);
+		PtoM(shieldRegeneration);
+		PtoM(scannerRange);
+		PtoM(income);
+		PtoM(radius);
+		TechTreeBitMask_Load(m->ttbmLocal,p->ttbmLocal);
+		PtoM(stationTypeID);
+		PtoM(successorStationTypeID);
+		PtoM(defenseTypeArmor);
+		PtoM(defenseTypeShield);
+		PtoM(sabmCapabilities);
+		PtoM(aabmBuild);
+		PtoM(classID);
+		PtoM(constructionDroneTypeID);
+		PtoM(constructorNeedRockSound);
+		PtoM(constructorUnderAttackSound);
+		PtoM(constructorDestroyedSound);
+		PtoM(completionSound);
+		PtoM(interiorSound);
+		PtoM(exteriorSound);
+		PtoM(interiorAlertSound);
+		PtoM(underAttackSound);
+		PtoM(criticalSound);
+		PtoM(destroyedSound);
+		PtoM(capturedSound);
+		PtoM(enemyCapturedSound);
+		PtoM(enemyDestroyedSound);
+		m->textureName = gcnew String(p->textureName);
+		m->builderName = gcnew String(p->builderName);
+	}
+	void DataStationTypeIGC_Save(DataStationTypeIGC^ m,::DataStationTypeIGC* p)
+	{
+		DataBuyableIGC_Save(m,p);
+		MtoP(signature);
+		MtoP(maxArmorHitPoints);
+		MtoP(maxShieldHitPoints);
+		MtoP(armorRegeneration);
+		MtoP(shieldRegeneration);
+		MtoP(scannerRange);
+		MtoP(income);
+		MtoP(radius);
+		TechTreeBitMask_Save(m->ttbmLocal,&p->ttbmLocal);
+		MtoP(stationTypeID);
+		MtoP(successorStationTypeID);
+		MtoP(defenseTypeArmor);
+		MtoP(defenseTypeShield);
+		MtoP(sabmCapabilities);
+		MtoP(aabmBuild);
+		MtoP(classID);
+		MtoP(constructionDroneTypeID);
+		MtoP(constructorNeedRockSound);
+		MtoP(constructorUnderAttackSound);
+		MtoP(constructorDestroyedSound);
+		MtoP(completionSound);
+		MtoP(interiorSound);
+		MtoP(exteriorSound);
+		MtoP(interiorAlertSound);
+		MtoP(underAttackSound);
+		MtoP(criticalSound);
+		MtoP(destroyedSound);
+		MtoP(capturedSound);
+		MtoP(enemyCapturedSound);
+		MtoP(enemyDestroyedSound);
+		String_Save(m->textureName,p->textureName,sizeof(p->textureName));
+		String_Save(m->builderName,p->builderName,sizeof(p->builderName));
+	}
+// DataDroneTypeIGC
+	void DataDroneTypeIGC_Load(DataDroneTypeIGC^ m, ::DataDroneTypeIGC* p)
+	{
+		DataBuyableIGC_Load(m,p);
+		PtoM(shootSkill);
+		PtoM(moveSkill);
+		PtoM(bravery);
+		PtoM(pilotType);
+		PtoM(hullTypeID);
+		PtoM(droneTypeID);
+		PtoM(etidLaid);
+	}
+	void DataDroneTypeIGC_Save(DataDroneTypeIGC^ m, ::DataDroneTypeIGC* p)
+	{
+		DataBuyableIGC_Save(m,p);
+		MtoP(shootSkill);
+		MtoP(moveSkill);
+		MtoP(bravery);
+		MtoP(pilotType);
+		MtoP(hullTypeID);
+		MtoP(droneTypeID);
+		MtoP(etidLaid);
+	}
+// HardpointData
+	void HardpointData_Load(HardpointData^ m,::HardpointData* p)
+	{
+		PtoM(interiorSound);
+		PtoM(turnSound);
+		m->frameName = gcnew String(p->frameName);
+		m->locationAbreviation = gcnew String(p->locationAbreviation);
+		PtoM(partMask);
+		PtoM(bFixed);
+	};
+	void HardpointData_Save(HardpointData^ m,::HardpointData* p)
+	{
+		MtoP(interiorSound);
+		MtoP(turnSound);
+		String_Save(m->frameName , p->frameName, sizeof(p->frameName));
+		String_Save(m->locationAbreviation, p->locationAbreviation, sizeof(p->locationAbreviation));
+		MtoP(partMask);
+		MtoP(bFixed);
+	};
+// DataHullTypeIGC
+	void DataHullTypeIGC_Load(DataHullTypeIGC^ m,::DataHullTypeIGC *p)
+	{
+		DataBuyableIGC_Load(m,p);
+		PtoM(mass);
+		PtoM(signature);
+		PtoM(speed);
+		
+		m->maxTurnRates.Yaw = p->maxTurnRates[c_axisYaw];
+		m->maxTurnRates.Pitch = p->maxTurnRates[c_axisPitch];
+		m->maxTurnRates.Roll = p->maxTurnRates[c_axisRoll];
+
+		m->turnTorques.Yaw = p->turnTorques[c_axisYaw];
+		m->turnTorques.Pitch = p->turnTorques[c_axisPitch];
+		m->turnTorques.Roll = p->turnTorques[c_axisRoll];
+
+		PtoM(thrust);
+		PtoM(sideMultiplier);
+		PtoM(backMultiplier);
+		PtoM(scannerRange);
+		PtoM(maxFuel);
+		PtoM(ecm);
+		PtoM(length);
+		PtoM(maxEnergy);
+		PtoM(rechargeRate);
+		PtoM(ripcordSpeed);
+		PtoM(ripcordCost);
+
+		PtoM(maxAmmo);
+
+		PtoM(hullID);
+		PtoM(successorHullID);
+		//Mount             maxWeapons;
+		//Mount             maxFixedWeapons;
+		PtoM(hitPoints);
+		//short               hardpointOffset;
+		for (int i=0;i<c_maxMountedWeapons;i++)
+			m->HardPoints[i] = nullptr;
+		for (int i=0;i<p->maxWeapons;i++)
+		{
+			HardpointData^ hp = gcnew HardpointData();
+			HardpointData_Load(hp,(::HardpointData*)(((char*)p) + p->hardpointOffset)[i]);
+		}
+
+		PtoM(defenseType);
+
+		PtoM(capacityMagazine);
+		PtoM(capacityDispenser);
+		PtoM(capacityChaffLauncher);
+
+		for (int i=0;i<c_cMaxPreferredPartTypes;i++)
+			m->preferredPartsTypes[i] = p->preferredPartsTypes[i];
+
+		PtoM(habmCapabilities);
+		m->textureName = gcnew String(p->textureName);
+
+		for (int i=0;i<ET_MAX;i++)
+			m->pmEquipment[i] = p->pmEquipment[i];
+
+		PtoM(interiorSound);
+		PtoM(exteriorSound);
+		PtoM(mainThrusterInteriorSound);
+		PtoM(mainThrusterExteriorSound);
+		PtoM(manuveringThrusterInteriorSound);
+		PtoM(manuveringThrusterExteriorSound);
+	}
+	void DataHullTypeIGC_Save(DataHullTypeIGC^ m,::DataHullTypeIGC *p)
+	{
+		DataBuyableIGC_Save(m,p);
+		MtoP(mass);
+		MtoP(signature);
+		MtoP(speed);
+		
+		p->maxTurnRates[c_axisYaw] = m->maxTurnRates.Yaw;
+		p->maxTurnRates[c_axisPitch] = m->maxTurnRates.Pitch;
+		p->maxTurnRates[c_axisRoll] = m->maxTurnRates.Roll; 
+
+		p->turnTorques[c_axisYaw] = m->turnTorques.Yaw;
+		p->turnTorques[c_axisPitch] = m->turnTorques.Pitch;
+		p->turnTorques[c_axisRoll] = m->turnTorques.Roll; 
+
+		MtoP(thrust);
+		MtoP(sideMultiplier);
+		MtoP(backMultiplier);
+		MtoP(scannerRange);
+		MtoP(maxFuel);
+		MtoP(ecm);
+		MtoP(length);
+		MtoP(maxEnergy);
+		MtoP(rechargeRate);
+		MtoP(ripcordSpeed);
+		MtoP(ripcordCost);
+
+		MtoP(maxAmmo);
+
+		MtoP(hullID);
+		MtoP(successorHullID);
+
+		MtoP(hitPoints);
+		p->hardpointOffset=sizeof(::DataHullTypeIGC);
+		p->maxWeapons = m->HardPoints->Length;
+		Mount maxFixed = 0; 
+		for (int i=0;i<m->HardPoints->Length;i++)
+		{
+			if (m->HardPoints[i]->bFixed) maxFixed++;
+			HardpointData_Save(m->HardPoints[i],(::HardpointData*)(((char*)p) + p->hardpointOffset)[i]);
+		}
+		p->maxFixedWeapons = maxFixed;
+
+		MtoP(defenseType);
+
+		MtoP(capacityMagazine);
+		MtoP(capacityDispenser);
+		MtoP(capacityChaffLauncher);
+
+		for (int i=0;i<c_cMaxPreferredPartTypes;i++)
+			m->preferredPartsTypes[i] = p->preferredPartsTypes[i];
+
+		MtoP(habmCapabilities);
+		String_Save(m->textureName, p->textureName, sizeof(p->textureName));
+
+		for (int i=0;i<ET_MAX;i++)
+			p->pmEquipment[i] = m->pmEquipment[i];
+
+		MtoP(interiorSound);
+		MtoP(exteriorSound);
+		MtoP(mainThrusterInteriorSound);
+		MtoP(mainThrusterExteriorSound);
+		MtoP(manuveringThrusterInteriorSound);
+		MtoP(manuveringThrusterExteriorSound);
+	}
 #pragma endregion
 
 	IGCLib::Constants^ IGCCore::Constants::get()
