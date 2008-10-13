@@ -7,53 +7,6 @@ using System.Drawing;
 
 namespace IGCLib
 {
-    public class GlobalAttributeSet
-    {
-        float[]   Attributes {get;set;} //[c_gaMax];
-    }
-    public class TechTreeBitMask
-    {
-        BitArray ttbm;
-        public TechTreeBitMask()
-        {
-            ttbm = new BitArray(400);
-        }
-    }
-    public class DataCivilizationIGC
-    {
-        public float incomeMoney { get; set; }
-        public float bonusMoney { get; set; }
-        public string name { get; set; }
-        public string iconName { get; set; }
-        public string hudName { get; set; }
-        public TechTreeBitMask ttbmBaseTechs { get; set; }
-        public TechTreeBitMask ttbmNoDevTechs { get; set; }
-        public GlobalAttributeSet gasBaseAttributes { get; set; }
-        public short lifepod { get; set; }
-        public short civilizationID { get; set; }
-        public short initialStationTypeID { get; set; }
-    }
-    public class  DataObjectIGC
-    {
-        public Color color { get; set; }
-        public float radius { get; set; }
-        public float rotation { get; set; }
-        public string modelName { get; set; }
-        public string textureName { get; set; }
-    }
-
-    public class  DataBuyableIGC
-    {
-        public int price { get; set; }
-        public UInt32 timeToBuild { get; set; }
-        public string modelName { get; set; }
-        public string iconName { get; set; }
-        public string name { get; set; }
-        public string description { get; set; }
-        public byte groupID { get; set; }
-        public TechTreeBitMask ttbmRequired { get; set; }
-        public TechTreeBitMask ttbmEffects { get; set; }
-    };
 
     public class  DataProjectileTypeIGC : DataObjectIGC
     {
@@ -298,12 +251,7 @@ namespace IGCLib
         public string builderName { get; set; }
     }
 
-    public class DataDevelopmentIGC : DataBuyableIGC
-    {
-        public GlobalAttributeSet gas { get; set; }
-        public short developmentID { get; set; }
-        public short completionSound { get; set; }
-    }
+
 
     public enum PilotType : byte
     {
@@ -327,11 +275,11 @@ namespace IGCLib
         public DataExpendableTypeIGC etidLaid { get; set; }
     }
 
-    public struct  Constants
-    {
-        public float[]   floatConstants;// [c_fcidMax];
-        public float[][] damageConstants;//[c_dmgidMax][c_defidMax];
-    }
+    //public struct  Constants
+    //{
+    //    public float[]   floatConstants;// [c_fcidMax];
+    //    public float[][] damageConstants;//[c_dmgidMax][c_defidMax];
+    //}
 
     public struct YawPitchRoll
     {
