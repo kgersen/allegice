@@ -73,7 +73,8 @@ void CProbeDlg::DoDataExchange(CDataExchange* pDX)
 		descr = pprobe->description;
 		icon = pprobe->icon;
 		mdlbmp.LoadMDLFile(sArtPath +"\\"+ icon + "bmp.mdl");
-		type = pprobe->type;
+		type = pprobe->iconName;
+		mdlbmp3.LoadMDLFile(sArtPath +"\\"+ type + "bmp.mdl");
 		ukbmp = pprobe->ukbmp;
 		mdlbmp2.LoadMDLFile(sArtPath +"\\l"+ ukbmp + "bmp.mdl");
 		uid = pprobe->uid;
@@ -110,7 +111,7 @@ void CProbeDlg::DoDataExchange(CDataExchange* pDX)
 	DDX_Text(pDX, IDC_DESCRIPTION, descr);
 	//DDX_Text(pDX, IDC_TODO1, todo1);
 
-	DDX_Text(pDX, IDC_COST, pprobe->cost);
+	DDX_Text(pDX, IDC_COST, pprobe->price);
 
 	DDX_Text(pDX, IDC_S1, pprobe->stats_s1);
 	DDX_Text(pDX, IDC_S2, pprobe->stats_s2);
@@ -145,7 +146,7 @@ void CProbeDlg::DoDataExchange(CDataExchange* pDX)
 		strcpy(pprobe->name,name);
 		strcpy(pprobe->model,model);
 		strcpy(pprobe->icon,icon);
-		strcpy(pprobe->type,type);
+		strcpy(pprobe->iconName,type);
 		strcpy(pprobe->ukbmp,ukbmp);
 		strncpy(pprobe->description,descr,IGC_DESCRIPTIONMAX);
 		// usemask
@@ -242,6 +243,7 @@ BOOL CProbeDlg::OnInitDialog(void)
 
 	VERIFY(mdlbmp.SubclassDlgItem(IDC_PICT, this));
 	VERIFY(mdlbmp2.SubclassDlgItem(IDC_PICT2, this));
+	VERIFY(mdlbmp3.SubclassDlgItem(IDC_PICT3, this));
 
 	CComboBox *cbac = (CComboBox *)GetDlgItem(IDC_AC);
 	cbac->ResetContent();

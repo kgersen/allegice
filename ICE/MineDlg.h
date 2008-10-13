@@ -13,7 +13,11 @@ public:
 	PtrCoreMine pmine;
 	PtrCore pcore;
 	IMainUI *MainUI;
+	CString sArtPath;
 	void SetIcons(HICON iJumpIcon);
+	CBMPMDLButton mdlbmp;
+	CBMPMDLButton mdlbmp2;
+	CBMPMDLButton mdlbmp3;
 // Dialog Data
 	enum { IDD = IDD_MINEDLG };
 

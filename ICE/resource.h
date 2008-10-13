@@ -41,6 +41,7 @@
 #define IDC_UIDPROX                     1006
 #define IDC_FACTOR0                     1007
 #define IDC_DECDEC                      1007
+#define IDC_MODEL2                      1007
 #define IDC_FACTOR1                     1008
 #define IDC_DECFLOAT                    1008
 #define IDC_FACTOR2                     1009
@@ -158,6 +159,7 @@
 #define IDSAVE                          1061
 #define IDC_BUILDON_SILICON             1061
 #define IDC_BUILDON_CARBON              1062
+#define IDC_PICT3                       1062
 #define IDSAVEAS                        1063
 #define IDC_BUILDON_THORIUM             1063
 #define IDLOAD                          1064
@@ -424,7 +426,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        148
 #define _APS_NEXT_COMMAND_VALUE         32771
-#define _APS_NEXT_CONTROL_VALUE         1279
+#define _APS_NEXT_CONTROL_VALUE         1282
 #define _APS_NEXT_SYMED_VALUE           117
 #endif
 #endif
