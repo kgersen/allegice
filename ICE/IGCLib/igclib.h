@@ -4,8 +4,6 @@ using namespace System::Drawing;
 
 namespace IGCLib
 {
-
-
 	public ref struct Constants
     {
 	public:
@@ -314,6 +312,142 @@ namespace IGCLib
 			treasureDatas = gcnew List<TreasureData^>();
 		}
 	};
+
+	public ref class  DataStationTypeIGC : public DataBuyableIGC
+	{
+	public:
+		float                   signature;
+		float                   maxArmorHitPoints;
+		float                   maxShieldHitPoints;
+		float                   armorRegeneration;
+		float                   shieldRegeneration;
+		float                   scannerRange;
+		Money                   income;
+		float                   radius;
+		TechTreeBitMask^        ttbmLocal;
+		StationTypeID           stationTypeID;
+		StationTypeID           successorStationTypeID;
+		DefenseTypeID           defenseTypeArmor;
+		DefenseTypeID           defenseTypeShield;
+		StationAbilityBitMask   sabmCapabilities;
+		AsteroidAbilityBitMask  aabmBuild;
+		Byte                    classID;
+
+		DroneTypeID             constructionDroneTypeID;
+
+		SoundID                 constructorNeedRockSound;
+		SoundID                 constructorUnderAttackSound;
+		SoundID                 constructorDestroyedSound;
+		SoundID                 completionSound;
+
+		SoundID                 interiorSound;
+		SoundID                 exteriorSound;
+		SoundID                 interiorAlertSound;
+
+		SoundID                 underAttackSound;
+		SoundID                 criticalSound;
+		SoundID                 destroyedSound;
+		SoundID                 capturedSound;
+
+		SoundID                 enemyCapturedSound;
+		SoundID                 enemyDestroyedSound;
+
+		String^                 textureName;
+		String^                 builderName;
+		DataStationTypeIGC()
+		{
+			ttbmLocal = gcnew TechTreeBitMask();
+		}
+	};
+
+	public ref class DataDroneTypeIGC : public DataBuyableIGC
+	{
+	public:
+		float               shootSkill;
+		float               moveSkill;
+		float               bravery;
+		PilotType           pilotType;
+		HullID              hullTypeID;
+		DroneTypeID         droneTypeID;
+		ExpendableTypeID    etidLaid;
+	};
+
+	public ref class  HardpointData
+	{
+	public:
+		SoundID     interiorSound;
+		SoundID     turnSound;
+		String^     frameName;
+		String^     locationAbreviation;
+		PartMask    partMask;
+		bool        bFixed;
+	};
+
+	public ref struct YawPitchRoll
+    {
+	public:
+        float Yaw;
+        float Pitch;
+        float Roll;
+    };
+
+	public ref class  DataHullTypeIGC : public DataBuyableIGC
+	{
+	public:
+		float               mass;
+		float               signature;
+		float               speed;
+		YawPitchRoll		maxTurnRates;    //yaw, pitch, roll
+		YawPitchRoll        turnTorques;      //yaw, pitch, roll
+		float               thrust;
+		float               sideMultiplier;
+		float               backMultiplier;
+		float               scannerRange;
+		float               maxFuel;
+		float               ecm;
+		float               length;
+		float               maxEnergy;
+		float               rechargeRate;
+		float               ripcordSpeed;
+		float               ripcordCost;
+
+		short               maxAmmo;
+
+		HullID              hullID;
+		HullID              successorHullID;
+		//Mount             maxWeapons;
+		//Mount             maxFixedWeapons;
+		HitPoints           hitPoints;
+		//short               hardpointOffset;
+		array<HardpointData^>^ HardPoints;
+
+		DefenseTypeID       defenseType;
+
+		short               capacityMagazine;
+		short               capacityDispenser;
+		short               capacityChaffLauncher;
+
+		array<PartID>^      preferredPartsTypes; //[c_cMaxPreferredPartTypes];
+
+		HullAbilityBitMask  habmCapabilities;
+		String^             textureName; // [c_cbFileName];
+
+		array<PartMask>^    pmEquipment; // [ET_MAX];
+
+		SoundID             interiorSound;
+		SoundID             exteriorSound;
+		SoundID             mainThrusterInteriorSound;
+		SoundID             mainThrusterExteriorSound;
+		SoundID             manuveringThrusterInteriorSound;
+		SoundID             manuveringThrusterExteriorSound;
+
+		DataHullTypeIGC()
+		{
+			preferredPartsTypes = gcnew array<PartID>(c_cMaxPreferredPartTypes);
+			pmEquipment = gcnew array<PartMask>(ET_MAX);
+			HardPoints = gcnew array<HardpointData^>(c_maxMountedWeapons);
+		}
+	};
 }
 
 /*
@@ -326,91 +460,6 @@ using System.Drawing;
 
 namespace IGCLib
 {
-
-
-    public enum StationClassID : byte
-    {
-        c_scStarbase                    = 0,
-        c_scGarrison                    = 1,
-        c_scShipyard                    = 2,
-        c_scRipcord                     = 3,
-        c_scMining                      = 4,
-        c_scResearch                    = 5,
-        c_scOrdinance                   = 6,
-        c_scElectronics                 = 7
-    }
-    public class  DataStationTypeIGC : DataBuyableIGC
-    {
-        public float signature { get; set; }
-        public float maxArmorHitPoints { get; set; }
-        public float maxShieldHitPoints { get; set; }
-        public float armorRegeneration { get; set; }
-        public float shieldRegeneration { get; set; }
-        public float scannerRange { get; set; }
-        public int income { get; set; }
-        public float radius { get; set; }
-        public TechTreeBitMask ttbmLocal { get; set; }
-        public short stationTypeID { get; set; }
-        public DataStationTypeIGC successorStationType { get; set; }
-        public byte defenseTypeArmor { get; set; }
-        public byte defenseTypeShield { get; set; }
-        public short sabmCapabilities { get; set; }
-        public short aabmBuild { get; set; }
-        public StationClassID classID { get; set; }
-
-        public DataDroneTypeIGC constructionDroneType { get; set; }
-
-        public short constructorNeedRockSound { get; set; }
-        public short constructorUnderAttackSound { get; set; }
-        public short constructorDestroyedSound { get; set; }
-        public short completionSound { get; set; }
-
-        public short interiorSound { get; set; }
-        public short exteriorSound { get; set; }
-        public short interiorAlertSound { get; set; }
-
-        public short underAttackSound { get; set; }
-        public short criticalSound { get; set; }
-        public short destroyedSound { get; set; }
-        public short capturedSound { get; set; }
-
-        public short enemyCapturedSound { get; set; }
-        public short enemyDestroyedSound { get; set; }
-
-        public string textureName { get; set; }
-        public string builderName { get; set; }
-    }
-
-
-
-    public enum PilotType : byte
-    {
-        c_ptMiner       =  0,
-        c_ptWingman     =  2,
-        c_ptLayer       =  5,
-        c_ptBuilder     =  6,
-        c_ptCarrier     =  9,
-        c_ptPlayer      = 10,
-        c_ptCheatPlayer = 11
-    }
-
-    public class DataDroneTypeIGC : DataBuyableIGC
-    {
-        public float shootSkill { get; set; }
-        public float moveSkill { get; set; }
-        public float bravery { get; set; }
-        public PilotType pilotType { get; set; }
-        public DataHullTypeIGC hullType { get; set; }
-        public short droneTypeID { get; set; }
-        public DataExpendableTypeIGC etidLaid { get; set; }
-    }
-
-    //public struct  Constants
-    //{
-    //    public float[]   floatConstants;// [c_fcidMax];
-    //    public float[][] damageConstants;//[c_dmgidMax][c_defidMax];
-    //}
-
     public struct YawPitchRoll
     {
         public float yaw;
