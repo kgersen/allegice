@@ -12,8 +12,10 @@ namespace ICECube
 {
     public partial class Form1 : Form
     {
+        IGCCore core;
         public Form1()
         {
+            core = new IGCCore();
             InitializeComponent();
         }
 
@@ -21,7 +23,6 @@ namespace ICECube
         {
             if (ofdCore.ShowDialog() == DialogResult.OK)
             {
-                IGCCore core = new IGCCore();
                 core.Load(ofdCore.FileName);
                 listView1.Clear();
                 listView1.Items.Add("m_chaffTypes : " + core.m_chaffTypes.Count.ToString());
@@ -39,6 +40,11 @@ namespace ICECube
                 listView1.Items.Add("m_treasureSets : " + core.m_treasureSets.Count.ToString());
                 listView1.Items.Add("m_projectileTypes : " + core.m_projectileTypes.Count.ToString());
             }
+        }
+
+        private void btSave_Click(object sender, EventArgs e)
+        {
+            core.Save(@"icecubetest.igc");
         }
     }
 }

@@ -3,6 +3,7 @@
 #pragma once
 
 using namespace System;
+using namespace System::IO;
 using namespace System::Collections;
 using namespace System::Collections::Generic;
 
@@ -20,6 +21,8 @@ namespace IGCLib {
 			IGCLib::Constants^ get();
 			void set( IGCLib::Constants^ value );
 		}
+		
+		int   CoreVersion;
 
 		List<DataProjectileTypeIGC^>^ m_projectileTypes;
 		List<DataTreasureSetIGC^>^	  m_treasureSets;
@@ -35,6 +38,7 @@ namespace IGCLib {
 		List<DataLauncherTypeIGC^>^   m_launcherTypes;
 		List<DataPartTypeIGC^>^       m_partTypes;
 		void Load(String^ filename);
+		void Save(System::String ^filename);
 	};
 }
 
