@@ -11,6 +11,7 @@ namespace IGCLib {
 #pragma region converters
 
 #define PtoM(field) m->field = p->field
+#define PtoMc(field,type) m->field = (type)p->field
 #define MtoP(field) p->field = m->field
 
 // String
@@ -110,7 +111,7 @@ namespace IGCLib {
 		m->civilizationID = p->civilizationID;
 		m->initialStationTypeID = p->initialStationTypeID;
 	}
-	void DataCivilizationIGC(DataCivilizationIGC^ m, ::DataCivilizationIGC* p)
+	void DataCivilizationIGC_Save(DataCivilizationIGC^ m, ::DataCivilizationIGC* p)
 	{
 		p->incomeMoney = m->incomeMoney;
 		p->bonusMoney = m->bonusMoney;
@@ -183,15 +184,6 @@ namespace IGCLib {
 		p->bDirectional = m->bDirectional;
 		p->width = m->width;
 		p->ambientSound = m->ambientSound;
-	}
-	DataProjectileTypeIGC^ DataProjectileTypeIGC_Read(char *data, int size)
-	{
-		::DataProjectileTypeIGC* p = (::DataProjectileTypeIGC*)data;
-		if (size != sizeof(::DataProjectileTypeIGC))
-			throw gcnew InvalidOperationException("bad core data size for Projectile");
-		DataProjectileTypeIGC^ proj = gcnew DataProjectileTypeIGC();
-		DataProjectileTypeIGC_Load(proj,p);
-		return proj;
 	}
 // DataDevelopmentIGC
 	void DataDevelopmentIGC_Load(DataDevelopmentIGC^ m, ::DataDevelopmentIGC *p)
@@ -526,7 +518,7 @@ namespace IGCLib {
 		PtoM(successorStationTypeID);
 		PtoM(defenseTypeArmor);
 		PtoM(defenseTypeShield);
-		PtoM(sabmCapabilities);
+		PtoMc(sabmCapabilities,StationAbilityBitMask);
 		PtoM(aabmBuild);
 		PtoM(classID);
 		PtoM(constructionDroneTypeID);
@@ -589,7 +581,7 @@ namespace IGCLib {
 		PtoM(shootSkill);
 		PtoM(moveSkill);
 		PtoM(bravery);
-		PtoM(pilotType);
+		PtoMc(pilotType,PilotType);
 		PtoM(hullTypeID);
 		PtoM(droneTypeID);
 		PtoM(etidLaid);
@@ -631,7 +623,7 @@ namespace IGCLib {
 		PtoM(mass);
 		PtoM(signature);
 		PtoM(speed);
-		
+
 		m->maxTurnRates.Yaw = p->maxTurnRates[c_axisYaw];
 		m->maxTurnRates.Pitch = p->maxTurnRates[c_axisPitch];
 		m->maxTurnRates.Roll = p->maxTurnRates[c_axisRoll];
@@ -665,7 +657,7 @@ namespace IGCLib {
 		for (int i=0;i<p->maxWeapons;i++)
 		{
 			HardpointData^ hp = gcnew HardpointData();
-			HardpointData_Load(hp,(::HardpointData*)(((char*)p) + p->hardpointOffset)[i]);
+			HardpointData_Load(hp,&((::HardpointData*)(((char*)p) + p->hardpointOffset))[i]);
 		}
 
 		PtoM(defenseType);
@@ -677,7 +669,7 @@ namespace IGCLib {
 		for (int i=0;i<c_cMaxPreferredPartTypes;i++)
 			m->preferredPartsTypes[i] = p->preferredPartsTypes[i];
 
-		PtoM(habmCapabilities);
+		PtoMc(habmCapabilities,HullAbilityBitMask);
 		m->textureName = gcnew String(p->textureName);
 
 		for (int i=0;i<ET_MAX;i++)
@@ -755,8 +747,143 @@ namespace IGCLib {
 		MtoP(manuveringThrusterInteriorSound);
 		MtoP(manuveringThrusterExteriorSound);
 	}
-#pragma endregion
+// DataLauncherTypeIGC
+	void DataLauncherTypeIGC_Load(DataLauncherTypeIGC^ m,::DataLauncherTypeIGC* p)
+	{
+		PtoM(amount);
+		PtoM(partID);
+		PtoM(successorPartID);
+		PtoM(launchCount);
+		PtoM(expendabletypeID);
+		m->inventoryLineMDL = gcnew String(p->inventoryLineMDL);
+	}
+	void DataLauncherTypeIGC_Save(DataLauncherTypeIGC^ m,::DataLauncherTypeIGC* p)
+	{
+		MtoP(amount);
+		MtoP(partID);
+		MtoP(successorPartID);
+		MtoP(launchCount);
+		MtoP(expendabletypeID);
+		String_Save(m->inventoryLineMDL, p->inventoryLineMDL, sizeof(p->inventoryLineMDL));
+	}
 
+#pragma endregion
+#pragma region readers
+	DataTreasureSetIGC^ ReadtreasureSetIGC(char *data, int size)
+	{
+		DataTreasureSetIGC^ m = gcnew DataTreasureSetIGC();
+		DataTreasureSetIGC_Load(m,(::DataTreasureSetIGC *)data);
+		return m;
+	}
+	DataCivilizationIGC^ ReadcivilizationIGC(char *data, int size)
+	{
+		DataCivilizationIGC^ m = gcnew DataCivilizationIGC();
+		DataCivilizationIGC_Load(m,(::DataCivilizationIGC *)data);
+		return m;
+	}
+	DataProjectileTypeIGC^ ReadprojectileTypeIGC(char *data, int size)
+	{
+		::DataProjectileTypeIGC* p = (::DataProjectileTypeIGC*)data;
+		if (size != sizeof(::DataProjectileTypeIGC))
+			throw gcnew InvalidOperationException("bad core data size for Projectile");
+		DataProjectileTypeIGC^ proj = gcnew DataProjectileTypeIGC();
+		DataProjectileTypeIGC_Load(proj,p);
+		return proj;
+	}
+	DataHullTypeIGC^ ReadhullTypeIGC(char *data, int size)
+	{
+		DataHullTypeIGC^ m = gcnew DataHullTypeIGC();
+		DataHullTypeIGC_Load(m,(::DataHullTypeIGC *)data);
+		return m;
+	}
+	DataStationTypeIGC^ ReadstationTypeIGC(char *data, int size)
+	{
+		DataStationTypeIGC^ m = gcnew DataStationTypeIGC();
+		DataStationTypeIGC_Load(m,(::DataStationTypeIGC *)data);
+		return m;
+	}
+	DataDevelopmentIGC^ ReaddevelopmentIGC(char *data, int size)
+	{
+		DataDevelopmentIGC^ m = gcnew DataDevelopmentIGC();
+		DataDevelopmentIGC_Load(m,(::DataDevelopmentIGC *)data);
+		return m;
+	}
+	DataMissileTypeIGC^ ReadmissileTypeIGC(char *data, int size)
+	{
+		DataMissileTypeIGC^ m = gcnew DataMissileTypeIGC();
+		DataMissileTypeIGC_Load(m,(::DataMissileTypeIGC *)data);
+		return m;
+	}
+	DataMineTypeIGC^ ReadmineTypeIGC(char *data, int size)
+	{
+		DataMineTypeIGC^ m = gcnew DataMineTypeIGC();
+		DataMineTypeIGC_Load(m,(::DataMineTypeIGC *)data);
+		return m;
+	}
+	DataChaffTypeIGC^ ReadchaffTypeIGC(char *data, int size)
+	{
+		DataChaffTypeIGC^ m = gcnew DataChaffTypeIGC();
+		DataChaffTypeIGC_Load(m,(::DataChaffTypeIGC *)data);
+		return m;
+	}
+	DataProbeTypeIGC^ ReadprobeTypeIGC(char *data, int size)
+	{
+		DataProbeTypeIGC^ m = gcnew DataProbeTypeIGC();
+		DataProbeTypeIGC_Load(m,(::DataProbeTypeIGC *)data);
+		return m;
+	}
+	DataDroneTypeIGC^ ReaddroneTypeIGC(char *data, int size)
+	{
+		DataDroneTypeIGC^ m = gcnew DataDroneTypeIGC();
+		DataDroneTypeIGC_Load(m,(::DataDroneTypeIGC *)data);
+		return m;
+	}
+	DataLauncherTypeIGC^ ReadlauncherTypeIGC(char *data, int size)
+	{
+		DataLauncherTypeIGC^ m = gcnew DataLauncherTypeIGC();
+		DataLauncherTypeIGC_Load(m,(::DataLauncherTypeIGC *)data);
+		return m;
+	}
+	DataPartTypeIGC^ ReadpartTypeIGC(char *data, int size)      
+	{
+		::DataPartTypeIGC* p = (::DataPartTypeIGC *)data;
+		switch (p->equipmentType)
+		{
+			case ET_Weapon:
+			{
+				DataWeaponTypeIGC^ mm = gcnew DataWeaponTypeIGC();
+				DataWeaponTypeIGC_Load(mm,(::DataWeaponTypeIGC*)p);
+				return mm;
+			} break;
+			case ET_Shield:
+			{
+				DataShieldTypeIGC^ mm = gcnew DataShieldTypeIGC();
+				DataShieldTypeIGC_Load(mm,(::DataShieldTypeIGC*)p);
+				return mm;
+			} break;
+			case ET_Cloak:
+			{
+				DataCloakTypeIGC^ mm = gcnew DataCloakTypeIGC();
+				DataCloakTypeIGC_Load(mm,(::DataCloakTypeIGC*)p);
+				return mm;
+			} break;
+			case ET_Pack:
+			{
+				DataPackTypeIGC^ mm = gcnew DataPackTypeIGC();
+				DataPackTypeIGC_Load(mm,(::DataPackTypeIGC*)p);
+				return mm;
+			} break;
+			case ET_Afterburner:
+			{
+				DataAfterburnerTypeIGC^ mm = gcnew DataAfterburnerTypeIGC();
+				DataAfterburnerTypeIGC_Load(mm,(::DataAfterburnerTypeIGC*)p);
+				return mm;
+			} break;
+			default: throw gcnew InvalidOperationException("bad part type found"); 
+		}
+		return nullptr;
+	}
+#pragma endregion
 	IGCLib::Constants^ IGCCore::Constants::get()
 	{
 		return m_constants;
@@ -769,14 +896,6 @@ namespace IGCLib {
 		m_constants = value;
 	}
 
-	ProjectileList^ IGCCore::Projectiles::get()
-	{
-		return m_projectiles;
-	}
-	void IGCCore::Projectiles::set(ProjectileList^ value)
-	{
-		m_projectiles = value;
-	}
 
 	void IGCCore::Load(System::String ^filename)
 	{
@@ -788,8 +907,20 @@ namespace IGCLib {
 		if (file)
 		{
 			// init
-			m_constants = gcnew IGCLib::Constants();
-			m_projectiles = gcnew ProjectileList();
+			m_constants       = gcnew IGCLib::Constants();
+			m_projectileTypes = gcnew List<DataProjectileTypeIGC^>();
+			m_treasureSets    = gcnew List<DataTreasureSetIGC^>();
+			m_civilizations   = gcnew List<DataCivilizationIGC^>();
+			m_hullTypes       = gcnew List<DataHullTypeIGC^>();
+			m_stationTypes    = gcnew List<DataStationTypeIGC^>(); 
+			m_developments    = gcnew List<DataDevelopmentIGC^>(); 
+			m_missileTypes    = gcnew List<DataMissileTypeIGC^>(); 
+			m_mineTypes       = gcnew List<DataMineTypeIGC^>(); 
+			m_chaffTypes      = gcnew List<DataChaffTypeIGC^>(); 
+			m_probeTypes      = gcnew List<DataProbeTypeIGC^>(); 
+			m_droneTypes      = gcnew List<DataDroneTypeIGC^>(); 
+			m_launcherTypes   = gcnew List<DataLauncherTypeIGC^>();   
+			m_partTypes       = gcnew List<DataPartTypeIGC^>(); 
 
 			// open & read file
 			IGC_FILE_VERSION_TYPE   iStaticCoreVersion;
@@ -807,22 +938,36 @@ namespace IGCLib {
 
 				if (c_maskStaticTypes & (__int64(1) << __int64(type)))
 				{
-					if (type == OT_constants)
+					switch (type)
 					{
-						//memcpy(&m_constants, (void*)(pdata + sizeof(int) + sizeof(ObjectType)), sizeof(m_constants));
-						Constants_Load(m_constants,(::Constants*)(pdata + sizeof(int) + sizeof(ObjectType)));
-					}
-					else
-					{
-						switch (type)
+						case OT_constants:
 						{
-							case OT_projectileType:
-								{
-									m_projectiles->Add(DataProjectileTypeIGC_Read((pdata + sizeof(int) + sizeof(ObjectType)), size));
-									break;
-								}
-
+							Constants_Load(m_constants,(::Constants*)(pdata + sizeof(int) + sizeof(ObjectType)));
+							break;
 						}
+
+#define OBJECT(CLS) case OT_##CLS## : { m_##CLS##s->Add(Read##CLS##IGC((pdata + sizeof(int) + sizeof(ObjectType)), size)); } break;
+
+						OBJECT(treasureSet)
+						OBJECT(civilization)
+						OBJECT(projectileType)
+						OBJECT(hullType)
+						OBJECT(stationType)
+						OBJECT(development)
+						OBJECT(missileType)
+						OBJECT(mineType)
+						OBJECT(chaffType)
+						OBJECT(probeType)
+						OBJECT(droneType)
+						case OT_partType:
+						{
+							//Part types and magazine part types get special treatment
+							if (size == sizeof(::DataLauncherTypeIGC))
+								m_launcherTypes->Add(ReadlauncherTypeIGC((pdata + sizeof(int) + sizeof(ObjectType)), size));
+							else
+								m_partTypes->Add(ReadpartTypeIGC((pdata + sizeof(int) + sizeof(ObjectType)), size));
+						}
+						break;
 						// IbaseIGC*   b = CreateObject(now, type, (void*)(pdata + sizeof(int) + sizeof(ObjectType)), size);
 					}
 					pdata += size + sizeof(int) + sizeof(ObjectType);
