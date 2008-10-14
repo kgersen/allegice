@@ -10,24 +10,30 @@ using namespace System::Collections::Generic;
 
 namespace IGCLib {
 
-	typedef List<IGCLib::DataProjectileTypeIGC^> ProjectileList;
-
 	public ref class IGCCore
 	{
 	private:
 		Constants^ m_constants;
-		ProjectileList^ m_projectiles;
 	public:
 		property Constants^ Constants
 		{
 			IGCLib::Constants^ get();
 			void set( IGCLib::Constants^ value );
 		}
-		property ProjectileList^ Projectiles
-		{
-			ProjectileList^ get();
-			void set ( ProjectileList^ value);
-		}
+
+		List<DataProjectileTypeIGC^>^ m_projectileTypes;
+		List<DataTreasureSetIGC^>^	  m_treasureSets;
+		List<DataCivilizationIGC^>^	  m_civilizations;
+		List<DataHullTypeIGC^>^	      m_hullTypes;
+		List<DataStationTypeIGC^>^    m_stationTypes;
+		List<DataDevelopmentIGC^>^    m_developments;
+		List<DataMissileTypeIGC^>^    m_missileTypes;
+		List<DataMineTypeIGC^>^       m_mineTypes;
+		List<DataChaffTypeIGC^>^      m_chaffTypes;
+		List<DataProbeTypeIGC^>^      m_probeTypes;
+		List<DataDroneTypeIGC^>^      m_droneTypes;
+		List<DataLauncherTypeIGC^>^   m_launcherTypes;
+		List<DataPartTypeIGC^>^       m_partTypes;
 		void Load(String^ filename);
 	};
 }

@@ -23,8 +23,21 @@ namespace ICECube
             {
                 IGCCore core = new IGCCore();
                 core.Load(ofdCore.FileName);
-                IGCLib.DataCivilizationIGC civ;
-                DataWeaponTypeIGC wep;
+                listView1.Clear();
+                listView1.Items.Add("m_chaffTypes : " + core.m_chaffTypes.Count.ToString());
+                listView1.Items.Add("m_civilizations : " + core.m_civilizations.Count.ToString());
+                listView1.Items.Add("m_developments : " + core.m_developments.Count.ToString());
+                listView1.Items.Add("m_droneTypes : " + core.m_droneTypes.Count.ToString());
+                listView1.Items.Add("m_hullTypes : " + core.m_hullTypes.Count.ToString());
+                listView1.Items.Add("m_launcherTypes : " + core.m_launcherTypes.Count.ToString());
+                listView1.Items.Add("m_mineTypes : " + core.m_mineTypes.Count.ToString());
+                listView1.Items.Add("m_missileTypes : " + core.m_missileTypes.Count.ToString());
+                listView1.Items.Add("m_partTypes : " + core.m_partTypes.Count.ToString());
+                listView1.Items.Add("m_probeTypes : " + core.m_probeTypes.Count.ToString());
+                listView1.Items.Add("m_projectileTypes : " + core.m_projectileTypes.Count.ToString());
+                listView1.Items.Add("m_stationTypes : " + core.m_stationTypes.Count.ToString());
+                listView1.Items.Add("m_treasureSets : " + core.m_treasureSets.Count.ToString());
+                listView1.Items.Add("m_projectileTypes : " + core.m_projectileTypes.Count.ToString());
             }
         }
     }
