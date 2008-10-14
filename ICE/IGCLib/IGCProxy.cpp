@@ -1,7 +1,10 @@
 // This is the main DLL file.
+using namespace System;
+using namespace System::IO;
+using namespace System::Collections;
+using namespace System::Collections::Generic;
 
 #include "stdafx.h"
-
 #include "IGCProxy.h"
 
 #define IGC_FILE_VERSION_TYPE   int
@@ -13,13 +16,18 @@ namespace IGCLib {
 #define PtoM(field) m->field = p->field
 #define PtoMc(field,type) m->field = (type)p->field
 #define MtoP(field) p->field = m->field
+#define String_Load(p) gcnew String(p,0,sizeof(p))
 
 // String
 	void String_Save(String^ m, char* p, int size)
 	{
+		if (String::IsNullOrEmpty(m)) { *p = 0; return; }
+		memset(p,0,size);
+
 		array<Byte>^ bytes = System::Text::ASCIIEncoding::ASCII->GetBytes( m );
 		pin_ptr<unsigned char> pinnedbyte = &bytes[0];
-		strcpy_s(p, size, reinterpret_cast<const char*>( pinnedbyte ));
+
+		memcpy(p, reinterpret_cast<const char*>( pinnedbyte ),Math::Min(m->Length,size));
 	}
 // Constants
 	void Constants_Load(Constants^ m, ::Constants* p)
@@ -39,14 +47,16 @@ namespace IGCLib {
 	{
 		if (m->floatConstants->Length != c_fcidMax) throw gcnew ArgumentException("invalid size of floatConstants");
         pin_ptr<float> pinnedBuffer = &m->floatConstants[0];
-		memcpy(&p->floatConstants[0],pinnedBuffer,sizeof(float)*c_fcidMax);
+		float *mp = pinnedBuffer;
+		memcpy(&p->floatConstants[0],mp,sizeof(float)*c_fcidMax);
 
-		if (m->damageConstants->Length != c_dmgidMax*c_defidMax) throw gcnew ArgumentException("invalid size of damageConstants");
+		//if (m->damageConstants->Length != c_dmgidMax*c_defidMax) throw gcnew ArgumentException("invalid size of damageConstants");
 		for (int i=0;i<c_dmgidMax;i++)
 		{
 			if (m->damageConstants[i]->Length != c_defidMax) throw gcnew ArgumentException("invalid subsize of damageConstants");
 			pinnedBuffer = &m->damageConstants[i][0];
-			memcpy(&p->damageConstants[i][0],pinnedBuffer,sizeof(float)*c_defidMax);
+			mp = pinnedBuffer;
+			memcpy(&p->damageConstants[i][0],mp,sizeof(float)*c_defidMax);
 		}
 	}
 
@@ -81,8 +91,8 @@ namespace IGCLib {
 		m->color = Color::FromArgb((int)(p->color.a*255.0f),(int)(p->color.r*255.0f),(int)(p->color.g*255.0f),(int)(p->color.b*255.0f));
 		m->radius = p->radius;
 		m->rotation = p->rotation;
-		m->modelName = gcnew String(p->modelName);
-		m->textureName = gcnew String(p->textureName);
+		m->modelName = String_Load(p->modelName);
+		m->textureName = String_Load(p->textureName);
 	}
 	void DataObjectIGC_Save(DataObjectIGC^ m, ::DataObjectIGC *p)
 	{
@@ -101,9 +111,9 @@ namespace IGCLib {
 	{
 		m->incomeMoney = p->incomeMoney;
 		m->bonusMoney = p->bonusMoney;
-		m->name = gcnew String(p->name);
-		m->iconName = gcnew String(p->iconName);
-		m->hudName  = gcnew String(p->hudName);
+		m->name = String_Load(p->name);
+		m->iconName = String_Load(p->iconName);
+		m->hudName  = String_Load(p->hudName);
 		TechTreeBitMask_Load(m->ttbmBaseTechs, p->ttbmBaseTechs);
 		TechTreeBitMask_Load(m->ttbmNoDevTechs, p->ttbmNoDevTechs);
 		GlobalAttributeSet_Load(m->gasBaseAttributes, p->gasBaseAttributes);
@@ -133,10 +143,10 @@ namespace IGCLib {
 		m->price = p->price;
 		m->timeToBuild = p->timeToBuild;
 
-		m->modelName = gcnew String(p->modelName);
-		m->iconName = gcnew String(p->iconName);
-		m->name = gcnew String(p->name);
-		m->description = gcnew String(p->description);
+		m->modelName = String_Load(p->modelName);
+		m->iconName = String_Load(p->iconName);
+		m->name = String_Load(p->name);
+		m->description = String_Load(p->description);
 
 		m->groupID = p->groupID;
 		TechTreeBitMask_Load(m->ttbmRequired, p->ttbmRequired);
@@ -210,7 +220,7 @@ namespace IGCLib {
 		m->successorPartID = p->successorPartID;
 		m->equipmentType = (EquipmentType)p->equipmentType;
 		m->partMask = p->partMask;
-		m->inventoryLineMDL = gcnew String(p->inventoryLineMDL);
+		m->inventoryLineMDL = String_Load(p->inventoryLineMDL);
 	}
 	void DataPartTypeIGC_Save(DataPartTypeIGC^ m, ::DataPartTypeIGC *p)
 	{
@@ -290,7 +300,7 @@ namespace IGCLib {
 		m->defenseType = p->defenseType;
 		m->expendabletypeID = p->expendabletypeID;
 		m->eabmCapabilities = p->eabmCapabilities;
-		m->iconName = gcnew String(p->iconName);
+		m->iconName = String_Load(p->iconName);
 	}
 	void DataExpendableTypeIGC_Save(DataExpendableTypeIGC^ m,::DataExpendableTypeIGC *p)
 	{
@@ -479,14 +489,14 @@ namespace IGCLib {
 // DataTreasureSetIGC
 	void DataTreasureSetIGC_Load(DataTreasureSetIGC^ m, ::DataTreasureSetIGC* p)
 	{
-		m->name = gcnew String(p->name);
+		m->name = String_Load(p->name);
 		PtoM(treasureSetID);
 		PtoM(bZoneOnly);
 		m->treasureDatas->Clear();
 		for (int i=0;i<p->nTreasureData;i++)
 		{
 			TreasureData^ d = gcnew TreasureData();
-			TreasureData_Load(d,p->treasureData0()+i*sizeof(::TreasureData));
+			TreasureData_Load(d,p->treasureData0()+i);
 			m->treasureDatas->Add(d);
 		}
 	}
@@ -498,7 +508,7 @@ namespace IGCLib {
 		p->nTreasureData = m->treasureDatas->Count;
 		for (int i=0;i<p->nTreasureData;i++)
 		{
-			TreasureData_Save(m->treasureDatas[i],p->treasureData0()+i*sizeof(::TreasureData));
+			TreasureData_Save(m->treasureDatas[i],p->treasureData0()+i);
 		}
 	}
 // DataStationTypeIGC
@@ -535,8 +545,8 @@ namespace IGCLib {
 		PtoM(capturedSound);
 		PtoM(enemyCapturedSound);
 		PtoM(enemyDestroyedSound);
-		m->textureName = gcnew String(p->textureName);
-		m->builderName = gcnew String(p->builderName);
+		m->textureName = String_Load(p->textureName);
+		m->builderName = String_Load(p->builderName);
 	}
 	void DataStationTypeIGC_Save(DataStationTypeIGC^ m,::DataStationTypeIGC* p)
 	{
@@ -602,8 +612,8 @@ namespace IGCLib {
 	{
 		PtoM(interiorSound);
 		PtoM(turnSound);
-		m->frameName = gcnew String(p->frameName);
-		m->locationAbreviation = gcnew String(p->locationAbreviation);
+		m->frameName = String_Load(p->frameName);
+		m->locationAbreviation = String_Load(p->locationAbreviation);
 		PtoM(partMask);
 		PtoM(bFixed);
 	};
@@ -652,12 +662,12 @@ namespace IGCLib {
 		//Mount             maxFixedWeapons;
 		PtoM(hitPoints);
 		//short               hardpointOffset;
-		for (int i=0;i<c_maxMountedWeapons;i++)
-			m->HardPoints[i] = nullptr;
+		m->HardPoints->Clear();
 		for (int i=0;i<p->maxWeapons;i++)
 		{
 			HardpointData^ hp = gcnew HardpointData();
 			HardpointData_Load(hp,&((::HardpointData*)(((char*)p) + p->hardpointOffset))[i]);
+			m->HardPoints->Add(hp);
 		}
 
 		PtoM(defenseType);
@@ -670,7 +680,7 @@ namespace IGCLib {
 			m->preferredPartsTypes[i] = p->preferredPartsTypes[i];
 
 		PtoMc(habmCapabilities,HullAbilityBitMask);
-		m->textureName = gcnew String(p->textureName);
+		m->textureName = String_Load(p->textureName);
 
 		for (int i=0;i<ET_MAX;i++)
 			m->pmEquipment[i] = p->pmEquipment[i];
@@ -716,12 +726,12 @@ namespace IGCLib {
 
 		MtoP(hitPoints);
 		p->hardpointOffset=sizeof(::DataHullTypeIGC);
-		p->maxWeapons = m->HardPoints->Length;
+		p->maxWeapons = m->HardPoints->Count;
 		Mount maxFixed = 0; 
-		for (int i=0;i<m->HardPoints->Length;i++)
+		for (int i=0;i<m->HardPoints->Count;i++)
 		{
 			if (m->HardPoints[i]->bFixed) maxFixed++;
-			HardpointData_Save(m->HardPoints[i],(::HardpointData*)(((char*)p) + p->hardpointOffset)[i]);
+			HardpointData_Save(m->HardPoints[i],(::HardpointData*)(((char*)p) + p->hardpointOffset + i * sizeof(::HardpointData)));
 		}
 		p->maxFixedWeapons = maxFixed;
 
@@ -732,7 +742,7 @@ namespace IGCLib {
 		MtoP(capacityChaffLauncher);
 
 		for (int i=0;i<c_cMaxPreferredPartTypes;i++)
-			m->preferredPartsTypes[i] = p->preferredPartsTypes[i];
+			p->preferredPartsTypes[i] = m->preferredPartsTypes[i];
 
 		MtoP(habmCapabilities);
 		String_Save(m->textureName, p->textureName, sizeof(p->textureName));
@@ -755,7 +765,7 @@ namespace IGCLib {
 		PtoM(successorPartID);
 		PtoM(launchCount);
 		PtoM(expendabletypeID);
-		m->inventoryLineMDL = gcnew String(p->inventoryLineMDL);
+		m->inventoryLineMDL = String_Load(p->inventoryLineMDL);
 	}
 	void DataLauncherTypeIGC_Save(DataLauncherTypeIGC^ m,::DataLauncherTypeIGC* p)
 	{
@@ -768,7 +778,7 @@ namespace IGCLib {
 	}
 
 #pragma endregion
-#pragma region readers
+#pragma region readers/writers
 	DataTreasureSetIGC^ ReadtreasureSetIGC(char *data, int size)
 	{
 		DataTreasureSetIGC^ m = gcnew DataTreasureSetIGC();
@@ -883,6 +893,35 @@ namespace IGCLib {
 		}
 		return nullptr;
 	}
+	void DataPartType_Save(DataPartTypeIGC^ m, ::DataPartTypeIGC *p)
+	{
+		if (m->GetType() == DataAfterburnerTypeIGC::typeid)
+		{
+			DataAfterburnerTypeIGC_Save((DataAfterburnerTypeIGC^)m, (::DataAfterburnerTypeIGC*)p);
+			return;
+		}
+		if (m->GetType() == DataCloakTypeIGC::typeid)
+		{
+			DataCloakTypeIGC_Save((DataCloakTypeIGC^)m, (::DataCloakTypeIGC*)p);
+			return;
+		}
+		if (m->GetType() == DataPackTypeIGC::typeid)
+		{
+			DataPackTypeIGC_Save((DataPackTypeIGC^)m, (::DataPackTypeIGC *)p);
+			return;
+		}
+		if (m->GetType() == DataShieldTypeIGC::typeid)
+		{
+			DataShieldTypeIGC_Save((DataShieldTypeIGC^)m, (::DataShieldTypeIGC *)p);
+			return;
+		}
+		if (m->GetType() == DataWeaponTypeIGC::typeid)
+		{
+			DataWeaponTypeIGC_Save((DataWeaponTypeIGC^)m, (::DataWeaponTypeIGC *)p);
+			return;
+		}
+		// throw something?
+	}
 #pragma endregion
 	IGCLib::Constants^ IGCCore::Constants::get()
 	{
@@ -896,7 +935,7 @@ namespace IGCLib {
 		m_constants = value;
 	}
 
-
+	// load from igc file
 	void IGCCore::Load(System::String ^filename)
 	{
 		array<unsigned char>^ nameBytes = System::Text::ASCIIEncoding::ASCII->GetBytes( filename );
@@ -923,8 +962,9 @@ namespace IGCLib {
 			m_partTypes       = gcnew List<DataPartTypeIGC^>(); 
 
 			// open & read file
-			IGC_FILE_VERSION_TYPE   iStaticCoreVersion;
-			int iReadCount = fread (&iStaticCoreVersion, sizeof(iStaticCoreVersion), 1, file);
+			int iCoreVer;
+			int iReadCount = fread (&iCoreVer, sizeof(iCoreVer), 1, file);
+			CoreVersion = iCoreVer;
 			int iDatasize;
 			iReadCount = fread (&iDatasize, sizeof(iDatasize), 1, file);
 			char* pData = new char[iDatasize+4];      //leave a little extra space for the encryption (which takes dword chunks)
@@ -977,6 +1017,169 @@ namespace IGCLib {
 			}			
 			
 			delete [] pData;
+			fclose(file);
 		}
+	}
+	// save to igc file
+	void IGCCore::Save(System::String ^filename)
+	{
+		FileStream^ stream = gcnew FileStream(filename,FileMode::Create);
+		BinaryWriter^ br = gcnew BinaryWriter(stream);
+		br->Write(CoreVersion);
+		// total size placeholder, write 0 but keep offset for later update
+		int iDatasize = 0;
+		int sizeoffset = (int)br->Seek(0,SeekOrigin::Current); br->Write(iDatasize);
+		// Constants
+		br->Write(::OT_constants); iDatasize+= sizeof(::ObjectType);
+		int size = sizeof(::Constants);
+		br->Write(size); iDatasize+= sizeof(int);
+		array<Byte>^ buff = gcnew array<Byte>(size);
+		pin_ptr<Byte> pp = &buff[0];
+		unsigned char *p = pp;
+		Constants_Save(m_constants,(::Constants*)p);
+		br->Write(buff); iDatasize+= size; 
+/*
+save order (as found in legacy cores)
+	OT_projectileType
+	OT_missileType
+	OT_chaffType
+	OT_mineType
+	OT_probeType
+	OT_partType
+	OT_hullType
+	OT_development
+	OT_droneType
+	OT_stationType
+	OT_treasureSet
+	OT_civilization
+*/
+		// Projectiles
+		for each (DataProjectileTypeIGC^ m in m_projectileTypes)
+		{
+			br->Write(::OT_projectileType); iDatasize+= sizeof(::ObjectType);
+			size = sizeof(::DataProjectileTypeIGC); br->Write(size); iDatasize+= sizeof(int);
+			buff = gcnew array<Byte>(size); pin_ptr<Byte> pp = &buff[0]; p = pp;
+			DataProjectileTypeIGC_Save(m,(::DataProjectileTypeIGC*)p);
+			br->Write(buff); iDatasize+= size;
+		}
+  
+		// ExpendableTypes - missile chaff mine probe
+		for each (DataMissileTypeIGC^ m in m_missileTypes)
+		{
+			br->Write(::OT_missileType); iDatasize+= sizeof(::ObjectType);
+			size = sizeof(::DataMissileTypeIGC); br->Write(size); iDatasize+= sizeof(int);
+			buff = gcnew array<Byte>(size); pin_ptr<Byte> pp = &buff[0]; p = pp;
+			DataMissileTypeIGC_Save(m,(::DataMissileTypeIGC*)p);
+			br->Write(buff); iDatasize+= size;
+		}
+		for each (DataChaffTypeIGC^ m in m_chaffTypes)
+		{
+			br->Write(::OT_chaffType); iDatasize+= sizeof(::ObjectType);
+			size = sizeof(::DataChaffTypeIGC); br->Write(size); iDatasize+= sizeof(int);
+			buff = gcnew array<Byte>(size); pin_ptr<Byte> pp = &buff[0]; p = pp;
+			DataChaffTypeIGC_Save(m,(::DataChaffTypeIGC*)p);
+			br->Write(buff); iDatasize+= size;
+		}
+		for each (DataMineTypeIGC^ m in m_mineTypes)
+		{
+			br->Write(::OT_mineType); iDatasize+= sizeof(::ObjectType);
+			size = sizeof(::DataMineTypeIGC); br->Write(size); iDatasize+= sizeof(int);
+			buff = gcnew array<Byte>(size); pin_ptr<Byte> pp = &buff[0]; p = pp;
+			DataMineTypeIGC_Save(m,(::DataMineTypeIGC*)p);
+			br->Write(buff); iDatasize+= size;
+		}
+		for each (DataProbeTypeIGC^ m in m_probeTypes)
+		{
+			br->Write(::OT_probeType); iDatasize+= sizeof(::ObjectType);
+			size = sizeof(::DataProbeTypeIGC); br->Write(size); iDatasize+= sizeof(int);
+			buff = gcnew array<Byte>(size); pin_ptr<Byte> pp = &buff[0]; p = pp;
+			DataProbeTypeIGC_Save(m,(::DataProbeTypeIGC*)p);
+			br->Write(buff); iDatasize+= size;
+		}
+		// PartTypes - launcher & part
+		for each (DataLauncherTypeIGC^ m in m_launcherTypes)
+		{
+			br->Write(::OT_partType); iDatasize+= sizeof(::ObjectType);
+			size = sizeof(::DataLauncherTypeIGC); br->Write(size); iDatasize+= sizeof(int);
+			buff = gcnew array<Byte>(size); pin_ptr<Byte> pp = &buff[0]; p = pp;
+			DataLauncherTypeIGC_Save(m,(::DataLauncherTypeIGC*)p);
+			br->Write(buff); iDatasize+= size;
+		}
+		for each (DataPartTypeIGC^ m in m_partTypes)
+		{
+			br->Write(::OT_partType); iDatasize+= sizeof(::ObjectType);
+			size = 0;
+			if (m->GetType() == DataAfterburnerTypeIGC::typeid) size = sizeof(::DataAfterburnerTypeIGC);
+			if (m->GetType() == DataCloakTypeIGC::typeid) size = sizeof(::DataCloakTypeIGC);
+			if (m->GetType() == DataPackTypeIGC::typeid) size = sizeof(::DataPackTypeIGC);
+			if (m->GetType() == DataShieldTypeIGC::typeid) size = sizeof(::DataShieldTypeIGC);
+			if (m->GetType() == DataWeaponTypeIGC::typeid) size = sizeof(::DataWeaponTypeIGC);
+			if (size == 0) throw gcnew InvalidOperationException("bad part type found"); 
+			br->Write(size); iDatasize+= sizeof(int);
+			buff = gcnew array<Byte>(size); pin_ptr<Byte> pp = &buff[0]; p = pp;
+			DataPartType_Save(m,(::DataPartTypeIGC*)p);
+			br->Write(buff); iDatasize+= size;
+		}
+		// HullTypes
+		for each (DataHullTypeIGC^ m in m_hullTypes)
+		{
+			br->Write(::OT_hullType); iDatasize+= sizeof(::ObjectType);
+			size = sizeof(::DataHullTypeIGC) + m->HardPoints->Count*sizeof(::HardpointData);
+			br->Write(size); iDatasize+= sizeof(int);
+			buff = gcnew array<Byte>(size); pin_ptr<Byte> pp = &buff[0]; p = pp;
+			DataHullTypeIGC_Save(m,(::DataHullTypeIGC*)p);
+			br->Write(buff); iDatasize+= size;
+		}
+		// Developments
+		for each (DataDevelopmentIGC^ m in m_developments)
+		{
+			br->Write(::OT_development); iDatasize+= sizeof(::ObjectType);
+			size = sizeof(::DataDevelopmentIGC); br->Write(size); iDatasize+= sizeof(int);
+			buff = gcnew array<Byte>(size); pin_ptr<Byte> pp = &buff[0]; p = pp;
+			DataDevelopmentIGC_Save(m,(::DataDevelopmentIGC*)p);
+			br->Write(buff); iDatasize+= size;
+		}
+		// DroneTypes
+		for each (DataDroneTypeIGC^ m in m_droneTypes)
+		{
+			br->Write(::OT_droneType); iDatasize+= sizeof(::ObjectType);
+			size = sizeof(::DataDroneTypeIGC); br->Write(size); iDatasize+= sizeof(int);
+			buff = gcnew array<Byte>(size); pin_ptr<Byte> pp = &buff[0]; p = pp;
+			DataDroneTypeIGC_Save(m,(::DataDroneTypeIGC*)p);
+			br->Write(buff); iDatasize+= size;
+		}
+		// StationTypes
+		for each (DataStationTypeIGC^ m in m_stationTypes)
+		{
+			br->Write(::OT_stationType); iDatasize+= sizeof(::ObjectType);
+			size = sizeof(::DataStationTypeIGC); br->Write(size); iDatasize+= sizeof(int);
+			buff = gcnew array<Byte>(size); pin_ptr<Byte> pp = &buff[0]; p = pp;
+			DataStationTypeIGC_Save(m,(::DataStationTypeIGC*)p);
+			br->Write(buff); iDatasize+= size;
+		}
+		// TreasureSets
+		for each (DataTreasureSetIGC^ m in m_treasureSets)
+		{
+			br->Write(::OT_treasureSet); iDatasize+= sizeof(::ObjectType);
+			size = sizeof(::DataTreasureSetIGC) + m->treasureDatas->Count * sizeof(::TreasureData);
+			br->Write(size); iDatasize+= sizeof(int);
+			buff = gcnew array<Byte>(size); pin_ptr<Byte> pp = &buff[0]; p = pp;
+			DataTreasureSetIGC_Save(m,(::DataTreasureSetIGC*)p);
+			br->Write(buff); iDatasize+= size;
+		}
+		// Civilizations
+		for each (DataCivilizationIGC^ m in m_civilizations)
+		{
+			br->Write(::OT_civilization); iDatasize+= sizeof(::ObjectType);
+			size = sizeof(::DataCivilizationIGC); br->Write(size); iDatasize+= sizeof(int);
+			buff = gcnew array<Byte>(size); pin_ptr<Byte> pp = &buff[0]; p = pp;
+			DataCivilizationIGC_Save(m,(::DataCivilizationIGC*)p);
+			br->Write(buff); iDatasize+= size;
+		}
+		// end - rewind to write total size;
+		br->Seek(sizeoffset,SeekOrigin::Begin);
+		br->Write(iDatasize);
+		br->Close();
+		stream->Close();
 	}
 }

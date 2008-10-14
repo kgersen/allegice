@@ -391,7 +391,7 @@ namespace IGCLib
 	public:
 		String^         name;
 		TreasureSetID   treasureSetID;
-		short           nTreasureData;
+		//short           nTreasureData;
 		bool            bZoneOnly;
 		List<TreasureData^>^ treasureDatas;
 		DataTreasureSetIGC()
@@ -517,7 +517,7 @@ namespace IGCLib
 		//Mount             maxFixedWeapons;
 		HitPoints           hitPoints;
 		//short               hardpointOffset;
-		array<HardpointData^>^ HardPoints;
+		List<HardpointData^>^ HardPoints;
 
 		DefenseTypeID       defenseType;
 
@@ -543,7 +543,7 @@ namespace IGCLib
 		{
 			preferredPartsTypes = gcnew array<PartID>(c_cMaxPreferredPartTypes);
 			pmEquipment = gcnew array<PartMask>(ET_MAX);
-			HardPoints = gcnew array<HardpointData^>(c_maxMountedWeapons);
+			HardPoints = gcnew List<HardpointData^>(c_maxMountedWeapons);
 		}
 	};
 
