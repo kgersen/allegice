@@ -35,4 +35,5 @@ public:
 	afx_msg void OnBnClickedUsem0();
 	afx_msg void OnBnClickedBsucc();
 	afx_msg void OnLbnSelchangeUmlist();
+	afx_msg void OnBnClickedBeditdescr();
 };

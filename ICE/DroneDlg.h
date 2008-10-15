@@ -27,4 +27,5 @@ public:
 	virtual BOOL OnInitDialog();
 	afx_msg void OnBnClickedBshipid();
 	afx_msg void OnBnClickedBpartid();
+	afx_msg void OnBnClickedBeditdescr();
 };

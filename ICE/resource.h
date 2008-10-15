@@ -25,6 +25,7 @@
 #define IDI_ICON1                       146
 #define IDI_ICONFWD                     146
 #define IDI_ICONBACK                    147
+#define IDD_DESCR                       148
 #define IDC_MAINTREE                    1000
 #define IDC_NAME                        1001
 #define IDC_UID                         1002
@@ -418,15 +419,18 @@
 #define IDC_USEDBYLABEL                 1275
 #define IDC_TTLIST                      1276
 #define IDWRITE                         1278
+#define IDC_VERLABEL                    1282
+#define IDC_BEDITDESCR                  1283
+#define IDC_RICHEDIT21                  1284
 #define DYNMENUSID                      5000
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        148
+#define _APS_NEXT_RESOURCE_VALUE        149
 #define _APS_NEXT_COMMAND_VALUE         32771
-#define _APS_NEXT_CONTROL_VALUE         1282
+#define _APS_NEXT_CONTROL_VALUE         1285
 #define _APS_NEXT_SYMED_VALUE           117
 #endif
 #endif

@@ -30,8 +30,10 @@ static char THIS_FILE[] = __FILE__;
 
 class CAboutDlg : public CDialog
 {
+private:
+	CString sVersion;
 public:
-	CAboutDlg();
+	CAboutDlg(CString sVer);
 
 // Dialog Data
 	enum { IDD = IDD_ABOUTBOX };
@@ -44,12 +46,14 @@ protected:
 	DECLARE_MESSAGE_MAP()
 };
 
-CAboutDlg::CAboutDlg() : CDialog(CAboutDlg::IDD)
+CAboutDlg::CAboutDlg(CString sVer) : CDialog(CAboutDlg::IDD)
 {
+	sVersion = sVer;
 }
 
 void CAboutDlg::DoDataExchange(CDataExchange* pDX)
 {
+	SetDlgItemText(IDC_VERLABEL,sVersion);
 	CDialog::DoDataExchange(pDX);
 }
 
@@ -61,7 +65,7 @@ END_MESSAGE_MAP()
 
 
 
-CICEDlg::CICEDlg(CWnd* pParent /*=NULL*/)
+CICEDlg::CICEDlg(CWnd* pParent)
 	: CDialog(CICEDlg::IDD, pParent)
 {
 	m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
@@ -71,7 +75,6 @@ CICEDlg::CICEDlg(CWnd* pParent /*=NULL*/)
 	curpce = NULL;
 	sCoreArg = "";
 	ClearFilter();
-
 }
 
 void CICEDlg::DoDataExchange(CDataExchange* pDX)
@@ -206,7 +209,7 @@ BOOL CICEDlg::OnInitDialog()
 	dlgTreasure.Create(IDD_TREASUREDLG,this);
 	dlgConstants.MainUI = this;
 	dlgDevel.sArtPath = cArtPath;
-	dlgChaff.MainUI = this; dlgChaff.SetIcons(iJumpIcon);
+	dlgChaff.sArtPath = cArtPath; dlgChaff.MainUI = this; dlgChaff.SetIcons(iJumpIcon);
 	dlgProjectile.sArtPath = cArtPath; dlgProjectile.MainUI = this;
 	dlgShip.sArtPath = cArtPath; dlgShip.MainUI = this; dlgShip.SetIcons(iJumpIcon);
 	dlgShipLoadout.sArtPath = cArtPath; dlgShipLoadout.MainUI = this;
@@ -225,6 +228,8 @@ BOOL CICEDlg::OnInitDialog()
 
 	CButton *cab = (CButton *)GetDlgItem(IDC_AUTOBACKUP);
 	cab->SetCheck(BST_CHECKED);
+
+	SetWindowText(sTitle);
 	return TRUE;  // return TRUE  unless you set the focus to a control
 }
 
@@ -598,7 +603,7 @@ void CICEDlg::OnSysCommand(UINT nID, LPARAM lParam)
 {
 	if ((nID & 0xFFF0) == IDM_ABOUTBOX)
 	{
-		CAboutDlg dlgAbout;
+		CAboutDlg dlgAbout(sVersion);
 		dlgAbout.DoModal();
 	}
 	else
@@ -810,7 +815,7 @@ void CICEDlg::OnSelchangeMainTree(NMHDR *pNMHDR, LRESULT *pResult)
 
 void CICEDlg::OnClickedAbout(void)
 {
-	CAboutDlg dlgAbout;
+	CAboutDlg dlgAbout(sVersion);
 	dlgAbout.DoModal();
 }
 
@@ -2050,3 +2055,36 @@ void CICEDlg::OnLbnSelchangeTtlist()
 		if (p!=-1) SelectPCE(p);
 	}
 }
+
+
+CDescrDlg::CDescrDlg(char *p) : CDialog(CDescrDlg::IDD)
+{
+	m_descr = p;
+}
+
+void CDescrDlg::DoDataExchange(CDataExchange* pDX)
+{
+	CString descr;
+	if (!pDX->m_bSaveAndValidate) // data to dialog
+	{
+		descr = m_descr;
+	}
+	DDX_Text(pDX, IDC_DESCR, descr);
+	DDV_MaxChars(pDX, descr, 200);
+	if (pDX->m_bSaveAndValidate) // dialog to data
+	{
+		strcpy_s(m_descr,200,descr);
+	}
+	CDialog::DoDataExchange(pDX);
+}
+BOOL CDescrDlg::OnInitDialog(void)
+{
+	CDialog::OnInitDialog();
+
+	((CEdit *)GetDlgItem(IDC_DESCR))->SetLimitText(199);
+
+	return TRUE;
+}
+
+BEGIN_MESSAGE_MAP(CDescrDlg, CDialog)
+END_MESSAGE_MAP()

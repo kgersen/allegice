@@ -440,7 +440,7 @@ typedef struct SIGCCoreCounter // tag = 1A, size = 0x1D4
 	float pcAlpha;
 	float stats_s1; // radius
 	float stats_s2; // rate rotation
-	UCHAR pad0[13]; // all 0
+	char  modelName[13]; // all 0
 	char icon[13];
 	char pad1[2]; //CC
 	float stats_s3; // load time
@@ -460,7 +460,7 @@ typedef struct SIGCCoreCounter // tag = 1A, size = 0x1D4
 	float stats_s8; // sig mod (%)
 	float stats_s9; // mass
 	unsigned short use_mask;
-	unsigned short stats_ss1;//1 - todo
+	short expendableSize;//// cargo payload
 	float stats_s10; // hitpoints
 	BYTE AC; // 0B default (part)
 	UCHAR pad5[1]; //  CD 

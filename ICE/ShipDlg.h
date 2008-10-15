@@ -30,6 +30,7 @@ public:
 	void OnClickedCancel(void);
 	void OnClickedModeledit(void);
 	afx_msg void OnBnClickedBsucc();
+	afx_msg void OnBnClickedBeditdescr();
 };
 
 

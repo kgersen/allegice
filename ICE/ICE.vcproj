@@ -298,6 +298,10 @@
 				RelativePath="TreasureDlg.cpp"
 				>
 			</File>
+			<File
+				RelativePath=".\VersionApp.cpp"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
@@ -385,6 +389,10 @@
 			</File>
 			<File
 				RelativePath="TreasureDlg.h"
+				>
+			</File>
+			<File
+				RelativePath=".\VersionApp.h"
 				>
 			</File>
 		</Filter>

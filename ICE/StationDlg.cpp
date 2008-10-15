@@ -279,6 +279,7 @@ BEGIN_MESSAGE_MAP(CStationDlg, CDialog)
 	ON_BN_CLICKED(IDC_USEM0, OnBnClickedUsem0)
 	ON_BN_CLICKED(IDC_USEM11, OnBnClickedUsem11)
 	ON_BN_CLICKED(IDC_BSUCC, &CStationDlg::OnBnClickedBsucc)
+	ON_BN_CLICKED(IDC_BEDITDESCR, &CStationDlg::OnBnClickedBeditdescr)
 END_MESSAGE_MAP()
 
 
@@ -315,4 +316,11 @@ void CStationDlg::OnBnClickedBsucc()
 		MainUI->SelectPCE((LPARAM)succ);
 	else
 		AfxMessageBox("invalid successor!");
+}
+
+void CStationDlg::OnBnClickedBeditdescr()
+{
+	CDescrDlg dlg(pstation->description);
+	if (dlg.DoModal() == IDOK)
+		SetDlgItemText(IDC_DESCRIPTION,pstation->description);
 }
