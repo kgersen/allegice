@@ -14,9 +14,9 @@ using namespace System::Security::Permissions;
 [assembly:AssemblyTitleAttribute("IGCLib")];
 [assembly:AssemblyDescriptionAttribute("")];
 [assembly:AssemblyConfigurationAttribute("")];
-[assembly:AssemblyCompanyAttribute(".")];
+[assembly:AssemblyCompanyAttribute("kgersen@hotmail.com")];
 [assembly:AssemblyProductAttribute("IGCLib")];
-[assembly:AssemblyCopyrightAttribute("Copyright (c) . 2008")];
+[assembly:AssemblyCopyrightAttribute("Copyright (c) kgersen 2008")];
 [assembly:AssemblyTrademarkAttribute("")];
 [assembly:AssemblyCultureAttribute("")];
 
