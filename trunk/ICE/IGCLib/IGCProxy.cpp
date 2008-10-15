@@ -16,9 +16,15 @@ namespace IGCLib {
 #define PtoM(field) m->field = p->field
 #define PtoMc(field,type) m->field = (type)p->field
 #define MtoP(field) p->field = m->field
-#define String_Load(p) gcnew String(p,0,sizeof(p))
+#define String_Load(p) String_Load_Implt(p,sizeof(p))
 
 // String
+	String^ String_Load_Implt(char *p,int size)
+	{
+		String^ m = gcnew String(p);
+		if (m->Length > size) m->Remove(size);
+		return m;
+	}
 	void String_Save(String^ m, char* p, int size)
 	{
 		if (String::IsNullOrEmpty(m)) { *p = 0; return; }
@@ -634,13 +640,13 @@ namespace IGCLib {
 		PtoM(signature);
 		PtoM(speed);
 
-		m->maxTurnRates.Yaw = p->maxTurnRates[c_axisYaw];
-		m->maxTurnRates.Pitch = p->maxTurnRates[c_axisPitch];
-		m->maxTurnRates.Roll = p->maxTurnRates[c_axisRoll];
+		m->maxTurnRates->Yaw = p->maxTurnRates[c_axisYaw];
+		m->maxTurnRates->Pitch = p->maxTurnRates[c_axisPitch];
+		m->maxTurnRates->Roll = p->maxTurnRates[c_axisRoll];
 
-		m->turnTorques.Yaw = p->turnTorques[c_axisYaw];
-		m->turnTorques.Pitch = p->turnTorques[c_axisPitch];
-		m->turnTorques.Roll = p->turnTorques[c_axisRoll];
+		m->turnTorques->Yaw = p->turnTorques[c_axisYaw];
+		m->turnTorques->Pitch = p->turnTorques[c_axisPitch];
+		m->turnTorques->Roll = p->turnTorques[c_axisRoll];
 
 		PtoM(thrust);
 		PtoM(sideMultiplier);
@@ -699,13 +705,13 @@ namespace IGCLib {
 		MtoP(signature);
 		MtoP(speed);
 		
-		p->maxTurnRates[c_axisYaw] = m->maxTurnRates.Yaw;
-		p->maxTurnRates[c_axisPitch] = m->maxTurnRates.Pitch;
-		p->maxTurnRates[c_axisRoll] = m->maxTurnRates.Roll; 
+		p->maxTurnRates[c_axisYaw] = m->maxTurnRates->Yaw;
+		p->maxTurnRates[c_axisPitch] = m->maxTurnRates->Pitch;
+		p->maxTurnRates[c_axisRoll] = m->maxTurnRates->Roll; 
 
-		p->turnTorques[c_axisYaw] = m->turnTorques.Yaw;
-		p->turnTorques[c_axisPitch] = m->turnTorques.Pitch;
-		p->turnTorques[c_axisRoll] = m->turnTorques.Roll; 
+		p->turnTorques[c_axisYaw] = m->turnTorques->Yaw;
+		p->turnTorques[c_axisPitch] = m->turnTorques->Pitch;
+		p->turnTorques[c_axisRoll] = m->turnTorques->Roll; 
 
 		MtoP(thrust);
 		MtoP(sideMultiplier);

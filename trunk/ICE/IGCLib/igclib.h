@@ -62,14 +62,14 @@ namespace IGCLib
 	public ref struct Constants
     {
 	public:
-		array<float>^   floatConstants;// [c_fcidMax];
-		array<array<float>^>^ damageConstants;//[c_dmgidMax][c_defidMax];
+		property array<float>^   floatConstants;// [c_fcidMax];
+		property array<array<float>^>^ damageConstants;//[c_dmgidMax][c_defidMax];
 	};
 
 	public ref struct GlobalAttributeSet
     {
 	public:
-        array<float>^  Attributes; //[c_gaMax];
+        property array<float>^  Attributes; //[c_gaMax];
 		static array<String^>^ Names = gcnew array<String^> {
 			"Max Speed",
 			"Thrust",
@@ -106,7 +106,7 @@ namespace IGCLib
 	public ref class TechTreeBitMask
 	{
 	public:
-		BitArray ^ bits;
+		property BitArray ^ bits;
 		TechTreeBitMask()
 		{
 			bits = gcnew BitArray(c_ttbMax,false);
@@ -116,47 +116,48 @@ namespace IGCLib
 	public ref class  DataObjectIGC
     {
 	public:
-		Color color;
-        float radius;
-        float rotation;
-		String^ modelName;
-        String^ textureName;
+		property Color color;
+        property float radius;
+        property float rotation;
+		property String^ modelName;
+        property String^ textureName;
 	};
 
 	public ref class DataCivilizationIGC
     {
 	public:
-		float incomeMoney;
-        float bonusMoney;
-        String^ name;
-        String^ iconName;
-        String^ hudName;
-        TechTreeBitMask^ ttbmBaseTechs;
-        TechTreeBitMask^ ttbmNoDevTechs;
-        GlobalAttributeSet^ gasBaseAttributes;
-		short lifepod;
-        short civilizationID;
-        short initialStationTypeID;
+		property float incomeMoney;
+        property float bonusMoney;
+        property String^ name;
+        property String^ iconName;
+        property String^ hudName;
+        property TechTreeBitMask^ ttbmBaseTechs;
+        property TechTreeBitMask^ ttbmNoDevTechs;
+        property GlobalAttributeSet^ gasBaseAttributes;
+		property short lifepod;
+        property short civilizationID;
+        property short initialStationTypeID;
 		DataCivilizationIGC()
 		{
 			ttbmBaseTechs = gcnew TechTreeBitMask();
 			ttbmNoDevTechs = gcnew TechTreeBitMask();
 			gasBaseAttributes = gcnew GlobalAttributeSet();
 		}
+
 	};
 
     public ref class  DataBuyableIGC
     {
 	public:
-		Money price;
-        unsigned int timeToBuild;
-        String^ modelName;
-        String^ iconName;
-        String^ name;
-        String^ description;
-        BuyableGroupID groupID;
-        TechTreeBitMask^ ttbmRequired;
-        TechTreeBitMask^ ttbmEffects;
+		property Money price;
+        property unsigned int timeToBuild;
+        property String^ modelName;
+        property String^ iconName;
+        property String^ name;
+        property String^ description;
+        property BuyableGroupID groupID;
+        property TechTreeBitMask^ ttbmRequired;
+        property TechTreeBitMask^ ttbmEffects;
 		DataBuyableIGC()
 		{
 			ttbmRequired = gcnew TechTreeBitMask();
@@ -167,25 +168,25 @@ namespace IGCLib
     public ref class  DataProjectileTypeIGC : DataObjectIGC
     {
 	public:
-		float power;
-		float blastPower;
-        float blastRadius;
-        float speed;
-        float lifespan;
-        ProjectileTypeID projectileTypeID;
-        DamageTypeID damageType;
-        bool absoluteF;
-        bool bDirectional;
-        float width;
-		SoundID ambientSound;
+		property float power;
+		property float blastPower;
+        property float blastRadius;
+        property float speed;
+        property float lifespan;
+        property ProjectileTypeID projectileTypeID;
+        property DamageTypeID damageType;
+        property bool absoluteF;
+        property bool bDirectional;
+        property float width;
+		property SoundID ambientSound;
 	};
 
 	public ref class DataDevelopmentIGC : public DataBuyableIGC
     {
 	public:
-		GlobalAttributeSet^ gas;
-        DevelopmentID developmentID;
-        SoundID completionSound;
+		property GlobalAttributeSet^ gas;
+        property DevelopmentID developmentID;
+        property SoundID completionSound;
 		DataDevelopmentIGC() : DataBuyableIGC()
 		{
 			gas = gcnew GlobalAttributeSet();
@@ -208,59 +209,59 @@ namespace IGCLib
     public ref class  DataPartTypeIGC : public DataBuyableIGC
     {
 	public:
-		float mass;
-        float signature;
-        PartID partID;
-        PartID successorPartID;
-        EquipmentType equipmentType;
-        PartMask partMask;
-        String^ inventoryLineMDL;
+		property float mass;
+        property float signature;
+        property PartID partID;
+        property PartID successorPartID;
+        property EquipmentType equipmentType;
+        property PartMask partMask;
+        property String^ inventoryLineMDL;
     };		
 
     public ref class DataWeaponTypeIGC : public DataPartTypeIGC
     {
 	public:
-		float               dtimeReady;
-		float               dtimeBurst;
-		float               energyPerShot;
-		float               dispersion;
-		short               cAmmoPerShot;
-		ProjectileTypeID    projectileTypeID;
-		SoundID             activateSound;
-		SoundID             singleShotSound;
-		SoundID             burstSound;
+		property float               dtimeReady;
+		property float               dtimeBurst;
+		property float               energyPerShot;
+		property float               dispersion;
+		property short               cAmmoPerShot;
+		property ProjectileTypeID    projectileTypeID;
+		property SoundID             activateSound;
+		property SoundID             singleShotSound;
+		property SoundID             burstSound;
     };
 
     public ref class DataShieldTypeIGC : public DataPartTypeIGC
     {
 	public:
-		float           rateRegen;
-		float           maxStrength;
-		DefenseTypeID   defenseType;
-		SoundID         activateSound;
-		SoundID         deactivateSound;
+		property float           rateRegen;
+		property float           maxStrength;
+		property DefenseTypeID   defenseType;
+		property SoundID         activateSound;
+		property SoundID         deactivateSound;
     };
 
     public ref class DataCloakTypeIGC : public DataPartTypeIGC
     {
 	public:
-		float           energyConsumption;
-		float           maxCloaking;
-		float           onRate;
-		float           offRate;
-		SoundID         engageSound;
-		SoundID         disengageSound;
+		property float           energyConsumption;
+		property float           maxCloaking;
+		property float           onRate;
+		property float           offRate;
+		property SoundID         engageSound;
+		property SoundID         disengageSound;
     };
 
     public ref class DataAfterburnerTypeIGC : public DataPartTypeIGC
     {
 	public:
-		float           fuelConsumption;
-		float           maxThrust;
-		float           onRate;
-		float           offRate;
-		SoundID         interiorSound;
-		SoundID         exteriorSound;
+		property float           fuelConsumption;
+		property float           maxThrust;
+		property float           onRate;
+		property float           offRate;
+		property SoundID         interiorSound;
+		property SoundID         exteriorSound;
     };
 
     public enum PackType : Byte
@@ -272,31 +273,31 @@ namespace IGCLib
     public ref class DataPackTypeIGC : public DataPartTypeIGC
     {
 	public:
-		PackType        packType;
-		short           amount;
+		property PackType        packType;
+		property short           amount;
 	};
 
 	public ref class LauncherDef : public DataBuyableIGC
     {
 	public:
-		float               signature;
-		float               mass;
-		PartMask            partMask;
-		short               expendableSize;
+		property float               signature;
+		property float               mass;
+		property PartMask            partMask;
+		property short               expendableSize;
 	};
 
     public ref class DataExpendableTypeIGC : public DataObjectIGC
     {
 	public:
-		float               loadTime;
-		float               lifespan;
-		float               signature;
-		LauncherDef^        launcherDef;
-		HitPoints           hitPoints;
-		DefenseTypeID       defenseType;
-		ExpendableTypeID    expendabletypeID;
-		AbilityBitMask      eabmCapabilities;
-		String^             iconName;
+		property float               loadTime;
+		property float               lifespan;
+		property float               signature;
+		property LauncherDef^        launcherDef;
+		property HitPoints           hitPoints;
+		property DefenseTypeID       defenseType;
+		property ExpendableTypeID    expendabletypeID;
+		property AbilityBitMask      eabmCapabilities;
+		property String^             iconName;
 		DataExpendableTypeIGC()
 		{
 			launcherDef = gcnew LauncherDef();
@@ -306,58 +307,58 @@ namespace IGCLib
 	public ref class  DataMissileTypeIGC : public DataExpendableTypeIGC
 	{
 	public:
-		float               acceleration;
-		float               turnRate;
-		float               initialSpeed;
-		float               lockTime;
-		float               readyTime;
-		float               maxLock;
-		float               chaffResistance;
-		float               dispersion;
-		float               lockAngle;
-		float               power;
-		float               blastPower;
-		float               blastRadius;
-		float               width;
+		property float               acceleration;
+		property float               turnRate;
+		property float               initialSpeed;
+		property float               lockTime;
+		property float               readyTime;
+		property float               maxLock;
+		property float               chaffResistance;
+		property float               dispersion;
+		property float               lockAngle;
+		property float               power;
+		property float               blastPower;
+		property float               blastRadius;
+		property float               width;
 
-		DamageTypeID        damageType;
+		property DamageTypeID        damageType;
 
-		bool                bDirectional;
+		property bool                bDirectional;
 
-		SoundID             launchSound;
-		SoundID             ambientSound;
+		property SoundID             launchSound;
+		property SoundID             ambientSound;
 	};
 
 	public ref class  DataMineTypeIGC : public DataExpendableTypeIGC
 	{
 	public:
-		float               radius;
-		float               power;
-		float               endurance;
-		DamageTypeID        damageType;
+		property float               radius;
+		property float               power;
+		property float               endurance;
+		property DamageTypeID        damageType;
 	};
 
 	public ref class  DataChaffTypeIGC : public DataExpendableTypeIGC
 	{
 	public:
-		float               chaffStrength;
+		property float               chaffStrength;
 	};
 
 	public ref class  DataProbeTypeIGC : public DataExpendableTypeIGC
 	{
 	public:
-		float               scannerRange;
+		property float               scannerRange;
 
-		float               dtimeBurst;
-		float               dispersion;
-		float               accuracy;
+		property float               dtimeBurst;
+		property float               dispersion;
+		property float               accuracy;
 
-		short               ammo;
+		property short               ammo;
 
-		ProjectileTypeID    projectileTypeID;
+		property ProjectileTypeID    projectileTypeID;
 
-		SoundID             ambientSound;
-		float               dtRipcord;
+		property SoundID             ambientSound;
+		property float               dtRipcord;
 	};
 
     public enum TreasureCode : Byte
@@ -381,19 +382,19 @@ namespace IGCLib
 	public ref struct TreasureData
 	{
 	public:
-		ObjectID        treasureID;
-		TreasureCode    treasureCode;
-		unsigned char   chance;
+		property ObjectID        treasureID;
+		property TreasureCode    treasureCode;
+		property unsigned char   chance;
 	};
 
 	public ref class DataTreasureSetIGC
 	{
 	public:
-		String^         name;
-		TreasureSetID   treasureSetID;
+		property String^         name;
+		property TreasureSetID   treasureSetID;
 		//short           nTreasureData;
-		bool            bZoneOnly;
-		List<TreasureData^>^ treasureDatas;
+		property bool            bZoneOnly;
+		property List<TreasureData^>^ treasureDatas;
 		DataTreasureSetIGC()
 		{
 			treasureDatas = gcnew List<TreasureData^>();
@@ -403,44 +404,44 @@ namespace IGCLib
 	public ref class  DataStationTypeIGC : public DataBuyableIGC
 	{
 	public:
-		float                   signature;
-		float                   maxArmorHitPoints;
-		float                   maxShieldHitPoints;
-		float                   armorRegeneration;
-		float                   shieldRegeneration;
-		float                   scannerRange;
-		Money                   income;
-		float                   radius;
-		TechTreeBitMask^        ttbmLocal;
-		StationTypeID           stationTypeID;
-		StationTypeID           successorStationTypeID;
-		DefenseTypeID           defenseTypeArmor;
-		DefenseTypeID           defenseTypeShield;
-		StationAbilityBitMask   sabmCapabilities;
-		AsteroidAbilityBitMask  aabmBuild;
-		Byte                    classID;
+		property float                   signature;
+		property float                   maxArmorHitPoints;
+		property float                   maxShieldHitPoints;
+		property float                   armorRegeneration;
+		property float                   shieldRegeneration;
+		property float                   scannerRange;
+		property Money                   income;
+		property float                   radius;
+		property TechTreeBitMask^        ttbmLocal;
+		property StationTypeID           stationTypeID;
+		property StationTypeID           successorStationTypeID;
+		property DefenseTypeID           defenseTypeArmor;
+		property DefenseTypeID           defenseTypeShield;
+		property StationAbilityBitMask   sabmCapabilities;
+		property AsteroidAbilityBitMask  aabmBuild;
+		property Byte                    classID;
 
-		DroneTypeID             constructionDroneTypeID;
+		property DroneTypeID             constructionDroneTypeID;
 
-		SoundID                 constructorNeedRockSound;
-		SoundID                 constructorUnderAttackSound;
-		SoundID                 constructorDestroyedSound;
-		SoundID                 completionSound;
+		property SoundID                 constructorNeedRockSound;
+		property SoundID                 constructorUnderAttackSound;
+		property SoundID                 constructorDestroyedSound;
+		property SoundID                 completionSound;
 
-		SoundID                 interiorSound;
-		SoundID                 exteriorSound;
-		SoundID                 interiorAlertSound;
+		property SoundID                 interiorSound;
+		property SoundID                 exteriorSound;
+		property SoundID                 interiorAlertSound;
 
-		SoundID                 underAttackSound;
-		SoundID                 criticalSound;
-		SoundID                 destroyedSound;
-		SoundID                 capturedSound;
+		property SoundID                 underAttackSound;
+		property SoundID                 criticalSound;
+		property SoundID                 destroyedSound;
+		property SoundID                 capturedSound;
 
-		SoundID                 enemyCapturedSound;
-		SoundID                 enemyDestroyedSound;
+		property SoundID                 enemyCapturedSound;
+		property SoundID                 enemyDestroyedSound;
 
-		String^                 textureName;
-		String^                 builderName;
+		property String^                 textureName;
+		property String^                 builderName;
 		DataStationTypeIGC()
 		{
 			ttbmLocal = gcnew TechTreeBitMask();
@@ -461,101 +462,103 @@ namespace IGCLib
 	public ref class DataDroneTypeIGC : public DataBuyableIGC
 	{
 	public:
-		float               shootSkill;
-		float               moveSkill;
-		float               bravery;
-		PilotType           pilotType;
-		HullID              hullTypeID;
-		DroneTypeID         droneTypeID;
-		ExpendableTypeID    etidLaid;
+		property float               shootSkill;
+		property float               moveSkill;
+		property float               bravery;
+		property PilotType           pilotType;
+		property HullID              hullTypeID;
+		property DroneTypeID         droneTypeID;
+		property ExpendableTypeID    etidLaid;
 	};
 
 	public ref class  HardpointData
 	{
 	public:
-		SoundID     interiorSound;
-		SoundID     turnSound;
-		String^     frameName;
-		String^     locationAbreviation;
-		PartMask    partMask;
-		bool        bFixed;
+		property SoundID     interiorSound;
+		property SoundID     turnSound;
+		property String^     frameName;
+		property String^     locationAbreviation;
+		property PartMask    partMask;
+		property bool        bFixed;
 	};
 
 	public ref struct YawPitchRoll
     {
 	public:
-        float Yaw;
-        float Pitch;
-        float Roll;
+        property float Yaw;
+        property float Pitch;
+        property float Roll;
     };
 
 	public ref class  DataHullTypeIGC : public DataBuyableIGC
 	{
 	public:
-		float               mass;
-		float               signature;
-		float               speed;
-		YawPitchRoll		maxTurnRates;    //yaw, pitch, roll
-		YawPitchRoll        turnTorques;      //yaw, pitch, roll
-		float               thrust;
-		float               sideMultiplier;
-		float               backMultiplier;
-		float               scannerRange;
-		float               maxFuel;
-		float               ecm;
-		float               length;
-		float               maxEnergy;
-		float               rechargeRate;
-		float               ripcordSpeed;
-		float               ripcordCost;
+		property float               mass;
+		property float               signature;
+		property float               speed;
+		property YawPitchRoll^		 maxTurnRates;    //yaw, pitch, roll
+		property YawPitchRoll^       turnTorques;      //yaw, pitch, roll
+		property float               thrust;
+		property float               sideMultiplier;
+		property float               backMultiplier;
+		property float               scannerRange;
+		property float               maxFuel;
+		property float               ecm;
+		property float               length;
+		property float               maxEnergy;
+		property float               rechargeRate;
+		property float               ripcordSpeed;
+		property float               ripcordCost;
 
-		short               maxAmmo;
+		property short               maxAmmo;
 
-		HullID              hullID;
-		HullID              successorHullID;
+		property HullID              hullID;
+		property HullID              successorHullID;
 		//Mount             maxWeapons;
 		//Mount             maxFixedWeapons;
-		HitPoints           hitPoints;
+		property HitPoints           hitPoints;
 		//short               hardpointOffset;
-		List<HardpointData^>^ HardPoints;
+		property List<HardpointData^>^ HardPoints;
 
-		DefenseTypeID       defenseType;
+		property DefenseTypeID       defenseType;
 
-		short               capacityMagazine;
-		short               capacityDispenser;
-		short               capacityChaffLauncher;
+		property short               capacityMagazine;
+		property short               capacityDispenser;
+		property short               capacityChaffLauncher;
 
-		array<PartID>^      preferredPartsTypes; //[c_cMaxPreferredPartTypes];
+		property array<PartID>^      preferredPartsTypes; //[c_cMaxPreferredPartTypes];
 
-		HullAbilityBitMask  habmCapabilities;
-		String^             textureName; // [c_cbFileName];
+		property HullAbilityBitMask  habmCapabilities;
+		property String^             textureName; // [c_cbFileName];
 
-		array<PartMask>^    pmEquipment; // [ET_MAX];
+		property array<PartMask>^    pmEquipment; // [ET_MAX];
 
-		SoundID             interiorSound;
-		SoundID             exteriorSound;
-		SoundID             mainThrusterInteriorSound;
-		SoundID             mainThrusterExteriorSound;
-		SoundID             manuveringThrusterInteriorSound;
-		SoundID             manuveringThrusterExteriorSound;
+		property SoundID             interiorSound;
+		property SoundID             exteriorSound;
+		property SoundID             mainThrusterInteriorSound;
+		property SoundID             mainThrusterExteriorSound;
+		property SoundID             manuveringThrusterInteriorSound;
+		property SoundID             manuveringThrusterExteriorSound;
 
 		DataHullTypeIGC()
 		{
 			preferredPartsTypes = gcnew array<PartID>(c_cMaxPreferredPartTypes);
 			pmEquipment = gcnew array<PartMask>(ET_MAX);
 			HardPoints = gcnew List<HardpointData^>(c_maxMountedWeapons);
+			maxTurnRates = gcnew YawPitchRoll();
+			turnTorques = gcnew YawPitchRoll();
 		}
 	};
 
 	public ref class  DataLauncherTypeIGC
 	{
 	public:
-		short           amount;
-		PartID          partID;
-		PartID          successorPartID;
-		short           launchCount;
-		ObjectID        expendabletypeID;
-		String^         inventoryLineMDL;
+		property short           amount;
+		property PartID          partID;
+		property PartID          successorPartID;
+		property short           launchCount;
+		property ObjectID        expendabletypeID;
+		property String^         inventoryLineMDL;
 	};
 }
 

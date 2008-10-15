@@ -2,9 +2,11 @@ Microsoft Visual Studio Solution File, Format Version 10.00
 # Visual Studio 2008
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ICE", "ICE.vcproj", "{37497268-7FD2-410C-863E-0E88E05AC7C7}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "IGCProxy", "IGCLib\IGCLib.vcproj", "{EDE83343-470F-4718-AF8E-1F1D438EA77D}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "IGCLib", "IGCLib\IGCLib.vcproj", "{EDE83343-470F-4718-AF8E-1F1D438EA77D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ICECube", "ICECube\ICECube.csproj", "{9C76CAAC-82F8-460C-B072-44987D8E28F7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ICE3", "ICE3\ICE3.csproj", "{3FBEC08A-FEEE-426E-9F8A-C68B8A6ED922}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -46,6 +48,16 @@ Global
 		{9C76CAAC-82F8-460C-B072-44987D8E28F7}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{9C76CAAC-82F8-460C-B072-44987D8E28F7}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{9C76CAAC-82F8-460C-B072-44987D8E28F7}.Release|Win32.ActiveCfg = Release|Any CPU
+		{3FBEC08A-FEEE-426E-9F8A-C68B8A6ED922}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3FBEC08A-FEEE-426E-9F8A-C68B8A6ED922}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3FBEC08A-FEEE-426E-9F8A-C68B8A6ED922}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{3FBEC08A-FEEE-426E-9F8A-C68B8A6ED922}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{3FBEC08A-FEEE-426E-9F8A-C68B8A6ED922}.Debug|Win32.ActiveCfg = Debug|Any CPU
+		{3FBEC08A-FEEE-426E-9F8A-C68B8A6ED922}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3FBEC08A-FEEE-426E-9F8A-C68B8A6ED922}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3FBEC08A-FEEE-426E-9F8A-C68B8A6ED922}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{3FBEC08A-FEEE-426E-9F8A-C68B8A6ED922}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{3FBEC08A-FEEE-426E-9F8A-C68B8A6ED922}.Release|Win32.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
