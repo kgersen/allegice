@@ -10,6 +10,8 @@
 #include "resource.h"		// main symbols
 #include "BMPMDLButton.h"
 
+#include "VersionApp.h"
+
 #define MAXCIVS 50
 #define MAXPATHS 6
 const CString sPathsNames[MAXPATHS] = {
@@ -31,7 +33,7 @@ const CString sPathsBmpNames[MAXPATHS] = {
 // See ICE.cpp for the implementation of this class
 //
 
-class CICEApp : public CWinApp
+class CICEApp : CVersionApp // CWinApp
 {
 public:
 	CICEApp();
@@ -50,4 +52,23 @@ class IMainUI
 public:
 	virtual void SelectPCE(LPARAM p) = 0;
 	virtual HICON GetJumpIcon() = 0;
+};
+
+class CDescrDlg : public CDialog
+{
+private:
+	char * m_descr;
+public:
+	CDescrDlg(char *p);
+	BOOL OnInitDialog(void);
+
+// Dialog Data
+	enum { IDD = IDD_DESCR };
+
+	protected:
+	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
+
+// Implementation
+protected:
+	DECLARE_MESSAGE_MAP()
 };

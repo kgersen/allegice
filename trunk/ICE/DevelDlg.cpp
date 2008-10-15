@@ -105,7 +105,15 @@ void CDevelDlg::OnClickedCancel(void)
 BEGIN_MESSAGE_MAP(CDevelDlg, CDialog)
 	ON_BN_CLICKED(IDOK, OnClickedOk)
 	ON_BN_CLICKED(IDCANCEL, OnClickedCancel)
+	ON_BN_CLICKED(IDC_BEDITDESCR, &CDevelDlg::OnBnClickedBeditdescr)
 END_MESSAGE_MAP()
 
 
 // CDevelDlg message handlers
+
+void CDevelDlg::OnBnClickedBeditdescr()
+{
+	CDescrDlg dlg(pdevel->description);
+	if (dlg.DoModal() == IDOK)
+		SetDlgItemText(IDC_DESCRIPTION,pdevel->description);
+}

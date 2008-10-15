@@ -26,7 +26,7 @@ void CChaffDlg::SetIcons(HICON iJumpIcon)
 }
 void CChaffDlg::DoDataExchange(CDataExchange* pDX)
 {
-	CString name,model,type,icon,descr,ukbmp;
+	CString name,model,model2,type,icon,descr,ukbmp;
 	//CString todo1 = "";
 	int uid,usemask;
 	if (!pcounter) return;
@@ -37,12 +37,18 @@ void CChaffDlg::DoDataExchange(CDataExchange* pDX)
 	{
 		name = pcounter->name;
 		model = pcounter->model;
+		model2 = pcounter->modelName;
 		descr = pcounter->description;
 		icon = pcounter->icon;
 		type = pcounter->type;
 		ukbmp = pcounter->ukbmp;
 		uid = pcounter->uid;
 		usemask = pcounter->use_mask;
+
+		mdlbmp2.LoadMDLFile(sArtPath +"\\"+ type + "bmp.mdl");
+		mdlbmp.LoadMDLFile(sArtPath +"\\l"+ model + "bmp.mdl");
+		mdlbmp3.LoadMDLFile(sArtPath +"\\"+ ukbmp + "bmp.mdl");
+
 		for (int i=0;i<16;i++) 
 		{
 			CButton *cbb = (CButton *)CWnd::GetDlgItem(IDC_USEM0+i);
@@ -57,6 +63,7 @@ void CChaffDlg::DoDataExchange(CDataExchange* pDX)
 	}
 	DDX_Text(pDX, IDC_NAME, name);
 	DDX_Text(pDX, IDC_MODEL, model);
+	DDX_Text(pDX, IDC_MODEL2, model2);
 	DDX_Text(pDX, IDC_ICONE, icon);
 	DDX_Text(pDX, IDC_TYPE, type);
 	DDX_Text(pDX, IDC_UKBMP, ukbmp);
@@ -73,8 +80,10 @@ void CChaffDlg::DoDataExchange(CDataExchange* pDX)
 	DDX_Text(pDX, IDC_S9, pcounter->stats_s9);
 	DDX_Text(pDX, IDC_S10, pcounter->stats_s10);
 	DDX_Text(pDX, IDC_S11, pcounter->stats_s11);
+	DDX_Text(pDX, IDC_SS2, pcounter->expendableSize);
+
 	DDX_Text(pDX, IDC_UID, uid);
-	DDX_Text(pDX, IDC_USEFLAGS, usemask);
+	//DDX_Text(pDX, IDC_USEFLAGS, usemask);
 
 	DDX_Text(pDX, IDC_UIDPROX, uidprox);
 
@@ -86,6 +95,7 @@ void CChaffDlg::DoDataExchange(CDataExchange* pDX)
 	{
 		strcpy(pcounter->name,name);
 		strcpy(pcounter->model,model);
+		strcpy(pcounter->modelName,model2);
 		strcpy(pcounter->icon,icon);
 		strcpy(pcounter->type,type);
 		strcpy(pcounter->ukbmp,ukbmp);
@@ -204,6 +214,7 @@ BEGIN_MESSAGE_MAP(CChaffDlg, CDialog)
 	ON_BN_CLICKED(IDC_USEM15, OnBnClickedUsem0)
 	ON_BN_CLICKED(IDC_BSUCC, &CChaffDlg::OnBnClickedBsucc)
 	ON_LBN_SELCHANGE(IDC_UMLIST, &CChaffDlg::OnLbnSelchangeUmlist)
+	ON_BN_CLICKED(IDC_BEDITDESCR, &CChaffDlg::OnBnClickedBeditdescr)
 END_MESSAGE_MAP()
 
 
@@ -212,6 +223,10 @@ END_MESSAGE_MAP()
 BOOL CChaffDlg::OnInitDialog()
 {
 	CDialog::OnInitDialog();
+
+	VERIFY(mdlbmp.SubclassDlgItem(IDC_PICT, this));
+	VERIFY(mdlbmp2.SubclassDlgItem(IDC_PICT2, this));
+	VERIFY(mdlbmp3.SubclassDlgItem(IDC_PICT3, this));
 
 	CComboBox *cbac = (CComboBox *)GetDlgItem(IDC_AC);
 	cbac->ResetContent();
@@ -287,4 +302,11 @@ void CChaffDlg::OnLbnSelchangeUmlist()
 	int idx = clb->GetCurSel();
 	if (idx==-1) return;
 	MainUI->SelectPCE((LPARAM)clb->GetItemDataPtr(idx));
+}
+
+void CChaffDlg::OnBnClickedBeditdescr()
+{
+	CDescrDlg dlg(pcounter->description);
+	if (dlg.DoModal() == IDOK)
+		SetDlgItemText(IDC_DESCRIPTION,pcounter->description);
 }

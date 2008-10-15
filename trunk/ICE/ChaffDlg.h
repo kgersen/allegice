@@ -13,6 +13,10 @@ public:
 	PtrCoreCounter pcounter;
 	PtrCore pcore;
 	IMainUI *MainUI;
+	CString sArtPath;
+	CBMPMDLButton mdlbmp;
+	CBMPMDLButton mdlbmp2;
+	CBMPMDLButton mdlbmp3;
 	void SetIcons(HICON iJumpIcon);
 // Dialog Data
 	enum { IDD = IDD_CHAFFDLG };
@@ -30,4 +34,5 @@ public:
 	afx_msg void OnBnClickedUsem0();
 	afx_msg void OnBnClickedBsucc();
 	afx_msg void OnLbnSelchangeUmlist();
+	afx_msg void OnBnClickedBeditdescr();
 };

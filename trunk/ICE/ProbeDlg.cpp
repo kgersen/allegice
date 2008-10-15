@@ -298,6 +298,7 @@ BEGIN_MESSAGE_MAP(CProbeDlg, CDialog)
 	ON_BN_CLICKED(IDC_BPROJID, &CProbeDlg::OnBnClickedBprojid)
 	ON_BN_CLICKED(IDC_BSUCC, &CProbeDlg::OnBnClickedBsucc)
 	ON_LBN_SELCHANGE(IDC_UMLIST, &CProbeDlg::OnLbnSelchangeUmlist)
+	ON_BN_CLICKED(IDC_BEDITDESCR, &CProbeDlg::OnBnClickedBeditdescr)
 END_MESSAGE_MAP()
 
 
@@ -416,4 +417,11 @@ void CProbeDlg::OnLbnSelchangeUmlist()
 	int idx = clb->GetCurSel();
 	if (idx==-1) return;
 	MainUI->SelectPCE((LPARAM)clb->GetItemDataPtr(idx));
+}
+
+void CProbeDlg::OnBnClickedBeditdescr()
+{
+	CDescrDlg dlg(pprobe->description);
+	if (dlg.DoModal() == IDOK)
+		SetDlgItemText(IDC_DESCRIPTION,pprobe->description);
 }

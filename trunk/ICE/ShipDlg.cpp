@@ -629,6 +629,7 @@ BEGIN_MESSAGE_MAP(CShipDlg, CDialog)
 	ON_BN_CLICKED(IDCANCEL, OnClickedCancel)
 	ON_BN_CLICKED(IDC_MODELEDIT, OnClickedModeledit)
 	ON_BN_CLICKED(IDC_BSUCC, &CShipDlg::OnBnClickedBsucc)
+	ON_BN_CLICKED(IDC_BEDITDESCR, &CShipDlg::OnBnClickedBeditdescr)
 END_MESSAGE_MAP()
 
 BEGIN_MESSAGE_MAP(CShipLoadout, CDialog)
@@ -877,4 +878,11 @@ void CShipDlg::OnBnClickedBsucc()
 		MainUI->SelectPCE((LPARAM)succ);
 	else
 		AfxMessageBox("invalid successor!");
+}
+
+void CShipDlg::OnBnClickedBeditdescr()
+{
+	CDescrDlg dlg(pship->description);
+	if (dlg.DoModal() == IDOK)
+		SetDlgItemText(IDC_DESCRIPTION,pship->description);
 }

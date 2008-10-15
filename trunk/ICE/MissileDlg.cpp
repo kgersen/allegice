@@ -285,6 +285,7 @@ BEGIN_MESSAGE_MAP(CMissileDlg, CDialog)
 	ON_BN_CLICKED(IDC_USEM15, OnBnClickedUsem0)
 	ON_BN_CLICKED(IDC_BSUCC, &CMissileDlg::OnBnClickedBsucc)
 	ON_LBN_SELCHANGE(IDC_UMLIST, &CMissileDlg::OnLbnSelchangeUmlist)
+	ON_BN_CLICKED(IDC_BEDITDESCR, &CMissileDlg::OnBnClickedBeditdescr)
 END_MESSAGE_MAP()
 
 
@@ -353,4 +354,11 @@ void CMissileDlg::OnLbnSelchangeUmlist()
 	int idx = clb->GetCurSel();
 	if (idx==-1) return;
 	MainUI->SelectPCE((LPARAM)clb->GetItemDataPtr(idx));
+}
+
+void CMissileDlg::OnBnClickedBeditdescr()
+{
+	CDescrDlg dlg(pmissile->description);
+	if (dlg.DoModal() == IDOK)
+		SetDlgItemText(IDC_DESCRIPTION,pmissile->description);
 }

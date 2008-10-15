@@ -9,6 +9,8 @@ class CICEDlg : public CDialog, public IMainUI
 // Construction
 public:
 	CICEDlg(CWnd* pParent = NULL);	// standard constructor
+	CString sVersion;
+	CString sTitle;
 	CString cArtPath;
 	CString sCorename;
 	CString sCorepath;

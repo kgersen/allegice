@@ -24,4 +24,6 @@ public:
 	BOOL OnInitDialog(void);
 	void OnClickedOk(void);
 	void OnClickedCancel(void);
+//	afx_msg void OnEnSetfocusDescription();
+	afx_msg void OnBnClickedBeditdescr();
 };

@@ -87,6 +87,7 @@ BEGIN_MESSAGE_MAP(CDroneDlg, CDialog)
 	ON_BN_CLICKED(IDCANCEL, OnClickedCancel)
 	ON_BN_CLICKED(IDC_BSHIPID, &CDroneDlg::OnBnClickedBshipid)
 	ON_BN_CLICKED(IDC_BPARTID, &CDroneDlg::OnBnClickedBpartid)
+	ON_BN_CLICKED(IDC_BEDITDESCR, &CDroneDlg::OnBnClickedBeditdescr)
 END_MESSAGE_MAP()
 
 
@@ -131,4 +132,11 @@ void CDroneDlg::OnBnClickedBpartid()
 	delete pce;
 	if (p)
 		MainUI->SelectPCE(p);
+}
+
+void CDroneDlg::OnBnClickedBeditdescr()
+{
+	CDescrDlg dlg(pdrone->description);
+	if (dlg.DoModal() == IDOK)
+		SetDlgItemText(IDC_DESCRIPTION,pdrone->description);
 }

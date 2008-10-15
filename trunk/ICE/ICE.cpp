@@ -51,8 +51,7 @@ CICEApp theApp;
 
 BOOL CICEApp::InitInstance()
 {
-	CWinApp::InitInstance();
-
+	CVersionApp::InitInstance();
 //---------------------------------
 	char pdata[255];
 	DWORD psize = 255;
@@ -78,6 +77,8 @@ BOOL CICEApp::InitInstance()
 //------------------------------------
 
 	CICEDlg dlg;
+	dlg.sTitle = GetAppDescription() + " " + GetAppVersion();
+	dlg.sVersion = GetAppProductName() + " " + GetAppVersion();
 	dlg.cArtPath = pdata;
 	dlg.cArtPath = dlg.cArtPath + "\\artwork";
 	m_pMainWnd = &dlg;
