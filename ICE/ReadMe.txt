@@ -1,6 +1,6 @@
 ================================================================================
     ICE Project - Kirth Gersen /KGJV (kgersen@hotmail.com)
-    Release 3.4 (major build)
+    Release 3.41 (minor build)
 ===============================================================================
 
 Disclaimer & warning:
@@ -316,6 +316,8 @@ NEW IN 3.4
   * "return button" (blue button middle low) to return to previous object after using 'Enhanced navigation'. Clicking twice alternate between the last 2 objects.
   * switchable DM/AC editing. Allows reverse editing: choose an AC and view/edit all DM for it.
   * other minor bug fixes and UI updates.
+  
+NEW IN 3.41
   * properties exposed/changed:
       * price for all part type (including weapons,shlds,cloak,..)
       * floating icon for all part types

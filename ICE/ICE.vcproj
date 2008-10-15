@@ -72,6 +72,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="C:\dev\extern\FreeImage\Dist\FreeImage.lib"
+				Version="3.41"
 				LinkIncremental="2"
 				SuppressStartupBanner="true"
 				GenerateDebugInformation="true"
@@ -162,6 +163,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="C:\dev\extern\FreeImage\Dist\FreeImage.lib"
+				Version="3.41"
 				LinkIncremental="1"
 				SuppressStartupBanner="true"
 				GenerateDebugInformation="false"

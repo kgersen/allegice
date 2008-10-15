@@ -1,0 +1,9 @@
+﻿<Window x:Class="ICE3.Window1"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    Title="Window1" Height="315.423" Width="448">
+    <Grid>
+        <Button Margin="12,0,0,12" Name="button1" Height="24.543" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="64.539" Click="button1_Click">Load</Button>
+        <ListView Margin="12,12,12,42" Name="listView1"/>
+    </Grid>
+</Window>

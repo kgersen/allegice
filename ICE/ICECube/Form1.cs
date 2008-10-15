@@ -24,6 +24,7 @@ namespace ICECube
             if (ofdCore.ShowDialog() == DialogResult.OK)
             {
                 core.Load(ofdCore.FileName);
+                
                 listView1.Clear();
                 listView1.Items.Add("m_chaffTypes : " + core.m_chaffTypes.Count.ToString());
                 listView1.Items.Add("m_civilizations : " + core.m_civilizations.Count.ToString());

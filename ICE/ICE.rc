@@ -128,7 +128,7 @@ CAPTION "About ICE"
 FONT 8, "MS Sans Serif", 0, 0, 0x1
 BEGIN
     ICON            IDR_MAINFRAME,IDC_STATIC,7,7,20,20
-    LTEXT           "ICE 3.40",IDC_STATIC,40,10,119,8,SS_NOPREFIX
+    LTEXT           "ICE 3.41",IDC_STATIC,40,10,119,8,SS_NOPREFIX
     DEFPUSHBUTTON   "OK",IDOK,178,7,50,14,WS_GROUP
     LTEXT           "Copyright (C) 2001-2008 Kirth Gersen (KGJV)",IDC_STATIC,40,25,188,8
     LTEXT           "kgersen@hotmail.com",IDC_STATIC,40,39,119,8
@@ -1377,8 +1377,8 @@ LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 3,4,0,0
- PRODUCTVERSION 3,4,0,0
+ FILEVERSION 3,4,1,0
+ PRODUCTVERSION 3,4,1,0
  FILEFLAGSMASK 0x17L
 #ifdef _DEBUG
  FILEFLAGS 0x1L
@@ -1396,12 +1396,12 @@ BEGIN
             VALUE "Comments", "IGC Core Editor"
             VALUE "CompanyName", "Kirth Gersen/KGJV "
             VALUE "FileDescription", "IGC Core Editor"
-            VALUE "FileVersion", "3.40"
+            VALUE "FileVersion", "3.41"
             VALUE "InternalName", "ICE"
             VALUE "LegalCopyright", "Copyright (C) Kirth Gersen 2001-2008"
             VALUE "OriginalFilename", "ICE.EXE"
             VALUE "ProductName", "ICE Application"
-            VALUE "ProductVersion", "3.40"
+            VALUE "ProductVersion", "3.41"
         END
     END
     BLOCK "VarFileInfo"
