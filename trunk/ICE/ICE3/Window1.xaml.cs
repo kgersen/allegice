@@ -39,10 +39,47 @@ namespace ICE3
             if (openResult.HasValue && openResult.Value == true)
             {
                 core.Load(ofd.FileName);
+
+                GridView gv = new GridView();
+                GridViewColumn gvc;
                 
+                // 100% dynamic binding with no predef xaml
+
+                gvc = new GridViewColumn();
+                gvc.DisplayMemberBinding = new Binding("civilizationID");
+                gvc.Header = "ID";
+                gv.Columns.Add(gvc);
+                gvc = new GridViewColumn();
+                gvc.DisplayMemberBinding = new Binding("name");
+                gvc.Header = "Name";
+                gv.Columns.Add(gvc);
+                gvc = new GridViewColumn();
+                gvc.DisplayMemberBinding = new Binding("bonusMoney");
+                gvc.Header = "Bonus Money";
+                gv.Columns.Add(gvc);
+                gvc = new GridViewColumn();
+                gvc.DisplayMemberBinding = new Binding("incomeMoney");
+                gvc.Header = "Income Money";
+                gv.Columns.Add(gvc);
+                gvc = new GridViewColumn();
+                gvc.DisplayMemberBinding = new Binding("hudName");
+                gvc.Header = "HUD name";
+                gv.Columns.Add(gvc);
+                gvc = new GridViewColumn();
+                gvc.DisplayMemberBinding = new Binding("initialStationTypeID");
+                gvc.Header = "Starting Station";
+                gv.Columns.Add(gvc);
+                gvc = new GridViewColumn();
+                gvc.DisplayMemberBinding = new Binding("lifepod");
+                gvc.Header = "Lifepod";
+                gv.Columns.Add(gvc);
+
+                listView1.View = gv;
                 listView1.ItemsSource = core.m_civilizations;
-                listView1.DisplayMemberPath = "name";
-                 //Binding b = new Binding();
+
+                //listView1.DisplayMemberPath = "name";
+                //listView1.ItemTemplate = (DataTemplate)Resources["civFormating"];
+                //Binding b = new Binding();
                 //b.Source = core.m_civilizations;
                 //b.Path = new PropertyPath("Name");
                 //listBox1.SetBinding(ContentProperty, b);
