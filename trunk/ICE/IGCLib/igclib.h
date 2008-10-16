@@ -4,7 +4,7 @@ using namespace System::Drawing;
 
 namespace IGCLib
 {
-	public enum HullAbilityBitMask : unsigned short
+	public enum class HullAbilityBitMask : unsigned short
     {
         c_habmBoard                 = 0x01,
         c_habmRescue                = 0x02,
@@ -24,7 +24,7 @@ namespace IGCLib
 		c_habmBuilder               = 0x8000
     };
 
-	public enum StationAbilityBitMask : unsigned short
+	public enum class StationAbilityBitMask : unsigned short
     {
         c_sabmUnload                = 0x01,      //Ability to offload mined minerals
         c_sabmStart                 = 0x02,      //           start the game at this station
@@ -43,12 +43,12 @@ namespace IGCLib
         c_sabmRescueAny             = 0x4000    //           not used (but reserved for pods)
     };
 
-	public enum ExpendableAbilityBitMask : unsigned short
+	public enum class ExpendableAbilityBitMask : unsigned short
     {
         c_eabmCapture = 0x01,
         c_eabmWarpBombDual = 0x02, // KGJV: both sides aleph rez
         c_eabmWarpBombSingle = 0x04, // KGJV: one side aleph rez
-        c_eabmWarpBomb = c_eabmWarpBombDual | c_eabmWarpBombSingle, // KGJV: both types into one for backward compatibility
+		c_eabmWarpBomb = ::c_eabmWarpBombDual | ::c_eabmWarpBombSingle, // KGJV: both types into one for backward compatibility
         c_eabmQuickReady = 0x08,
         c_eabmRipcord = 0x10,
         c_eabmShootStations = 0x20,
@@ -193,7 +193,7 @@ namespace IGCLib
 		}
 	};
 
-	public enum EquipmentType : short
+	public enum class EquipmentType : short
     {
        ET_ChaffLauncher  = 0,
        ET_Weapon         = 1,
@@ -264,7 +264,7 @@ namespace IGCLib
 		property SoundID         exteriorSound;
     };
 
-    public enum PackType : Byte
+    public enum class PackType : Byte
     {
         c_packAmmo    = 0,
         c_packFuel    = 1
@@ -361,7 +361,7 @@ namespace IGCLib
 		property float               dtRipcord;
 	};
 
-    public enum TreasureCode : Byte
+    public enum class TreasureCode : Byte
     {
         c_tcPart        = 1,
         c_tcPowerup     = 2,
@@ -448,7 +448,7 @@ namespace IGCLib
 		}
 	};
 
-	public enum PilotType : Byte
+	public enum class PilotType : Byte
 	{
 		c_ptMiner       =  0,
 		c_ptWingman     =  2,
