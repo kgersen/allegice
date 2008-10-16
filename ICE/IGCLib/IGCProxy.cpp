@@ -306,7 +306,7 @@ namespace IGCLib {
 		m->hitPoints = p->hitPoints;
 		m->defenseType = p->defenseType;
 		m->expendabletypeID = p->expendabletypeID;
-		m->eabmCapabilities = p->eabmCapabilities;
+		m->eabmCapabilities = (ExpendableAbilityBitMask)p->eabmCapabilities;
 		m->iconName = String_Load(p->iconName);
 	}
 	void DataExpendableTypeIGC_Save(DataExpendableTypeIGC^ m,::DataExpendableTypeIGC *p)
@@ -319,7 +319,7 @@ namespace IGCLib {
 		p->hitPoints = m->hitPoints;
 		p->defenseType = m->defenseType;
 		p->expendabletypeID = m->expendabletypeID;
-		p->eabmCapabilities = m->eabmCapabilities;
+		p->eabmCapabilities = (::AbilityBitMask)m->eabmCapabilities;
 		String_Save(m->iconName,p->iconName,sizeof(p->iconName));
 	}
 // DataMissileTypeIGC
