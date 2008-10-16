@@ -296,7 +296,7 @@ namespace IGCLib
 		property HitPoints           hitPoints;
 		property DefenseTypeID       defenseType;
 		property ExpendableTypeID    expendabletypeID;
-		property AbilityBitMask      eabmCapabilities;
+		property ExpendableAbilityBitMask      eabmCapabilities;
 		property String^             iconName;
 		DataExpendableTypeIGC()
 		{
