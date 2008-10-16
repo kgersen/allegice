@@ -16,6 +16,7 @@ namespace IGCLib {
 #define PtoM(field) m->field = p->field
 #define PtoMc(field,type) m->field = (type)p->field
 #define MtoP(field) p->field = m->field
+#define MtoPc(field,type) p->field = (type)m->field
 #define String_Load(p) String_Load_Implt(p,sizeof(p))
 
 // String
@@ -235,7 +236,7 @@ namespace IGCLib {
 		p->signature = m->signature;
 		p->partID = m->partID;
 		p->successorPartID = m->successorPartID;
-		p->equipmentType = m->equipmentType;
+		p->equipmentType = (::EquipmentType)m->equipmentType;
 		p->partMask = m->partMask;
 		String_Save(m->inventoryLineMDL,p->inventoryLineMDL,sizeof(p->inventoryLineMDL));
 	}
@@ -274,7 +275,7 @@ namespace IGCLib {
 	void DataPackTypeIGC_Save(DataPackTypeIGC^ m, ::DataPackTypeIGC *p)
 	{
 		DataPartTypeIGC_Save(m,p);
-		p->packType = m->packType;
+		p->packType = (::PackType)m->packType;
 		p->amount = m->amount;
 	}
 // LauncherDef
@@ -489,7 +490,7 @@ namespace IGCLib {
 	void TreasureData_Save(TreasureData^ m,::TreasureData* p)
 	{
 		MtoP(treasureID);
-		MtoP(treasureCode);
+		MtoPc(treasureCode,::PackType);
 		MtoP(chance);
 	}
 // DataTreasureSetIGC
@@ -570,7 +571,7 @@ namespace IGCLib {
 		MtoP(successorStationTypeID);
 		MtoP(defenseTypeArmor);
 		MtoP(defenseTypeShield);
-		MtoP(sabmCapabilities);
+		MtoPc(sabmCapabilities,::StationAbilityBitMask);
 		MtoP(aabmBuild);
 		MtoP(classID);
 		MtoP(constructionDroneTypeID);
@@ -608,7 +609,7 @@ namespace IGCLib {
 		MtoP(shootSkill);
 		MtoP(moveSkill);
 		MtoP(bravery);
-		MtoP(pilotType);
+		MtoPc(pilotType,::PilotType);
 		MtoP(hullTypeID);
 		MtoP(droneTypeID);
 		MtoP(etidLaid);
@@ -750,7 +751,7 @@ namespace IGCLib {
 		for (int i=0;i<c_cMaxPreferredPartTypes;i++)
 			p->preferredPartsTypes[i] = m->preferredPartsTypes[i];
 
-		MtoP(habmCapabilities);
+		MtoPc(habmCapabilities,::HullAbilityBitMask);
 		String_Save(m->textureName, p->textureName, sizeof(p->textureName));
 
 		for (int i=0;i<ET_MAX;i++)
