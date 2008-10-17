@@ -18,7 +18,7 @@ namespace IGCLib {
 #define MtoP(field) p->field = m->field
 #define MtoPc(field,type) p->field = (type)m->field
 #define String_Load(p) String_Load_Implt(p,sizeof(p))
-
+#define String_Save(m,p) String_Save_Implt(m,p,sizeof(p))
 // String
 	String^ String_Load_Implt(char *p,int size)
 	{
@@ -26,7 +26,7 @@ namespace IGCLib {
 		if (m->Length > size) m->Remove(size);
 		return m;
 	}
-	void String_Save(String^ m, char* p, int size)
+	void String_Save_Implt(String^ m, char* p, int size)
 	{
 		if (String::IsNullOrEmpty(m)) { *p = 0; return; }
 		memset(p,0,size);
@@ -110,8 +110,8 @@ namespace IGCLib {
 		p->radius = m->radius;
 		p->rotation = m->rotation;
 
-		String_Save(m->modelName,p->modelName, sizeof(p->modelName));
-		String_Save(m->textureName,p->textureName, sizeof(p->textureName));
+		String_Save(m->modelName,p->modelName);
+		String_Save(m->textureName,p->textureName);
 	}
 // DataCivilizationIGC
 	void DataCivilizationIGC_Load(DataCivilizationIGC^ m, ::DataCivilizationIGC* p)
@@ -133,9 +133,9 @@ namespace IGCLib {
 		p->incomeMoney = m->incomeMoney;
 		p->bonusMoney = m->bonusMoney;
 		
-		String_Save(m->name, p->name, sizeof(p->name));
-		String_Save(m->iconName, p->iconName, sizeof(p->iconName));
-		String_Save(m->hudName, p->hudName, sizeof(p->hudName));
+		String_Save(m->name, p->name);
+		String_Save(m->iconName, p->iconName);
+		String_Save(m->hudName, p->hudName);
 
 		TechTreeBitMask_Save(m->ttbmBaseTechs,&p->ttbmBaseTechs);
 		TechTreeBitMask_Save(m->ttbmNoDevTechs,&p->ttbmNoDevTechs);
@@ -163,10 +163,10 @@ namespace IGCLib {
 	{
 		p->price = m->price;
 		p->timeToBuild = m->timeToBuild;
-		String_Save(m->modelName,p->modelName,sizeof(p->modelName));
-		String_Save(m->iconName,p->iconName,sizeof(p->iconName));
-		String_Save(m->name,p->name,sizeof(p->name));
-		String_Save(m->description,p->description,sizeof(p->description));
+		String_Save(m->modelName,p->modelName);
+		String_Save(m->iconName,p->iconName);
+		String_Save(m->name,p->name);
+		String_Save(m->description,p->description);
 		p->groupID = m->groupID;
 		TechTreeBitMask_Save(m->ttbmRequired, &p->ttbmRequired);
 		TechTreeBitMask_Save(m->ttbmEffects, &p->ttbmEffects);
@@ -238,7 +238,7 @@ namespace IGCLib {
 		p->successorPartID = m->successorPartID;
 		p->equipmentType = (::EquipmentType)m->equipmentType;
 		p->partMask = m->partMask;
-		String_Save(m->inventoryLineMDL,p->inventoryLineMDL,sizeof(p->inventoryLineMDL));
+		String_Save(m->inventoryLineMDL,p->inventoryLineMDL);
 	}
 // DataWeaponTypeIGC
 	void DataWeaponTypeIGC_Load(DataWeaponTypeIGC^ m, ::DataWeaponTypeIGC *p)
@@ -320,7 +320,7 @@ namespace IGCLib {
 		p->defenseType = m->defenseType;
 		p->expendabletypeID = m->expendabletypeID;
 		p->eabmCapabilities = (::AbilityBitMask)m->eabmCapabilities;
-		String_Save(m->iconName,p->iconName,sizeof(p->iconName));
+		String_Save(m->iconName,p->iconName);
 	}
 // DataMissileTypeIGC
 	void  DataMissileTypeIGC_Load(DataMissileTypeIGC^ m, ::DataMissileTypeIGC* p)
@@ -509,7 +509,7 @@ namespace IGCLib {
 	}
 	void DataTreasureSetIGC_Save(DataTreasureSetIGC^ m, ::DataTreasureSetIGC* p)
 	{
-		String_Save(m->name,p->name,sizeof(p->name));
+		String_Save(m->name,p->name);
 		MtoP(treasureSetID);
 		MtoP(bZoneOnly);
 		p->nTreasureData = m->treasureDatas->Count;
@@ -588,8 +588,8 @@ namespace IGCLib {
 		MtoP(capturedSound);
 		MtoP(enemyCapturedSound);
 		MtoP(enemyDestroyedSound);
-		String_Save(m->textureName,p->textureName,sizeof(p->textureName));
-		String_Save(m->builderName,p->builderName,sizeof(p->builderName));
+		String_Save(m->textureName,p->textureName);
+		String_Save(m->builderName,p->builderName);
 	}
 // DataDroneTypeIGC
 	void DataDroneTypeIGC_Load(DataDroneTypeIGC^ m, ::DataDroneTypeIGC* p)
@@ -628,8 +628,8 @@ namespace IGCLib {
 	{
 		MtoP(interiorSound);
 		MtoP(turnSound);
-		String_Save(m->frameName , p->frameName, sizeof(p->frameName));
-		String_Save(m->locationAbreviation, p->locationAbreviation, sizeof(p->locationAbreviation));
+		String_Save(m->frameName , p->frameName);
+		String_Save(m->locationAbreviation, p->locationAbreviation);
 		MtoP(partMask);
 		MtoP(bFixed);
 	};
@@ -752,7 +752,7 @@ namespace IGCLib {
 			p->preferredPartsTypes[i] = m->preferredPartsTypes[i];
 
 		MtoPc(habmCapabilities,::HullAbilityBitMask);
-		String_Save(m->textureName, p->textureName, sizeof(p->textureName));
+		String_Save(m->textureName, p->textureName);
 
 		for (int i=0;i<ET_MAX;i++)
 			p->pmEquipment[i] = m->pmEquipment[i];
@@ -781,7 +781,7 @@ namespace IGCLib {
 		MtoP(successorPartID);
 		MtoP(launchCount);
 		MtoP(expendabletypeID);
-		String_Save(m->inventoryLineMDL, p->inventoryLineMDL, sizeof(p->inventoryLineMDL));
+		String_Save(m->inventoryLineMDL, p->inventoryLineMDL);
 	}
 
 #pragma endregion
@@ -1190,6 +1190,7 @@ save order (as found in legacy cores)
 		stream->Close();
 	}
 
+#pragma region IGC MAP objects read/write
 	// reader/writer
 	Vector Vector_Load(::Vector p)
 	{
@@ -1362,6 +1363,119 @@ save order (as found in legacy cores)
 
 		return m;
 	}
+// writers
+
+	void DataClusterIGC_Save(DataClusterIGC^ m,::DataClusterIGC* p)
+	{
+		MtoP(starSeed);
+		p->lightDirection = Vector_Save(m->lightDirection);
+		p->lightColor = m->lightColor.ToArgb();
+		MtoP(screenX);
+		MtoP(screenY);
+		MtoP(clusterID);
+		MtoP(nDebris);
+		MtoP(nStars);
+		String_Save(m->name,p->name);
+		String_Save(m->posterName,p->posterName);
+		String_Save(m->planetName,p->planetName);
+		MtoP(planetSinLatitude);
+		MtoP(planetLongitude);
+		MtoP(planetRadius);
+		MtoP(activeF);
+		MtoP(bHomeSector);
+	}
+	void DataWarpIGC_Save(DataWarpIGC ^ m,::DataWarpIGC* p)
+	{
+		MtoP(warpDef.warpID);
+		MtoP(warpDef.destinationID);
+		MtoP(warpDef.radius);
+		String_Save(m->warpDef.textureName,p->warpDef.textureName);
+		String_Save(m->warpDef.iconName,p->warpDef.iconName);
+		String_Save(m->name,p->name);
+		p->position = Vector_Save(m->position);
+		p->forward = Vector_Save(m->forward);
+		p->rotation = Rotation_Save(m->rotation);
+		MtoP(signature);
+		MtoP(clusterID);
+	}
+	void DataAsteroidIGC_Save(DataAsteroidIGC^ m,::DataAsteroidIGC* p)
+	{
+		MtoP(signature);
+		p->position = Vector_Save(m->position);
+		p->up = Vector_Save(m->up);
+		p->forward = Vector_Save(m->forward);
+		p->rotation = Rotation_Save(m->rotation);
+		MtoP(asteroidDef.ore);
+		MtoP(asteroidDef.oreMax);
+		MtoPc(asteroidDef.aabmCapabilities,::AsteroidAbilityBitMask);
+		MtoP(asteroidDef.asteroidID);
+		MtoP(asteroidDef.hitpoints);
+		MtoP(asteroidDef.radius);
+		String_Save(m->asteroidDef.modelName,p->asteroidDef.modelName);
+		String_Save(m->asteroidDef.textureName,p->asteroidDef.textureName);
+		String_Save(m->asteroidDef.iconName,p->asteroidDef.iconName);
+		MtoP(clusterID);
+		String_Save(m->name,p->name);
+		MtoP(fraction);
+	}
+	void DataStationIGC_Save(DataStationIGC^ m,::DataStationIGC* p)
+	{
+		p->position = Vector_Save(m->position);
+		p->up = Vector_Save(m->up);
+		p->forward = Vector_Save(m->forward);
+		p->rotation = Rotation_Save(m->rotation);
+		MtoP(clusterID);
+		MtoP(sideID);
+		MtoP(stationID);
+		MtoP(stationTypeID);
+		MtoP(bpHull);
+		MtoP(bpShield);
+		String_Save(m->name,p->name);
+	}
+	void DataProbeExport_Save(DataProbeExport^ m,::DataProbeExport* p)
+	{
+		p->p0 = Vector_Save(m->p0);
+		MtoP(time0);
+		MtoP(probeID);
+		MtoP(exportF);
+
+		MtoP(probetypeID);
+		MtoP(sideID);
+		MtoP(clusterID);
+		MtoP(shipID);
+		MtoP(otTarget);
+		MtoP(oidTarget);
+		MtoP(createNow);
+	}
+	void DataMineExport_Save(DataMineExport^ m,::DataMineExport* p)
+	{
+		p->p0 = Vector_Save(m->p0);
+		MtoP(time0);
+		MtoP(mineID);
+		MtoP(exportF);
+
+		MtoP(clusterID);
+		MtoP(minetypeID);
+		MtoP(launcherID);
+		MtoP(sideID);
+		MtoP(fraction);
+		MtoP(createNow);
+	}
+	void DataTreasureIGC_Save(DataTreasureIGC^ m,::DataTreasureIGC* p)
+	{
+		p->p0 = Vector_Save(m->p0);
+		p->v0 = Vector_Save(m->v0);
+		MtoP(lifespan);
+		MtoP(time0);
+		MtoP(objectID);
+		MtoP(treasureID);
+		MtoP(clusterID);
+		MtoP(amount);
+		MtoPc(treasureCode,::TreasureCode);
+		MtoP(createNow);
+	}
+
+#pragma endregion
 
 	void IGCMap::Load(String^ filename)
 	{
@@ -1420,12 +1534,87 @@ save order (as found in legacy cores)
 	}
 	void IGCMap::Save(String^ filename)
 	{
-		//OT_asteroid 
-		//OT_station
+		FileStream^ stream = gcnew FileStream(filename,FileMode::Create);
+		BinaryWriter^ br = gcnew BinaryWriter(stream);
+		// total size placeholder, write 0 but keep offset for later update
+		int iDatasize = 0;
+		int sizeoffset = (int)br->Seek(0,SeekOrigin::Current); br->Write(iDatasize);
+
 		//OT_cluster 
-		//OT_mine
-		//OT_probe
-		//OT_treasure
+		for each (IGCLib::DataClusterIGC^ m in m_clusters)
+		{
+			br->Write(::OT_cluster); iDatasize+= sizeof(::ObjectType);
+			int size = sizeof(::DataClusterIGC); br->Write(size); iDatasize+= sizeof(int);
+			array<Byte>^ buff = gcnew array<Byte>(size); pin_ptr<Byte> pp = &buff[0];
+			unsigned char *p = pp;
+			DataClusterIGC_Save(m,(::DataClusterIGC*)p);
+			br->Write(buff); iDatasize+= size;
+		}
 		//OT_warp
+		for each (IGCLib::DataWarpIGC^ m in m_warps)
+		{
+			br->Write(::OT_warp); iDatasize+= sizeof(::ObjectType);
+			int size = sizeof(::DataWarpIGC); br->Write(size); iDatasize+= sizeof(int);
+			array<Byte>^ buff = gcnew array<Byte>(size); pin_ptr<Byte> pp = &buff[0];
+			unsigned char *p = pp;
+			DataWarpIGC_Save(m,(::DataWarpIGC*)p);
+			br->Write(buff); iDatasize+= size;
+		}
+		//OT_asteroid 
+		for each (IGCLib::DataAsteroidIGC^ m in m_asteroids)
+		{
+			br->Write(::OT_asteroid); iDatasize+= sizeof(::ObjectType);
+			int size = sizeof(::DataAsteroidIGC); br->Write(size); iDatasize+= sizeof(int);
+			array<Byte>^ buff = gcnew array<Byte>(size); pin_ptr<Byte> pp = &buff[0];
+			unsigned char *p = pp;
+			DataAsteroidIGC_Save(m,(::DataAsteroidIGC*)p);
+			br->Write(buff); iDatasize+= size;
+		}
+		//OT_station
+		for each (IGCLib::DataStationIGC^ m in m_stations)
+		{
+			br->Write(::OT_station); iDatasize+= sizeof(::ObjectType);
+			int size = sizeof(::DataStationIGC); br->Write(size); iDatasize+= sizeof(int);
+			array<Byte>^ buff = gcnew array<Byte>(size); pin_ptr<Byte> pp = &buff[0];
+			unsigned char *p = pp;
+			DataStationIGC_Save(m,(::DataStationIGC*)p);
+			br->Write(buff); iDatasize+= size;
+		}
+		//OT_probe
+		for each (IGCLib::DataProbeExport^ m in m_probes)
+		{
+			br->Write(::OT_probe); iDatasize+= sizeof(::ObjectType);
+			int size = sizeof(::DataProbeExport); br->Write(size); iDatasize+= sizeof(int);
+			array<Byte>^ buff = gcnew array<Byte>(size); pin_ptr<Byte> pp = &buff[0];
+			unsigned char *p = pp;
+			DataProbeExport_Save(m,(::DataProbeExport*)p);
+			br->Write(buff); iDatasize+= size;
+		}
+		//OT_mine
+		for each (IGCLib::DataMineExport^ m in m_mines)
+		{
+			br->Write(::OT_mine); iDatasize+= sizeof(::ObjectType);
+			int size = sizeof(::DataMineExport); br->Write(size); iDatasize+= sizeof(int);
+			array<Byte>^ buff = gcnew array<Byte>(size); pin_ptr<Byte> pp = &buff[0];
+			unsigned char *p = pp;
+			DataMineExport_Save(m,(::DataMineExport*)p);
+			br->Write(buff); iDatasize+= size;
+		}
+		//OT_treasure
+		for each (IGCLib::DataTreasureIGC^ m in m_treasures)
+		{
+			br->Write(::OT_treasure); iDatasize+= sizeof(::ObjectType);
+			int size = sizeof(::DataTreasureIGC); br->Write(size); iDatasize+= sizeof(int);
+			array<Byte>^ buff = gcnew array<Byte>(size); pin_ptr<Byte> pp = &buff[0];
+			unsigned char *p = pp;
+			DataTreasureIGC_Save(m,(::DataTreasureIGC*)p);
+			br->Write(buff); iDatasize+= size;
+		}
+
+		// end - rewind to write total size;
+		br->Seek(sizeoffset,SeekOrigin::Begin);
+		br->Write(iDatasize);
+		br->Close();
+		stream->Close();
 	}
 }

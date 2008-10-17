@@ -80,6 +80,35 @@ namespace IGCLib
 		property array<array<float>^>^ damageConstants;//[c_dmgidMax][c_defidMax];
 	};
 
+	public enum GlobalAttribute
+	{
+		c_gaMaxSpeed                    =  0,   //Implemented
+		c_gaThrust                      =  1,   //I
+		c_gaTurnRate                    =  2,   //I
+		c_gaTurnTorque                  =  3,   //I
+		c_gaMaxArmorStation             =  4,   //I
+		c_gaArmorRegenerationStation    =  5,   //I
+		c_gaMaxShieldStation            =  6,   //I
+		c_gaShieldRegenerationStation   =  7,   //I
+		c_gaMaxArmorShip                =  8,   //I
+		c_gaMaxShieldShip               =  9,   //I
+		c_gaShieldRegenerationShip      = 10,   //I
+		c_gaScanRange                   = 11,   //I
+		c_gaSignature                   = 12,   //I
+		c_gaMaxEnergy                   = 13,   //I
+		c_gaSpeedAmmo                   = 14,   //I
+		c_gaLifespanEnergy              = 15,   //I
+		c_gaTurnRateMissile             = 16,   //I
+		c_gaMiningRate                  = 17,   //I
+		c_gaMiningYield                 = 18,   //I
+		c_gaMiningCapacity              = 19,   //I
+		c_gaRipcordTime                 = 20,   //I
+		c_gaDamageGuns                  = 21,   //I
+		c_gaDamageMissiles              = 22,   //I
+		c_gaDevelopmentCost             = 23,   //I
+		c_gaDevelopmentTime             = 24,   //I
+		c_gaMax = 25
+	};
 	public ref struct GlobalAttributeSet
     {
 	public:
