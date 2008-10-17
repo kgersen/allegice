@@ -106,7 +106,12 @@ class Rotation
         void        set(const Vector& axis,
                         float         angle);
 
-        Rotation&   operator = (const Rotation&);
+        Rotation&   operator = (const Rotation& r)
+		{
+			m_axis = r.m_axis;
+			m_angle = r.m_angle;
+			return *this;
+		}
 
         inline float    x(void) const
         {
@@ -143,6 +148,5 @@ class Rotation
         Vector  m_axis;
         float   m_angle;
 };
-
 
 #endif //CONSTANTS_H
