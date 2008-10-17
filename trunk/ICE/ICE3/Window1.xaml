@@ -19,8 +19,9 @@
         </DataTemplate>
     </Window.Resources>
     <Grid>
-        <Button Margin="12,0,0,12" Name="button1" Height="24.543" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="64.539" Click="button1_Click">Load</Button>
+        <Button Margin="12,0,0,12" Name="button1" Height="24.543" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="64.539" Click="button1_Click">Load core</Button>
         <ListView Margin="12,12,12,42" Name="listView1">
         </ListView>
+        <Button Margin="0,0,269,13" Name="button2" HorizontalAlignment="Right" Width="75" Height="23" VerticalAlignment="Bottom" Click="button2_Click">Load map</Button>
     </Grid>
 </Window>

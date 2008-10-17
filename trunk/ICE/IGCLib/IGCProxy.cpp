@@ -1190,7 +1190,235 @@ save order (as found in legacy cores)
 		stream->Close();
 	}
 
+	// reader/writer
+	Vector Vector_Load(::Vector p)
+	{
+		Vector m;
+		m.X = p.X();
+		m.Y = p.Y();
+		m.Z = p.Z();
+		return m;
+	}
+	::Vector Vector_Save(Vector m)
+	{
+		::Vector p(m.X,m.Y,m.Z);
+		return p;
+	}
+	Rotation Rotation_Load(::Rotation p)
+	{
+		Rotation m;
+		m.Axis = Vector_Load(p.axis());
+		m.Angle = p.angle();
+		return m;
+	}
+	::Rotation Rotation_Save(Rotation m)
+	{
+		::Rotation p(Vector_Save(m.Axis),m.Angle);
+		return p;
+	}
+	DataAsteroidIGC^ ReadasteroidIGC(char *data, int size)
+	{
+		DataAsteroidIGC^ m = gcnew DataAsteroidIGC();
+		::DataAsteroidIGC *p = (::DataAsteroidIGC *)data;
+		PtoM(signature);
+		m->position = Vector_Load(p->position);
+		m->up = Vector_Load(p->up);
+		m->forward = Vector_Load(p->forward);
+		m->rotation = Rotation_Load(p->rotation);
+		PtoM(asteroidDef.ore);
+		PtoM(asteroidDef.oreMax);
+		PtoMc(asteroidDef.aabmCapabilities,AsteroidAbilityBitMask);
+		PtoM(asteroidDef.asteroidID);
+		PtoM(asteroidDef.hitpoints);
+		PtoM(asteroidDef.radius);
+		m->asteroidDef.modelName = String_Load(p->asteroidDef.modelName);
+		m->asteroidDef.textureName = String_Load(p->asteroidDef.textureName);
+		m->asteroidDef.iconName = String_Load(p->asteroidDef.iconName);
+		PtoM(clusterID);
+		m->name = String_Load(p->name);
+		PtoM(fraction);		
+		return m;
+	}
+
+	DataStationIGC^ ReadstationIGC(char *data, int size)
+	{
+		DataStationIGC^ m = gcnew DataStationIGC();
+		::DataStationIGC *p = (::DataStationIGC *)data;
+
+		m->position = Vector_Load(p->position);
+		m->up = Vector_Load(p->up);
+		m->forward = Vector_Load(p->forward);
+		m->rotation = Rotation_Load(p->rotation);
+		PtoM(clusterID);
+		PtoM(sideID);
+		PtoM(stationID);
+		PtoM(stationTypeID);
+		PtoM(bpHull);
+		PtoM(bpShield);
+		m->name = String_Load(p->name);
+		return m;
+	}
+
+	DataClusterIGC^ ReadclusterIGC(char *data, int size)
+	{
+		DataClusterIGC^ m = gcnew DataClusterIGC();
+		::DataClusterIGC *p = (::DataClusterIGC *)data;
+		PtoM(starSeed);
+		m->lightDirection = Vector_Load(p->lightDirection);
+		m->lightColor = Color::FromArgb(p->lightColor);
+		PtoM(screenX);
+		PtoM(screenY);
+		PtoM(clusterID);
+		PtoM(nDebris);
+		PtoM(nStars);
+		m->name = String_Load(p->name);
+		m->posterName = String_Load(p->posterName);
+		m->planetName = String_Load(p->planetName);
+		PtoM(planetSinLatitude);
+		PtoM(planetLongitude);
+		PtoM(planetRadius);
+		PtoM(activeF);
+		PtoM(bHomeSector);
+
+		return m;
+	}
+
+	DataMineExport^ ReadmineIGC(char *data, int size)
+	{
+		DataMineExport^ m = gcnew DataMineExport();
+		::DataMineExport* p = (::DataMineExport *) data;
+
+		m->p0 = Vector_Load(p->p0);
+		PtoM(time0);
+		PtoM(mineID);
+		PtoM(exportF);
+
+		PtoM(clusterID);
+		PtoM(minetypeID);
+		PtoM(launcherID);
+		PtoM(sideID);
+		PtoM(fraction);
+		PtoM(createNow);
+
+		return m;
+	}
+
+	DataProbeExport^ ReadprobeIGC(char *data, int size)
+	{
+		DataProbeExport^ m = gcnew DataProbeExport();
+		::DataProbeExport* p = (::DataProbeExport*)data;
+
+		m->p0 = Vector_Load(p->p0);
+		PtoM(time0);
+		PtoM(probeID);
+		PtoM(exportF);
+
+		PtoM(probetypeID);
+		PtoM(sideID);
+		PtoM(clusterID);
+		PtoM(shipID);
+		PtoM(otTarget);
+		PtoM(oidTarget);
+		PtoM(createNow);
+
+		return m;
+	}
+
+	DataTreasureIGC^ ReadtreasureIGC(char *data, int size)
+	{
+		DataTreasureIGC^ m = gcnew DataTreasureIGC();
+		::DataTreasureIGC* p = (::DataTreasureIGC*)data;
+
+		m->p0 = Vector_Load(p->p0);
+		m->v0 = Vector_Load(p->v0);
+		PtoM(lifespan);
+		PtoM(time0);
+		PtoM(objectID);
+		PtoM(treasureID);
+		PtoM(clusterID);
+		PtoM(amount);
+		PtoMc(treasureCode,TreasureCode);
+		PtoM(createNow);
+
+		return m;
+	}
+
+	DataWarpIGC^ ReadwarpIGC(char *data, int size)
+	{
+		DataWarpIGC^m = gcnew DataWarpIGC();
+		::DataWarpIGC* p = (::DataWarpIGC*)data;
+
+		PtoM(warpDef.warpID);
+		PtoM(warpDef.destinationID);
+		PtoM(warpDef.radius);
+		m->warpDef.textureName = String_Load(p->warpDef.textureName);
+		m->warpDef.iconName = String_Load(p->warpDef.iconName);
+		m->name = String_Load(p->name);
+		m->position = Vector_Load(p->position);
+		m->forward = Vector_Load(p->forward);
+		m->rotation = Rotation_Load(p->rotation);
+		PtoM(signature);
+		PtoM(clusterID);
+
+		return m;
+	}
+
 	void IGCMap::Load(String^ filename)
+	{
+		array<unsigned char>^ nameBytes = System::Text::ASCIIEncoding::ASCII->GetBytes( filename );
+		pin_ptr<unsigned char> pinnedName = &nameBytes[0];
+
+		FILE*       file = NULL;
+		fopen_s(&file,reinterpret_cast<const char *>( pinnedName ), "rb");
+		if (file)
+		{
+			// init
+			m_asteroids = gcnew List<DataAsteroidIGC^>();
+			m_stations = gcnew List<DataStationIGC^>();
+			m_clusters = gcnew List<DataClusterIGC^>();
+			m_mines = gcnew List<DataMineExport^>();
+			m_probes = gcnew List<DataProbeExport^>();
+			m_treasures = gcnew List<DataTreasureIGC^>();
+			m_warps = gcnew List<DataWarpIGC^>();
+			// open & read file
+			//int iCoreVer;
+			//int iReadCount = fread (&iCoreVer, sizeof(iCoreVer), 1, file);
+			//CoreVersion = iCoreVer;
+			int iDatasize;
+			int iReadCount = fread (&iDatasize, sizeof(iDatasize), 1, file);
+			char* pData = new char[iDatasize+4];      //leave a little extra space for the encryption (which takes dword chunks)
+			iReadCount = fread (pData, sizeof(char), iDatasize, file);
+
+			char *pdata = pData;
+			while (iDatasize > 0)
+			{
+				ObjectType  type = *((ObjectType*)pdata);
+				int size = *((int*)(pdata + sizeof(ObjectType)));
+
+				if (c_maskMapTypes & (__int64(1) << __int64(type)))
+				{
+					switch (type)
+					{
+#define OBJECT(CLS) case OT_##CLS## : { m_##CLS##s->Add(Read##CLS##IGC((pdata + sizeof(int) + sizeof(ObjectType)), size)); } break;
+						OBJECT(asteroid)
+						OBJECT(station)
+						OBJECT(cluster)
+						OBJECT(mine)
+						OBJECT(probe)
+						OBJECT(treasure)
+						OBJECT(warp)
+					}
+					pdata += size + sizeof(int) + sizeof(ObjectType);
+				}
+
+				iDatasize -= (size + sizeof(int) + sizeof(ObjectType));
+			}			
+			
+			delete [] pData;
+			fclose(file);
+		}
+	}
+	void IGCMap::Save(String^ filename)
 	{
 		//OT_asteroid 
 		//OT_station
@@ -1199,8 +1427,5 @@ save order (as found in legacy cores)
 		//OT_probe
 		//OT_treasure
 		//OT_warp
-	}
-	void IGCMap::Save(String^ filename)
-	{
 	}
 }
