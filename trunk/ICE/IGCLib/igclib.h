@@ -496,7 +496,7 @@ namespace IGCLib
 		property bool        bFixed;
 	};
 
-	public ref struct YawPitchRoll
+	public value class YawPitchRoll
     {
 	public:
         property float Yaw;
@@ -510,8 +510,8 @@ namespace IGCLib
 		property float               mass;
 		property float               signature;
 		property float               speed;
-		property YawPitchRoll^		 maxTurnRates;    //yaw, pitch, roll
-		property YawPitchRoll^       turnTorques;      //yaw, pitch, roll
+		property YawPitchRoll		 maxTurnRates;    //yaw, pitch, roll
+		property YawPitchRoll        turnTorques;      //yaw, pitch, roll
 		property float               thrust;
 		property float               sideMultiplier;
 		property float               backMultiplier;
@@ -559,8 +559,6 @@ namespace IGCLib
 			preferredPartsTypes = gcnew array<PartID>(c_cMaxPreferredPartTypes);
 			pmEquipment = gcnew array<PartMask>(ET_MAX);
 			HardPoints = gcnew List<HardpointData^>(c_maxMountedWeapons);
-			maxTurnRates = gcnew YawPitchRoll();
-			turnTorques = gcnew YawPitchRoll();
 		}
 	};
 
@@ -574,5 +572,185 @@ namespace IGCLib
 		property ObjectID        expendabletypeID;
 		property String^         inventoryLineMDL;
 	};
+// MAP
+	typedef Byte BytePercentage;
+
+	public value class Vector : System::IEquatable<Vector>
+	{
+	public:
+		property float X;
+		property float Y;
+		property float Z;
+		virtual bool Vector::Equals( Object^ value ) override
+		{
+			if( value == nullptr )
+				return false;
+
+			if( value->GetType() != GetType() )
+				return false;
+
+			return Equals( safe_cast<Vector>( value ) );
+		}
+
+		virtual bool Vector::Equals( Vector value )
+		{
+			return ( X == value.X && Y == value.Y && Z == value.Z );
+		}
+
+		virtual bool Vector::Equals( Vector% value1, Vector% value2 )
+		{
+			return ( value1.X == value2.X && value1.Y == value2.Y && value1.Z == value2.Z );
+		}
+	};
+
+	public value class Rotation
+	{
+	public:
+		property Vector vector;
+		property float angle;
+	};
+
+	public value class AsteroidDef
+	{
+	public:
+		property float			ore;
+		property float			oreMax;
+		property AsteroidAbilityBitMask  aabmCapabilities;
+		property AsteroidID		asteroidID;
+		property HitPoints		hitpoints;
+		short                   radius;
+		property String^		modelName;
+		property String^		textureName;
+		property String^		iconName;
+	};
+
+	public ref class  DataAsteroidIGC
+	{
+	public:
+		property float               signature;
+		property Vector              position;
+		property Vector              up;
+		property Vector              forward;
+		property Rotation            rotation;
+		property AsteroidDef         asteroidDef;
+		property SectorID            clusterID;
+		property String^             name;
+		property BytePercentage      fraction;
+	};
+
+	public ref class  DataMineBase
+	{
+	public:
+		property Vector              p0;
+		property Time                time0;
+		property MineID              mineID;
+		property bool                exportF;
+	};
+
+	public ref class  DataMineExport : public DataMineBase
+	{
+	public:
+		property SectorID            clusterID;
+		property ExpendableTypeID    minetypeID;
+		property ShipID              launcherID;
+		property SideID              sideID;
+		property BytePercentage      fraction;
+		property bool                createNow;
+	};
+	public ref class DataProbeBase
+	{
+	public:
+		property Vector              p0;
+		property Time                time0;
+		property ProbeID             probeID;
+		property bool                exportF;
+	};
+
+	public ref class DataProbeExport : public DataProbeBase
+	{
+	public:
+		property ExpendableTypeID    probetypeID;
+		property SideID              sideID;
+		property SectorID            clusterID;
+		property ShipID              shipID;
+		property ObjectType          otTarget;
+		property ObjectID            oidTarget;
+		property bool                createNow;
+	};
+
+	public ref class DataStationIGC
+	{
+	public:
+		property Vector              position;
+		property Vector              up;
+		property Vector              forward;
+		property Rotation            rotation;
+		property SectorID            clusterID;
+		property SideID              sideID;
+		property StationID           stationID;
+		property StationTypeID       stationTypeID;
+		property BytePercentage      bpHull;
+		property BytePercentage      bpShield;
+		property String^             name;
+	};
+
+	public value class  WarpDef
+	{
+	public:
+		property WarpID              warpID;
+		property WarpID              destinationID;
+		property short               radius;
+		property String^             textureName;
+		property String^             iconName;
+	};
+
+	public ref class DataWarpIGC
+	{
+	public:
+		property WarpDef             warpDef;
+		property String^             name;
+		property Vector              position;
+		property Vector              forward;
+		property Rotation            rotation;
+		property float               signature;
+		property SectorID            clusterID;
+	};
+
+	public ref class DataTreasureIGC
+	{
+	public:
+		property Vector              p0;
+		property Vector              v0;
+		property float               lifespan;
+		property Time                time0;
+		property ObjectID            objectID;
+		property TreasureID          treasureID;
+		property SectorID            clusterID;
+		property short               amount;
+		property TreasureCode        treasureCode;
+		property bool                createNow;
+	};
+
+	public ref class DataClusterIGC
+	{
+	public:
+		property unsigned int        starSeed;
+		property Vector              lightDirection;
+		property Color               lightColor;
+		property float               screenX;
+		property float               screenY;
+		property SectorID            clusterID;
+		property short               nDebris;
+		property short               nStars;
+		property String^             name;
+		property String^             posterName;
+		property String^             planetName;
+		property BytePercentage      planetSinLatitude;
+		property BytePercentage      planetLongitude;
+		property unsigned char       planetRadius;
+		property bool                activeF;
+		property bool                bHomeSector;
+	};
+
 }
 

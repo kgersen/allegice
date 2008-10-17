@@ -641,13 +641,13 @@ namespace IGCLib {
 		PtoM(signature);
 		PtoM(speed);
 
-		m->maxTurnRates->Yaw = p->maxTurnRates[c_axisYaw];
-		m->maxTurnRates->Pitch = p->maxTurnRates[c_axisPitch];
-		m->maxTurnRates->Roll = p->maxTurnRates[c_axisRoll];
+		m->maxTurnRates.Yaw = p->maxTurnRates[c_axisYaw];
+		m->maxTurnRates.Pitch = p->maxTurnRates[c_axisPitch];
+		m->maxTurnRates.Roll = p->maxTurnRates[c_axisRoll];
 
-		m->turnTorques->Yaw = p->turnTorques[c_axisYaw];
-		m->turnTorques->Pitch = p->turnTorques[c_axisPitch];
-		m->turnTorques->Roll = p->turnTorques[c_axisRoll];
+		m->turnTorques.Yaw = p->turnTorques[c_axisYaw];
+		m->turnTorques.Pitch = p->turnTorques[c_axisPitch];
+		m->turnTorques.Roll = p->turnTorques[c_axisRoll];
 
 		PtoM(thrust);
 		PtoM(sideMultiplier);
@@ -706,13 +706,13 @@ namespace IGCLib {
 		MtoP(signature);
 		MtoP(speed);
 		
-		p->maxTurnRates[c_axisYaw] = m->maxTurnRates->Yaw;
-		p->maxTurnRates[c_axisPitch] = m->maxTurnRates->Pitch;
-		p->maxTurnRates[c_axisRoll] = m->maxTurnRates->Roll; 
+		p->maxTurnRates[c_axisYaw] = m->maxTurnRates.Yaw;
+		p->maxTurnRates[c_axisPitch] = m->maxTurnRates.Pitch;
+		p->maxTurnRates[c_axisRoll] = m->maxTurnRates.Roll; 
 
-		p->turnTorques[c_axisYaw] = m->turnTorques->Yaw;
-		p->turnTorques[c_axisPitch] = m->turnTorques->Pitch;
-		p->turnTorques[c_axisRoll] = m->turnTorques->Roll; 
+		p->turnTorques[c_axisYaw] = m->turnTorques.Yaw;
+		p->turnTorques[c_axisPitch] = m->turnTorques.Pitch;
+		p->turnTorques[c_axisRoll] = m->turnTorques.Roll; 
 
 		MtoP(thrust);
 		MtoP(sideMultiplier);
@@ -1188,5 +1188,19 @@ save order (as found in legacy cores)
 		br->Write(iDatasize);
 		br->Close();
 		stream->Close();
+	}
+
+	void IGCMap::Load(String^ filename)
+	{
+		//OT_asteroid 
+		//OT_station
+		//OT_cluster 
+		//OT_mine
+		//OT_probe
+		//OT_treasure
+		//OT_warp
+	}
+	void IGCMap::Save(String^ filename)
+	{
 	}
 }

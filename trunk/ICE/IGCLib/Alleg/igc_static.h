@@ -546,7 +546,84 @@ struct DataDroneTypeIGC : public DataBuyableIGC
     DroneTypeID         droneTypeID;
     ExpendableTypeID    etidLaid;
 };
+// IGC map 
+typedef unsigned long Time;
 
+struct  DataMineBase
+{
+    Vector              p0;
+    Time                time0;
+    MineID              mineID;
+    bool                exportF;
+};
+
+struct DataMineExport : public DataMineBase
+{
+    SectorID            clusterID;
+    ExpendableTypeID    minetypeID;
+    ShipID              launcherID;
+    SideID              sideID;
+    BytePercentage      fraction;
+    bool                createNow;
+};
+struct  DataProbeBase
+{
+    Vector              p0;
+    Time                time0;
+    ProbeID             probeID;
+    bool                exportF;
+};
+
+struct DataProbeExport : public DataProbeBase
+{
+    ExpendableTypeID    probetypeID;
+    SideID              sideID;
+    SectorID            clusterID;
+    ShipID              shipID;
+    ObjectType          otTarget;
+    ObjectID            oidTarget;
+    bool                createNow;
+};
+
+struct  DataStationIGC
+{
+    Vector              position;
+    Vector              up;
+    Vector              forward;
+    Rotation            rotation;
+    SectorID            clusterID;
+    SideID              sideID;
+    StationID           stationID;
+    StationTypeID       stationTypeID;
+    BytePercentage      bpHull;
+    BytePercentage      bpShield;
+    char                name[c_cbName];
+};
+
+struct  DataWarpIGC
+{
+    WarpDef             warpDef;
+    char                name[c_cbName];
+    Vector              position;
+    Vector              forward;
+    Rotation            rotation;
+    float               signature;
+    SectorID            clusterID;
+};
+
+struct  DataTreasureIGC
+{
+    Vector              p0;
+    Vector              v0;
+    float               lifespan;
+    Time                time0;
+    ObjectID            objectID;
+    TreasureID          treasureID;
+    SectorID            clusterID;
+    short               amount;
+    TreasureCode        treasureCode;
+    bool                createNow;
+};
 // from missionigc.h
 struct  Constants
 {
