@@ -1,9 +1,23 @@
+// IGCLIB.H
+// Managed versions of IGC enums, structs and classes
+// keep in sync with native ones
+
 using namespace System;
 using namespace System::Collections;
 using namespace System::Drawing;
 
 namespace IGCLib
-{
+{ 
+	public enum class AsteroidAbilityBitMask : ::AsteroidAbilityBitMask
+    {
+        c_aabmMineHe3 = 0x01,      //Has minable ore of some type (all mutually exclusive)
+        c_aabmMineLotsHe3 = 0x02,
+        c_aabmMineGold = 0x04,
+
+        c_aabmBuildable = 0x08,      //Buildings can be built on it
+        c_aabmSpecial = 0x10      //Special buildings can be built on it
+    };
+
 	public enum class HullAbilityBitMask : unsigned short
     {
         c_habmBoard                 = 0x01,
@@ -562,15 +576,3 @@ namespace IGCLib
 	};
 }
 
-/*
-    public abstract class AsteroidAbilityBitMask
-    {
-        public const short c_aabmMineHe3 = 0x01;      //Has minable ore of some type (all mutually exclusive)
-        public const short c_aabmMineLotsHe3 = 0x02;
-        public const short c_aabmMineGold = 0x04;
-
-        public const short c_aabmBuildable = 0x08;      //Buildings can be built on it
-        public const short c_aabmSpecial = 0x10;      //Special buildings can be built on it
-    }
- }
-*/

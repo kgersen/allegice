@@ -536,7 +536,7 @@ namespace IGCLib {
 		PtoM(defenseTypeArmor);
 		PtoM(defenseTypeShield);
 		PtoMc(sabmCapabilities,StationAbilityBitMask);
-		PtoM(aabmBuild);
+		PtoMc(aabmBuild,AsteroidAbilityBitMask);
 		PtoM(classID);
 		PtoM(constructionDroneTypeID);
 		PtoM(constructorNeedRockSound);
@@ -572,7 +572,7 @@ namespace IGCLib {
 		MtoP(defenseTypeArmor);
 		MtoP(defenseTypeShield);
 		MtoPc(sabmCapabilities,::StationAbilityBitMask);
-		MtoP(aabmBuild);
+		MtoPc(aabmBuild,::AsteroidAbilityBitMask);
 		MtoP(classID);
 		MtoP(constructionDroneTypeID);
 		MtoP(constructorNeedRockSound);
