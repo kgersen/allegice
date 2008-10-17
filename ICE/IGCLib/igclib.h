@@ -573,41 +573,41 @@ namespace IGCLib
 		property String^         inventoryLineMDL;
 	};
 // MAP
-	typedef Byte BytePercentage;
+	typedef float BytePercentage;
 
-	public value class Vector : System::IEquatable<Vector>
+	public value class Vector //: System::IEquatable<Vector>
 	{
 	public:
 		property float X;
 		property float Y;
 		property float Z;
-		virtual bool Vector::Equals( Object^ value ) override
-		{
-			if( value == nullptr )
-				return false;
+		//virtual bool Vector::Equals( Object^ value ) override
+		//{
+		//	if( value == nullptr )
+		//		return false;
 
-			if( value->GetType() != GetType() )
-				return false;
+		//	if( value->GetType() != GetType() )
+		//		return false;
 
-			return Equals( safe_cast<Vector>( value ) );
-		}
+		//	return Equals( safe_cast<Vector>( value ) );
+		//}
 
-		virtual bool Vector::Equals( Vector value )
-		{
-			return ( X == value.X && Y == value.Y && Z == value.Z );
-		}
+		//virtual bool Vector::Equals( Vector value )
+		//{
+		//	return ( X == value.X && Y == value.Y && Z == value.Z );
+		//}
 
-		virtual bool Vector::Equals( Vector% value1, Vector% value2 )
-		{
-			return ( value1.X == value2.X && value1.Y == value2.Y && value1.Z == value2.Z );
-		}
+		//virtual bool Vector::Equals( Vector% value1, Vector% value2 )
+		//{
+		//	return ( value1.X == value2.X && value1.Y == value2.Y && value1.Z == value2.Z );
+		//}
 	};
 
 	public value class Rotation
 	{
 	public:
-		property Vector vector;
-		property float angle;
+		property Vector Axis;
+		property float Angle;
 	};
 
 	public value class AsteroidDef

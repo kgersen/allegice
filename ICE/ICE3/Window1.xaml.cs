@@ -22,11 +22,13 @@ namespace ICE3
     public partial class Window1 : Window
     {
         IGCCore core;
+        IGCMap map;
         public Window1()
         {
             InitializeComponent();
 
             core = new IGCCore();
+            map = new IGCMap();
         }
 
         private void button1_Click(object sender, RoutedEventArgs e)
@@ -83,6 +85,48 @@ namespace ICE3
                 //b.Source = core.m_civilizations;
                 //b.Path = new PropertyPath("Name");
                 //listBox1.SetBinding(ContentProperty, b);
+            }
+        }
+
+        private void button2_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog ofd = new OpenFileDialog();
+
+            ofd.Filter = "IGC Files|*.igc";
+
+            bool? openResult = ofd.ShowDialog(this);
+            if (openResult.HasValue && openResult.Value == true)
+            {
+                map.Load(ofd.FileName);
+
+                GridView gv = new GridView();
+                GridViewColumn gvc;
+
+                // 100% dynamic binding with no predef xaml
+
+                gvc = new GridViewColumn();
+                gvc.DisplayMemberBinding = new Binding("clusterID");
+                gvc.Header = "ID";
+                gv.Columns.Add(gvc);
+                gvc = new GridViewColumn();
+                gvc.DisplayMemberBinding = new Binding("name");
+                gvc.Header = "Name";
+                gv.Columns.Add(gvc);
+                gvc = new GridViewColumn();
+                gvc.DisplayMemberBinding = new Binding("posterName");
+                gvc.Header = "Poster";
+                gv.Columns.Add(gvc);
+                gvc = new GridViewColumn();
+                gvc.DisplayMemberBinding = new Binding("screenX");
+                gvc.Header = "X";
+                gv.Columns.Add(gvc);
+                gvc = new GridViewColumn();
+                gvc.DisplayMemberBinding = new Binding("screenY");
+                gvc.Header = "Y";
+                gv.Columns.Add(gvc);
+
+                listView1.View = gv;
+                listView1.ItemsSource = map.m_clusters;
             }
         }
     }

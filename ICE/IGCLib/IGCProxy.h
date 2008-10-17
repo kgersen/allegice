@@ -51,13 +51,13 @@ namespace IGCLib {
 		//OT_probe
 		//OT_treasure
 		//OT_warp
-		List<DataAsteroidIGC^>^ m_Asteriods;
-		List<DataStationIGC^>^ m_Stations;
-		List<DataClusterIGC^>^ m_Clusters;
-		List<DataMineExport^>^ m_Mines;
-		List<DataProbeExport^>^ m_Probes;
-		List<DataTreasureIGC^>^ m_Treasures;
-		List<DataWarpIGC^>^ m_Warps;
+		List<DataAsteroidIGC^>^ m_asteroids;
+		List<DataStationIGC^>^ m_stations;
+		List<DataClusterIGC^>^ m_clusters;
+		List<DataMineExport^>^ m_mines;
+		List<DataProbeExport^>^ m_probes;
+		List<DataTreasureIGC^>^ m_treasures;
+		List<DataWarpIGC^>^ m_warps;
 
 		void Load(String^ filename);
 		void Save(String ^filename);

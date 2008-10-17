@@ -99,7 +99,7 @@ class Rotation
             m_angle(a)
         {
         }
-        Rotation(const Rotation&);
+        //Rotation(const Rotation&);
 
         void    reset(void);
 
