@@ -18,9 +18,18 @@ namespace IGCLib
         c_aabmSpecial = 0x10      //Special buildings can be built on it
     };
 
+	/// <summary>
+	/// Ability flags of Hull type objects.
+	/// </summary>
 	public enum class HullAbilityBitMask : unsigned short
     {
+		/// <summary>
+		/// can capture a base
+		/// </summary>
         c_habmBoard                 = 0x01,
+		/// <summary>
+		/// can rescue pods
+		/// </summary>
         c_habmRescue                = 0x02,
         c_habmLifepod               = 0x04,
         c_habmCaptureThreat         = 0x08,
@@ -375,7 +384,7 @@ namespace IGCLib
 	public ref class  DataMineTypeIGC : public DataExpendableTypeIGC
 	{
 	public:
-		property float               radius;
+		property float               mineRadius; // was 'radius' but already exists in DataObjectIGC
 		property float               power;
 		property float               endurance;
 		property DamageTypeID        damageType;

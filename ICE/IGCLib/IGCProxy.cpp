@@ -70,13 +70,13 @@ namespace IGCLib {
 // GlobalAttributeSet
 	void GlobalAttributeSet_Load(GlobalAttributeSet^ m, ::GlobalAttributeSet gas)
 	{
-		for (int i=0;i<c_gaMax;i++)
+		for (::GlobalAttribute i=0;i<c_gaMax;i++)
 			m->Attributes[i]=gas.GetAttribute(i);
 	}
 
 	void GlobalAttributeSet_Save(GlobalAttributeSet^ m, ::GlobalAttributeSet *gas)
 	{
-		for (int i=0;i<c_gaMax;i++)
+		for (::GlobalAttribute i=0;i<c_gaMax;i++)
 			gas->SetAttribute(i,m->Attributes[i]);
 	}
 // TechTreeBitMask
@@ -369,7 +369,7 @@ namespace IGCLib {
 	void DataMineTypeIGC_Load(DataMineTypeIGC^ m, ::DataMineTypeIGC *p)
 	{
 		DataExpendableTypeIGC_Load(m,p);
-		m->radius = p->radius;
+		m->mineRadius = p->radius;
 		m->power = p->power;
 		m->endurance = p->endurance;
 		m->damageType = p->damageType;
@@ -377,7 +377,7 @@ namespace IGCLib {
 	void DataMineTypeIGC_Save(DataMineTypeIGC^ m, ::DataMineTypeIGC *p)
 	{
 		DataExpendableTypeIGC_Save(m,p);
-		p->radius = m->radius;
+		p->radius = m->mineRadius;
 		p->power = m->power;
 		p->endurance = m->endurance;
 		p->damageType = m->damageType;
@@ -512,7 +512,7 @@ namespace IGCLib {
 		String_Save(m->name,p->name);
 		MtoP(treasureSetID);
 		MtoP(bZoneOnly);
-		p->nTreasureData = m->treasureDatas->Count;
+		p->nTreasureData = (short)m->treasureDatas->Count;
 		for (int i=0;i<p->nTreasureData;i++)
 		{
 			TreasureData_Save(m->treasureDatas[i],p->treasureData0()+i);
@@ -733,7 +733,7 @@ namespace IGCLib {
 
 		MtoP(hitPoints);
 		p->hardpointOffset=sizeof(::DataHullTypeIGC);
-		p->maxWeapons = m->HardPoints->Count;
+		p->maxWeapons = (::Mount)m->HardPoints->Count;
 		Mount maxFixed = 0; 
 		for (int i=0;i<m->HardPoints->Count;i++)
 		{
@@ -898,7 +898,7 @@ namespace IGCLib {
 			} break;
 			default: throw gcnew InvalidOperationException("bad part type found"); 
 		}
-		return nullptr;
+		//return nullptr;
 	}
 	void DataPartType_Save(DataPartTypeIGC^ m, ::DataPartTypeIGC *p)
 	{
