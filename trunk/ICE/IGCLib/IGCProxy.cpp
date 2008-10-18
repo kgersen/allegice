@@ -11,8 +11,9 @@ using namespace System::Collections::Generic;
 
 namespace IGCLib {
 
-#pragma region converters
+#pragma region macros & converters
 
+// Macros
 #define PtoM(field) m->field = p->field
 #define PtoMc(field,type) m->field = (type)p->field
 #define MtoP(field) p->field = m->field
@@ -786,53 +787,68 @@ namespace IGCLib {
 
 #pragma endregion
 #pragma region readers/writers
+
+// Exceptions
+	void MSizeAssert(int size1,int size2,String^ msg)
+	{
+		if (size1 != size2)
+			throw gcnew InvalidOperationException("bad sized "+msg+" block found"); 
+	}
+
 	DataTreasureSetIGC^ ReadtreasureSetIGC(char *data, int size)
 	{
 		DataTreasureSetIGC^ m = gcnew DataTreasureSetIGC();
-		DataTreasureSetIGC_Load(m,(::DataTreasureSetIGC *)data);
+		::DataTreasureSetIGC* p = (::DataTreasureSetIGC *)data;
+		MSizeAssert(size, sizeof(::DataTreasureSetIGC)+p->nTreasureData*sizeof(::TreasureData), "TreasureSet");
+		DataTreasureSetIGC_Load(m,p);
 		return m;
 	}
 	DataCivilizationIGC^ ReadcivilizationIGC(char *data, int size)
 	{
+		MSizeAssert(size, sizeof(::DataCivilizationIGC),"Civilization");
 		DataCivilizationIGC^ m = gcnew DataCivilizationIGC();
 		DataCivilizationIGC_Load(m,(::DataCivilizationIGC *)data);
 		return m;
 	}
 	DataProjectileTypeIGC^ ReadprojectileTypeIGC(char *data, int size)
 	{
-		::DataProjectileTypeIGC* p = (::DataProjectileTypeIGC*)data;
-		if (size != sizeof(::DataProjectileTypeIGC))
-			throw gcnew InvalidOperationException("bad core data size for Projectile");
+		MSizeAssert(size, sizeof(::DataProjectileTypeIGC),"ProjectileType");
 		DataProjectileTypeIGC^ proj = gcnew DataProjectileTypeIGC();
-		DataProjectileTypeIGC_Load(proj,p);
+		DataProjectileTypeIGC_Load(proj,(::DataProjectileTypeIGC*)data);
 		return proj;
 	}
 	DataHullTypeIGC^ ReadhullTypeIGC(char *data, int size)
 	{
 		DataHullTypeIGC^ m = gcnew DataHullTypeIGC();
-		DataHullTypeIGC_Load(m,(::DataHullTypeIGC *)data);
+		::DataHullTypeIGC* p = (::DataHullTypeIGC *)data;
+		MSizeAssert(size, sizeof(::DataHullTypeIGC)+p->maxWeapons*sizeof(::HardpointData),"HullType");
+		DataHullTypeIGC_Load(m,p);
 		return m;
 	}
 	DataStationTypeIGC^ ReadstationTypeIGC(char *data, int size)
 	{
+		MSizeAssert(size, sizeof(::DataStationTypeIGC),"StationType");
 		DataStationTypeIGC^ m = gcnew DataStationTypeIGC();
 		DataStationTypeIGC_Load(m,(::DataStationTypeIGC *)data);
 		return m;
 	}
 	DataDevelopmentIGC^ ReaddevelopmentIGC(char *data, int size)
 	{
+		MSizeAssert(size, sizeof(::DataDevelopmentIGC),"Development");
 		DataDevelopmentIGC^ m = gcnew DataDevelopmentIGC();
 		DataDevelopmentIGC_Load(m,(::DataDevelopmentIGC *)data);
 		return m;
 	}
 	DataMissileTypeIGC^ ReadmissileTypeIGC(char *data, int size)
 	{
+		MSizeAssert(size, sizeof(::DataMissileTypeIGC),"MissileType");
 		DataMissileTypeIGC^ m = gcnew DataMissileTypeIGC();
 		DataMissileTypeIGC_Load(m,(::DataMissileTypeIGC *)data);
 		return m;
 	}
 	DataMineTypeIGC^ ReadmineTypeIGC(char *data, int size)
 	{
+		MSizeAssert(size, sizeof(::DataMineTypeIGC),"MineType");
 		DataMineTypeIGC^ m = gcnew DataMineTypeIGC();
 		DataMineTypeIGC_Load(m,(::DataMineTypeIGC *)data);
 		return m;
