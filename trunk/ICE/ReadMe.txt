@@ -327,7 +327,7 @@ NEW IN 3.41
   * zoomable editing for all 'description' fields.
   
 NEW IN 3.42 (WORK IN PROGRESS - UNRELEASED)
-  * ship loadout UI fix
+  * ship loadout UI fixes
 Known bugs:
 	none
 
