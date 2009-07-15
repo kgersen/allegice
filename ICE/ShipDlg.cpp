@@ -237,7 +237,6 @@ void CShipLoadout::DoDataExchange(CDataExchange* pDX)
 
 	if (pDX->m_bSaveAndValidate) // dialog to data
 	{
-		CButton *cbb;
 		pship->stats_ss1 = ss1;
 		pship->stats_ld1 = ld1;
 		pship->stats_ld2 = ld2;
@@ -249,18 +248,19 @@ void CShipLoadout::DoDataExchange(CDataExchange* pDX)
 		for (int i=0;i<IGCSHIPMAXPARTS;i++)
 			pship->def_loadout[i] = DLList[i]; 
 
-		CComboBox * cbpm = (CComboBox *)GetDlgItem(IDC_PARTSEL);
-		int idx = cbpm->GetCurSel();
-		if (idx != CB_ERR)
-		{
-			idx = (int)cbpm->GetItemData(idx);
-			pship->can_use[idx] = 0;
-			for (int i=0;i<16;i++) 
-			{
-				cbb = (CButton *)CWnd::GetDlgItem(IDC_USEM0+i);
-				pship->can_use[idx] += cbb->GetCheck()?(1<<i):0;
-			}
-		}
+		int idx;
+		//CComboBox * cbpm = (CComboBox *)GetDlgItem(IDC_PARTSEL);
+		//idx = cbpm->GetCurSel();
+		//if (idx != CB_ERR)
+		//{
+		//	idx = (int)cbpm->GetItemData(idx);
+		//	pship->can_use[idx] = 0;
+		//	for (int i=0;i<16;i++) 
+		//	{
+		//		cbb = (CButton *)CWnd::GetDlgItem(IDC_USEM0+i);
+		//		pship->can_use[idx] += cbb->GetCheck()?(1<<i):0;
+		//	}
+		//}
 		CListBox * cbws = (CListBox *)GetDlgItem(IDC_WEPLIST);
 		idx = cbws->GetCurSel();
 		if (idx != CB_ERR)
@@ -375,20 +375,20 @@ void CShipLoadout::OnSelchangePartsel(void)
 
 	idx = (int)cbpm->GetItemData(idx); // idx = part type here
 	if (!pship) return;
-	for (int i=0;i<16;i++) 
-	{
-		CButton *cbb = (CButton *)CWnd::GetDlgItem(IDC_USEM0+i);
-		if (idx == CB_ERR)
-		{
-			cbb->EnableWindow(FALSE);
-			cbb->SetCheck(BST_UNCHECKED);
-		}
-		else
-		{
-			cbb->SetCheck((pship->can_use[idx] & (1<<i))?BST_CHECKED:BST_UNCHECKED);
-			cbb->EnableWindow(TRUE);
-		}
-	}
+	//for (int i=0;i<16;i++) 
+	//{
+	//	CButton *cbb = (CButton *)CWnd::GetDlgItem(IDC_USEM0+i);
+	//	if (idx == CB_ERR)
+	//	{
+	//		cbb->EnableWindow(FALSE);
+	//		cbb->SetCheck(BST_UNCHECKED);
+	//	}
+	//	else
+	//	{
+	//		cbb->SetCheck((pship->can_use[idx] & (1<<i))?BST_CHECKED:BST_UNCHECKED);
+	//		cbb->EnableWindow(TRUE);
+	//	}
+	//}
 
 
 	CButton *ctog = (CButton *)GetDlgItem(IDC_PARTTOGGLE);
@@ -505,20 +505,20 @@ void CShipLoadout::OnSelchangeWepsel(void)
 	if(!pship) return;
 	int idx = cbws->GetCurSel();
 
-	for (int i=0;i<16;i++) 
-	{
-		CButton *cbb = (CButton *)GetDlgItem(IDC_USEM0+16+i);
-		if (idx == CB_ERR)
-		{
-			cbb->EnableWindow(FALSE);
-			cbb->SetCheck(BST_UNCHECKED);
-		}
-		else
-		{
-			cbb->SetCheck((pship->parts[idx].part_mask & (1<<i))?BST_CHECKED:BST_UNCHECKED);
-			cbb->EnableWindow(TRUE);
-		}
-	}
+	//for (int i=0;i<16;i++) 
+	//{
+	//	CButton *cbb = (CButton *)GetDlgItem(IDC_USEM0+16+i);
+	//	if (idx == CB_ERR)
+	//	{
+	//		cbb->EnableWindow(FALSE);
+	//		cbb->SetCheck(BST_UNCHECKED);
+	//	}
+	//	else
+	//	{
+	//		cbb->SetCheck((pship->parts[idx].part_mask & (1<<i))?BST_CHECKED:BST_UNCHECKED);
+	//		cbb->EnableWindow(TRUE);
+	//	}
+	//}
 
 	CButton *ctog = (CButton *)GetDlgItem(IDC_WCTOGGLE);
 	bool WCEdit = (ctog->GetCheck()==BST_CHECKED);
