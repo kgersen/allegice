@@ -416,6 +416,8 @@
 #define IDC_BPROJID                     1272
 #define IDC_BSUCC                       1273
 #define IDC_DMLABEL                     1274
+#define IDC_BSUCC2                      1274
+#define IDC_BDRONE                      1274
 #define IDC_USEDBYLABEL                 1275
 #define IDC_TTLIST                      1276
 #define IDWRITE                         1278
