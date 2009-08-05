@@ -25,8 +25,6 @@
 #pragma once
 #pragma pack(1)
 
-#define AGC_ChaffTypeOK 26
-
 // for reference, IGC sizes
 // These constants correspond to the maximum length of a file name or a 
 // player name. They should correspond to the maximum lengths in the SQL 
@@ -124,8 +122,8 @@ const StationAbilityBitMask     c_sabmRescueAny             = 0x4000;    //     
 */
 typedef struct SIGCCoreStationType //
 {
-	AGCMoney cost;
-	AGCMoney research_time;
+	Money cost;
+	Money research_time;
 	char model[13];
 	char pad1;//CC or 00
 	char icon[13];
@@ -141,7 +139,7 @@ typedef struct SIGCCoreStationType //
 	float stats_s4; // hull repair rate
 	float stats_s5; // shield repair rate
 	float stats_s6; // scan range
-	AGCMoney stats_income;
+	Money stats_income;
 	float stats_s7; // scale
 	UCHAR TechTreeLocal[50];
 	/* was :
@@ -265,20 +263,20 @@ const CString IGCShipUseMasks[IGCSHIPMAXUSE]=
 	"Counter",	"*",
 		"Missile", "Pack","Shield","Cloak","*","Afterburner",
 };
-typedef short     EquipmentType; // this is PartTypeID in the database
-const EquipmentType   ET_ChaffLauncher  = 0;
-const EquipmentType   ET_Weapon         = 1;
-const EquipmentType   ET_Magazine       = 2; // missiles
-const EquipmentType   ET_Dispenser      = 3; // mines & probes
-const EquipmentType   ET_Shield         = 4;
-const EquipmentType   ET_Cloak          = 5;
-const EquipmentType   ET_Pack           = 6; // ammo & fuel
-const EquipmentType   ET_Afterburner    = 7;
-const EquipmentType   ET_MAX            = 8;
+//typedef short     EquipmentType; // this is PartTypeID in the database
+//const EquipmentType   ET_ChaffLauncher  = 0;
+//const EquipmentType   ET_Weapon         = 1;
+//const EquipmentType   ET_Magazine       = 2; // missiles
+//const EquipmentType   ET_Dispenser      = 3; // mines & probes
+//const EquipmentType   ET_Shield         = 4;
+//const EquipmentType   ET_Cloak          = 5;
+//const EquipmentType   ET_Pack           = 6; // ammo & fuel
+//const EquipmentType   ET_Afterburner    = 7;
+//const EquipmentType   ET_MAX            = 8;
 
 typedef struct SIGCCoreShip // tag = 1D, size = 540 to 690
 {
-	AGCMoney cost;
+	Money cost;
 	BYTE header[4]; // all zero
 	char model[13];
 	BYTE pad1; // CC
@@ -336,7 +334,7 @@ typedef struct SIGCCoreShip // tag = 1D, size = 540 to 690
 } IGCCoreShip;
 typedef IGCCoreShip *PtrCoreShip;
 typedef IGCCoreShipMP *PtrCoreShipMP;
-const CString ICGPartType[AGCEquipmentType_MAX] =
+const CString ICGPartType[ET_MAX] =
 {
 	"ChaffLauncher",
 	"Weapon",
@@ -352,7 +350,7 @@ const CString ICGPartType[AGCEquipmentType_MAX] =
 #define IGC_PROXYPARTSIZE 0x18
 typedef struct SIGCCorePart // tag 0x1E, size = var
 {
-    AGCMoney   price;
+    Money   price;
     DWORD   timeToBuild;
 	char model[13];
 	char pad1; // CC
@@ -369,7 +367,7 @@ typedef struct SIGCCorePart // tag 0x1E, size = var
 	short overriding_uid; // uid of part that overrides this one (-1 if none)
 	short type; // 1 = weapon, 2 = shield, 5 = cloak, 7 = after, 6 = default
 	/*  AGCEquipmentType_ChaffLauncher = 0,
-		AGCEquipmentType_Weapon = 1,
+		ET_Weapon = 1,
 		AGCEquipmentType_Magazine = 2,
 		AGCEquipmentType_Dispenser = 3,
 		AGCEquipmentType_Shield = 4,
@@ -446,7 +444,7 @@ typedef struct SIGCCoreCounter // tag = 1A, size = 0x1D4
 	float stats_s3; // load time
 	float stats_s4; // life span
 	float stats_s5; // sig
-	AGCMoney stats_s6; // cost
+	Money stats_s6; // cost
 	long stats_s7; // build time (seconds)
 	char model[13];
 	char pad3; // C
@@ -502,7 +500,7 @@ typedef struct SIGCCoreMissile // tag = 0x17, size = 0x2C0
 	float stats_s3; // reload time
 	float stats_s4; // life span
 	float stats_s5; // sig
-	AGCMoney cost;
+	Money cost;
 	int pad2; // Zero - Checked
 	char model[13];
 	UCHAR pad3; // C - Checked
@@ -557,7 +555,7 @@ typedef struct SIGCCoreMine // tag = 0x18, size = 480
 	float stats_s2; // load time
 	float stats_duration;
 	float stats_s3; // sig
-	AGCMoney cost;
+	Money cost;
 	UCHAR pad3[4]; // all '00'
 	char model[13];// inactive & loadout bmp (prefix with 'l')
 	UCHAR pad4; // CC
@@ -588,8 +586,8 @@ typedef struct SIGCCoreMine // tag = 0x18, size = 480
 typedef IGCCoreMine *PtrCoreMine;
 typedef struct SIGCCoreDrone // tag = 21 size = 384
 {
-	AGCMoney cost; // 1 for con, 4000 for miner
-	AGCMoney research_time; // 1 for con, 90 for miner
+	Money cost; // 1 for con, 4000 for miner
+	Money research_time; // 1 for con, 90 for miner
 	char model[13];
 	UCHAR pad1; // CC
 	UCHAR uks1[13]; // null string
@@ -609,7 +607,7 @@ typedef struct SIGCCoreDrone // tag = 21 size = 384
 	short part_uid; // -1 if none, otherwise uid of mines/probes
 } IGCCoreDrone;
 typedef IGCCoreDrone *PtrCoreDrone;
-typedef struct SIGCCoreProbe // tag = 0x19 (AGC_ProbeType), size = 492
+typedef struct SIGCCoreProbe // tag = 0x19 (OT_probeType), size = 492
 {
 	UCHAR header[16]; // ALL '0' = 4 floats = RGBA values (as in SIGCCoreMine)
 	float stats_s1; // scale
@@ -621,7 +619,7 @@ typedef struct SIGCCoreProbe // tag = 0x19 (AGC_ProbeType), size = 492
 	float stats_s4; // lifespan
 	float stats_s5; // sig
 // DataBuyableIGC
-	AGCMoney price;
+	Money price;
 	DWORD timeToBuild;// all '0'
 	char ukbmp[13]; // inactive/loadout model
 	char pad2; // CC
@@ -655,7 +653,7 @@ typedef struct SIGCCoreProbe // tag = 0x19 (AGC_ProbeType), size = 492
 } IGCCoreProbe;
 typedef IGCCoreProbe *PtrCoreProbe;
 
-typedef struct SIGCCoreProjectile // tag = 0x16 (AGC_ProjectileType), size = 88 
+typedef struct SIGCCoreProjectile // tag = 0x16 (OT_projectileType), size = 88 
 {
 	float percentRed;
 	float percentGreen;
@@ -690,7 +688,7 @@ typedef struct SIGCCoreTreasureChance
 } IGCCoreTreasureChance;
 
 #define SIGCCoreTreasureSet_Size (26+2+2+2)
-typedef struct SIGCCoreTreasureSet // tag = AGC_TreasureSet (0x1C), size = 92
+typedef struct SIGCCoreTreasureSet // tag = OT_treasureSet (0x1C), size = 92
 {
 	char name[26];
 	WORD uid;
@@ -703,7 +701,7 @@ typedef IGCCoreTreasureSet * PtrCoreTreasureSet;
 
 typedef struct SCoreEntry
 {
-	AGCObjectType tag;
+	ObjectType tag;
 	int IGCPartType;
 	unsigned short usemask;
 	LPARAM entry;
