@@ -65,6 +65,7 @@ void CCivDlg::DoDataExchange(CDataExchange* pDX)
 	{
 		strcpy(pciv->name,name);
 		strcpy(pciv->iconName,iconName);
+		strcpy(pciv->hudName,hudName);
 		pciv->lifepod = podid;
 		pciv->initialStationTypeID = garid;
 	}

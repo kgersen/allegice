@@ -23,31 +23,32 @@ CDevelDlg::~CDevelDlg()
 
 void CDevelDlg::DoDataExchange(CDataExchange* pDX)
 {
-	CString name,model,descr;
-	int rtime;
+	CString name,model,descr, icon;
 	if (!pdevel) return;
 	ASSERT(sArtPath != "");
 	int uid = pdevel->developmentID;
-	CString	obj = pdevel->iconName;
 	CComboBox *cb = (CComboBox *) GetDlgItem(IDC_DEVELPATH);
 
 	if (!pDX->m_bSaveAndValidate) // data to dialog
 	{
 		name = pdevel->name;
 		model = pdevel->modelName;
-		mdlbmp.LoadMDLFile(sArtPath + "\\i" + pdevel->modelName +"bmp.mdl");
-		rtime = pdevel->timeToBuild;
+		icon = pdevel->iconName;
+		mdlbmp.LoadMDLFile(sArtPath + "\\i" + pdevel->modelName + "bmp.mdl");
+		mdlbmp2.LoadMDLFile(sArtPath + "\\" + pdevel->iconName + "bmp.mdl");
 		descr = pdevel->description; 
 		cb->SetCurSel(pdevel->groupID);
 	}
 	DDX_Text(pDX, IDC_UID, uid);
 	DDX_Text(pDX, IDC_NAME, name);
 	DDX_Text(pDX, IDC_MODEL, model);
-	DDX_Text(pDX, IDC_OBJ, obj);
-	DDX_Text(pDX, IDC_RTIME, rtime);
+	DDX_Text(pDX, IDC_ICONNAME, icon);
+
+	DDX_Text(pDX, IDC_RTIME, pdevel->timeToBuild);
 	DDX_Text(pDX, IDC_COST, pdevel->price);
 	DDX_Text(pDX, IDC_CSOUND, pdevel->completionSound);
 	DDX_Text(pDX, IDC_DESCRIPTION, descr);
+
 	for (int i=0;i<c_gaMax;i++) //TODO: add a DDX_GA ?
 	{
 		float ga;
@@ -60,6 +61,7 @@ void CDevelDlg::DoDataExchange(CDataExchange* pDX)
 	{
 		strcpy(pdevel->name,name);
 		strcpy(pdevel->modelName,model);
+		strcpy(pdevel->iconName,icon);
 
 		strncpy(pdevel->description,descr,IGC_DESCRIPTIONMAX);
 		if (cb->GetCurSel() != CB_ERR)
@@ -72,6 +74,8 @@ BOOL CDevelDlg::OnInitDialog(void)
 {
 	CDialog::OnInitDialog();
 	VERIFY(mdlbmp.SubclassDlgItem(IDC_PICT, this));
+	VERIFY(mdlbmp2.SubclassDlgItem(IDC_PICT2, this));
+
 	CComboBox *cb = (CComboBox *) GetDlgItem(IDC_DEVELPATH);
 	cb->ResetContent();
 	for (int j=0;j<MAXPATHS;j++)
