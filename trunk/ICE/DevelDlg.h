@@ -13,6 +13,7 @@ public:
 	PtrCoreDevel pdevel;
 	CString sArtPath;
 	CBMPMDLButton mdlbmp;
+	CBMPMDLButton mdlbmp2;
 // Dialog Data
 	enum { IDD = IDD_DEVELDLG };
 
