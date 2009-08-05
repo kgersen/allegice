@@ -33,7 +33,7 @@ protected:
 	bool bShowAC;
 	void BuildConstList(int);
 	void SetLabels();
-	CString ConstLabs[IGCNUMC];
+	CString ConstLabs[c_fcidMax];
 	void OnEnSetfocusS(int i);
 	void FillUsage();
 	void FillUsage(int i);

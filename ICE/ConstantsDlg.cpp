@@ -43,49 +43,49 @@ void CConstantsDlg::DoDataExchange(CDataExchange* pDX)
 	{
 		if (!bShowAC)
 		{
-			DDX_Text(pDX, IDC_S1, pconst->damages[idx][i++]);
-			DDX_Text(pDX, IDC_S2, pconst->damages[idx][i++]);
-			DDX_Text(pDX, IDC_S3, pconst->damages[idx][i++]);
-			DDX_Text(pDX, IDC_S4, pconst->damages[idx][i++]);
-			DDX_Text(pDX, IDC_S5, pconst->damages[idx][i++]);
-			DDX_Text(pDX, IDC_S6, pconst->damages[idx][i++]);
-			DDX_Text(pDX, IDC_S7, pconst->damages[idx][i++]);
-			DDX_Text(pDX, IDC_S8, pconst->damages[idx][i++]);
-			DDX_Text(pDX, IDC_S9, pconst->damages[idx][i++]);
-			DDX_Text(pDX, IDC_S10, pconst->damages[idx][i++]);
-			DDX_Text(pDX, IDC_S11, pconst->damages[idx][i++]);
-			DDX_Text(pDX, IDC_S12, pconst->damages[idx][i++]);
-			DDX_Text(pDX, IDC_S13, pconst->damages[idx][i++]);
-			DDX_Text(pDX, IDC_S14, pconst->damages[idx][i++]);
-			DDX_Text(pDX, IDC_S15, pconst->damages[idx][i++]);
-			DDX_Text(pDX, IDC_S16, pconst->damages[idx][i++]);
-			DDX_Text(pDX, IDC_S17, pconst->damages[idx][i++]);
-			DDX_Text(pDX, IDC_S18, pconst->damages[idx][i++]);
-			DDX_Text(pDX, IDC_S19, pconst->damages[idx][i++]);
-			DDX_Text(pDX, IDC_S20, pconst->damages[idx][i++]);
+			DDX_Text(pDX, IDC_S1, pconst->damageConstants[idx][i++]);
+			DDX_Text(pDX, IDC_S2, pconst->damageConstants[idx][i++]);
+			DDX_Text(pDX, IDC_S3, pconst->damageConstants[idx][i++]);
+			DDX_Text(pDX, IDC_S4, pconst->damageConstants[idx][i++]);
+			DDX_Text(pDX, IDC_S5, pconst->damageConstants[idx][i++]);
+			DDX_Text(pDX, IDC_S6, pconst->damageConstants[idx][i++]);
+			DDX_Text(pDX, IDC_S7, pconst->damageConstants[idx][i++]);
+			DDX_Text(pDX, IDC_S8, pconst->damageConstants[idx][i++]);
+			DDX_Text(pDX, IDC_S9, pconst->damageConstants[idx][i++]);
+			DDX_Text(pDX, IDC_S10, pconst->damageConstants[idx][i++]);
+			DDX_Text(pDX, IDC_S11, pconst->damageConstants[idx][i++]);
+			DDX_Text(pDX, IDC_S12, pconst->damageConstants[idx][i++]);
+			DDX_Text(pDX, IDC_S13, pconst->damageConstants[idx][i++]);
+			DDX_Text(pDX, IDC_S14, pconst->damageConstants[idx][i++]);
+			DDX_Text(pDX, IDC_S15, pconst->damageConstants[idx][i++]);
+			DDX_Text(pDX, IDC_S16, pconst->damageConstants[idx][i++]);
+			DDX_Text(pDX, IDC_S17, pconst->damageConstants[idx][i++]);
+			DDX_Text(pDX, IDC_S18, pconst->damageConstants[idx][i++]);
+			DDX_Text(pDX, IDC_S19, pconst->damageConstants[idx][i++]);
+			DDX_Text(pDX, IDC_S20, pconst->damageConstants[idx][i++]);
 		}
 		else
 		{
-			DDX_Text(pDX, IDC_S1, pconst->damages[i++][idx]);
-			DDX_Text(pDX, IDC_S2, pconst->damages[i++][idx]);
-			DDX_Text(pDX, IDC_S3, pconst->damages[i++][idx]);
-			DDX_Text(pDX, IDC_S4, pconst->damages[i++][idx]);
-			DDX_Text(pDX, IDC_S5, pconst->damages[i++][idx]);
-			DDX_Text(pDX, IDC_S6, pconst->damages[i++][idx]);
-			DDX_Text(pDX, IDC_S7, pconst->damages[i++][idx]);
-			DDX_Text(pDX, IDC_S8, pconst->damages[i++][idx]);
-			DDX_Text(pDX, IDC_S9, pconst->damages[i++][idx]);
-			DDX_Text(pDX, IDC_S10, pconst->damages[i++][idx]);
-			DDX_Text(pDX, IDC_S11, pconst->damages[i++][idx]);
-			DDX_Text(pDX, IDC_S12, pconst->damages[i++][idx]);
-			DDX_Text(pDX, IDC_S13, pconst->damages[i++][idx]);
-			DDX_Text(pDX, IDC_S14, pconst->damages[i++][idx]);
-			DDX_Text(pDX, IDC_S15, pconst->damages[i++][idx]);
-			DDX_Text(pDX, IDC_S16, pconst->damages[i++][idx]);
-			DDX_Text(pDX, IDC_S17, pconst->damages[i++][idx]);
-			DDX_Text(pDX, IDC_S18, pconst->damages[i++][idx]);
-			DDX_Text(pDX, IDC_S19, pconst->damages[i++][idx]);
-			DDX_Text(pDX, IDC_S20, pconst->damages[i++][idx]);
+			DDX_Text(pDX, IDC_S1, pconst->damageConstants[i++][idx]);
+			DDX_Text(pDX, IDC_S2, pconst->damageConstants[i++][idx]);
+			DDX_Text(pDX, IDC_S3, pconst->damageConstants[i++][idx]);
+			DDX_Text(pDX, IDC_S4, pconst->damageConstants[i++][idx]);
+			DDX_Text(pDX, IDC_S5, pconst->damageConstants[i++][idx]);
+			DDX_Text(pDX, IDC_S6, pconst->damageConstants[i++][idx]);
+			DDX_Text(pDX, IDC_S7, pconst->damageConstants[i++][idx]);
+			DDX_Text(pDX, IDC_S8, pconst->damageConstants[i++][idx]);
+			DDX_Text(pDX, IDC_S9, pconst->damageConstants[i++][idx]);
+			DDX_Text(pDX, IDC_S10, pconst->damageConstants[i++][idx]);
+			DDX_Text(pDX, IDC_S11, pconst->damageConstants[i++][idx]);
+			DDX_Text(pDX, IDC_S12, pconst->damageConstants[i++][idx]);
+			DDX_Text(pDX, IDC_S13, pconst->damageConstants[i++][idx]);
+			DDX_Text(pDX, IDC_S14, pconst->damageConstants[i++][idx]);
+			DDX_Text(pDX, IDC_S15, pconst->damageConstants[i++][idx]);
+			DDX_Text(pDX, IDC_S16, pconst->damageConstants[i++][idx]);
+			DDX_Text(pDX, IDC_S17, pconst->damageConstants[i++][idx]);
+			DDX_Text(pDX, IDC_S18, pconst->damageConstants[i++][idx]);
+			DDX_Text(pDX, IDC_S19, pconst->damageConstants[i++][idx]);
+			DDX_Text(pDX, IDC_S20, pconst->damageConstants[i++][idx]);
 		}
 	}
 	if (pDX->m_bSaveAndValidate) // dialog to data
@@ -94,7 +94,7 @@ void CConstantsDlg::DoDataExchange(CDataExchange* pDX)
 		int idx = cbglobals->GetCurSel();
 		if (idx != CB_ERR)
 		{
-			DDX_Text(pDX, IDC_GLOBALVAL, pcore->pConstants->constants[idx]);
+			DDX_Text(pDX, IDC_GLOBALVAL, pcore->pConstants->floatConstants[idx]);
 			CString lab;
 			GetDlgItemText(IDC_GLOBALLAB,lab);
 			if (lab != ConstLabs[idx])
@@ -177,7 +177,7 @@ BOOL CConstantsDlg::OnInitDialog()
 	CStdioFile cf;
 	if (cf.Open("ice.ini",CFile::modeRead))
 	{
-		for (int i=0;i<IGCNUMC;i++)
+		for (int i=0;i<c_fcidMax;i++)
 			cf.ReadString(ConstLabs[i]);
 		bIniChanged = false;
 		cf.Close();
@@ -195,7 +195,7 @@ void CConstantsDlg::OnBnClickedOk()
 		CFileException e;
 		if (cf.Open("ice.ini",CFile::modeCreate|CFile::modeWrite,&e))
 		{
-			for (int i=0;i<IGCNUMC;i++)
+			for (int i=0;i<c_fcidMax;i++)
 			{
 				cf.WriteString(ConstLabs[i]);
 				cf.WriteString("\n");
@@ -226,7 +226,7 @@ void CConstantsDlg::OnLbnSelchangeGloballist()
 	if (idx == CB_ERR) return;
 	if (pcore == NULL) return;
 	CString val;
-	val.Format("%g",pcore->pConstants->constants[idx]);
+	val.Format("%g",pcore->pConstants->floatConstants[idx]);
 	SetDlgItemText(IDC_GLOBALVAL,val);
 	SetDlgItemText(IDC_GLOBALLAB,ConstLabs[idx]);
 }
