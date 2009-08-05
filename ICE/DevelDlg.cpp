@@ -24,44 +24,46 @@ CDevelDlg::~CDevelDlg()
 void CDevelDlg::DoDataExchange(CDataExchange* pDX)
 {
 	CString name,model,descr;
-	int rtime,cost,cat;
+	int rtime;
 	if (!pdevel) return;
 	ASSERT(sArtPath != "");
-	int uid = pdevel->uid;
-	CString	obj = pdevel->icon;
+	int uid = pdevel->developmentID;
+	CString	obj = pdevel->iconName;
 	CComboBox *cb = (CComboBox *) GetDlgItem(IDC_DEVELPATH);
 
 	if (!pDX->m_bSaveAndValidate) // data to dialog
 	{
 		name = pdevel->name;
-		model = pdevel->model;
-		mdlbmp.LoadMDLFile(sArtPath + "\\i" + pdevel->model +"bmp.mdl");
-		rtime = pdevel->research_time;
-		cost = pdevel->cost;
+		model = pdevel->modelName;
+		mdlbmp.LoadMDLFile(sArtPath + "\\i" + pdevel->modelName +"bmp.mdl");
+		rtime = pdevel->timeToBuild;
 		descr = pdevel->description; 
-		cat = pdevel->cat;
-		cb->SetCurSel(pdevel->root_tree);
+		cb->SetCurSel(pdevel->groupID);
 	}
 	DDX_Text(pDX, IDC_UID, uid);
 	DDX_Text(pDX, IDC_NAME, name);
 	DDX_Text(pDX, IDC_MODEL, model);
 	DDX_Text(pDX, IDC_OBJ, obj);
 	DDX_Text(pDX, IDC_RTIME, rtime);
-	DDX_Text(pDX, IDC_COST, cost);
-	DDX_Text(pDX, IDC_CAT, cat);
+	DDX_Text(pDX, IDC_COST, pdevel->price);
+	DDX_Text(pDX, IDC_CSOUND, pdevel->completionSound);
 	DDX_Text(pDX, IDC_DESCRIPTION, descr);
-	for (int i=0;i<25;i++)
-		DDX_Text(pDX, IDC_FACTOR0+i, pdevel->factors[i]);
+	for (int i=0;i<c_gaMax;i++)
+	{
+		float ga;
+		if (!pDX->m_bSaveAndValidate) ga = pdevel->gas.GetAttribute(i);
+		DDX_Text(pDX, IDC_FACTOR0+i, ga);
+		if (pDX->m_bSaveAndValidate) pdevel->gas.SetAttribute(i,ga);
+	}
+
 	if (pDX->m_bSaveAndValidate) // dialog to data
 	{
 		strcpy(pdevel->name,name);
-		strcpy(pdevel->model,model);
-		pdevel->research_time = rtime;
-		pdevel->cost = cost;
-		pdevel->cat = cat;
+		strcpy(pdevel->modelName,model);
+
 		strncpy(pdevel->description,descr,IGC_DESCRIPTIONMAX);
 		if (cb->GetCurSel() != CB_ERR)
-			pdevel->root_tree = (UCHAR)cb->GetCurSel();
+			pdevel->groupID = (UCHAR)cb->GetCurSel();
 	}
 	CDialog::DoDataExchange(pDX);
 }
@@ -87,10 +89,10 @@ BOOL CDevelDlg::OnInitDialog(void)
 void CDevelDlg::OnClickedOk(void)
 {
 	CString oldname = pdevel->name;
-	UCHAR oldroot = pdevel->root_tree;
+	BuyableGroupID oldroot = pdevel->groupID;
 	UpdateData(TRUE);
 	CString newname = pdevel->name;
-	UCHAR newroot = pdevel->root_tree;
+	BuyableGroupID newroot = pdevel->groupID;
 	if ((oldname != newname) || (oldroot != newroot))
 		GetParent()->UpdateData(TRUE);
 	UpdateData(FALSE);

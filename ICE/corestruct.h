@@ -38,7 +38,7 @@
 //const int c_cbDescription   = c_cbDescriptionDB + 1;
 //const int c_cbName          = c_cbNameDB        + 1;
 //const int c_cbLocAbrev      = c_cbLocAbrevDB    + 1;
-//const int c_cbCDKey         = 32 + 1; // TODO: fill in the correct length
+//const int c_cbCDKey         = 32 + 1; // TBDone: fill in the correct length
 //const int c_cbPassportName  = 256 + 1;
 //
 
@@ -211,24 +211,27 @@ typedef struct SIGCCoreCiv // size = 268
 } IGCCoreCiv;
 typedef IGCCoreCiv * PtrCoreCiv;
 
-typedef struct SIGCCoreDevel // size = 468 0x1D4, tag = 0x20
-{
-	UINT cost;
-	UINT research_time;
-	char model[13];
-	UCHAR uk1; // cc
-	char icon[13]; // always 'icontech'
-	char name[25];
-	char description[200];
-	UCHAR pad1;//00
-	UCHAR root_tree;// tree root (0=construction,1=garrison,2=sup,3=tac,4=exp,5=sy)
-	UCHAR techtree[100];
-	UCHAR pad2[2]; // cd cd
-	float factors[25];//
-	unsigned short uid;
-	unsigned short cat; // sound
-} IGCCoreDevel;
+//typedef struct SIGCCoreDevel // size = 468 0x1D4, tag = 0x20
+//{
+//	UINT cost;
+//	UINT research_time;
+//	char model[13];
+//	UCHAR uk1; // cc
+//	char icon[13]; // always 'icontech'
+//	char name[25];
+//	char description[200];
+//	UCHAR pad1;//00
+//	UCHAR root_tree;// tree root (0=construction,1=garrison,2=sup,3=tac,4=exp,5=sy)
+//	UCHAR techtree[100];
+//	UCHAR pad2[2]; // cd cd
+//	float factors[25];//
+//	unsigned short uid;
+//	unsigned short cat; // sound
+//} 
+typedef DataDevelopmentIGC IGCCoreDevel;
+
 typedef IGCCoreDevel *PtrCoreDevel;
+
 #define IGCHullAbility_Board			1
 #define IGCHullAbility_Rescue			2
 #define IGCHullAbility_Lifepod			4
@@ -424,7 +427,7 @@ typedef struct SIGCCorePart // tag 0x1E, size = var
 			unsigned short clk_sound2; // sound off
 		} clk;
 	} specs;
-	UCHAR TODO[1000]; // assume max
+	UCHAR Todo[1000]; // assume max
 	int size;
 	bool isspec;
 } IGCCorePart;

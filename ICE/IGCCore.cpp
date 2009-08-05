@@ -786,7 +786,7 @@ char *CIGCCore::DevelName(unsigned short uid)
 	for (int j=0;j<cl_Devels.GetSize();j++)
 	{
 		PtrCoreDevel devel = cl_Devels.GetAt(j);
-		if (devel->uid == uid)
+		if (devel->developmentID == uid)
 				return devel->name;
 	}
 	return NULL;
@@ -895,7 +895,7 @@ void CIGCCore::AddDevel(PtrCoreDevel pdevel)
 		for (int j=0;j<cl_Devels.GetSize();j++)
 		{
 			PtrCoreDevel p = cl_Devels.GetAt(j);
-			if (p->uid == uid) {
+			if (p->developmentID == uid) {
 				used = true;
 				break;
 			}
@@ -908,7 +908,7 @@ void CIGCCore::AddDevel(PtrCoreDevel pdevel)
 		AfxMessageBox("No more available UID for devels");
 		return;
 	}
-	pdevel->uid = uid;
+	pdevel->developmentID = uid;
 	cl_Devels.Add(pdevel);
 }
 void CIGCCore::AddShip(PtrCoreShip pship)
@@ -1214,7 +1214,7 @@ bool CIGCCore::MoveDevel(PtrCoreDevel pdevel,int dir)
 	for (int i=from;i!=stop;i+=step)
 	{
 		pmate = cl_Devels.GetAt(i);
-		if (pmate->root_tree == pdevel->root_tree)
+		if (pmate->groupID == pdevel->groupID)
 		{
 			imate = i; break;
 		}
@@ -1603,7 +1603,7 @@ PtrCoreDevel CIGCCore::FindDevel(short uid)
 	for (int j=0;j<cl_Devels.GetSize();j++)
 	{
 		PtrCoreDevel pdevel = cl_Devels.GetAt(j);
-		if (pdevel->uid == uid) return pdevel;
+		if (pdevel->developmentID == uid) return pdevel;
 	}
 	return NULL;
 }

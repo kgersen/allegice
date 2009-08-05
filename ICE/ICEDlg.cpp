@@ -348,16 +348,16 @@ void CICEDlg::BuildTree(void)
 	for (int j=0;j<pigccore->cl_Devels.GetSize();j++)
 	{
 		PtrCoreDevel pdevel = pigccore->cl_Devels.GetAt(j);
-		if (bFilter & IsFiltered(pdevel->techtree))
+		if (bFilter & IsFiltered((UCHAR*)&(pdevel->ttbmRequired))) //TODO
 			continue;
 		CString s;
 		PtrCoreEntry pce = new CoreEntry;
 		pce->tag = OT_development;
 		pce->entry = (LPARAM)pdevel;
-		s.Format("%s (%d)",pdevel->name,pdevel->uid);
+		s.Format("%s (%d)",pdevel->name,pdevel->developmentID);
 		pce->name.Format("Devel: %s",s);
 		RefreshStores(pce);
-		maintree->InsertItem(TVIF_TEXT|TVIF_PARAM, s, 0, 0, 0, 0,  (LPARAM)pce, hTechPaths[pdevel->root_tree], tvisort);
+		maintree->InsertItem(TVIF_TEXT|TVIF_PARAM, s, 0, 0, 0, 0,  (LPARAM)pce, hTechPaths[pdevel->groupID], tvisort);
 	}
 	for (int j=0;j<pigccore->cl_Drones.GetSize();j++)
 	{
@@ -683,8 +683,8 @@ void CICEDlg::OnSelchangeMainTree(NMHDR *pNMHDR, LRESULT *pResult)
 			dlgDevel.pdevel = pdevel;
 			dlgDevel.UpdateData(FALSE);
 			curdiag = (CDialog *)&dlgDevel;
-			pTechTree = pdevel->techtree;
-			sTechName.Format("Devel: %s (%d)",pdevel->name,pdevel->uid);
+			pTechTree = (UCHAR *)&(pdevel->ttbmRequired); //TODO
+			sTechName.Format("Devel: %s (%d)",pdevel->name,pdevel->developmentID);
 			showmb=true;
 			}break;
 		case OT_hullType:{ // ship
@@ -1080,9 +1080,10 @@ CString CICEDlg::TTHaveBit(int ipBit,CListBox *clb, CString prefix)
 	for (int j=0;j<pigccore->cl_Devels.GetSize();j++)
 	{
 		PtrCoreDevel p = pigccore->cl_Devels.GetAt(j);
-		if (p->techtree[idx] & imask)
+		UCHAR *techtree = (UCHAR*)&(p->ttbmRequired);
+		if (techtree[idx] & imask)
 		{
-			t.Format("Devel: %s (%d)\r\n",p->name,p->uid);
+			t.Format("Devel: %s (%d)\r\n",p->name,p->developmentID);
 			s+=t;
 			int idx = clb->AddString(prefix+t); clb->SetItemDataPtr(idx,p);
 		}
@@ -2014,7 +2015,7 @@ void CICEDlg::OnBnClickedBback()
 
 void CICEDlg::OnBnClickedCompare()
 {
-	// TODO: Add your control notification handler code here
+	// TODO: compare feature
 }
 
 void CICEDlg::OnBnClickedDump()
@@ -2033,7 +2034,7 @@ void CICEDlg::OnBnClickedDump()
 
 void CICEDlg::OnBnClickedChkart()
 {
-	// TODO: Add your control notification handler code here
+	// TODO: check artwork feature
 }
 
 void CICEDlg::OnLbnSelchangeTtlist()
