@@ -68,8 +68,6 @@ const CString IGCArmorClasses[IGCACMAX] = {
 "AC16","AC17","AC18","AC19"
 };
 
-#define IGCSTATIONF_CAPSCANDOCK 128
-#define IGCSTATIONF_STARTINGBASE 64
 
 #define IGCSTATIONF_BUILDON_HELIUM 1
 #define IGCSTATIONF_BUILDON_THORIUM 4
@@ -78,20 +76,8 @@ const CString IGCArmorClasses[IGCACMAX] = {
 #define IGCSTATIONF_BUILDON_SILICON 32
 #define IGCSTATIONF_BUILDON_CARBON 64
 
-// type is class in fact, used for capture equivalence
-#define IGCSTATION_TYPE_GARRISON 0
-#define IGCSTATION_TYPE_OUTPOST  1 
-#define IGCSTATION_TYPE_SHIPYARD 2
-#define IGCSTATION_TYPE_TELEPORT 3
-#define IGCSTATION_TYPE_REFINERY 4
-#define IGCSTATION_TYPE_EXPANSION 5
-#define IGCSTATION_TYPE_SUPREMACY 6
-#define IGCSTATION_TYPE_TACTICAL 7
-#define IGCSTATION_TYPE_PLATFORM 8
-#define IGCSTATION_TYPE_URANIUMMINE 9
-#define IGCSTATION_TYPE_CARBONMINE 10
-#define IGCSTATION_TYPE_SILICONMINE 11
-#define IGCSTATION_TYPE_NBVALS 20 // 12 in fact, 13 is for 'test'
+
+#define IGCSTATION_TYPE_NBVALS 20 // TODO: be dynamic and store names in core ?
 const CString IGCStationTypeNames[IGCSTATION_TYPE_NBVALS] = 
 {
 	"Garrison","Outpost","Shipyard","Teleport","Refinery",
@@ -173,45 +159,20 @@ typedef struct SIGCCoreStationType //
 } IGCCoreStationType;
 typedef IGCCoreStationType * PtrCoreStationType;
 
-#define IGCF_ShipSpeed             0
-#define IGCF_ShipAcceleration      1
-#define IGCF_ShipAgility1          2
-#define IGCF_ShipAgility2          3
-#define IGCF_StationHull1          4
-#define IGCF_StationHull2          5
-#define IGCF_StationShield1        6
-#define IGCF_StationShield2        7
-#define IGCF_ShipHull              8
-#define IGCF_ShipShield1           9
-#define IGCF_ShipShield2          10
-#define IGCF_ShipSensors          11
-#define IGCF_ShipSignature        12
-#define IGCF_ShipEnergy           13
-#define IGCF_PWRange              14
-#define IGCF_EWRange              15
-#define IGCF_MissileTrack         16
-#define IGCF_He3Speed             17
-#define IGCF_He3Yield             18
-#define IGCF_UNKNOWN              19    // To Be Confirmed: starting money
-#define IGCF_Ripcord              20
-#define IGCF_PWDamage             21
-#define IGCF_MissileDamage        22
-#define IGCF_Cost                 23
-#define IGCF_ResearchTime         24
-
-typedef struct SIGCCoreCiv // size = 268
-{
-	float ukf[2]; // 0=starting money modifier,1=bonus money
-	char name[25];
-	char model[13];
-	char obj[13];
-	UCHAR techtree[101];// first = 02
-	float factors[25];
-	unsigned short lifepod_uid; // lifepod ID
-	unsigned short uid;
-	unsigned short gar_uid; // uid in StationType (or last "base" uid)
-	CHAR end[2]; // CD CD
-} IGCCoreCiv;
+//typedef struct SIGCCoreCiv // size = 268
+//{
+//	float ukf[2]; // 0=starting money modifier,1=bonus money
+//	char name[25];
+//	char model[13];
+//	char obj[13];
+//	UCHAR techtree[101];// first = 02
+//	float factors[25];
+//	unsigned short lifepod_uid; // lifepod ID
+//	unsigned short uid;
+//	unsigned short gar_uid; // uid in StationType (or last "base" uid)
+//	CHAR end[2]; // CD CD
+//} 
+typedef DataCivilizationIGC IGCCoreCiv;
 typedef IGCCoreCiv * PtrCoreCiv;
 
 //typedef struct SIGCCoreDevel // size = 468 0x1D4, tag = 0x20
