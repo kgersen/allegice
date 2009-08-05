@@ -257,7 +257,7 @@ void CIGCCore::BuildBasesMenu(UINT uid)
 		{
 			PtrCoreStationType pst = cl_StationTypes.GetAt(b);
 			//if ((pst->uid > (100*j)) && (pst->uid < 100*(j+1)))
-			if (Depends(pst->techtree,pciv->techtree))
+			if (Depends(pst->techtree,(UCHAR *)&(pciv->ttbmBaseTechs))) //TODO
 			{
 				CString res = pst->name;
 				res.AppendFormat("(%d)",pst->uid);
@@ -322,7 +322,7 @@ CString CIGCCore::GetBaseCivName(unsigned short uid)
 			for (int c=0;c<cl_Civs.GetSize();c++)
 			{
 				PtrCoreCiv pciv = cl_Civs.GetAt(c);
-				if (Depends(pst->techtree,pciv->techtree))
+				if (Depends(pst->techtree,(UCHAR *)&(pciv->ttbmBaseTechs))) // TODO
 				{
 					CString res = pciv->name;
 					return res;
@@ -868,7 +868,7 @@ void CIGCCore::AddCiv(PtrCoreCiv pciv)
 		for (int j=0;j<cl_Civs.GetSize();j++)
 		{
 			PtrCoreCiv p = cl_Civs.GetAt(j);
-			if (p->uid == uid) {
+			if (p->civilizationID == uid) {
 				used = true;
 				break;
 			}
@@ -881,7 +881,7 @@ void CIGCCore::AddCiv(PtrCoreCiv pciv)
 		AfxMessageBox("No more available UID for factions");
 		return;
 	}
-	pciv->uid = uid;
+	pciv->civilizationID = uid;
 	cl_Civs.Add(pciv);
 }
 
@@ -1592,7 +1592,7 @@ PtrCoreCiv CIGCCore::FindCiv(short uid)
 	for (int j=0;j<cl_Civs.GetSize();j++)
 	{
 		PtrCoreCiv pCiv = cl_Civs.GetAt(j);
-		if (pCiv->uid == uid) return pCiv;
+		if (pCiv->civilizationID == uid) return pCiv;
 	}
 	return NULL;
 }
@@ -1707,10 +1707,10 @@ LPARAM CIGCCore::FindError(char **pszReason)
 	for (int j=0;j<cl_Civs.GetSize();j++)
 	{
 		PtrCoreCiv pciv = cl_Civs.GetAt(j);
-		PtrCoreStationType pgar = FindStationType(pciv->gar_uid);
+		PtrCoreStationType pgar = FindStationType(pciv->initialStationTypeID);
 		if (!pgar) 
 			return BuildError((LPARAM)pciv,"invalid Garrison ID",pszReason);
-		PtrCoreShip ppod = FindShip(pciv->lifepod_uid);
+		PtrCoreShip ppod = FindShip(pciv->lifepod);
 		if (!ppod) 
 			return BuildError((LPARAM)pciv,"invalid LifePod ID",pszReason);
 	}

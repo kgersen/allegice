@@ -31,37 +31,42 @@ void CCivDlg::SetIcons(HICON iJumpIcon)
 }
 void CCivDlg::DoDataExchange(CDataExchange* pDX)
 {
-	CString name,model;
+	CString name,iconName;
 	int podid,garid;
 	if (!pciv) return;
 	if (!pcore) return;
 
-	int uid = pciv->uid;
-	CString	obj = pciv->obj;
+	int uid = pciv->civilizationID;
+	CString	hudName = pciv->hudName;
 	if (!pDX->m_bSaveAndValidate) // data to dialog
 	{
 		name = pciv->name;
-		model = pciv->model;
-		podid = pciv->lifepod_uid;
-		garid = pciv->gar_uid;
+		iconName = pciv->iconName;
+		podid = pciv->lifepod;
+		garid = pciv->initialStationTypeID;
 	}
-	DDX_Text(pDX, IDC_FUK1, pciv->ukf[0]);
-	DDX_Text(pDX, IDC_FUK2, pciv->ukf[1]);
+	DDX_Text(pDX, IDC_FUK1, pciv->incomeMoney);
+	DDX_Text(pDX, IDC_FUK2, pciv->bonusMoney);
 
 	DDX_Text(pDX, IDC_UID, uid);
 	DDX_Text(pDX, IDC_NAME, name);
-	DDX_Text(pDX, IDC_MODEL, model);
-	DDX_Text(pDX, IDC_OBJ, obj);
+	DDX_Text(pDX, IDC_ICONNAME, iconName);
+	DDX_Text(pDX, IDC_HUDNAME, hudName);
 	DDX_Text(pDX, IDC_SUK, podid);
 	DDX_Text(pDX, IDC_GARID, garid);
-	for (int i=0;i<25;i++)
-		DDX_Text(pDX, IDC_FACTOR0+i, pciv->factors[i]);
+	for (int i=0;i<c_gaMax;i++) //TODO: add a DDX_GA ?
+	{
+		float ga;
+		if (!pDX->m_bSaveAndValidate) ga = pciv->gasBaseAttributes.GetAttribute(i);
+		DDX_Text(pDX, IDC_FACTOR0+i, ga);
+		if (pDX->m_bSaveAndValidate) pciv->gasBaseAttributes.SetAttribute(i,ga);
+	}
 	if (pDX->m_bSaveAndValidate) // dialog to data
 	{
 		strcpy(pciv->name,name);
-		strcpy(pciv->model,model);
-		pciv->lifepod_uid = podid;
-		pciv->gar_uid = garid;
+		strcpy(pciv->iconName,iconName);
+		pciv->lifepod = podid;
+		pciv->initialStationTypeID = garid;
 	}
 	CDialog::DoDataExchange(pDX);
 }
@@ -157,7 +162,7 @@ void CCivDlg::OnBnClickedBgarid()
 	if (!pciv) return;
 	if (!pcore) return;
 	if (!MainUI) return;
-	LPARAM p = (LPARAM)pcore->FindStationType(pciv->gar_uid);
+	LPARAM p = (LPARAM)pcore->FindStationType(pciv->initialStationTypeID);
 	if (p)
 		MainUI->SelectPCE(p);
 }
@@ -167,7 +172,7 @@ void CCivDlg::OnBnClickedBlifepod()
 	if (!pciv) return;
 	if (!pcore) return;
 	if (!MainUI) return;
-	LPARAM p = (LPARAM)pcore->FindShip(pciv->lifepod_uid);
+	LPARAM p = (LPARAM)pcore->FindShip(pciv->lifepod);
 	if (p)
 		MainUI->SelectPCE(p);
 }

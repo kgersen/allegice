@@ -48,7 +48,7 @@ void CDevelDlg::DoDataExchange(CDataExchange* pDX)
 	DDX_Text(pDX, IDC_COST, pdevel->price);
 	DDX_Text(pDX, IDC_CSOUND, pdevel->completionSound);
 	DDX_Text(pDX, IDC_DESCRIPTION, descr);
-	for (int i=0;i<c_gaMax;i++)
+	for (int i=0;i<c_gaMax;i++) //TODO: add a DDX_GA ?
 	{
 		float ga;
 		if (!pDX->m_bSaveAndValidate) ga = pdevel->gas.GetAttribute(i);

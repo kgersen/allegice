@@ -321,7 +321,7 @@ void CICEDlg::BuildTree(void)
 		PtrCoreEntry pce = new CoreEntry;
 		pce->tag = OT_civilization;
 		pce->entry = (LPARAM)pciv;
-		pce->name.Format("Faction: %s (%d)",pciv->name,pciv->uid);
+		pce->name.Format("Faction: %s (%d)",pciv->name,pciv->civilizationID);
 		RefreshStores(pce);
 		maintree->InsertItem(TVIF_TEXT|TVIF_PARAM,pciv->name, 0, 0, 0, 0,  (LPARAM)pce, hCivs, tvisort);
 		//hStations[j] = maintree->InsertItem(pciv->name, hStationsRoot, TVI_SORT);
@@ -674,8 +674,8 @@ void CICEDlg::OnSelchangeMainTree(NMHDR *pNMHDR, LRESULT *pResult)
 			dlgCiv.UpdateData(FALSE);
 			curdiag = (CDialog *)&dlgCiv;
 			//AfxMessageBox(pciv->name);
-			pTechTree = pciv->techtree;
-			sTechName.Format("Faction: %s (%d)",pciv->name,pciv->uid);
+			pTechTree = (UCHAR *)&(pciv->ttbmBaseTechs); //TODO
+			sTechName.Format("Faction: %s (%d)",pciv->name,pciv->civilizationID);
 			showmb=true;
 			}break;
 		case OT_development:{
@@ -1050,15 +1050,16 @@ CString CICEDlg::TTHaveBit(int ipBit,CListBox *clb, CString prefix)
 		for (int j=0;j<pigccore->cl_Civs.GetSize();j++)
 		{
 			PtrCoreCiv pciv = pigccore->cl_Civs.GetAt(j);
-			if (pciv->techtree[idxciv] & imask)
+			UCHAR *techtree = (UCHAR *)&(pciv->ttbmBaseTechs); //TODO
+			if (techtree[idxciv] & imask)
 			{
-				t.Format("Faction: %s (%d) 'Devel'\r\n",pciv->name,pciv->uid);
+				t.Format("Faction: %s (%d) 'Devel'\r\n",pciv->name,pciv->civilizationID);
 				s+=t;
 				int idx = clb->AddString(prefix+t); clb->SetItemDataPtr(idx,pciv);
 			}
-			if (pciv->techtree[idx] & imask)
+			if (techtree[idx] & imask)
 			{
-				t.Format("Faction: %s (%d) 'No Devel'\r\n",pciv->name,pciv->uid);
+				t.Format("Faction: %s (%d) 'No Devel'\r\n",pciv->name,pciv->civilizationID);
 				s+=t;
 				int idx = clb->AddString(prefix+t); clb->SetItemDataPtr(idx,pciv);
 			}
