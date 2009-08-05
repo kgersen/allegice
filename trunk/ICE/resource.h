@@ -111,6 +111,7 @@
 #define IDC_HB_CHEATTODOCK              1034
 #define IDC_INCOME2                     1034
 #define IDC_HB_ISRIP                    1034
+#define IDC_CSOUND                      1034
 #define IDC_OVUID                       1035
 #define IDC_HB_FIGHTER                  1036
 #define IDC_HB_ISSMALLRIP               1037
@@ -416,7 +417,6 @@
 #define IDC_BPROJID                     1272
 #define IDC_BSUCC                       1273
 #define IDC_DMLABEL                     1274
-#define IDC_BSUCC2                      1274
 #define IDC_BDRONE                      1274
 #define IDC_USEDBYLABEL                 1275
 #define IDC_TTLIST                      1276
