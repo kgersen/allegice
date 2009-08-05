@@ -24,6 +24,8 @@ CStationDlg::~CStationDlg()
 void CStationDlg::SetIcons(HICON iJumpIcon)
 {
 	((CButton *)GetDlgItem(IDC_BSUCC))->SetIcon(iJumpIcon);
+	((CButton *)GetDlgItem(IDC_BDRONE))->SetIcon(iJumpIcon);
+
 }
 void CStationDlg::DoDataExchange(CDataExchange* pDX)
 {
@@ -280,6 +282,7 @@ BEGIN_MESSAGE_MAP(CStationDlg, CDialog)
 	ON_BN_CLICKED(IDC_USEM11, OnBnClickedUsem11)
 	ON_BN_CLICKED(IDC_BSUCC, &CStationDlg::OnBnClickedBsucc)
 	ON_BN_CLICKED(IDC_BEDITDESCR, &CStationDlg::OnBnClickedBeditdescr)
+	ON_BN_CLICKED(IDC_BDRONE, &CStationDlg::OnBnClickedBdrone)
 END_MESSAGE_MAP()
 
 
@@ -323,4 +326,15 @@ void CStationDlg::OnBnClickedBeditdescr()
 	CDescrDlg dlg(pstation->description);
 	if (dlg.DoModal() == IDOK)
 		SetDlgItemText(IDC_DESCRIPTION,pstation->description);
+}
+
+void CStationDlg::OnBnClickedBdrone()
+{
+	if (!pstation) return;
+	if (!pcore) return;
+	PtrCoreDrone pdrone = pcore->FindDrone(pstation->stats_ss0);
+	if (pdrone)
+		MainUI->SelectPCE((LPARAM)pdrone);
+	else
+		AfxMessageBox("invalid drone!");
 }

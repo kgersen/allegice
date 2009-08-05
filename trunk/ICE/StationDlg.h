@@ -36,4 +36,5 @@ public:
 	afx_msg void OnBnClickedUsem11();
 	afx_msg void OnBnClickedBsucc();
 	afx_msg void OnBnClickedBeditdescr();
+	afx_msg void OnBnClickedBdrone();
 };
