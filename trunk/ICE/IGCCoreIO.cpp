@@ -40,11 +40,11 @@ bool CIGCCore::SaveAsText(CString filepath)
 	}
 	SortEntries();
 	// globals
-	CString ConstLabs[IGCNUMC];
+	CString ConstLabs[c_fcidMax];
 	CStdioFile cf; cf;
 	if (cf.Open("ice.ini",CFile::modeRead))
 	{
-		for (int i=0;i<IGCNUMC;i++)
+		for (int i=0;i<c_fcidMax;i++)
 		{
 			cf.ReadString(ConstLabs[i]);
 			ConstLabs[i] = ConstLabs[i].Trim();
@@ -53,11 +53,11 @@ bool CIGCCore::SaveAsText(CString filepath)
 	}
 	else
 	{
-		for (int i=0;i<IGCNUMC;i++) ConstLabs[i].Format("Global%02d",i);
+		for (int i=0;i<c_fcidMax;i++) ConstLabs[i].Format("Global%02d",i);
 	}
-	for (int i=0;i<IGCNUMC;i++)
+	for (int i=0;i<c_fcidMax;i++)
 	{
-		stmp.Format("%-25s = %f\n",ConstLabs[i],pConstants->constants[i]);
+		stmp.Format("%-25s = %f\n",ConstLabs[i],pConstants->floatConstants[i]);
 		ctmp.WriteString(stmp);
 	}
 	// DM/AC
@@ -65,7 +65,7 @@ bool CIGCCore::SaveAsText(CString filepath)
 	{
 		for (int j=0;j<20;j++)
 		{
-			stmp.Format("DM%02d/AC%02d = %f\n",i,j,pConstants->damages[i][j]);
+			stmp.Format("DM%02d/AC%02d = %f\n",i,j,pConstants->damageConstants[i][j]);
 			ctmp.WriteString(stmp);
 		}
 	}

@@ -43,19 +43,23 @@
 //
 
 // max length for string
-#define IGC_NAMEMAX 25
-#define IGC_DESCRIPTIONMAX 200
+#define IGC_NAMEMAX c_cbName
+#define IGC_DESCRIPTIONMAX c_cbDescriptionDB // TODO: should be c_cbDescription
 
-#define IGCNUMC 40
-typedef struct SIGCCoreConstants // tag=0x22 size=440*4
-{
-	float constants[IGCNUMC];
-	float damages[20][20];
-} IGCCoreConstants;
-#define IGCCPROSPERITY 12
 
-#define IGCDMMAX 20
-#define IGCACMAX 20
+//#define IGCNUMC 40
+//typedef struct SIGCCoreConstants // tag=0x22 size=440*4
+//{
+//	float constants[IGCNUMC];
+//	float damages[20][20];
+//} 
+typedef Constants IGCCoreConstants;
+typedef IGCCoreConstants * PtrCoreConstants;
+
+
+
+#define IGCDMMAX c_dmgidMax
+#define IGCACMAX c_defidMax
 const CString IGCArmorClasses[IGCACMAX] = {
 "asteroid","light","medium","heavy",
 "extra heavy","utility","minor base hull","major base hull",
@@ -63,7 +67,6 @@ const CString IGCArmorClasses[IGCACMAX] = {
 "lt base hull","lt base shld","large shield","AC15",
 "AC16","AC17","AC18","AC19"
 };
-typedef IGCCoreConstants * PtrCoreConstants;
 
 #define IGCSTATIONF_CAPSCANDOCK 128
 #define IGCSTATIONF_STARTINGBASE 64
