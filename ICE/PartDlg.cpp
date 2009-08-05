@@ -92,7 +92,7 @@ void CPartDlg::DoDataExchange(CDataExchange* pDX)
 		{
 			DDX_Text(pDX, IDC_SIGM,*sigm);
 			ls7 = "Sig %";
-			for (int  i=0;i<AGCEquipmentType_MAX;i++)
+			for (int  i=0;i<ET_MAX;i++)
 				cbpt->AddString(ICGPartType[i]);
 			cename->EnableWindow(TRUE);
 			cemodel->EnableWindow(TRUE);
@@ -123,7 +123,7 @@ void CPartDlg::DoDataExchange(CDataExchange* pDX)
 			cbproj->ShowWindow(SW_HIDE);
 			switch (ppart->type)
 			{
-				case AGCEquipmentType_Weapon:
+				case ET_Weapon:
 					cbproj->ShowWindow(SW_SHOWNA);
 					s1 = ppart->specs.wep.wep_stats_s1; ls1 = "Time ready";
 					s2 = ppart->specs.wep.wep_stats_s2; ls2 = "Shot interval";
@@ -135,7 +135,7 @@ void CPartDlg::DoDataExchange(CDataExchange* pDX)
 					ss4 = ppart->specs.wep.wep_stats_ss4; lss4 = "Burst sound";
 					ss5 = ppart->specs.wep.wep_projectile_uid;  lss5 = "Projectile";
 					break;
-				case AGCEquipmentType_Cloak:
+				case ET_Cloak:
 					s1 = ppart->specs.clk.clk_stats_s1; ls1 = "Energy drain";
 					s2 = ppart->specs.clk.clk_stats_s2; ls2 = "Sig reduction";
 					s3 = ppart->specs.clk.clk_stats_s3; ls3 = "Activation duration";
@@ -143,7 +143,7 @@ void CPartDlg::DoDataExchange(CDataExchange* pDX)
 					ss1 = ppart->specs.clk.clk_sound1; lss1 = "Sound On";
 					ss2 = ppart->specs.clk.clk_sound2; lss2 = "Sound Off";
 				break;
-				case AGCEquipmentType_Afterburner:
+				case ET_Afterburner:
 					s1 = ppart->specs.aftb.aftb_stats_s1; ls1 = "Rate of consumption";
 					s2 = ppart->specs.aftb.aftb_stats_s2; ls2 = "Thrust amount";
 					s3 = ppart->specs.aftb.aftb_stats_s3; ls3 = "% acceleration";
@@ -151,11 +151,11 @@ void CPartDlg::DoDataExchange(CDataExchange* pDX)
 					ss1 = ppart->specs.aftb.aftb_stats_ss1; lss1 = "Sound activate";
 					ss2 = ppart->specs.aftb.aftb_stats_ss2; lss2 = "Sound desactivate";
 				break;
-				case AGCEquipmentType_Pack:
+				case ET_Pack:
 					ss1 = ppart->specs.pak.pak_stats_ss1; lss1 = "Type (0=Ammo,1=fuel)";
 					ss2 = ppart->specs.pak.pak_stats_ss2; lss2 = "Quantity";
 				break;
-				case AGCEquipmentType_Shield:
+				case ET_Shield:
 					s1 = ppart->specs.shld.shld_stats_s1; ls1 = "Recharge rate";
 					s2 = ppart->specs.shld.shld_stats_s2; ls2 = "Hitpoints";
 					ss1 = ppart->specs.shld.shld_sound1; lss1 = "Sound activate";
@@ -194,7 +194,7 @@ void CPartDlg::DoDataExchange(CDataExchange* pDX)
 		GetDlgItem(IDC_USEMASK)->EnableWindow(TRUE);
 		DDX_Text(pDX, IDC_GS1, ppart->stats_s1);
 		DDX_Text(pDX, IDC_USEMASK, usemask);
-		if (ppart->type == AGCEquipmentType_Shield)
+		if (ppart->type == ET_Shield)
 		{
 			cbac->ShowWindow(SW_SHOWNA);
 			GetDlgItem(IDC_ACC)->ShowWindow(SW_SHOWNA);
@@ -254,7 +254,7 @@ void CPartDlg::DoDataExchange(CDataExchange* pDX)
 
 			switch (ppart->type)
 			{
-				case AGCEquipmentType_Weapon:
+				case ET_Weapon:
 					ppart->specs.wep.wep_stats_s1 = s1;
 					ppart->specs.wep.wep_stats_s2 = s2;
 					ppart->specs.wep.wep_stats_s3 = s3;
@@ -265,7 +265,7 @@ void CPartDlg::DoDataExchange(CDataExchange* pDX)
 					ppart->specs.wep.wep_stats_ss4 = ss4;
 					ppart->specs.wep.wep_projectile_uid = ss5;
 					break;
-				case AGCEquipmentType_Cloak:
+				case ET_Cloak:
 					ppart->specs.clk.clk_stats_s1 = s1;
 					ppart->specs.clk.clk_stats_s2 = s2;
 					ppart->specs.clk.clk_stats_s3 = s3;
@@ -273,7 +273,7 @@ void CPartDlg::DoDataExchange(CDataExchange* pDX)
 					ppart->specs.clk.clk_sound1 = ss1;
 					ppart->specs.clk.clk_sound2 = ss2;
 				break;
-				case AGCEquipmentType_Afterburner:
+				case ET_Afterburner:
 					ppart->specs.aftb.aftb_stats_s1 = s1;
 					ppart->specs.aftb.aftb_stats_s2 = s2;
 					ppart->specs.aftb.aftb_stats_s3 = s3;
@@ -281,11 +281,11 @@ void CPartDlg::DoDataExchange(CDataExchange* pDX)
 					ppart->specs.aftb.aftb_stats_ss1 = ss1;
 					ppart->specs.aftb.aftb_stats_ss2 = ss2;
 				break;
-				case AGCEquipmentType_Pack:
+				case ET_Pack:
 					ppart->specs.pak.pak_stats_ss1 = ss1;
 					ppart->specs.pak.pak_stats_ss2 = ss2;
 				break;
-				case AGCEquipmentType_Shield:
+				case ET_Shield:
 					ppart->specs.shld.shld_stats_s1 = s1;
 					ppart->specs.shld.shld_stats_s2 = s2;
 					ppart->specs.shld.shld_sound1 = ss1;
@@ -470,7 +470,7 @@ void CPartDlg::OnBnClickedBprojid()
 {
 	if (!ppart) return;
 	if (!pcore) return;
-	if (ppart->type != AGCEquipmentType_Weapon) return;
+	if (ppart->type != ET_Weapon) return;
 	if (ppart->specs.wep.wep_projectile_uid == -1)
 		AfxMessageBox("projectile is undefined");
 	PtrCoreProjectile pp = pcore->FindProjectile(ppart->specs.wep.wep_projectile_uid);

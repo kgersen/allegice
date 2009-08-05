@@ -298,7 +298,7 @@ void CICEDlg::BuildTree(void)
 
 	{
 		PtrCoreEntry pce = new CoreEntry;
-		pce->tag = AGC_Constants;
+		pce->tag = OT_constants;
 		pce->entry = (LPARAM)pigccore->pConstants;
 		pce->name = "Globals";
 		RefreshStores(pce);
@@ -319,7 +319,7 @@ void CICEDlg::BuildTree(void)
 		PtrCoreCiv pciv = pigccore->cl_Civs.GetAt(j);
 		//maintree->InsertItem(pciv->name, hCivs, TVI_SORT);
 		PtrCoreEntry pce = new CoreEntry;
-		pce->tag = AGC_Civilization;
+		pce->tag = OT_civilization;
 		pce->entry = (LPARAM)pciv;
 		pce->name.Format("Faction: %s (%d)",pciv->name,pciv->uid);
 		RefreshStores(pce);
@@ -352,7 +352,7 @@ void CICEDlg::BuildTree(void)
 			continue;
 		CString s;
 		PtrCoreEntry pce = new CoreEntry;
-		pce->tag = AGC_Development;
+		pce->tag = OT_development;
 		pce->entry = (LPARAM)pdevel;
 		s.Format("%s (%d)",pdevel->name,pdevel->uid);
 		pce->name.Format("Devel: %s",s);
@@ -366,7 +366,7 @@ void CICEDlg::BuildTree(void)
 			continue;
 		CString s;
 		PtrCoreEntry pce = new CoreEntry;
-		pce->tag = AGC_DroneType;
+		pce->tag = OT_droneType;
 		pce->entry = (LPARAM)pdrone;
 		s.Format("%s (%d)",pdrone->name,pdrone->uid);
 		pce->name.Format("Drone: %s",s);
@@ -381,7 +381,7 @@ void CICEDlg::BuildTree(void)
 			continue;
 		CString s;
 		PtrCoreEntry pce = new CoreEntry;
-		pce->tag = AGC_BucketStart;
+		pce->tag = OT_hullType;
 		pce->entry = (LPARAM)pship;
 		s.Format("%s (%d)",pship->name,pship->uid);
 		pce->name.Format("Ship: %s",s);
@@ -398,7 +398,7 @@ void CICEDlg::BuildTree(void)
 		{
 			CString s;
 			PtrCoreEntry pce = new CoreEntry;
-			pce->tag = AGC_PartType;
+			pce->tag = OT_partType;
 			pce->entry = (LPARAM)ppart;
 			s.Format("%s (%d)",ppart->name,ppart->uid);
 			pce->name.Format("Part: %s",s);
@@ -414,10 +414,10 @@ void CICEDlg::BuildTree(void)
 				PtrCoreEntry pce = new CoreEntry;
 				switch (prox->tag)
 				{
-					case AGC_ChaffTypeOK:
+					case OT_chaffType:
 					{
 						PtrCoreCounter pcounter = (PtrCoreCounter)prox->entry;
-						pce->tag = (AGCObjectType)prox->tag;
+						pce->tag = (ObjectType)prox->tag;
 						pce->entry = (LPARAM)pcounter;
 						s.Format("%s (%d)(%d)",pcounter->name,pcounter->uid,ppart->uid);
 						pce->name.Format("Counter: %s",s);
@@ -425,10 +425,10 @@ void CICEDlg::BuildTree(void)
 						maintree->InsertItem(TVIF_TEXT|TVIF_PARAM, s, 0, 0, 0, 0,  (LPARAM)pce, hParts, tvisort);
 					}
 					break;
-					case AGC_ProbeType:
+					case OT_probeType:
 					{
 						PtrCoreProbe pprobe = (PtrCoreProbe)prox->entry;
-						pce->tag = (AGCObjectType)prox->tag;
+						pce->tag = (ObjectType)prox->tag;
 						pce->entry = (LPARAM)pprobe;
 						s.Format("%s (%d)(%d)",pprobe->name,pprobe->uid,ppart->uid);
 						pce->name.Format("Probe: %s",s);
@@ -436,10 +436,10 @@ void CICEDlg::BuildTree(void)
 						maintree->InsertItem(TVIF_TEXT|TVIF_PARAM, s, 0, 0, 0, 0,  (LPARAM)pce, hParts, tvisort);
 					}
 					break;
-					case AGC_MineType:
+					case OT_mineType:
 					{
 						PtrCoreMine pmine = (PtrCoreMine)prox->entry;
-						pce->tag = (AGCObjectType)prox->tag;
+						pce->tag = (ObjectType)prox->tag;
 						pce->entry = (LPARAM)pmine;
 						s.Format("%s (%d)(%d)",pmine->name,pmine->uid,ppart->uid);
 						pce->name.Format("Mine: %s",s);
@@ -447,10 +447,10 @@ void CICEDlg::BuildTree(void)
 						maintree->InsertItem(TVIF_TEXT|TVIF_PARAM, s, 0, 0, 0, 0,  (LPARAM)pce, hParts, tvisort);
 					}
 					break;
-					case AGC_MissileType:
+					case OT_missileType:
 					{
 						PtrCoreMissile pmissile = (PtrCoreMissile)prox->entry;
-						pce->tag = (AGCObjectType)prox->tag;
+						pce->tag = (ObjectType)prox->tag;
 						pce->entry = (LPARAM)pmissile;
 						s.Format("%s (%d)(%d)",pmissile->name,pmissile->uid,ppart->uid);
 						pce->name.Format("Missile: %s",s);
@@ -477,7 +477,7 @@ void CICEDlg::BuildTree(void)
 				continue;
 			CString s;
 			PtrCoreEntry pce = new CoreEntry;
-			pce->tag = (AGCObjectType)AGC_ChaffTypeOK;
+			pce->tag = (ObjectType)OT_chaffType;
 			pce->entry = (LPARAM)pcounter;
 			CString pxs = "";
 			PtrCorePart px = pigccore->ProxyGet(pcounter->uid);
@@ -496,7 +496,7 @@ void CICEDlg::BuildTree(void)
 				continue;
 			CString s;
 			PtrCoreEntry pce = new CoreEntry;
-			pce->tag = AGC_ProbeType;
+			pce->tag = OT_probeType;
 			pce->entry = (LPARAM)pprobe;
 			CString pxs = "";
 			PtrCorePart px = pigccore->ProxyGet(pprobe->uid);
@@ -514,7 +514,7 @@ void CICEDlg::BuildTree(void)
 				continue;
 			CString s;
 			PtrCoreEntry pce = new CoreEntry;
-			pce->tag = AGC_MineType;
+			pce->tag = OT_mineType;
 			pce->entry = (LPARAM)pmine;
 			CString pxs = "";
 			PtrCorePart px = pigccore->ProxyGet(pmine->uid);
@@ -532,7 +532,7 @@ void CICEDlg::BuildTree(void)
 				continue;
 			CString s;
 			PtrCoreEntry pce = new CoreEntry;
-			pce->tag = AGC_MissileType;
+			pce->tag = OT_missileType;
 			pce->entry = (LPARAM)pmissile;
 			CString pxs = "";
 			PtrCorePart px = pigccore->ProxyGet(pmissile->uid);
@@ -552,7 +552,7 @@ void CICEDlg::BuildTree(void)
 			continue;
 		CString s;
 		PtrCoreEntry pce = new CoreEntry;
-		pce->tag = AGC_StationType;
+		pce->tag = OT_stationType;
 		pce->entry = (LPARAM)pstation;
 		s.Format("%s (%d)",pstation->name,pstation->uid);
 		pce->name.Format("Station: %s",s);
@@ -564,7 +564,7 @@ void CICEDlg::BuildTree(void)
 		PtrCoreProjectile pprojectile = pigccore->cl_Projectiles.GetAt(j);
 		CString s;
 		PtrCoreEntry pce = new CoreEntry;
-		pce->tag = AGC_ProjectileType;
+		pce->tag = OT_projectileType;
 		pce->entry = (LPARAM)pprojectile;
 		s.Format("p #%d",pprojectile->uid);
 		pce->name.Format("Projectile: %s",s);
@@ -577,7 +577,7 @@ void CICEDlg::BuildTree(void)
 		PtrCoreTreasureSet ptres = pigccore->cl_TreasureSets.GetAt(j);
 		CString s;
 		PtrCoreEntry pce = new CoreEntry;
-		pce->tag = AGC_TreasureSet;
+		pce->tag = OT_treasureSet;
 		pce->entry = (LPARAM)ptres;
 		s.Format("%s (%d)",ptres->name,ptres->uid);
 		pce->name.Format("Treasure set: %s",s);
@@ -668,7 +668,7 @@ void CICEDlg::OnSelchangeMainTree(NMHDR *pNMHDR, LRESULT *pResult)
 		curpce = pce;
 		switch(pce->tag)
 		{
-		case AGC_Civilization:{
+		case OT_civilization:{
 			PtrCoreCiv pciv = (PtrCoreCiv) pce->entry;
 			dlgCiv.pciv = pciv;
 			dlgCiv.UpdateData(FALSE);
@@ -678,7 +678,7 @@ void CICEDlg::OnSelchangeMainTree(NMHDR *pNMHDR, LRESULT *pResult)
 			sTechName.Format("Faction: %s (%d)",pciv->name,pciv->uid);
 			showmb=true;
 			}break;
-		case AGC_Development:{
+		case OT_development:{
 			PtrCoreDevel pdevel = (PtrCoreDevel) pce->entry;
 			dlgDevel.pdevel = pdevel;
 			dlgDevel.UpdateData(FALSE);
@@ -687,7 +687,7 @@ void CICEDlg::OnSelchangeMainTree(NMHDR *pNMHDR, LRESULT *pResult)
 			sTechName.Format("Devel: %s (%d)",pdevel->name,pdevel->uid);
 			showmb=true;
 			}break;
-		case AGC_BucketStart:{ // ship
+		case OT_hullType:{ // ship
 			PtrCoreShip pship = (PtrCoreShip) pce->entry;
 			dlgShip.pship = pship;
 			dlgShip.UpdateData(FALSE);
@@ -699,7 +699,7 @@ void CICEDlg::OnSelchangeMainTree(NMHDR *pNMHDR, LRESULT *pResult)
 			showmb=true;
 			ShowLoadout = true;
 			}break;
-		case AGC_StationType:{ // station
+		case OT_stationType:{ // station
 			PtrCoreStationType pstation = (PtrCoreStationType) pce->entry;
 			dlgStation.pstation = pstation;
 			dlgStation.UpdateData(FALSE);
@@ -709,7 +709,7 @@ void CICEDlg::OnSelchangeMainTree(NMHDR *pNMHDR, LRESULT *pResult)
 			sTechName.Format("Station: %s (%d)",pstation->name,pstation->uid);
 			showmb=true;
 			}break;
-		case AGC_DroneType:{ // drone
+		case OT_droneType:{ // drone
 			PtrCoreDrone pdrone = (PtrCoreDrone) pce->entry;
 			dlgDrone.pdrone = pdrone;
 			dlgDrone.UpdateData(FALSE);
@@ -718,7 +718,7 @@ void CICEDlg::OnSelchangeMainTree(NMHDR *pNMHDR, LRESULT *pResult)
 			sTechName.Format("Drone: %s (%d)",pdrone->name,pdrone->uid);
 			showmb=true;
 			}break;
-		case AGC_MissileType:{ // Missile
+		case OT_missileType:{ // Missile
 			PtrCoreMissile pmissile = (PtrCoreMissile) pce->entry;
 			dlgMissile.pmissile = pmissile;
 			dlgMissile.UpdateData(FALSE);
@@ -727,7 +727,7 @@ void CICEDlg::OnSelchangeMainTree(NMHDR *pNMHDR, LRESULT *pResult)
 			sTechName.Format("Missile: %s (%d)",pmissile->name,pmissile->uid);
 			showmb=true;
 			}break;
-		case AGC_PartType:{ // part
+		case OT_partType:{ // part
 			PtrCorePart ppart = (PtrCorePart) pce->entry;
 			dlgPart.ppart = ppart;
 			dlgPart.UpdateData(FALSE);
@@ -738,7 +738,7 @@ void CICEDlg::OnSelchangeMainTree(NMHDR *pNMHDR, LRESULT *pResult)
 			}
 			showmb=true;
 			}break;
-		case AGC_MineType:{ // mine
+		case OT_mineType:{ // mine
 			PtrCoreMine pmine = (PtrCoreMine) pce->entry;
 			dlgMine.pmine = pmine;
 			dlgMine.UpdateData(FALSE);
@@ -747,7 +747,7 @@ void CICEDlg::OnSelchangeMainTree(NMHDR *pNMHDR, LRESULT *pResult)
 			sTechName.Format("Mine: %s (%d)",pmine->name,pmine->uid);
 			showmb=true;
 			}break;
-		case AGC_ChaffTypeOK:{
+		case OT_chaffType:{
 			PtrCoreCounter pcounter = (PtrCoreCounter) pce->entry;
 			dlgChaff.pcounter = pcounter;
 			dlgChaff.UpdateData(FALSE);
@@ -756,7 +756,7 @@ void CICEDlg::OnSelchangeMainTree(NMHDR *pNMHDR, LRESULT *pResult)
 			sTechName.Format("Counter: %s (%d)",pcounter->name,pcounter->uid);
 			showmb=true;
 			}break;
-		case AGC_ProbeType:{
+		case OT_probeType:{
 			PtrCoreProbe pprobe = (PtrCoreProbe) pce->entry;
 			dlgProbe.pprobe = pprobe;
 			dlgProbe.UpdateData(FALSE);
@@ -765,18 +765,18 @@ void CICEDlg::OnSelchangeMainTree(NMHDR *pNMHDR, LRESULT *pResult)
 			sTechName.Format("Probe: %s (%d)",pprobe->name,pprobe->uid);
 			showmb=true;
 			}break;
-		case AGC_ProjectileType:{
+		case OT_projectileType:{
 			PtrCoreProjectile pprojectile = (PtrCoreProjectile) pce->entry;
 			dlgProjectile.pprojectile = pprojectile;
 			dlgProjectile.UpdateData(FALSE);
 			curdiag = (CDialog *)&dlgProjectile;
 			}break;
-		case AGC_Constants:{
+		case OT_constants:{
 			dlgConstants.pconst = (PtrCoreConstants) pce->entry;
 			dlgConstants.UpdateData(FALSE);
 			curdiag = (CDialog *)&dlgConstants;
 			}break;
-		case AGC_TreasureSet:{ // treasuresets
+		case OT_treasureSet:{ // treasuresets
 			PtrCoreTreasureSet ptres = (PtrCoreTreasureSet) pce->entry;
 			dlgTreasure.ptres = ptres;
 			dlgTreasure.UpdateData(FALSE);
@@ -1211,49 +1211,49 @@ void CICEDlg::MoveEntry(int dir)
 	LPARAM curp = curpce->entry;
 	switch (curpce->tag)
 	{
-		case AGC_Development:
+		case OT_development:
 			//cl_Gen = (CArray<LPARAM,LPARAM> *)&pigccore->cl_Devels;
 			if (pigccore->MoveDevel((PtrCoreDevel)curpce->entry,dir))
 				OnClickedRefresh();
 			return;
 			break;
-		case AGC_StationType:
+		case OT_stationType:
 			cl_Gen = (CArray<LPARAM,LPARAM> *)&pigccore->cl_StationTypes;
 			break;
-		case AGC_DroneType:
+		case OT_droneType:
 			cl_Gen = (CArray<LPARAM,LPARAM> *)&pigccore->cl_Drones;
 			break;
-		case AGC_BucketStart:
+		case OT_hullType:
 			cl_Gen = (CArray<LPARAM,LPARAM> *)&pigccore->cl_Ships;
 			break;
-		case AGC_PartType:
+		case OT_partType:
 			cl_Gen = (CArray<LPARAM,LPARAM> *)&pigccore->cl_Parts;
 			break;
-		case AGC_Civilization:
+		case OT_civilization:
 			cl_Gen = (CArray<LPARAM,LPARAM> *)&pigccore->cl_Civs;
 			break;
-		case AGC_MineType:
+		case OT_mineType:
 			{
 			cl_Gen = (CArray<LPARAM,LPARAM> *)&pigccore->cl_Parts;
 			PtrCoreMine pmine = (PtrCoreMine) curp;
 			curp = (LPARAM)pigccore->ProxyGet(pmine->uid);
 			}
 			break;
-		case AGC_MissileType:
+		case OT_missileType:
 			{
 			cl_Gen = (CArray<LPARAM,LPARAM> *)&pigccore->cl_Parts;
 			PtrCoreMissile pmissile = (PtrCoreMissile) curp;
 			curp = (LPARAM)pigccore->ProxyGet(pmissile->uid);
 			}
 			break;
-		case AGC_ChaffTypeOK:
+		case OT_chaffType:
 			{
 			cl_Gen = (CArray<LPARAM,LPARAM> *)&pigccore->cl_Parts;
 			PtrCoreCounter pcounter = (PtrCoreCounter) curp;
 			curp = (LPARAM)pigccore->ProxyGet(pcounter->uid);
 			}
 			break;
-		case AGC_ProbeType:
+		case OT_probeType:
 			{
 			cl_Gen = (CArray<LPARAM,LPARAM> *)&pigccore->cl_Parts;
 			PtrCoreProbe pprobe = (PtrCoreProbe) curp;
@@ -1299,44 +1299,44 @@ void CICEDlg::OnBnClickedAdd()
 	AfxMessageBox(mes);
 	return;
 */
-	if (pce->tag == AGC_MissileType)
+	if (pce->tag == OT_missileType)
 	{
 		PtrCoreMissile pp = (PtrCoreMissile) pce->entry;
 		PtrCorePart p = pigccore->ProxyGet(pp->uid);
 		if (p != NULL)
 		{
-			pce->tag = AGC_PartType;
+			pce->tag = OT_partType;
 			pce->entry = (LPARAM)p;
 		}
 	}
-	if (pce->tag == AGC_ChaffTypeOK)
+	if (pce->tag == OT_chaffType)
 	{
 		PtrCoreCounter pp = (PtrCoreCounter) pce->entry;
 		PtrCorePart p = pigccore->ProxyGet(pp->uid);
 		if (p != NULL)
 		{
-			pce->tag = AGC_PartType;
+			pce->tag = OT_partType;
 			pce->entry = (LPARAM)p;
 		}
 	}
-	if (pce->tag == AGC_ProbeType)
+	if (pce->tag == OT_probeType)
 	{
 		PtrCoreProbe pp = (PtrCoreProbe) pce->entry;
 		PtrCorePart p = pigccore->ProxyGet(pp->uid);
 		if (p != NULL)
 		{
-			pce->tag = AGC_PartType;
+			pce->tag = OT_partType;
 			pce->entry = (LPARAM)p;
 		}
 	}
 
-	if (pce->tag == AGC_MineType)
+	if (pce->tag == OT_mineType)
 	{
 		PtrCoreMine pp = (PtrCoreMine) pce->entry;
 		PtrCorePart p = pigccore->ProxyGet(pp->uid);
 		if (p != NULL)
 		{
-			pce->tag = AGC_PartType;
+			pce->tag = OT_partType;
 			pce->entry = (LPARAM)p;
 		}
 	}
@@ -1344,63 +1344,63 @@ void CICEDlg::OnBnClickedAdd()
 	LPARAM entry = NULL;
 	switch(pce->tag)
 	{
-	case AGC_ProbeType:{
+	case OT_probeType:{
 		PtrCoreProbe pprobecur = (PtrCoreProbe) pce->entry;
 		PtrCoreProbe pprobe = new IGCCoreProbe;
 		memcpy(pprobe,pprobecur,sizeof(IGCCoreProbe));
 		pigccore->AddProbe(pprobe);
 		entry = (LPARAM)pprobe;
 		}break;
-	case AGC_MineType:{
+	case OT_mineType:{
 		PtrCoreMine pminecur = (PtrCoreMine) pce->entry;
 		PtrCoreMine pmine = new IGCCoreMine;
 		memcpy(pmine,pminecur,sizeof(IGCCoreMine));
 		pigccore->AddMine(pmine);
 		entry = (LPARAM)pmine;
 		}break;
-	case AGC_Civilization:{
+	case OT_civilization:{
 		PtrCoreCiv pcivcur = (PtrCoreCiv) pce->entry;
 		PtrCoreCiv pciv = new IGCCoreCiv;
 		memcpy(pciv,pcivcur,sizeof(IGCCoreCiv));
 		pigccore->AddCiv(pciv);
 		entry = (LPARAM)pciv;
 		}break;
-	case AGC_Development:{
+	case OT_development:{
 		PtrCoreDevel pdevelcur = (PtrCoreDevel) pce->entry;
 		PtrCoreDevel pdevel = new IGCCoreDevel;
 		memcpy(pdevel,pdevelcur,sizeof(IGCCoreDevel));
 		pigccore->AddDevel(pdevel);
 		entry = (LPARAM)pdevel;
 		}break;
-	case AGC_BucketStart:{ // ship
+	case OT_hullType:{ // ship
 		PtrCoreShip pshipcur = (PtrCoreShip) pce->entry;
 		PtrCoreShip pship = new IGCCoreShip;
 		memcpy(pship,pshipcur,sizeof(IGCCoreShip));
 		pigccore->AddShip(pship);
 		entry = (LPARAM)pship;
 		}break;
-	case AGC_StationType:{ // station
+	case OT_stationType:{ // station
 		PtrCoreStationType pstationcur = (PtrCoreStationType) pce->entry;
 		PtrCoreStationType pstation = new IGCCoreStationType;
 		memcpy(pstation,pstationcur,sizeof(IGCCoreStationType));
 		pigccore->AddStationType(pstation);
 		entry = (LPARAM)pstation;
 		}break;
-	case AGC_DroneType:{ // drone
+	case OT_droneType:{ // drone
 		PtrCoreDrone pdronecur = (PtrCoreDrone) pce->entry;
 		PtrCoreDrone pdrone = new IGCCoreDrone;
 		memcpy(pdrone,pdronecur,sizeof(IGCCoreDrone));
 		pigccore->AddDrone(pdrone);
 		entry = (LPARAM)pdrone;
 		}break;
-	case AGC_ProjectileType:{
+	case OT_projectileType:{
 		PtrCoreProjectile pprojcur = (PtrCoreProjectile) pce->entry;
 		PtrCoreProjectile pproj = new IGCCoreProjectile;
 		memcpy(pproj,pprojcur,sizeof(IGCCoreProjectile));
 		pigccore->AddProjectile(pproj);
 		entry = (LPARAM)pproj;
 		}break;
-	case AGC_PartType:{ // part
+	case OT_partType:{ // part
 		PtrCorePart ppartcur = (PtrCorePart) pce->entry;
 		PtrCorePart ppart = new IGCCorePart;
 		memcpy(ppart,ppartcur,sizeof(IGCCorePart));
@@ -1413,7 +1413,7 @@ void CICEDlg::OnBnClickedAdd()
 			{
 				switch(pce->tag)
 				{
-				case AGC_MissileType:{ // drone
+				case OT_missileType:{ // drone
 					PtrCoreMissile pmissilecur = (PtrCoreMissile) pce->entry;
 					PtrCoreMissile pmissile = new IGCCoreMissile;
 					memcpy(pmissile,pmissilecur,sizeof(IGCCoreMissile));
@@ -1421,7 +1421,7 @@ void CICEDlg::OnBnClickedAdd()
 					ppart->usemask = pmissile->uid;
 					entry = (LPARAM)pmissile;
 					}break;
-				case AGC_MineType:{ // mine
+				case OT_mineType:{ // mine
 					PtrCoreMine pminecur = (PtrCoreMine) pce->entry;
 					PtrCoreMine pmine = new IGCCoreMine;
 					memcpy(pmine,pminecur,sizeof(IGCCoreMine));
@@ -1429,7 +1429,7 @@ void CICEDlg::OnBnClickedAdd()
 					ppart->usemask = pmine->uid;
 					entry = (LPARAM)pmine;
 					}break;
-				case AGC_ChaffTypeOK:{
+				case OT_chaffType:{
 					PtrCoreCounter pcountercur = (PtrCoreCounter) pce->entry;
 					PtrCoreCounter pcounter = new IGCCoreCounter;
 					memcpy(pcounter,pcountercur,sizeof(IGCCoreCounter));
@@ -1437,7 +1437,7 @@ void CICEDlg::OnBnClickedAdd()
 					ppart->usemask = pcounter->uid;
 					entry = (LPARAM)pcounter;
 					}break;
-				case AGC_ProbeType:{
+				case OT_probeType:{
 					PtrCoreProbe pprobecur = (PtrCoreProbe) pce->entry;
 					PtrCoreProbe pprobe = new IGCCoreProbe;
 					memcpy(pprobe,pprobecur,sizeof(IGCCoreProbe));
@@ -1450,11 +1450,11 @@ void CICEDlg::OnBnClickedAdd()
 			}
 		}
 		}break;
-	case AGC_MissileType:
-	case AGC_ChaffTypeOK:
+	case OT_missileType:
+	case OT_chaffType:
 		AfxMessageBox("Warning: unproxied part ! - this should not happend ! - contact the author of ICE");
 		break;
-	case AGC_Constants:{
+	case OT_constants:{
 		//dlgConstants.pconst = (PtrCoreConstants) pce->entry;
 		}break;
 	default:
@@ -1479,37 +1479,37 @@ void CICEDlg::OnBnClickedDelete()
 	LPARAM entry = NULL;
 	switch(pce->tag)
 	{
-	case AGC_PartType:{ // part
+	case OT_partType:{ // part
 		entry = pigccore->DeletePart((PtrCorePart) pce->entry,true);
 		}break;
-	case AGC_ProbeType:{
+	case OT_probeType:{
 		entry = pigccore->DeleteProbe((PtrCoreProbe) pce->entry);
 		}break;
-	case AGC_MineType:{
+	case OT_mineType:{
 		entry = pigccore->DeleteMine((PtrCoreMine) pce->entry);
 		}break;
-	case AGC_ChaffTypeOK:{
+	case OT_chaffType:{
 		entry = pigccore->DeleteCounter((PtrCoreCounter) pce->entry);
 		}break;
-	case AGC_MissileType:{
+	case OT_missileType:{
 		entry = pigccore->DeleteMissile((PtrCoreMissile) pce->entry);
 		}break;
-	case AGC_Civilization:{
+	case OT_civilization:{
 		entry = pigccore->DeleteCiv((PtrCoreCiv) pce->entry);
 		}break;
-	case AGC_Development:{
+	case OT_development:{
 		entry = pigccore->DeleteDevel((PtrCoreDevel) pce->entry);
 		}break;
-	case AGC_BucketStart:{ // ship
+	case OT_hullType:{ // ship
 		entry = pigccore->DeleteShip((PtrCoreShip) pce->entry);
 		}break;
-	case AGC_StationType:{ // station
+	case OT_stationType:{ // station
 		entry = pigccore->DeleteStationType((PtrCoreStationType) pce->entry);
 		}break;
-	case AGC_DroneType:{ // drone
+	case OT_droneType:{ // drone
 		entry = pigccore->DeleteDrone((PtrCoreDrone) pce->entry);
 		}break;
-	case AGC_ProjectileType:{
+	case OT_projectileType:{
 		entry = pigccore->DeleteProjectile((PtrCoreProjectile) pce->entry);
 		}break;
 	default:

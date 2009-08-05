@@ -534,7 +534,7 @@ void CShipLoadout::OnSelchangeWepsel(void)
 				for (int j=0;j<pcore->cl_Parts.GetSize();j++)
 				{
 					PtrCorePart ppart = pcore->cl_Parts.GetAt(j);
-					if (ppart->type == AGCEquipmentType_Weapon)
+					if (ppart->type == ET_Weapon)
 					{
 						if (!ppart->isspec)
 						{
@@ -569,7 +569,7 @@ void CShipLoadout::OnSelchangeWepsel(void)
 		for (int j=0;j<pcore->cl_Parts.GetSize();j++)
 		{
 			PtrCorePart ppart = pcore->cl_Parts.GetAt(j);
-			if (ppart->type == AGCEquipmentType_Weapon)
+			if (ppart->type == ET_Weapon)
 			{
 				if (!ppart->isspec)
 				{

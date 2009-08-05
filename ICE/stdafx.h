@@ -42,5 +42,43 @@
 #include <afxcmn.h>			// MFC support for Windows Common Controls
 #endif // _AFX_NO_AFXCMN_SUPPORT
 
-#import "external\\agc.dll" no_namespace
-#import "external\\AllSrv32.exe" no_namespace
+//#import "external\\agc.dll" no_namespace
+//#import "external\\AllSrv32.exe" no_namespace
+
+#include <math.h>
+#include <string.h>
+#include <stdio.h>
+// change these to whatever you need
+#define assert(exp)
+#define ZError(psz) 
+
+// these should be defined if you use DirectX otherwise they'll be defined here
+#ifndef DWORD
+typedef unsigned long       DWORD;
+#endif
+#ifndef BYTE
+typedef unsigned char BYTE;
+#endif
+#ifndef D3DCOLOR_DEFINED
+typedef DWORD D3DCOLOR;
+#define D3DCOLOR_DEFINED
+#endif
+
+#ifndef D3DCOLORVALUE_DEFINED
+typedef struct _D3DCOLORVALUE {
+    float r;
+    float g;
+    float b;
+    float a;
+} D3DCOLORVALUE;
+#define D3DCOLORVALUE_DEFINED
+#endif
+
+// Allegiance Source includes
+// adjust paths 
+// TODO: reference current alleg source files instead of these copies but requires to split igc.h into 3 files
+#include "IGCLib\Alleg\vector.h"
+#include "IGCLib\Alleg\mask.h"
+#include "IGCLib\Alleg\constants.h"
+#include "IGCLib\Alleg\igc_types.h"
+#include "IGCLib\Alleg\igc_static.h"

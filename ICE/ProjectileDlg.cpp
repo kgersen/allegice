@@ -50,7 +50,7 @@ void CProjectileDlg::DoDataExchange(CDataExchange* pDX)
 		for (int j=0;j<pcore->cl_Parts.GetSize();j++)
 		{
 			PtrCorePart ppart = pcore->cl_Parts.GetAt(j);
-			if ((ppart->type == AGCEquipmentType_Weapon) && (!ppart->isspec))
+			if ((ppart->type == ET_Weapon) && (!ppart->isspec))
 			{
 				if (ppart->specs.wep.wep_projectile_uid == uid)
 				{

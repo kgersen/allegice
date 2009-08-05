@@ -101,9 +101,9 @@ bool CIGCCore::ReadFromFile(CString fn)
 		cfmap.Read(&size,sizeof(size));
 		cfmap_read += sizeof(tag) + sizeof(size);
 		cfmap_read += size;
-		switch((AGCObjectType)tag)
+		switch((ObjectType)tag)
 		{
-		case AGC_Constants: // Assume 1 per core
+		case OT_constants: // Assume 1 per core
 			{
 				ASSERT(pConstants == NULL);
 				pConstants = new IGCCoreConstants;
@@ -111,7 +111,7 @@ bool CIGCCore::ReadFromFile(CString fn)
 				cfmap.Read(pConstants,size);
 			}
 			break;
-		case AGC_StationType ://Station Type
+		case OT_stationType ://Station Type
 			{
 				IGCCoreStationType *pstation = new IGCCoreStationType;
 				ASSERT(size == sizeof(*pstation));
@@ -119,7 +119,7 @@ bool CIGCCore::ReadFromFile(CString fn)
 				cl_StationTypes.Add(pstation);
 			}
 			break;
-		case AGC_Civilization ://Civilization
+		case OT_civilization ://Civilization
 			{
 				IGCCoreCiv *pciv = new IGCCoreCiv;
 				ASSERT(size == sizeof(*pciv));
@@ -127,7 +127,7 @@ bool CIGCCore::ReadFromFile(CString fn)
 				cl_Civs.Add(pciv);
 			}
 			break;
-		case AGC_Development : //Devel
+		case OT_development : //Devel
 			{
 				IGCCoreDevel *pdevel = new IGCCoreDevel;
 				ASSERT(size == sizeof(*pdevel));
@@ -136,7 +136,7 @@ bool CIGCCore::ReadFromFile(CString fn)
 				break;
 			}
 			break;
-		case AGC_BucketStart: // ship
+		case OT_hullType: // ship
 			{
 				IGCCoreShip *pship = new IGCCoreShip;
 				//ASSERT(size == sizeof(*pship));
@@ -159,7 +159,7 @@ bool CIGCCore::ReadFromFile(CString fn)
 				break;
 			}
 			break;
-		case AGC_PartType: // parts
+		case OT_partType: // parts
 			{
 				IGCCorePart *ppart = new IGCCorePart;
 				ppart->isspec = false;
@@ -174,7 +174,7 @@ bool CIGCCore::ReadFromFile(CString fn)
 				cl_Parts.Add(ppart);
 				break;
 			}
-		case AGC_ChaffTypeOK /*AGC_ChaffType is bogus (36)*/ ://Counter
+		case OT_chaffType /*AGC_ChaffType is bogus (36)*/ ://Counter
 			{
 				IGCCoreCounter *pcounter= new IGCCoreCounter;
 				ASSERT(size == sizeof(*pcounter));
@@ -182,7 +182,7 @@ bool CIGCCore::ReadFromFile(CString fn)
 				cl_Counters.Add(pcounter);
 			}
 			break;
-		case AGC_MissileType  :// Missile
+		case OT_missileType  :// Missile
 			{
 				IGCCoreMissile *pmissile= new IGCCoreMissile;
 				ASSERT(size == sizeof(*pmissile));
@@ -190,7 +190,7 @@ bool CIGCCore::ReadFromFile(CString fn)
 				cl_Missiles.Add(pmissile);
 			}
 			break;
-		case AGC_MineType  :// Mines
+		case OT_mineType  :// Mines
 			{
 				IGCCoreMine *pmine= new IGCCoreMine;
 				ASSERT(size == sizeof(*pmine));
@@ -198,7 +198,7 @@ bool CIGCCore::ReadFromFile(CString fn)
 				cl_Mines.Add(pmine);
 			}
 			break;
-		case AGC_DroneType  :// Drones
+		case OT_droneType  :// Drones
 			{
 				IGCCoreDrone *pdrone= new IGCCoreDrone;
 				ASSERT(size == sizeof(*pdrone));
@@ -206,21 +206,21 @@ bool CIGCCore::ReadFromFile(CString fn)
 				cl_Drones.Add(pdrone);
 			}
 			break;
-		case AGC_ProbeType: // Probes & combat/station pods
+		case OT_probeType: // Probes & combat/station pods
 			{
 				IGCCoreProbe *pprobe= new IGCCoreProbe;
 				ASSERT(size == sizeof(*pprobe));
 				cfmap.Read(pprobe,size); 
 				cl_Probes.Add(pprobe);
 			}break;
-		case AGC_ProjectileType: // Projectiles
+		case OT_projectileType: // Projectiles
 			{
 				IGCCoreProjectile *pprojectile= new IGCCoreProjectile;
 				ASSERT(size == sizeof(*pprojectile));
 				cfmap.Read(pprojectile,size); 
 				cl_Projectiles.Add(pprojectile);
 			}break;
-		case AGC_TreasureSet: //
+		case OT_treasureSet: //
 			{
 				IGCCoreTreasureSet *ptreasureSet= new IGCCoreTreasureSet;
 				//ASSERT(size == sizeof(*ptreasureSet));
@@ -589,13 +589,13 @@ bool CIGCCore::SaveToFile(CString fn)
 	int tag_size;
 
 	cfcore.Write(&cfcore_size,sizeof(size)); // placeholder for total size
-	tag = AGC_Constants; tag_size = sizeof(*pConstants);
+	tag = OT_constants; tag_size = sizeof(*pConstants);
 	cfcore.Write(&tag,sizeof(tag));
 	cfcore.Write(&tag_size,sizeof(tag_size));
 	cfcore.Write(pConstants,tag_size);
 
 	// Projectiles
-	tag = AGC_ProjectileType; tag_size = sizeof(IGCCoreProjectile);
+	tag = OT_projectileType; tag_size = sizeof(IGCCoreProjectile);
 	for (int j=0;j<cl_Projectiles.GetSize();j++)
 	{
 		PtrCoreProjectile pprojectile = cl_Projectiles.GetAt(j);
@@ -605,7 +605,7 @@ bool CIGCCore::SaveToFile(CString fn)
 	}
 
 	// Missiles
-	tag = AGC_MissileType; tag_size = sizeof(IGCCoreMissile);
+	tag = OT_missileType; tag_size = sizeof(IGCCoreMissile);
 	for (int j=0;j<cl_Missiles.GetSize();j++)
 	{
 		PtrCoreMissile pmissile = cl_Missiles.GetAt(j);
@@ -615,7 +615,7 @@ bool CIGCCore::SaveToFile(CString fn)
 	}
 
 	// Counters
-	tag = AGC_ChaffTypeOK; tag_size = sizeof(IGCCoreCounter);
+	tag = OT_chaffType; tag_size = sizeof(IGCCoreCounter);
 	for (int j=0;j<cl_Counters.GetSize();j++)
 	{
 		PtrCoreCounter pcounter = cl_Counters.GetAt(j);
@@ -625,7 +625,7 @@ bool CIGCCore::SaveToFile(CString fn)
 	}
 	
 	// Mines
-	tag = AGC_MineType; tag_size = sizeof(IGCCoreMine);
+	tag = OT_mineType; tag_size = sizeof(IGCCoreMine);
 	for (int j=0;j<cl_Mines.GetSize();j++)
 	{
 		PtrCoreMine pmine = cl_Mines.GetAt(j);
@@ -635,7 +635,7 @@ bool CIGCCore::SaveToFile(CString fn)
 	}
 
 	// Probes
-	tag = AGC_ProbeType; tag_size = sizeof(IGCCoreProbe);
+	tag = OT_probeType; tag_size = sizeof(IGCCoreProbe);
 	for (int j=0;j<cl_Probes.GetSize();j++)
 	{
 		PtrCoreProbe pprobe = cl_Probes.GetAt(j);
@@ -645,7 +645,7 @@ bool CIGCCore::SaveToFile(CString fn)
 	}
 
 	// Parts
-	tag = AGC_PartType;
+	tag = OT_partType;
 	for (int j=0;j<cl_Parts.GetSize();j++)
 	{
 		PtrCorePart ppart = cl_Parts.GetAt(j);
@@ -664,7 +664,7 @@ bool CIGCCore::SaveToFile(CString fn)
 	}
 
 	// Buckets (Ships)
-	tag = AGC_BucketStart; 
+	tag = OT_hullType; 
 	for (int j=0;j<cl_Ships.GetSize();j++)
 	{
 		PtrCoreShip pship = cl_Ships.GetAt(j);
@@ -675,7 +675,7 @@ bool CIGCCore::SaveToFile(CString fn)
 	}
 
 	// Devels
-	tag = AGC_Development; tag_size = sizeof(IGCCoreDevel);
+	tag = OT_development; tag_size = sizeof(IGCCoreDevel);
 	for (int j=0;j<cl_Devels.GetSize();j++)
 	{
 		PtrCoreDevel pdevel = cl_Devels.GetAt(j);
@@ -685,7 +685,7 @@ bool CIGCCore::SaveToFile(CString fn)
 	}
 
 	// Drones
-	tag = AGC_DroneType; tag_size = sizeof(IGCCoreDrone);
+	tag = OT_droneType; tag_size = sizeof(IGCCoreDrone);
 	for (int j=0;j<cl_Drones.GetSize();j++)
 	{
 		PtrCoreDrone pdrone = cl_Drones.GetAt(j);
@@ -695,7 +695,7 @@ bool CIGCCore::SaveToFile(CString fn)
 	}
 
 	// Stations
-	tag = AGC_StationType; tag_size = sizeof(IGCCoreStationType);
+	tag = OT_stationType; tag_size = sizeof(IGCCoreStationType);
 	for (int j=0;j<cl_StationTypes.GetSize();j++)
 	{
 		PtrCoreStationType pstation = cl_StationTypes.GetAt(j);
@@ -705,7 +705,7 @@ bool CIGCCore::SaveToFile(CString fn)
 	}
 
 	// TreasureSets
-	tag = AGC_TreasureSet; 
+	tag = OT_treasureSet; 
 	for (int j=0;j<cl_TreasureSets.GetSize();j++)
 	{
 		PtrCoreTreasureSet ptreasureSet = cl_TreasureSets.GetAt(j);
@@ -720,7 +720,7 @@ bool CIGCCore::SaveToFile(CString fn)
 	}
 
 	// Civs
-	tag = AGC_Civilization; tag_size = sizeof(IGCCoreCiv);
+	tag = OT_civilization; tag_size = sizeof(IGCCoreCiv);
 	for (int j=0;j<cl_Civs.GetSize();j++)
 	{
 		PtrCoreCiv pCiv = cl_Civs.GetAt(j);
@@ -812,7 +812,7 @@ PtrCoreEntry CIGCCore::ProxyPart(unsigned short uid)
 		PtrCoreCounter pcounter = cl_Counters.GetAt(i);
 		if (pcounter->uid == uid)
 		{
-			pce->tag = (AGCObjectType)AGC_ChaffTypeOK;
+			pce->tag = (ObjectType)OT_chaffType;
 			pce->IGCPartType = ET_ChaffLauncher;
 			pce->usemask = pcounter->use_mask;
 			pce->entry = (LPARAM)pcounter;
@@ -824,7 +824,7 @@ PtrCoreEntry CIGCCore::ProxyPart(unsigned short uid)
 		PtrCoreMine pmine = cl_Mines.GetAt(i);
 		if (pmine->uid == uid)
 		{
-			pce->tag = AGC_MineType;
+			pce->tag = OT_mineType;
 			pce->IGCPartType = ET_Dispenser;
 			pce->usemask = pmine->usemask;
 			pce->entry = (LPARAM)pmine;
@@ -836,7 +836,7 @@ PtrCoreEntry CIGCCore::ProxyPart(unsigned short uid)
 		PtrCoreProbe pprobe = cl_Probes.GetAt(i);
 		if (pprobe->uid == uid)
 		{
-			pce->tag = AGC_ProbeType;
+			pce->tag = OT_probeType;
 			pce->IGCPartType = ET_Dispenser;
 			pce->usemask = pprobe->usemask;
 			pce->entry = (LPARAM)pprobe;
@@ -848,7 +848,7 @@ PtrCoreEntry CIGCCore::ProxyPart(unsigned short uid)
 		PtrCoreMissile pmis = cl_Missiles.GetAt(i);
 		if (pmis->uid == uid)
 		{
-			pce->tag = AGC_MissileType;
+			pce->tag = OT_missileType;
 			pce->IGCPartType = ET_Magazine;
 			pce->usemask = pmis->use_flags;
 			pce->entry = (LPARAM)pmis;
@@ -1248,13 +1248,13 @@ LPARAM CIGCCore::DeletePart(PtrCorePart ppart, bool realparttoo)
 	{
 		switch(pce->tag)
 		{
-		case AGC_ProbeType:
+		case OT_probeType:
 			return DeleteProbe((PtrCoreProbe)pce->entry);
-		case AGC_MineType:
+		case OT_mineType:
 			return DeleteMine((PtrCoreMine)pce->entry);
-		case AGC_ChaffTypeOK:
+		case OT_chaffType:
 			return DeleteCounter((PtrCoreCounter)pce->entry);
-		case AGC_MissileType:
+		case OT_missileType:
 			return DeleteMissile((PtrCoreMissile)pce->entry);
 		}
 		delete pce;
@@ -1754,7 +1754,7 @@ LPARAM CIGCCore::FindError(char **pszReason)
 			}
 		}
 		if (ppart->isspec) continue;
-		if (ppart->type == AGCEquipmentType_Weapon)
+		if (ppart->type == ET_Weapon)
 		{
 			PtrCoreProjectile pp = FindProjectile(ppart->specs.wep.wep_projectile_uid);
 			if (!pp) return BuildError((LPARAM)ppart,"Invalid weapon projectile",pszReason);

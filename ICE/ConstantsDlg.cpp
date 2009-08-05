@@ -327,7 +327,7 @@ void CConstantsDlg::FillDMUsage(int idx)
 				for (int j=0;j<pcore->cl_Parts.GetSize();j++)
 				{
 					PtrCorePart ppart = pcore->cl_Parts.GetAt(j);
-					if ((ppart->type == AGCEquipmentType_Weapon) && (!ppart->isspec))
+					if ((ppart->type == ET_Weapon) && (!ppart->isspec))
 					{
 						if (ppart->specs.wep.wep_projectile_uid == pproj->uid)
 						{
@@ -412,7 +412,7 @@ void CConstantsDlg::FillACUsage(int idx)
 	{
 		PtrCorePart p = pcore->cl_Parts.GetAt(i);
 		if (p->isspec) continue;
-		if (p->type != AGCEquipmentType_Shield) continue;
+		if (p->type != ET_Shield) continue;
 		if (p->specs.shld.shld_AC == idx)
 		{
 			usedby.Format("Shield - %s (%d)",p->name,p->uid);

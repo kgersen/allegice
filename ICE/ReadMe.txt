@@ -329,6 +329,7 @@ NEW IN 3.41
 NEW IN 3.42 (WORK IN PROGRESS - UNRELEASED)
   * ship loadout UI fixes
   * link button from station to drone (constructor)
+  * 'shared IGC source' with Allegiance
 Known bugs:
 	none
 
