@@ -647,24 +647,26 @@ typedef struct SIGCCoreProjectile // tag = 0x16 (OT_projectileType), size = 88
 } IGCCoreProjectile;
 typedef IGCCoreProjectile *PtrCoreProjectile;
 
-typedef struct SIGCCoreTreasureChance
-{
-	WORD uid;
-	BYTE Code; // 1-> uid = part uid, 2-> uid = 31 for powerup, 4-> uid = amount of $
-	BYTE Chance;
-} IGCCoreTreasureChance;
+//typedef struct SIGCCoreTreasureChance
+//{
+//	WORD uid;
+//	BYTE Code; // 1-> uid = part uid, 2-> uid = 31 for powerup, 4-> uid = amount of $
+//	BYTE Chance;
+//} IGCCoreTreasureChance;
 
-#define SIGCCoreTreasureSet_Size (26+2+2+2)
-typedef struct SIGCCoreTreasureSet // tag = OT_treasureSet (0x1C), size = 92
-{
-	char name[26];
-	WORD uid;
-	WORD count;
-	WORD uk; //= 200
-	IGCCoreTreasureChance *ChanceEntries;
-} IGCCoreTreasureSet;
-
+//#define SIGCCoreTreasureSet_Size (26+2+2+2)
+//typedef struct SIGCCoreTreasureSet // tag = OT_treasureSet (0x1C), size = 92
+//{
+//	char name[26];
+//	WORD uid;
+//	WORD count;
+//	WORD uk; //= 200
+//	IGCCoreTreasureChance *ChanceEntries;
+//}
+typedef DataTreasureSetIGC IGCCoreTreasureSet;
 typedef IGCCoreTreasureSet * PtrCoreTreasureSet;
+//we used fixed size array to store treasures in a treasure set
+#define MAXTREASURES 100
 
 typedef struct SCoreEntry
 {

@@ -222,16 +222,8 @@ bool CIGCCore::ReadFromFile(CString fn)
 			}break;
 		case OT_treasureSet: //
 			{
-				IGCCoreTreasureSet *ptreasureSet= new IGCCoreTreasureSet;
-				//ASSERT(size == sizeof(*ptreasureSet));
-				cfmap.Read(ptreasureSet,SIGCCoreTreasureSet_Size);
-				ptreasureSet->name[25] = 0; // set trailing zero for C handling
-				if (ptreasureSet->count)
-				{
-					ptreasureSet->ChanceEntries = new IGCCoreTreasureChance[ptreasureSet->count];
-					for (int n=0;n<ptreasureSet->count;n++)
-						cfmap.Read(&(ptreasureSet->ChanceEntries[n]),sizeof(IGCCoreTreasureChance));
-				}
+				IGCCoreTreasureSet *ptreasureSet= (IGCCoreTreasureSet *) (new char[sizeof(DataTreasureSetIGC)+MAXTREASURES*sizeof(TreasureData)]);
+				cfmap.Read(ptreasureSet,size);
 				cl_TreasureSets.Add(ptreasureSet);
 			}break;
 		default:	// unknown/unhandled tag, skip it
@@ -710,13 +702,13 @@ bool CIGCCore::SaveToFile(CString fn)
 	{
 		PtrCoreTreasureSet ptreasureSet = cl_TreasureSets.GetAt(j);
 		cfcore.Write(&tag,sizeof(tag));
-		tag_size = SIGCCoreTreasureSet_Size + sizeof(IGCCoreTreasureChance)*ptreasureSet->count;
+		tag_size = sizeof(DataTreasureSetIGC) + sizeof(TreasureData)*ptreasureSet->nTreasureData;
 		cfcore.Write(&tag_size,sizeof(tag_size));
-		cfcore.Write(ptreasureSet,SIGCCoreTreasureSet_Size);
-		for (int n=0;n<ptreasureSet->count;n++)
-		{
-			cfcore.Write(&(ptreasureSet->ChanceEntries[n]),sizeof(IGCCoreTreasureChance));
-		}
+		cfcore.Write(ptreasureSet,tag_size);
+		//for (int n=0;n<ptreasureSet->nTreasureData;n++)
+		//{
+		//	cfcore.Write(ptreasureSet->treasureData0()+n,sizeof(TreasureData));
+		//}
 	}
 
 	// Civs

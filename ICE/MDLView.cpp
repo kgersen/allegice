@@ -61,7 +61,7 @@ BOOL CMDLView::OnInitDialog(void)
 	}
 	else
 	{
-		rawsize = fMDL.GetLength();
+		rawsize = (UINT)fMDL.GetLength();
 		rawdata = new UCHAR[rawsize];
 		fMDL.Read(rawdata,rawsize);
 		fMDL.Close();

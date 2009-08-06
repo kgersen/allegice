@@ -375,6 +375,7 @@
 #define IDC_ALPHAP                      1231
 #define IDC_CHANCE                      1235
 #define IDC_CASH                        1236
+#define IDC_PWRHULL                     1236
 #define IDC_SCASH                       1237
 #define IDC_ADDCASH                     1238
 #define IDC_ADDPWUP                     1239
@@ -425,8 +426,12 @@
 #define IDC_BEDITDESCR                  1283
 #define IDC_RICHEDIT21                  1284
 #define IDC_HUDNAME                     1285
-#define IDC_ICO                         1286
 #define IDC_ICONNAME                    1287
+#define IDC_PWR_HULL                    1288
+#define IDC_PWR_SHIELD                  1289
+#define IDC_PWR_ENERGY                  1290
+#define IDC_PWR_FUEL                    1291
+#define IDC_PWR_AMMO                    1292
 #define DYNMENUSID                      5000
 
 // Next default values for new objects
@@ -435,7 +440,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        149
 #define _APS_NEXT_COMMAND_VALUE         32771
-#define _APS_NEXT_CONTROL_VALUE         1288
+#define _APS_NEXT_CONTROL_VALUE         1293
 #define _APS_NEXT_SYMED_VALUE           117
 #endif
 #endif
