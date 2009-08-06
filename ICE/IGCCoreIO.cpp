@@ -73,25 +73,25 @@ bool CIGCCore::SaveAsText(CString filepath)
 	for (int j=0;j<cl_Projectiles.GetSize();j++)
 	{
 		PtrCoreProjectile p = cl_Projectiles.GetAt(j);
-		stmp.Format("Projectile %d:\n",p->uid);
-		stmp.AppendFormat("\tpercentRed = %f\n", p->percentRed);
-		stmp.AppendFormat("\tpercentGreen = %f\n", p->percentGreen);
-		stmp.AppendFormat("\tpercentBlue = %f\n", p->percentBlue);
-		stmp.AppendFormat("\tpercentAlpha = %f\n", p->percentAlpha);
-		stmp.AppendFormat("\tparticle size = %f\n", p->stats_s1); // particle size (radius)
-		stmp.AppendFormat("\trate rotation = %f\n", p->stats_s2); // rate rotation (?)
-		stmp.AppendFormat("\tmodel = %s\n",  p->file_model); // ALL '0' = file model
-		stmp.AppendFormat("\ttexture = %s\n",  p->file_texture); // = file texture
-		stmp.AppendFormat("\tdmg per shot = %f\n", p->stats_s3); // regular damange per shot
-		stmp.AppendFormat("\tarea dmg = %f\n", p->stats_s4); // area damange per shot
-		stmp.AppendFormat("\tarea radius = %f\n", p->stats_s5); // area damage radius
-		stmp.AppendFormat("\tspeed = %f\n", p->stats_s6); // speed
-		stmp.AppendFormat("\tduratin = %f\n", p->stats_s7); // life span
-		stmp.AppendFormat("\tDM = %02d\n", p->DM);
-		stmp.AppendFormat("\tabsolute speed = %d\n", p->stats_ss1); // absolute speed = 1
-		stmp.AppendFormat("\tdirectional = %d\n", p->stats_ss2); // directional = 1
-		stmp.AppendFormat("\tWidth OverHeigth = %f\n", p->stats_s8); // Width OverHeigth
-		stmp.AppendFormat("\tambient_sound = %d\n", p->ambient_sound);
+		stmp.Format("Projectile %d:\n",p->projectileTypeID);
+		stmp.AppendFormat("\tpercentRed = %f\n", p->color.r);
+		stmp.AppendFormat("\tpercentGreen = %f\n", p->color.g);
+		stmp.AppendFormat("\tpercentBlue = %f\n", p->color.b);
+		stmp.AppendFormat("\tpercentAlpha = %f\n", p->color.a);
+		stmp.AppendFormat("\tradius = %f\n", p->radius); // particle size (radius)
+		stmp.AppendFormat("\trotation = %f\n", p->rotation); // rate rotation (?)
+		stmp.AppendFormat("\tmodel = %s\n",  p->modelName); // ALL '0' = file model
+		stmp.AppendFormat("\ttexture = %s\n",  p->textureName); // = file texture
+		stmp.AppendFormat("\tpower = %f\n", p->power); // regular damange per shot
+		stmp.AppendFormat("\tarea dmg = %f\n", p->blastPower); // area damange per shot
+		stmp.AppendFormat("\tarea radius = %f\n", p->blastRadius); // area damage radius
+		stmp.AppendFormat("\tspeed = %f\n", p->speed); // speed
+		stmp.AppendFormat("\tduratin = %f\n", p->lifespan); // life span
+		stmp.AppendFormat("\tDM = %02d\n", p->damageType);
+		stmp.AppendFormat("\tabsolute speed = %d\n", p->absoluteF); // absolute speed = 1
+		stmp.AppendFormat("\tdirectional = %d\n", p->bDirectional); // directional = 1
+		stmp.AppendFormat("\tWidth  = %f\n", p->width); // Width OverHeigth
+		stmp.AppendFormat("\tambient_sound = %d\n", p->ambientSound);
 		ctmp.WriteString(stmp);
 	}
 	// Missiles

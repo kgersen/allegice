@@ -991,7 +991,7 @@ void CIGCCore::AddProjectile(PtrCoreProjectile pproj)
 		for (int j=0;j<cl_Projectiles.GetSize();j++)
 		{
 			PtrCoreProjectile p = cl_Projectiles.GetAt(j);
-			if (p->uid == uid) {
+			if (p->projectileTypeID == uid) {
 				used = true;
 				break;
 			}
@@ -1004,7 +1004,7 @@ void CIGCCore::AddProjectile(PtrCoreProjectile pproj)
 		AfxMessageBox("No more available UID for projs");
 		return;
 	}
-	pproj->uid = uid;
+	pproj->projectileTypeID = uid;
 	cl_Projectiles.Add(pproj);
 }
 void CIGCCore::AddPart(PtrCorePart ppart)
@@ -1671,7 +1671,7 @@ PtrCoreProjectile CIGCCore::FindProjectile(short uid)
 	for (int j=0;j<cl_Projectiles.GetSize();j++)
 	{
 		PtrCoreProjectile pp = cl_Projectiles.GetAt(j);
-		if (pp->uid == uid) return pp;
+		if (pp->projectileTypeID == uid) return pp;
 	}
 	return NULL;
 }

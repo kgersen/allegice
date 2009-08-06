@@ -566,7 +566,7 @@ void CICEDlg::BuildTree(void)
 		PtrCoreEntry pce = new CoreEntry;
 		pce->tag = OT_projectileType;
 		pce->entry = (LPARAM)pprojectile;
-		s.Format("p #%d",pprojectile->uid);
+		s.Format("p #%d",pprojectile->projectileTypeID);
 		pce->name.Format("Projectile: %s",s);
 		RefreshStores(pce);
 		maintree->InsertItem(TVIF_TEXT|TVIF_PARAM, s, 0, 0, 0, 0,  (LPARAM)pce, hProjectiles, TVI_SORT);
