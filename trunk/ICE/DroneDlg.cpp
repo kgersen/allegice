@@ -7,6 +7,11 @@
 #include "DroneDlg.h"
 #include ".\dronedlg.h"
 
+#ifdef _DEBUG
+#define new DEBUG_NEW
+#undef THIS_FILE
+static char THIS_FILE[] = __FILE__;
+#endif
 
 // CDroneDlg dialog
 
@@ -17,6 +22,7 @@ CDroneDlg::CDroneDlg(CWnd* pParent /*=NULL*/)
 	pdrone = NULL;
 	pcore = NULL;
 	MainUI = NULL;
+	sArtPath = "";
 }
 
 CDroneDlg::~CDroneDlg()
@@ -25,30 +31,36 @@ CDroneDlg::~CDroneDlg()
 
 void CDroneDlg::DoDataExchange(CDataExchange* pDX)
 {
-	CString name,model,description;
+	CString name,model,icon,description;
 	int shipuid,ss1,partuid;
 	if (!pdrone) return;
+	ASSERT(sArtPath != "");
 
-	int uid = pdrone->uid;
+	int uid = pdrone->droneTypeID;
+	CComboBox *cb = (CComboBox *) GetDlgItem(IDC_DEVELPATH);
 	if (!pDX->m_bSaveAndValidate) // data to dialog
 	{
 		name = pdrone->name;
-		model = pdrone->model;
+		model = pdrone->modelName;
+		mdlbmp.LoadMDLFile(sArtPath + "\\i" + pdrone->modelName + "bmp.mdl");
+		icon = pdrone->iconName;
 		description = pdrone->description;
-		shipuid = pdrone->ship_uid;
-		ss1 = pdrone->ss1;
-		partuid = pdrone->part_uid;
+		shipuid = pdrone->hullTypeID;
+		ss1 = pdrone->pilotType;
+		partuid = pdrone->etidLaid;
+		cb->SetCurSel(pdrone->groupID);
 	}
-	DDX_Text(pDX, IDC_COST, pdrone->cost);
-	DDX_Text(pDX, IDC_RTIME, pdrone->research_time);
+	DDX_Text(pDX, IDC_COST, pdrone->price);
+	DDX_Text(pDX, IDC_RTIME, pdrone->timeToBuild);
 
-	DDX_Text(pDX, IDC_S1, pdrone->f1);
-	DDX_Text(pDX, IDC_S2, pdrone->f2);
-	DDX_Text(pDX, IDC_S3, pdrone->f3);
+	DDX_Text(pDX, IDC_S1, pdrone->shootSkill);
+	DDX_Text(pDX, IDC_S2, pdrone->moveSkill);
+	DDX_Text(pDX, IDC_S3, pdrone->bravery);
 
 	DDX_Text(pDX, IDC_UID, uid);
 	DDX_Text(pDX, IDC_NAME, name);
 	DDX_Text(pDX, IDC_MODEL, model);
+	DDX_Text(pDX, IDC_ICONNAME, icon);
 	DDX_Text(pDX, IDC_DESCRIPTION, description);
 	DDX_Text(pDX, IDC_SHIPUID, shipuid);
 	DDX_Text(pDX, IDC_BUILDUID, partuid);
@@ -57,11 +69,14 @@ void CDroneDlg::DoDataExchange(CDataExchange* pDX)
 	if (pDX->m_bSaveAndValidate) // dialog to data
 	{
 		strcpy(pdrone->name,name);
-		strcpy(pdrone->model,model);
+		strcpy(pdrone->modelName,model);
+		strcpy(pdrone->iconName,icon);
 		strncpy(pdrone->description,description,IGC_DESCRIPTIONMAX);
-		pdrone->ship_uid = shipuid;
-		pdrone->ss1 = ss1;
-		pdrone->part_uid = partuid;
+		pdrone->hullTypeID = shipuid;
+		pdrone->pilotType = ss1;
+		pdrone->etidLaid = partuid;
+		if (cb->GetCurSel() != CB_ERR)
+			pdrone->groupID = (UCHAR)cb->GetCurSel();
 	}
 	CDialog::DoDataExchange(pDX);
 }
@@ -96,10 +111,18 @@ END_MESSAGE_MAP()
 BOOL CDroneDlg::OnInitDialog()
 {
 	CDialog::OnInitDialog();
+	
+	VERIFY(mdlbmp.SubclassDlgItem(IDC_PICT, this));
 
 	((CEdit *)GetDlgItem(IDC_DESCRIPTION))->SetLimitText(IGC_DESCRIPTIONMAX);
 	((CEdit *)GetDlgItem(IDC_NAME))->SetLimitText(IGC_NAMEMAX);
 
+	CComboBox *cb = (CComboBox *) GetDlgItem(IDC_DEVELPATH);
+	cb->ResetContent();
+	for (int j=0;j<MAXPATHS;j++)
+	{
+		cb->AddString(sPathsNames[j]);
+	}
 	return TRUE;  // return TRUE unless you set the focus to a control
 	// EXCEPTION: OCX Property Pages should return FALSE
 }
@@ -116,7 +139,7 @@ void CDroneDlg::OnBnClickedBshipid()
 	if (!pcore) return;
 	if (!MainUI) return;
 
-	LPARAM p = (LPARAM)pcore->FindShip(pdrone->ship_uid);
+	LPARAM p = (LPARAM)pcore->FindShip(pdrone->hullTypeID);
 	if (p)
 		MainUI->SelectPCE(p);}
 
@@ -125,8 +148,8 @@ void CDroneDlg::OnBnClickedBpartid()
 	if (!pdrone) return;
 	if (!pcore) return;
 	if (!MainUI) return;
-	if (pdrone->part_uid==-1) return;
-	PtrCoreEntry pce = pcore->ProxyPart(pdrone->part_uid);
+	if (pdrone->etidLaid==-1) return;
+	PtrCoreEntry pce = pcore->ProxyPart(pdrone->etidLaid);
 	if (!pce) AfxMessageBox("can't find this part");
 	LPARAM p = pce->entry;
 	delete pce;

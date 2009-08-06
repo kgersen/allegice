@@ -42,8 +42,12 @@
 #include <afxcmn.h>			// MFC support for Windows Common Controls
 #endif // _AFX_NO_AFXCMN_SUPPORT
 
-//#import "external\\agc.dll" no_namespace
-//#import "external\\AllSrv32.exe" no_namespace
+// memery leaks tracking
+#ifdef true
+#define _CRTDBG_MAP_ALLOC
+#include <stdlib.h>
+#include <crtdbg.h>
+#endif
 
 #include <math.h>
 #include <string.h>

@@ -209,6 +209,7 @@ BOOL CICEDlg::OnInitDialog()
 	dlgTreasure.Create(IDD_TREASUREDLG,this);
 	dlgConstants.MainUI = this;
 	dlgDevel.sArtPath = cArtPath;
+	dlgDrone.sArtPath = cArtPath;
 	dlgChaff.sArtPath = cArtPath; dlgChaff.MainUI = this; dlgChaff.SetIcons(iJumpIcon);
 	dlgProjectile.sArtPath = cArtPath; dlgProjectile.MainUI = this;
 	dlgShip.sArtPath = cArtPath; dlgShip.MainUI = this; dlgShip.SetIcons(iJumpIcon);
@@ -362,13 +363,13 @@ void CICEDlg::BuildTree(void)
 	for (int j=0;j<pigccore->cl_Drones.GetSize();j++)
 	{
 		PtrCoreDrone pdrone = pigccore->cl_Drones.GetAt(j);
-		if (bFilter & IsFiltered(pdrone->techtree))
+		if (bFilter & IsFiltered((UCHAR*)&(pdrone->ttbmRequired))) //TODO
 			continue;
 		CString s;
 		PtrCoreEntry pce = new CoreEntry;
 		pce->tag = OT_droneType;
 		pce->entry = (LPARAM)pdrone;
-		s.Format("%s (%d)",pdrone->name,pdrone->uid);
+		s.Format("%s (%d)",pdrone->name,pdrone->droneTypeID);
 		pce->name.Format("Drone: %s",s);
 		RefreshStores(pce);
 		maintree->InsertItem(TVIF_TEXT|TVIF_PARAM, s, 0, 0, 0, 0,  (LPARAM)pce, hDrones, tvisort);
@@ -714,8 +715,8 @@ void CICEDlg::OnSelchangeMainTree(NMHDR *pNMHDR, LRESULT *pResult)
 			dlgDrone.pdrone = pdrone;
 			dlgDrone.UpdateData(FALSE);
 			curdiag = (CDialog *)&dlgDrone;
-			pTechTree = pdrone->techtree;
-			sTechName.Format("Drone: %s (%d)",pdrone->name,pdrone->uid);
+			pTechTree = (UCHAR *)&(pdrone->ttbmRequired); //TODO
+			sTechName.Format("Drone: %s (%d)",pdrone->name,pdrone->droneTypeID);
 			showmb=true;
 			}break;
 		case OT_missileType:{ // Missile
@@ -1039,7 +1040,9 @@ CString CICEDlg::TTHaveBit(int ipBit,CListBox *clb, CString prefix)
 		if (ibit == 4) s = "GP: Allow tactical\r\n";
 		if (ibit == 5) s = "GP: Allow expansion\r\n";
 		if (ibit == 6) s = "GP: Allow shipyard\r\n";
-		if (ibit == 7) s = "GP: CTF or money\r\n";
+		//if (ibit == 7) s = "GP: CTF or money\r\n"; 
+		// 7 is actually used in MS core as a 'never defined' bit to allow hiding some techs.
+		// and it's not related to a game parameter
 		if (s != "") clb->AddString(prefix+s);
 	}
 	ibit = ipBit;
@@ -1081,7 +1084,7 @@ CString CICEDlg::TTHaveBit(int ipBit,CListBox *clb, CString prefix)
 	for (int j=0;j<pigccore->cl_Devels.GetSize();j++)
 	{
 		PtrCoreDevel p = pigccore->cl_Devels.GetAt(j);
-		UCHAR *techtree = (UCHAR*)&(p->ttbmRequired);
+		UCHAR *techtree = (UCHAR*)&(p->ttbmRequired); // TODO
 		if (techtree[idx] & imask)
 		{
 			t.Format("Devel: %s (%d)\r\n",p->name,p->developmentID);
@@ -1115,9 +1118,10 @@ CString CICEDlg::TTHaveBit(int ipBit,CListBox *clb, CString prefix)
 	for (int j=0;j<pigccore->cl_Drones.GetSize();j++)
 	{
 		PtrCoreDrone p = pigccore->cl_Drones.GetAt(j);
-		if (p->techtree[idx] & imask)
+		UCHAR *techtree = (UCHAR*)&(p->ttbmRequired); // TODO
+		if (techtree[idx] & imask)
 		{
-			t.Format("Drone: %s (%d)\r\n",p->name,p->uid);
+			t.Format("Drone: %s (%d)\r\n",p->name,p->droneTypeID);
 			s+=t;
 			int idx = clb->AddString(prefix+t); clb->SetItemDataPtr(idx,p);
 		}

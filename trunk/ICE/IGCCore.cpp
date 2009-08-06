@@ -40,6 +40,12 @@
 #include "Resource.h"
 #include "corestruct.h"
 
+#ifdef _DEBUG
+#define new DEBUG_NEW
+#undef THIS_FILE
+static char THIS_FILE[] = __FILE__;
+#endif
+
 CIGCCore::CIGCCore(void)
 {
 	pConstants = NULL;
@@ -434,7 +440,7 @@ void CIGCCore::BuildRenders(CComboBox *cb)
 		int already_added = 0;
 		for (int l=0;l<cb->GetCount();l++)
 		{
-			if (strcmp(pdrone->model,(char *)cb->GetItemDataPtr(l)) == 0)
+			if (strcmp(pdrone->modelName,(char *)cb->GetItemDataPtr(l)) == 0)
 			{
 				already_added = 1;
 				break;
@@ -443,9 +449,9 @@ void CIGCCore::BuildRenders(CComboBox *cb)
 		if (!already_added)
 		{
 			CString s = "Drone - ";
-			s.Append(pdrone->name);s.AppendFormat(" (%s)",pdrone->model);
+			s.Append(pdrone->name);s.AppendFormat(" (%s)",pdrone->modelName);
 			idx = cb->AddString(s); 
-			cb->SetItemDataPtr(idx,(void *)pdrone->model);
+			cb->SetItemDataPtr(idx,(void *)pdrone->modelName);
 		}
 	}
 
@@ -965,7 +971,7 @@ void CIGCCore::AddDrone(PtrCoreDrone pdrone)
 		for (int j=0;j<cl_Drones.GetSize();j++)
 		{
 			PtrCoreDrone p = cl_Drones.GetAt(j);
-			if (p->uid == uid) {
+			if (p->droneTypeID == uid) {
 				used = true;
 				break;
 			}
@@ -978,7 +984,7 @@ void CIGCCore::AddDrone(PtrCoreDrone pdrone)
 		AfxMessageBox("No more available UID for drones");
 		return;
 	}
-	pdrone->uid = uid;
+	pdrone->droneTypeID = uid;
 	cl_Drones.Add(pdrone);
 }
 void CIGCCore::AddProjectile(PtrCoreProjectile pproj)
@@ -1682,7 +1688,7 @@ PtrCoreDrone CIGCCore::FindDrone(short uid)
 	for (int j=0;j<cl_Drones.GetSize();j++)
 	{
 		PtrCoreDrone pdrone = cl_Drones.GetAt(j);
-		if (pdrone->uid == uid) return pdrone;
+		if (pdrone->droneTypeID == uid) return pdrone;
 	}
 	return NULL;
 }
@@ -1710,16 +1716,16 @@ LPARAM CIGCCore::FindError(char **pszReason)
 	for (int j=0;j<cl_Drones.GetSize();j++)
 	{
 		PtrCoreDrone pdrone = cl_Drones.GetAt(j);
-		if (pdrone->ss1 == 5)
+		if (pdrone->pilotType == c_ptLayer)
 		{
-			PtrCoreEntry prox = ProxyPart(pdrone->part_uid);
+			PtrCoreEntry prox = ProxyPart(pdrone->etidLaid);
 			if (!prox) 
 				return BuildError((LPARAM)pdrone,"invalid Part UID",pszReason);
 			delete prox;
 		}
 		else
 		{
-			if (pdrone->part_uid != -1) 
+			if (pdrone->etidLaid != -1) 
 				return BuildError((LPARAM)pdrone,"Part UID shoud be -1",pszReason);
 		}
 	}

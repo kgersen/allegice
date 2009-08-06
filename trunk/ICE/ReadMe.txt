@@ -333,7 +333,8 @@ NEW IN 3.42 (WORK IN PROGRESS - UNRELEASED- WILL PROBABLY BE ICE 4.0)
      * factions: HUD
      * devel: floating icon
      * treasures set: detailed powerups
-     * projectiles: directionnal & absolute speed as check boxes.
+     * projectiles: directionnal & absolute speed as check boxes
+     * drones: icon preview and path added
 Known bugs:
 	none
 
