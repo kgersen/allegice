@@ -329,10 +329,11 @@ NEW IN 3.41
 NEW IN 3.42 (WORK IN PROGRESS - UNRELEASED- WILL PROBABLY BE ICE 4.0)
   * ship loadout UI fixes
   * link button from station to drone (constructor)
-  * 'shared IGC source' with Allegiance, exposing new attributes (or enabling old ones):
+  * 'shared IGC source' with Allegiance, exposing new attributes (or changing old ones):
      * factions: HUD
      * devel: floating icon
      * treasures set: detailed powerups
+     * projectiles: directionnal & absolute speed as check boxes.
 Known bugs:
 	none
 

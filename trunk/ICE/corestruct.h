@@ -620,31 +620,32 @@ typedef struct SIGCCoreProbe // tag = 0x19 (OT_probeType), size = 492
 } IGCCoreProbe;
 typedef IGCCoreProbe *PtrCoreProbe;
 
-typedef struct SIGCCoreProjectile // tag = 0x16 (OT_projectileType), size = 88 
-{
-	float percentRed;
-	float percentGreen;
-	float percentBlue;
-	float percentAlpha;
-	float stats_s1; // particle size (radius)
-	float stats_s2; // rate rotation (?)
-	char  file_model[13]; // ALL '0' = file model
-	char  file_texture[13]; // = file texture
-	UCHAR pad2[2]; // CC CC
-	float stats_s3; // regular damange per shot
-	float stats_s4; // area damange per shot
-	float stats_s5; // area damage radius
-	float stats_s6; // speed
-	float stats_s7; // life span
-	unsigned short uid;
-	BYTE DM;
-	BYTE stats_ss1; // absolute speed = 1
-	BYTE stats_ss2; // directional = 1
-	UCHAR pad3[3]; // CC CC CC
-	float stats_s8; // Width OverHeigth
-	unsigned short ambient_sound;
-	UCHAR pad4[2];// CC CC
-} IGCCoreProjectile;
+//typedef struct SIGCCoreProjectile // tag = 0x16 (OT_projectileType), size = 88 
+//{
+//	float percentRed;
+//	float percentGreen;
+//	float percentBlue;
+//	float percentAlpha;
+//	float stats_s1; // particle size (radius)
+//	float stats_s2; // rate rotation (?)
+//	char  file_model[13]; // ALL '0' = file model
+//	char  file_texture[13]; // = file texture
+//	UCHAR pad2[2]; // CC CC
+//	float stats_s3; // regular damange per shot
+//	float stats_s4; // area damange per shot
+//	float stats_s5; // area damage radius
+//	float stats_s6; // speed
+//	float stats_s7; // life span
+//	unsigned short uid;
+//	BYTE DM;
+//	BYTE stats_ss1; // absolute speed = 1
+//	BYTE stats_ss2; // directional = 1
+//	UCHAR pad3[3]; // CC CC CC
+//	float stats_s8; // Width OverHeigth
+//	unsigned short ambient_sound;
+//	UCHAR pad4[2];// CC CC
+//}
+typedef DataProjectileTypeIGC IGCCoreProjectile;
 typedef IGCCoreProjectile *PtrCoreProjectile;
 
 //typedef struct SIGCCoreTreasureChance

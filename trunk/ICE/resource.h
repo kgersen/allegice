@@ -375,7 +375,6 @@
 #define IDC_ALPHAP                      1231
 #define IDC_CHANCE                      1235
 #define IDC_CASH                        1236
-#define IDC_PWRHULL                     1236
 #define IDC_SCASH                       1237
 #define IDC_ADDCASH                     1238
 #define IDC_ADDPWUP                     1239
@@ -408,7 +407,10 @@
 #define IDC_UMLIST                      1265
 #define IDC_CHECK1                      1266
 #define IDC_AUTOBACKUP                  1266
+#define IDC_ABSSPEED                    1266
 #define IDC_VALIDATE                    1267
+#define IDC_ABSSPEED2                   1267
+#define IDC_DIRECTIONNAL                1267
 #define IDC_BBACK                       1268
 #define IDC_BSHIPID                     1269
 #define IDC_COMPARE                     1269

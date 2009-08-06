@@ -25,7 +25,6 @@ CProjectileDlg::~CProjectileDlg()
 void CProjectileDlg::DoDataExchange(CDataExchange* pDX)
 {
 	int uid;
-	int ss1,ss2;
 	CString file_texture, file_model;
 	CString todo1 = "";
 	if (!pprojectile) return;
@@ -37,14 +36,16 @@ void CProjectileDlg::DoDataExchange(CDataExchange* pDX)
 	{
 		CString weplist = "";
 		clusage->ResetContent();
-		uid = pprojectile->uid;
-		file_texture = pprojectile->file_texture;
+		uid = pprojectile->projectileTypeID;
+		file_texture = pprojectile->textureName;
 		mdlbmp.LoadMDLFile(sArtPath +"\\"+ file_texture + "bmp.mdl");
-		file_model = pprojectile->file_model;
-		ss1 = pprojectile->stats_ss1;
-		ss2 = pprojectile->stats_ss2;
+		file_model = pprojectile->modelName;
+
+		((CButton*)GetDlgItem(IDC_ABSSPEED))->SetCheck( pprojectile->absoluteF ? BST_CHECKED : BST_UNCHECKED);
+		((CButton*)GetDlgItem(IDC_DIRECTIONNAL))->SetCheck( pprojectile->bDirectional ? BST_CHECKED : BST_UNCHECKED);
+
 		CComboBox *cbdm = (CComboBox *)GetDlgItem(IDC_DM);
-		cbdm->SetCurSel(pprojectile->DM);
+		cbdm->SetCurSel(pprojectile->damageType);
 
 		// display weapon that use this projectil
 		for (int j=0;j<pcore->cl_Parts.GetSize();j++)
@@ -72,34 +73,31 @@ void CProjectileDlg::DoDataExchange(CDataExchange* pDX)
 		}
 
 	}
-	//DDX_Text(pDX, IDC_TODO1, todo1);
 	DDX_Text(pDX, IDC_UID, uid);
 	DDX_Text(pDX, IDC_TEXTURE, file_texture);
 	DDX_Text(pDX, IDC_MODEL, file_model);
-	DDX_Text(pDX, IDC_S1, pprojectile->stats_s1);
-	DDX_Text(pDX, IDC_S2, pprojectile->stats_s2);
-	DDX_Text(pDX, IDC_S3, pprojectile->stats_s3);
-	DDX_Text(pDX, IDC_S4, pprojectile->stats_s4);
-	DDX_Text(pDX, IDC_S5, pprojectile->stats_s5);
-	DDX_Text(pDX, IDC_S6, pprojectile->stats_s6);
-	DDX_Text(pDX, IDC_S7, pprojectile->stats_s7);
-	DDX_Text(pDX, IDC_S8, pprojectile->stats_s8);
+	DDX_Text(pDX, IDC_S1, pprojectile->radius);
+	DDX_Text(pDX, IDC_S2, pprojectile->rotation);
+	DDX_Text(pDX, IDC_S3, pprojectile->power);
+	DDX_Text(pDX, IDC_S4, pprojectile->blastPower);
+	DDX_Text(pDX, IDC_S5, pprojectile->blastRadius);
+	DDX_Text(pDX, IDC_S6, pprojectile->speed);
+	DDX_Text(pDX, IDC_S7, pprojectile->lifespan);
+	DDX_Text(pDX, IDC_S8, pprojectile->width);
 
-	DDX_Text(pDX, IDC_REDP, pprojectile->percentRed);
-	DDX_Text(pDX, IDC_GREENP, pprojectile->percentGreen);
-	DDX_Text(pDX, IDC_BLUEP, pprojectile->percentBlue);
-	DDX_Text(pDX, IDC_ALPHAP, pprojectile->percentAlpha);
+	DDX_Text(pDX, IDC_REDP, pprojectile->color.r);
+	DDX_Text(pDX, IDC_GREENP, pprojectile->color.g);
+	DDX_Text(pDX, IDC_BLUEP, pprojectile->color.b);
+	DDX_Text(pDX, IDC_ALPHAP, pprojectile->color.a);
 
-	DDX_Text(pDX, IDC_SS1, ss1);
-	DDX_Text(pDX, IDC_SS2, ss2);
 	if (pDX->m_bSaveAndValidate) // dialog to data
 	{
-		strcpy(pprojectile->file_texture,file_texture);
-		strcpy(pprojectile->file_model,file_model);
-		pprojectile->stats_ss1 = ss1;
-		pprojectile->stats_ss2 = ss2;
+		strcpy(pprojectile->textureName,file_texture);
+		strcpy(pprojectile->modelName,file_model);
+		pprojectile->absoluteF = (((CButton*)GetDlgItem(IDC_ABSSPEED))->GetCheck()) == BST_CHECKED;
+		pprojectile->bDirectional = (((CButton*)GetDlgItem(IDC_DIRECTIONNAL))->GetCheck()) == BST_CHECKED;
 		CComboBox *cbdm = (CComboBox *)GetDlgItem(IDC_DM);
-		pprojectile->DM = cbdm->GetCurSel();
+		pprojectile->damageType = cbdm->GetCurSel();
 
 	}
 	CDialog::DoDataExchange(pDX);

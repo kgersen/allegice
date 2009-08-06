@@ -319,7 +319,7 @@ void CConstantsDlg::FillDMUsage(int idx)
 	for (int i=0;i<pcore->cl_Projectiles.GetCount();i++)
 	{
 			PtrCoreProjectile pproj = pcore->cl_Projectiles.GetAt(i);
-			if (pproj->DM  == idx)
+			if (pproj->damageType  == idx)
 			{
 				// usedby.AppendFormat("Projectile - p #%d ",pproj->uid);
 
@@ -329,9 +329,9 @@ void CConstantsDlg::FillDMUsage(int idx)
 					PtrCorePart ppart = pcore->cl_Parts.GetAt(j);
 					if ((ppart->type == ET_Weapon) && (!ppart->isspec))
 					{
-						if (ppart->specs.wep.wep_projectile_uid == pproj->uid)
+						if (ppart->specs.wep.wep_projectile_uid == pproj->projectileTypeID)
 						{
-							usedby.Format("Weapon - %s (%d) (projectile - p #%d)",ppart->name,ppart->uid,pproj->uid);
+							usedby.Format("Weapon - %s (%d) (projectile - p #%d)",ppart->name,ppart->uid,pproj->projectileTypeID);
 							int idx = cbusage->AddString(usedby);
 							cbusage->SetItemDataPtr(idx,ppart);
 						}
@@ -340,9 +340,9 @@ void CConstantsDlg::FillDMUsage(int idx)
 				for (int j=0;j<pcore->cl_Probes.GetSize();j++)
 				{
 					PtrCoreProbe pprobe = pcore->cl_Probes.GetAt(j);
-					if (pprobe->stats_projectile == pproj->uid)
+					if (pprobe->stats_projectile == pproj->projectileTypeID)
 					{
-						usedby.Format("%s (%d) (projectile - p #%d)",pprobe->name,pprobe->uid,pproj->uid);
+						usedby.Format("%s (%d) (projectile - p #%d)",pprobe->name,pprobe->uid,pproj->projectileTypeID);
 						int idx = cbusage->AddString(usedby);
 						cbusage->SetItemDataPtr(idx,pprobe);
 					}
