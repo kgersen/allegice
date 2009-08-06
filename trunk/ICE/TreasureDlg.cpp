@@ -31,15 +31,16 @@ void CTreasureDlg::DoDataExchange(CDataExchange* pDX)
 	if (!pDX->m_bSaveAndValidate) // data to dialog
 	{
 		name = ptres->name;
-		uid = ptres->uid;
+		uid = ptres->treasureSetID;
 
 		BuildPL();
 
-		for (int n=0;n<ptres->count;n++)
+		for (int n=0;n<ptres->nTreasureData;n++)
 		{
 			CString s;
 			char *pn;
-			switch(ptres->ChanceEntries[n].Code)
+			TreasureData *p = ptres->treasureData0()+n;
+			switch(p->treasureCode)
 			{
 				//case 8:
 				//	{
@@ -50,27 +51,30 @@ void CTreasureDlg::DoDataExchange(CDataExchange* pDX)
 				//		s.Format("UNKNOWN DEVEL ! (%d)",ptres->ChanceEntries[n].uid);
 				//	}
 				//	break;
-				case 1:
+				case c_tcPart:
 					{
-					pn = pcore->PartName(ptres->ChanceEntries[n].uid);
+					pn = pcore->PartName(p->treasureID);
 					if (pn)
-						s.Format("Part: %s (%d)",pn,ptres->ChanceEntries[n].uid);
+						s.Format("Part: %s (%d)",pn,p->treasureID);
 					else
-						s.Format("UNKNOWN PART ! (%d)",ptres->ChanceEntries[n].uid);
+						s.Format("UNKNOWN PART ! (%d)",p->treasureID);
 					}
 					break;
-				case 2:
-					s.Format("Powerup (%d)",ptres->ChanceEntries[n].uid);
+				case c_tcPowerup:
+					s.Format("Powerup (%d)",p->treasureID);
 					break;
-				case 4:
-					s.Format("Cash: $%d",ptres->ChanceEntries[n].uid);
+				case c_tcCash:
+					s.Format("Cash: $%d",p->treasureID);
+					break;
+				case c_tcDevelopment:
+					// NYI
 					break;
 				default:
 					s.Format("????");
 			}
 			int idx = clTres->AddString(s);
-			IGCCoreTreasureChance *t = new IGCCoreTreasureChance;
-			*t = ptres->ChanceEntries[n];
+			TreasureData *t = new TreasureData;
+			*t = *p;
 			clTres->SetItemDataPtr(idx,t);
 		}
 		OnLbnSelchangeTreslist();
@@ -80,14 +84,17 @@ void CTreasureDlg::DoDataExchange(CDataExchange* pDX)
 
 	if (pDX->m_bSaveAndValidate) // dialog to data
 	{
-		strcpy(ptres->name,name);
-		delete ptres->ChanceEntries;
-		ptres->count = clTres->GetCount();
-		ptres->ChanceEntries = new IGCCoreTreasureChance[ptres->count];
-		for (int n=0;n<ptres->count;n++)
+		if (clTres->GetCount() >= MAXTREASURES)
+			AfxMessageBox("too many entries in treasure set");
+		else
 		{
-			IGCCoreTreasureChance *t = (IGCCoreTreasureChance *) clTres->GetItemData(n);
-			ptres->ChanceEntries[n] = *t;
+			strcpy(ptres->name,name);
+			ptres->nTreasureData = clTres->GetCount();
+			for (int n=0;n<ptres->nTreasureData;n++)
+			{
+				TreasureData *t = (TreasureData *) clTres->GetItemData(n);
+				*(ptres->treasureData0()+n) = *t;
+			}
 		}
 	}
 	CDialog::DoDataExchange(pDX);
@@ -141,23 +148,41 @@ void CTreasureDlg::OnLbnSelchangeTreslist()
 	CWnd *cescash = GetDlgItem(IDC_SCASH);
 	cecash->ShowWindow(SW_HIDE);
 	cescash->ShowWindow(SW_HIDE);
+
+	GetDlgItem(IDC_PWR_HULL)->ShowWindow(SW_HIDE);
+	GetDlgItem(IDC_PWR_SHIELD)->ShowWindow(SW_HIDE);
+	GetDlgItem(IDC_PWR_ENERGY)->ShowWindow(SW_HIDE);
+	GetDlgItem(IDC_PWR_FUEL)->ShowWindow(SW_HIDE);
+	GetDlgItem(IDC_PWR_AMMO)->ShowWindow(SW_HIDE);
+
 	int idx = clTres->GetCurSel();
 	if (idx == LB_ERR)
 	{
 		return;
 	}
-	IGCCoreTreasureChance *t = (IGCCoreTreasureChance *) clTres->GetItemData(idx);
-	SetDlgItemInt(IDC_CHANCE,t->Chance);
-	switch (t->Code)
+	TreasureData *t = (TreasureData *) clTres->GetItemData(idx);
+	SetDlgItemInt(IDC_CHANCE,t->chance);
+	switch (t->treasureCode)
 	{
-		case 1:
+		case c_tcPart:
 			break;
-		case 2:
+		case c_tcPowerup:
+			GetDlgItem(IDC_PWR_HULL)->ShowWindow(SW_SHOWNA);
+			GetDlgItem(IDC_PWR_SHIELD)->ShowWindow(SW_SHOWNA);
+			GetDlgItem(IDC_PWR_ENERGY)->ShowWindow(SW_SHOWNA);
+			GetDlgItem(IDC_PWR_FUEL)->ShowWindow(SW_SHOWNA);
+			GetDlgItem(IDC_PWR_AMMO)->ShowWindow(SW_SHOWNA);
+			((CButton *)GetDlgItem(IDC_PWR_HULL))->SetCheck(t->treasureID & c_pcHull ? BST_CHECKED : BST_UNCHECKED);
+			((CButton *)GetDlgItem(IDC_PWR_SHIELD))->SetCheck(t->treasureID & c_pcShield ? BST_CHECKED : BST_UNCHECKED);
+			((CButton *)GetDlgItem(IDC_PWR_ENERGY))->SetCheck(t->treasureID & c_pcEnergy ? BST_CHECKED : BST_UNCHECKED);
+			((CButton *)GetDlgItem(IDC_PWR_FUEL))->SetCheck(t->treasureID & c_pcFuel ? BST_CHECKED : BST_UNCHECKED);
+			((CButton *)GetDlgItem(IDC_PWR_AMMO))->SetCheck(t->treasureID & c_pcAmmo ? BST_CHECKED : BST_UNCHECKED);
+				
 			break;
-		case 4:
+		case c_tcCash:
 			cecash->ShowWindow(SW_SHOWNA);
 			cescash->ShowWindow(SW_SHOWNA);
-			SetDlgItemInt(IDC_CASH,t->uid);
+			SetDlgItemInt(IDC_CASH,t->treasureID);
 			break;
 	}
 }
@@ -167,7 +192,7 @@ void CTreasureDlg::OnBnClickedBttotres()
 	int idx = clParts->GetCurSel();
 	if (idx == LB_ERR)
 		return;
-	IGCCoreTreasureChance *t = (IGCCoreTreasureChance *) clParts->GetItemData(idx);
+	TreasureData *t = (TreasureData *) clParts->GetItemData(idx);
 	CString s;
 	clParts->GetText(idx,s);
 	int idxt = clTres->AddString(s);
@@ -182,9 +207,9 @@ void CTreasureDlg::OnBnClickedBttopart()
 	int idx = clTres->GetCurSel();
 	if (idx == LB_ERR)
 		return;
-	IGCCoreTreasureChance *t = (IGCCoreTreasureChance *) clTres->GetItemDataPtr(idx);
+	TreasureData *t = (TreasureData *) clTres->GetItemDataPtr(idx);
 	
-	if (t->Code == 1)
+	if (t->treasureCode == c_tcPart)
 	{
 		CString s;
 		clTres->GetText(idx,s);
@@ -203,14 +228,14 @@ void CTreasureDlg::BuildPL()
 {
 	for (int n=0;n<clParts->GetCount();n++)
 	{
-		IGCCoreTreasureChance *t = (IGCCoreTreasureChance *) clParts->GetItemDataPtr(n);
+		TreasureData *t = (TreasureData *) clParts->GetItemDataPtr(n);
 		clParts->SetItemDataPtr(n,NULL);
 		delete t;
 	}
 	clParts->ResetContent();
 	for (int n=0;n<clTres->GetCount();n++)
 	{
-		IGCCoreTreasureChance *t = (IGCCoreTreasureChance *) clTres->GetItemDataPtr(n);
+		TreasureData *t = (TreasureData *) clTres->GetItemDataPtr(n);
 		clTres->SetItemDataPtr(n,NULL);
 		delete t;
 	}
@@ -225,19 +250,20 @@ void CTreasureDlg::BuildPL()
 			s.Format("Part: %s (%d)",ppart->name,ppart->uid);
 
 		bool bSkip = false;
-		for (int n=0;n<ptres->count;n++)
+		for (int n=0;n<ptres->nTreasureData;n++)
 		{
-			if(ptres->ChanceEntries[n].Code == 1)
-				if (ptres->ChanceEntries[n].uid == ppart->uid)
+			TreasureData *t = ptres->treasureData0()+n;
+			if(t->treasureCode == c_tcPart)
+				if (t->treasureID == ppart->uid)
 					bSkip = true;
 		}
 		if (!bSkip)
 		{
 			int idx = clParts->AddString(s);
-			IGCCoreTreasureChance *t = new IGCCoreTreasureChance;
-			t->Chance = 2;
-			t->Code = 1;
-			t->uid = ppart->uid;
+			TreasureData *t = new TreasureData;
+			t->chance = 2;
+			t->treasureCode = c_tcPart;
+			t->treasureID = ppart->uid;
 			clParts->SetItemDataPtr(idx,t);
 		}
 	}
@@ -268,11 +294,11 @@ void CTreasureDlg::BuildPL()
 void CTreasureDlg::OnBnClickedAddcash()
 {
 	CString s;
-	IGCCoreTreasureChance *t = new IGCCoreTreasureChance;
-	t->Code = 4;
-	t->uid = 500;
-	t->Chance = 30;
-	s.Format("Cash: $%d",t->uid);
+	TreasureData *t = new TreasureData;
+	t->treasureCode = c_tcCash;
+	t->treasureID = 500;
+	t->chance = 30;
+	s.Format("Cash: $%d",t->treasureID);
 	int idx = clTres->AddString(s);
 	clTres->SetItemDataPtr(idx,t);
 }
@@ -280,11 +306,11 @@ void CTreasureDlg::OnBnClickedAddcash()
 void CTreasureDlg::OnBnClickedAddpwup()
 {
 	CString s;
-	IGCCoreTreasureChance *t = new IGCCoreTreasureChance;
-	t->Code = 2;
-	t->uid = 31;
-	t->Chance = 60;
-	s.Format("Powerup (%d)",t->uid);
+	TreasureData *t = new TreasureData;
+	t->treasureCode = c_tcPowerup;
+	t->treasureID = c_pcHull + c_pcShield + c_pcEnergy + c_pcFuel + c_pcAmmo;
+	t->chance = 60;
+	s.Format("Powerup (%d)",t->treasureID);
 	int idx = clTres->AddString(s);
 	clTres->SetItemDataPtr(idx,t);
 }
@@ -294,7 +320,7 @@ void CTreasureDlg::OnBnClickedSetchance()
 	int idx = clTres->GetCurSel();
 	if (idx == LB_ERR)
 		return;
-	IGCCoreTreasureChance *t = (IGCCoreTreasureChance *) clTres->GetItemDataPtr(idx);
+	TreasureData *t = (TreasureData *) clTres->GetItemDataPtr(idx);
 	BOOL bValid = FALSE;
 	UINT val = GetDlgItemInt(IDC_CHANCE,&bValid);
 	if (!bValid)
@@ -307,8 +333,8 @@ void CTreasureDlg::OnBnClickedSetchance()
 		AfxMessageBox("chance value must be between 1 and 255");
 		return;
 	}
-	t->Chance = (BYTE) val;
-	if (t->Code == 4)
+	t->chance = (BYTE) val;
+	if (t->treasureCode == c_tcCash)
 	{
 		val = GetDlgItemInt(IDC_CASH,&bValid);
 		if (!bValid)
@@ -321,12 +347,27 @@ void CTreasureDlg::OnBnClickedSetchance()
 			AfxMessageBox("cash amount value must be between 1 and 65535");
 			return;
 		}
-		t->uid = val;
+		t->treasureID = val;
 		CString s;
 		s.Format("Cash: $%d",val);
 		clTres->DeleteString(idx);
 		idx = clTres->AddString(s);
 		clTres->SetItemDataPtr(idx,t);
 		clTres->SetSel(idx);
+	}
+	if (t->treasureCode == c_tcPowerup)
+	{
+		t->treasureID =
+			((((CButton *)GetDlgItem(IDC_PWR_HULL))->GetCheck() == BST_CHECKED) ? c_pcHull : 0) +
+			((((CButton *)GetDlgItem(IDC_PWR_SHIELD))->GetCheck() == BST_CHECKED) ? c_pcShield : 0) +
+			((((CButton *)GetDlgItem(IDC_PWR_ENERGY))->GetCheck() == BST_CHECKED) ? c_pcEnergy : 0) +
+			((((CButton *)GetDlgItem(IDC_PWR_FUEL))->GetCheck() == BST_CHECKED) ? c_pcFuel : 0) +
+			((((CButton *)GetDlgItem(IDC_PWR_AMMO))->GetCheck() == BST_CHECKED) ? c_pcAmmo : 0);
+		CString s;
+		s.Format("Powerup (%d)",t->treasureID);
+		clTres->DeleteString(idx);
+		idx = clTres->AddString(s);
+		clTres->SetItemDataPtr(idx,t);
+		clTres->SetSel(idx);		
 	}
 }

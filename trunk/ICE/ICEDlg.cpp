@@ -579,7 +579,7 @@ void CICEDlg::BuildTree(void)
 		PtrCoreEntry pce = new CoreEntry;
 		pce->tag = OT_treasureSet;
 		pce->entry = (LPARAM)ptres;
-		s.Format("%s (%d)",ptres->name,ptres->uid);
+		s.Format("%s (%d)",ptres->name,ptres->treasureSetID);
 		pce->name.Format("Treasure set: %s",s);
 		RefreshStores(pce);
 		maintree->InsertItem(TVIF_TEXT|TVIF_PARAM, s, 0, 0, 0, 0,  (LPARAM)pce, hTreasureSets, TVI_SORT);
@@ -781,7 +781,7 @@ void CICEDlg::OnSelchangeMainTree(NMHDR *pNMHDR, LRESULT *pResult)
 			dlgTreasure.ptres = ptres;
 			dlgTreasure.UpdateData(FALSE);
 			curdiag = (CDialog *)&dlgTreasure;
-			sTechName.Format("TreasureSet: %s (%d)",ptres->name,ptres->uid);
+			sTechName.Format("TreasureSet: %s (%d)",ptres->name,ptres->treasureSetID);
 			}break;
 		default:
 			break;
