@@ -7,6 +7,12 @@
 #include "BMPMDLButton.h"
 #include "external\MDLFile.h"
 
+#ifdef _DEBUG
+#define new DEBUG_NEW
+#undef THIS_FILE
+static char THIS_FILE[] = __FILE__;
+#endif
+
 // CBMPMDLButton
 
 IMPLEMENT_DYNAMIC(CBMPMDLButton, CBitmapButton)

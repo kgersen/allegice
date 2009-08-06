@@ -8,6 +8,12 @@
 #include "mdlfile.h"
 #include "BitmapGlue.h"
 
+#ifdef _DEBUG
+#define new DEBUG_NEW
+#undef THIS_FILE
+static char THIS_FILE[] = __FILE__;
+#endif
+
 // constructor - init all vars to NULL/0
 CMDLFile::CMDLFile(void)
 {
@@ -421,6 +427,7 @@ bool CMDLFile::ReadFromFile(CString sFileName)
 	} // L3
 	RootObject = lastObject;
 	cf.Close();
+	if (TexturesIdx) delete TexturesIdx;
 	return true;
 }
 

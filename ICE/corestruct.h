@@ -551,29 +551,32 @@ typedef struct SIGCCoreMine // tag = 0x18, size = 480
 	UCHAR pad8[3]; // CD CD CD
 } IGCCoreMine;
 typedef IGCCoreMine *PtrCoreMine;
-typedef struct SIGCCoreDrone // tag = 21 size = 384
-{
-	Money cost; // 1 for con, 4000 for miner
-	Money research_time; // 1 for con, 90 for miner
-	char model[13];
-	UCHAR pad1; // CC
-	UCHAR uks1[13]; // null string
-	char name[25];
-	char description[200];
-	BYTE group;
-	BYTE zero;
-	UCHAR techtree[100];
-	UCHAR pad2[2]; // CC
-	float f1; // ?, def = 0.5
-	float f2; // ?, def = 0.5 
-	float f3; // ?, def = 0.5
-	BYTE ss1; // AI script: miner=0,wingman=2,layer=5,con=6,carrier=9 
-	UCHAR pad3; // CC
-	unsigned short ship_uid;
-	unsigned short uid;
-	short part_uid; // -1 if none, otherwise uid of mines/probes
-} IGCCoreDrone;
+
+//typedef struct SIGCCoreDrone // tag = 21 size = 384
+//{
+//	Money cost; // 1 for con, 4000 for miner
+//	Money research_time; // 1 for con, 90 for miner
+//	char model[13];
+//	UCHAR pad1; // CC
+//	UCHAR uks1[13]; // null string
+//	char name[25];
+//	char description[200];
+//	BYTE group;
+//	BYTE zero;
+//	UCHAR techtree[100];
+//	UCHAR pad2[2]; // CC
+//	float f1; // ?, def = 0.5
+//	float f2; // ?, def = 0.5 
+//	float f3; // ?, def = 0.5
+//	BYTE ss1; // AI script: miner=0,wingman=2,layer=5,con=6,carrier=9 
+//	UCHAR pad3; // CC
+//	unsigned short ship_uid;
+//	unsigned short uid;
+//	short part_uid; // -1 if none, otherwise uid of mines/probes
+//} 
+typedef DataDroneTypeIGC IGCCoreDrone;
 typedef IGCCoreDrone *PtrCoreDrone;
+
 typedef struct SIGCCoreProbe // tag = 0x19 (OT_probeType), size = 492
 {
 	UCHAR header[16]; // ALL '0' = 4 floats = RGBA values (as in SIGCCoreMine)

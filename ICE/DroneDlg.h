@@ -14,6 +14,8 @@ public:
 	PtrCore pcore;
 	IMainUI *MainUI;
 	void SetIcons(HICON iJumpIcon);
+	CString sArtPath;
+	CBMPMDLButton mdlbmp;
 // Dialog Data
 	enum { IDD = IDD_DRONEDLG };
 

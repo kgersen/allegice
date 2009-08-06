@@ -6,6 +6,11 @@
 #include "corestruct.h"
 #include "TreasureDlg.h"
 
+#ifdef _DEBUG
+#define new DEBUG_NEW
+#undef THIS_FILE
+static char THIS_FILE[] = __FILE__;
+#endif
 
 // CTreasureDlg dialog
 
@@ -224,7 +229,7 @@ void CTreasureDlg::OnBnClickedBttopart()
 	clTres->DeleteString(idx);
 }
 
-void CTreasureDlg::BuildPL()
+void CTreasureDlg::FreePL()
 {
 	for (int n=0;n<clParts->GetCount();n++)
 	{
@@ -240,6 +245,10 @@ void CTreasureDlg::BuildPL()
 		delete t;
 	}
 	clTres->ResetContent();
+}
+void CTreasureDlg::BuildPL()
+{
+	FreePL();
 	for (int j=0;j<pcore->cl_Parts.GetSize();j++)
 	{
 		PtrCorePart ppart = pcore->cl_Parts.GetAt(j);

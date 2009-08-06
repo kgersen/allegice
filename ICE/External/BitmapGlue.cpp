@@ -8,6 +8,12 @@
 #include "stdafx.h"
 #include <freeimage.h>
 
+#ifdef _DEBUG
+#define new DEBUG_NEW
+#undef THIS_FILE
+static char THIS_FILE[] = __FILE__;
+#endif
+
 // save a bmp file in 24 bits format
 void CreateBMP24File(CString pszFile, PBITMAPINFO pbi,LPBYTE lpBits) 
  { 

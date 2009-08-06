@@ -20,6 +20,7 @@ protected:
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
 	CListBox *clParts;
 	CListBox *clTres;
+	void FreePL();
 	void BuildPL();
 
 	DECLARE_MESSAGE_MAP()

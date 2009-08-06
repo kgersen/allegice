@@ -136,6 +136,7 @@
 #define IDC_DAMAGE                      1045
 #define IDC_BUILDUID                    1045
 #define IDC_S15                         1046
+#define IDC_GROUPID                     1046
 #define IDC_S16                         1047
 #define IDC_S17                         1048
 #define IDC_DAMAGE_RADIUS               1048
@@ -409,7 +410,6 @@
 #define IDC_AUTOBACKUP                  1266
 #define IDC_ABSSPEED                    1266
 #define IDC_VALIDATE                    1267
-#define IDC_ABSSPEED2                   1267
 #define IDC_DIRECTIONNAL                1267
 #define IDC_BBACK                       1268
 #define IDC_BSHIPID                     1269
