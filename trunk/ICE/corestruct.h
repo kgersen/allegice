@@ -69,12 +69,12 @@ const CString IGCArmorClasses[IGCACMAX] = {
 };
 
 
-#define IGCSTATIONF_BUILDON_HELIUM 1
-#define IGCSTATIONF_BUILDON_THORIUM 4
-#define IGCSTATIONF_BUILDON_ASTERIOD 8
-#define IGCSTATIONF_BUILDON_URANIUM 16
-#define IGCSTATIONF_BUILDON_SILICON 32
-#define IGCSTATIONF_BUILDON_CARBON 64
+#define IGCSTATIONF_BUILDON_HELIUM c_aabmMineHe3
+#define IGCSTATIONF_BUILDON_THORIUM c_aabmMineGold
+#define IGCSTATIONF_BUILDON_ASTERIOD c_aabmBuildable
+#define IGCSTATIONF_BUILDON_URANIUM c_aabmSpecial
+#define IGCSTATIONF_BUILDON_SILICON (c_aabmSpecial<<1)
+#define IGCSTATIONF_BUILDON_CARBON (c_aabmSpecial<<2)
 
 
 #define IGCSTATION_TYPE_NBVALS 20 // TODO: be dynamic and store names in core ?
@@ -214,18 +214,20 @@ typedef IGCCoreDevel *PtrCoreDevel;
 #define IGCHullAbility_IsMiner			(64*256)
 #define IGCHullAbility_IsConstructor	(128*256)
 
-typedef struct SIGCCoreShipMP // size 30
-{
-	unsigned short uk1; // sound
-	unsigned short uk2; // sound
-	char position[13];
-	UCHAR todo[9];//30 00 .. 00
-	unsigned short part_mask;//usemask of weapon
-	unsigned short part_type;//1=normal, 0=other player (turret).
-} IGCCoreShipMP;
-#define IGCSHIPMAXPARTS 14
+//typedef struct SIGCCoreShipMP // size 30
+//{
+//	unsigned short uk1; // sound
+//	unsigned short uk2; // sound
+//	char position[13];
+//	UCHAR todo[9];//30 00 .. 00
+//	unsigned short part_mask;//usemask of weapon
+//	unsigned short part_type;//1=normal, 0=other player (turret).
+//} IGCCoreShipMP;
+
+//#define IGCSHIPMAXPARTS 14 == c_cMaxPreferredPartTypes
+
 #define IGCSHIPMAXUSE 8
-#define IGCSHIPMAXWEAPONS 20
+//#define IGCSHIPMAXWEAPONS 20
 const CString IGCShipUseMasks[IGCSHIPMAXUSE]=
 {
 	"Counter",	"*",
@@ -242,66 +244,67 @@ const CString IGCShipUseMasks[IGCSHIPMAXUSE]=
 //const EquipmentType   ET_Afterburner    = 7;
 //const EquipmentType   ET_MAX            = 8;
 
-typedef struct SIGCCoreShip // tag = 1D, size = 540 to 690
-{
-	Money cost;
-	BYTE header[4]; // all zero
-	char model[13];
-	BYTE pad1; // CC
-	char icon[13];
-	char name[25];
-	char description[200]; // check len
-	BYTE zero;
-	char group; 
-	UCHAR techtree[100];
-	BYTE pad2[2]; //00 00
-	float stats_s1; // mass
-	float stats_s2; // sig%
-	float stats_s3; // speed
-	float stats_s4; // SAX = MaxRollRate in radians
-	float stats_s5; // SAY = MaxPitchRate in radians
-	float stats_s6; // SAZ = MaxYawRate in radians
-	float stats_s7; // SBX = DriftRoll (unit ?)
-	float stats_s8; // SBY = DriftPitch (unit ?) 
-	float stats_s9; // SBZ = DriftYaw  (unit ?)
-	float stats_s10; // max thrust
-	float stats_s11; // STM (side thrust multiplier)
-	float stats_s12; // RTM (reverse thrust multiplier)
-	float stats_s13; // scan
-	float stats_s14; // fuel
-	float stats_s15; // lock mode (ecm)
-	float stats_s16; // scale
-	float stats_s17; // energy
-	float stats_s18; // recharge
-	float stats_s19; // rip time
-	float stats_s20; // rip cost
-	unsigned short stats_ss1; // ammo capacity
-	unsigned short uid; // confirmed
-	short overriding_uid; // -1 if none
-	UCHAR nb_parts; // part size = 30
-	UCHAR mnt_nbwpslots;
-	float stats_hp; 
-	UCHAR TODO2[2];//1C 02
-	unsigned short AC;
-	unsigned short stats_ld1; // missiles capacity
-	unsigned short stats_ld2; // pack capacity
-	unsigned short stats_ld3; // CM capacity
-	unsigned short def_loadout[IGCSHIPMAXPARTS];// -1 or part uid
-	unsigned short hullability;
-	UCHAR TODO3[14];// all zero
-	unsigned short can_use[IGCSHIPMAXUSE]; // usage masks,see IGCShipUseMasks
-	unsigned short Sound_Interior;
-	unsigned short Sound_Exterior;
-	unsigned short Sound_ThrustInterior;
-	unsigned short Sound_ThrustExterior;
-	unsigned short Sound_TurnInterior;
-    unsigned short Sound_TurnExterior;
-	UCHAR TODO4[2];// all zero
-	IGCCoreShipMP parts[IGCSHIPMAXWEAPONS];
-	int size;
-} IGCCoreShip;
+//typedef struct SIGCCoreShip // tag = 1D, size = 540 to 690
+//{
+//	Money cost;
+//	BYTE header[4]; // all zero
+//	char model[13];
+//	BYTE pad1; // CC
+//	char icon[13];
+//	char name[25];
+//	char description[200]; // check len
+//	BYTE zero;
+//	char group; 
+//	UCHAR techtree[100];
+//	BYTE pad2[2]; //00 00
+//	float stats_s1; // mass
+//	float stats_s2; // sig%
+//	float stats_s3; // speed
+//	float stats_s4; // SAX = MaxRollRate in radians
+//	float stats_s5; // SAY = MaxPitchRate in radians
+//	float stats_s6; // SAZ = MaxYawRate in radians
+//	float stats_s7; // SBX = DriftRoll (unit ?)
+//	float stats_s8; // SBY = DriftPitch (unit ?) 
+//	float stats_s9; // SBZ = DriftYaw  (unit ?)
+//	float stats_s10; // max thrust
+//	float stats_s11; // STM (side thrust multiplier)
+//	float stats_s12; // RTM (reverse thrust multiplier)
+//	float stats_s13; // scan
+//	float stats_s14; // fuel
+//	float stats_s15; // lock mode (ecm)
+//	float stats_s16; // scale
+//	float stats_s17; // energy
+//	float stats_s18; // recharge
+//	float stats_s19; // rip time
+//	float stats_s20; // rip cost
+//	unsigned short stats_ss1; // ammo capacity
+//	unsigned short uid; // confirmed
+//	short overriding_uid; // -1 if none
+//	UCHAR nb_parts; // part size = 30
+//	UCHAR mnt_nbwpslots;
+//	float stats_hp; 
+//	UCHAR TODO2[2];//1C 02
+//	unsigned short AC;
+//	unsigned short stats_ld1; // missiles capacity
+//	unsigned short stats_ld2; // pack capacity
+//	unsigned short stats_ld3; // CM capacity
+//	unsigned short def_loadout[IGCSHIPMAXPARTS];// -1 or part uid
+//	unsigned short hullability;
+//	UCHAR TODO3[14];// all zero
+//	unsigned short can_use[IGCSHIPMAXUSE]; // usage masks,see IGCShipUseMasks
+//	unsigned short Sound_Interior;
+//	unsigned short Sound_Exterior;
+//	unsigned short Sound_ThrustInterior;
+//	unsigned short Sound_ThrustExterior;
+//	unsigned short Sound_TurnInterior;
+//    unsigned short Sound_TurnExterior;
+//	UCHAR TODO4[2];// all zero
+//	IGCCoreShipMP parts[IGCSHIPMAXWEAPONS];
+//	int size;
+//} 
+typedef DataHullTypeIGC IGCCoreShip;
 typedef IGCCoreShip *PtrCoreShip;
-typedef IGCCoreShipMP *PtrCoreShipMP;
+//typedef IGCCoreShipMP *PtrCoreShipMP;
 const CString ICGPartType[ET_MAX] =
 {
 	"ChaffLauncher",

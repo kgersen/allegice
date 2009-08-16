@@ -144,23 +144,18 @@ bool CIGCCore::ReadFromFile(CString fn)
 			break;
 		case OT_hullType: // ship
 			{
-				IGCCoreShip *pship = new IGCCoreShip;
+				IGCCoreShip *pship = (DataHullTypeIGC *)new char[sizeof(IGCCoreShip)+c_maxMountedWeapons*sizeof(HardpointData)];
 				//ASSERT(size == sizeof(*pship));
-				for (int i=0;i<IGCSHIPMAXWEAPONS;i++)
+				for (int i=0;i<c_maxMountedWeapons;i++)
 				{
-					pship->parts[i].part_mask = 0;
-					pship->parts[i].part_type = 1;
-					pship->parts[i].uk1 = 140;
-					pship->parts[i].uk2 = 121;
-					strcpy_s(pship->parts[i].position,13,"");
-					//30 00 .. 00
-					pship->parts[i].todo[0] = 0x30;
-					for (int j=0;j<8;j++)
-						pship->parts[i].todo[1+j] = 0;
-
+					pship->GetHardpointData(i)->partMask = 0;
+					pship->GetHardpointData(i)->bFixed = 1;
+					pship->GetHardpointData(i)->interiorSound = 140;
+					pship->GetHardpointData(i)->turnSound = 121;
+					strcpy_s(pship->GetHardpointData(i)->frameName,c_cbFileName,"");
+					strcpy_s(pship->GetHardpointData(i)->locationAbreviation,c_cbLocAbrev,"");
 				}
 				cfmap.Read(pship,size);
-				pship->size = size;
 				cl_Ships.Add(pship);
 				break;
 			}
@@ -667,7 +662,7 @@ bool CIGCCore::SaveToFile(CString fn)
 	{
 		PtrCoreShip pship = cl_Ships.GetAt(j);
 		cfcore.Write(&tag,sizeof(tag));
-		tag_size = pship->nb_parts*sizeof(IGCCoreShipMP)+540;
+		tag_size = pship->maxWeapons*sizeof(HardpointData)+sizeof(DataHullTypeIGC);
 		cfcore.Write(&tag_size,sizeof(tag_size));
 		cfcore.Write(pship,tag_size);
 	}
@@ -919,7 +914,7 @@ void CIGCCore::AddShip(PtrCoreShip pship)
 		for (int j=0;j<cl_Ships.GetSize();j++)
 		{
 			PtrCoreShip p = cl_Ships.GetAt(j);
-			if (p->uid == uid) {
+			if (p->hullID == uid) {
 				used = true;
 				break;
 			}
@@ -932,7 +927,7 @@ void CIGCCore::AddShip(PtrCoreShip pship)
 		AfxMessageBox("No more available UID for ships");
 		return;
 	}
-	pship->uid = uid;
+	pship->hullID = uid;
 	cl_Ships.Add(pship);
 }
 void CIGCCore::AddStationType(PtrCoreStationType pstation)
@@ -1152,12 +1147,12 @@ void CIGCCore::SortEntries(void)
 	for (int j=0;j<cl_Ships.GetSize();j++)
 	{
 		PtrCoreShip p = cl_Ships.GetAt(j);
-		if (p->overriding_uid != 0xFFFF)
+		if (p->successorHullID != 0xFFFF)
 		{
 			for (int i=j+1;i<cl_Ships.GetSize();i++)
 			{
 				PtrCoreShip pp = cl_Ships.GetAt(i);
-				if (pp->uid == p->overriding_uid)
+				if (pp->hullID == p->successorHullID)
 				{
 					cl_Ships.SetAt(i,p);
 					cl_Ships.SetAt(j,pp);
@@ -1666,7 +1661,7 @@ PtrCoreShip CIGCCore::FindShip(short uid)
 	for (int j=0;j<cl_Ships.GetSize();j++)
 	{
 		PtrCoreShip pship = cl_Ships.GetAt(j);
-		if (pship->uid == uid) return pship;
+		if (pship->hullID == uid) return pship;
 	}
 	return NULL;
 }
@@ -1773,9 +1768,9 @@ LPARAM CIGCCore::FindError(char **pszReason)
 	for (int j=0;j<cl_Ships.GetSize();j++)
 	{
 		PtrCoreShip pship = cl_Ships.GetAt(j);
-		if (pship->overriding_uid != -1)
+		if (pship->successorHullID != -1)
 		{
-			PtrCoreShip pover = FindShip(pship->overriding_uid);
+			PtrCoreShip pover = FindShip(pship->successorHullID);
 			if (!pover) return BuildError((LPARAM)pship,"Invalid successor (overided by)",pszReason);
 		}
 

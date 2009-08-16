@@ -378,13 +378,13 @@ void CICEDlg::BuildTree(void)
 	for (int j=0;j<pigccore->cl_Ships.GetSize();j++)
 	{
 		PtrCoreShip pship = pigccore->cl_Ships.GetAt(j);
-		if (bFilter & IsFiltered(pship->techtree))
+		if (bFilter & IsFiltered((UCHAR*)&(pship->ttbmRequired))) //TODO
 			continue;
 		CString s;
 		PtrCoreEntry pce = new CoreEntry;
 		pce->tag = OT_hullType;
 		pce->entry = (LPARAM)pship;
-		s.Format("%s (%d)",pship->name,pship->uid);
+		s.Format("%s (%d)",pship->name,pship->hullID);
 		pce->name.Format("Ship: %s",s);
 		RefreshStores(pce);
 		maintree->InsertItem(TVIF_TEXT|TVIF_PARAM, s, 0, 0, 0, 0,  (LPARAM)pce, hShips, tvisort);
@@ -695,8 +695,8 @@ void CICEDlg::OnSelchangeMainTree(NMHDR *pNMHDR, LRESULT *pResult)
 			dlgShipLoadout.pship = pship;
 			dlgShipLoadout.UpdateData(FALSE);
 			curdiag = (CDialog *)&dlgShip;
-			pTechTree = pship->techtree;
-			sTechName.Format("Ship: %s (%d)",pship->name,pship->uid);
+			pTechTree = (UCHAR *)&(pship->ttbmRequired); // TODO
+			sTechName.Format("Ship: %s (%d)",pship->name,pship->hullID);
 			showmb=true;
 			ShowLoadout = true;
 			}break;
@@ -1097,9 +1097,10 @@ CString CICEDlg::TTHaveBit(int ipBit,CListBox *clb, CString prefix)
 	for (int j=0;j<pigccore->cl_Ships.GetSize();j++)
 	{
 		PtrCoreShip pship = pigccore->cl_Ships.GetAt(j);
-		if (pship->techtree[idx] & imask)
+		UCHAR *techtree = (UCHAR*)&(pship->ttbmRequired); // TODO
+		if (techtree[idx] & imask)
 		{
-			t.Format("Ship: %s (%d)\r\n",pship->name,pship->uid);
+			t.Format("Ship: %s (%d)\r\n",pship->name,pship->hullID);
 			s+=t;
 			int idx = clb->AddString(prefix+t); clb->SetItemDataPtr(idx,pship);
 		}

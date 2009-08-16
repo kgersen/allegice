@@ -64,7 +64,7 @@ public:
 	void OnBnClickedDltoggle(void);
 protected:
 	int DLCheck;
-	unsigned short DLList[IGCSHIPMAXPARTS];
+	unsigned short DLList[c_cMaxPreferredPartTypes];
 	void BuildDL(void);
 	void SaveDL(void);
 public:

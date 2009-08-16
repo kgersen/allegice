@@ -240,6 +240,12 @@ struct  DataHullTypeIGC : public DataBuyableIGC
 
 
     // HardpointData[] comes here
+	// KGJV- added
+	HardpointData*   GetHardpointData(int i)
+    {
+		HardpointData *d = (HardpointData*)(this + 1);
+        return d + i;
+    }
 };
 
 struct  DataPartTypeIGC : public DataBuyableIGC

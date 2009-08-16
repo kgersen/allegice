@@ -50,60 +50,54 @@ void CShipDlg::DoDataExchange(CDataExchange* pDX)
 	CString name,model,obj,descr;
 	CString todo1 = "";
 	int uid,group;
-	int sound_int,sound_ext,sound_thi,sound_the,sound_tui,sound_tue;
 	if (!pship) return;
 	if (!pcore) return;
 	ASSERT(sArtPath != "");
 	if (!pDX->m_bSaveAndValidate) // data to dialog
 	{
 		name = pship->name;
-		model = pship->model;
+		model = pship->modelName;
 		descr = pship->description;
-		group = pship->group;
-		obj = pship->icon;
+		group = pship->groupID;
+		obj = pship->iconName;
 		mdlbmp.LoadMDLFile(sArtPath +"\\"+ obj + "bmp.mdl");
-		sound_int = pship->Sound_Interior;
-		sound_ext = pship->Sound_Exterior;
-		sound_thi = pship->Sound_ThrustInterior;
-		sound_the = pship->Sound_ThrustExterior;
-		sound_tui = pship->Sound_TurnInterior;
-		sound_tue = pship->Sound_TurnExterior;
+
 		CComboBox *cbac = (CComboBox *)GetDlgItem(IDC_AC);
-		cbac->SetCurSel(pship->AC);
-		uid = pship->uid;
+		cbac->SetCurSel(pship->defenseType);
+		uid = pship->hullID;
 		CButton *cbb;
 		cbb = (CButton *)CWnd::GetDlgItem(IDC_HB_BOARD);
-		cbb->SetCheck((pship->hullability & IGCHullAbility_Board)?BST_CHECKED:BST_UNCHECKED);
+		cbb->SetCheck((pship->habmCapabilities & IGCHullAbility_Board)?BST_CHECKED:BST_UNCHECKED);
 		cbb = (CButton *)CWnd::GetDlgItem(IDC_HB_RESCUE);
-		cbb->SetCheck((pship->hullability & IGCHullAbility_Rescue)?BST_CHECKED:BST_UNCHECKED);
+		cbb->SetCheck((pship->habmCapabilities & IGCHullAbility_Rescue)?BST_CHECKED:BST_UNCHECKED);
 		cbb = (CButton *)CWnd::GetDlgItem(IDC_HB_LIFEPOD);
-		cbb->SetCheck((pship->hullability & IGCHullAbility_Lifepod)?BST_CHECKED:BST_UNCHECKED);
+		cbb->SetCheck((pship->habmCapabilities & IGCHullAbility_Lifepod)?BST_CHECKED:BST_UNCHECKED);
 		cbb = (CButton *)CWnd::GetDlgItem(IDC_HB_NOPICKUP);
-		cbb->SetCheck((pship->hullability & IGCHullAbility_NoPickup)?BST_CHECKED:BST_UNCHECKED);
+		cbb->SetCheck((pship->habmCapabilities & IGCHullAbility_NoPickup)?BST_CHECKED:BST_UNCHECKED);
 		cbb = (CButton *)CWnd::GetDlgItem(IDC_HB_NOEJECTION);
-		cbb->SetCheck((pship->hullability & IGCHullAbility_NoEjection)?BST_CHECKED:BST_UNCHECKED);
+		cbb->SetCheck((pship->habmCapabilities & IGCHullAbility_NoEjection)?BST_CHECKED:BST_UNCHECKED);
 		cbb = (CButton *)CWnd::GetDlgItem(IDC_HB_NORIPCORD);
-		cbb->SetCheck((pship->hullability & IGCHullAbility_NoRipcord)?BST_CHECKED:BST_UNCHECKED);
+		cbb->SetCheck((pship->habmCapabilities & IGCHullAbility_NoRipcord)?BST_CHECKED:BST_UNCHECKED);
 		cbb = (CButton *)CWnd::GetDlgItem(IDC_HB_ISRIP);
-		cbb->SetCheck((pship->hullability & IGCHullAbility_IsRip)?BST_CHECKED:BST_UNCHECKED);
+		cbb->SetCheck((pship->habmCapabilities & IGCHullAbility_IsRip)?BST_CHECKED:BST_UNCHECKED);
 		cbb = (CButton *)CWnd::GetDlgItem(IDC_HB_FIGHTER);
-		cbb->SetCheck((pship->hullability & IGCHullAbility_Fighter)?BST_CHECKED:BST_UNCHECKED);
+		cbb->SetCheck((pship->habmCapabilities & IGCHullAbility_Fighter)?BST_CHECKED:BST_UNCHECKED);
 		cbb = (CButton *)CWnd::GetDlgItem(IDC_HB_CAPITAL);
-		cbb->SetCheck((pship->hullability & ((unsigned short)IGCHullAbility_Captital))?BST_CHECKED:BST_UNCHECKED);
+		cbb->SetCheck((pship->habmCapabilities & ((unsigned short)IGCHullAbility_Captital))?BST_CHECKED:BST_UNCHECKED);
 		cbb = (CButton *)CWnd::GetDlgItem(IDC_HB_F2);
-		cbb->SetCheck(((pship->hullability) & IGCHullAbility_F2)?BST_CHECKED:BST_UNCHECKED);
+		cbb->SetCheck(((pship->habmCapabilities) & IGCHullAbility_F2)?BST_CHECKED:BST_UNCHECKED);
 		cbb = (CButton *)CWnd::GetDlgItem(IDC_HB_ISDOCK);
-		cbb->SetCheck(((pship->hullability) & IGCHullAbility_IsDock)?BST_CHECKED:BST_UNCHECKED);
+		cbb->SetCheck(((pship->habmCapabilities) & IGCHullAbility_IsDock)?BST_CHECKED:BST_UNCHECKED);
 		cbb = (CButton *)CWnd::GetDlgItem(IDC_HB_F8);
-		cbb->SetCheck(((pship->hullability) & IGCHullAbility_F8)?BST_CHECKED:BST_UNCHECKED);
+		cbb->SetCheck(((pship->habmCapabilities) & IGCHullAbility_F8)?BST_CHECKED:BST_UNCHECKED);
 		cbb = (CButton *)CWnd::GetDlgItem(IDC_HB_ISSMALLRIP);
-		cbb->SetCheck(((pship->hullability) & IGCHullAbility_IsSmallRip)?BST_CHECKED:BST_UNCHECKED);
+		cbb->SetCheck(((pship->habmCapabilities) & IGCHullAbility_IsSmallRip)?BST_CHECKED:BST_UNCHECKED);
 		cbb = (CButton *)CWnd::GetDlgItem(IDC_HB_RIPTOSMALL);
-		cbb->SetCheck(((pship->hullability) & IGCHullAbility_RipToSmallRip)?BST_CHECKED:BST_UNCHECKED);
+		cbb->SetCheck(((pship->habmCapabilities) & IGCHullAbility_RipToSmallRip)?BST_CHECKED:BST_UNCHECKED);
 		cbb = (CButton *)CWnd::GetDlgItem(IDC_HB_MINER);
-		cbb->SetCheck(((pship->hullability) & IGCHullAbility_IsMiner)?BST_CHECKED:BST_UNCHECKED);
+		cbb->SetCheck(((pship->habmCapabilities) & IGCHullAbility_IsMiner)?BST_CHECKED:BST_UNCHECKED);
 		cbb = (CButton *)CWnd::GetDlgItem(IDC_HB_CONSTRUCTOR);
-		cbb->SetCheck(((pship->hullability) & IGCHullAbility_IsConstructor)?BST_CHECKED:BST_UNCHECKED);
+		cbb->SetCheck(((pship->habmCapabilities) & IGCHullAbility_IsConstructor)?BST_CHECKED:BST_UNCHECKED);
 
 	}
 	DDX_Text(pDX, IDC_NAME, name);
@@ -112,146 +106,133 @@ void CShipDlg::DoDataExchange(CDataExchange* pDX)
 	DDX_Text(pDX, IDC_DESCRIPTION, descr);
 	DDX_Text(pDX, IDC_GROUP, group);
 	//DDX_Text(pDX, IDC_TODO1, todo1);
-	DDX_Text(pDX, IDC_COUT,pship->cost);
-	DDX_Text(pDX, IDC_S1, pship->stats_s1);
-	DDX_Text(pDX, IDC_S2, pship->stats_s2);
-	DDX_Text(pDX, IDC_S3, pship->stats_s3);
-	DDX_Text(pDX, IDC_S4, pship->stats_s4);
-	DDX_Text(pDX, IDC_S5, pship->stats_s5);
-	DDX_Text(pDX, IDC_S6, pship->stats_s6);
-	DDX_Text(pDX, IDC_S7, pship->stats_s7);
-	DDX_Text(pDX, IDC_S8, pship->stats_s8);
-	DDX_Text(pDX, IDC_S9, pship->stats_s9);
-	DDX_Text(pDX, IDC_S10, pship->stats_s10);
-	DDX_Text(pDX, IDC_S11, pship->stats_s11);
-	DDX_Text(pDX, IDC_S12, pship->stats_s12);
-	DDX_Text(pDX, IDC_S13, pship->stats_s13);
-	DDX_Text(pDX, IDC_S14, pship->stats_s14);
-	DDX_Text(pDX, IDC_S15, pship->stats_s15);
-	DDX_Text(pDX, IDC_S16, pship->stats_s16);
-	DDX_Text(pDX, IDC_S17, pship->stats_s17);
-	DDX_Text(pDX, IDC_S18, pship->stats_s18);
-	DDX_Text(pDX, IDC_S19, pship->stats_s19);
-	DDX_Text(pDX, IDC_S20, pship->stats_s20);
+	DDX_Text(pDX, IDC_COUT,pship->price);
+	DDX_Text(pDX, IDC_S1, pship->mass);
+	DDX_Text(pDX, IDC_S2, pship->signature);
+	DDX_Text(pDX, IDC_S3, pship->speed);
+	DDX_Text(pDX, IDC_S4, pship->maxTurnRates[c_axisYaw]);
+	DDX_Text(pDX, IDC_S5, pship->maxTurnRates[c_axisPitch]);
+	DDX_Text(pDX, IDC_S6, pship->maxTurnRates[c_axisRoll]);
+	DDX_Text(pDX, IDC_S7, pship->turnTorques[c_axisYaw]);
+	DDX_Text(pDX, IDC_S8, pship->turnTorques[c_axisPitch]);
+	DDX_Text(pDX, IDC_S9, pship->turnTorques[c_axisRoll]);
+	DDX_Text(pDX, IDC_S10, pship->thrust);
+	DDX_Text(pDX, IDC_S11, pship->sideMultiplier);
+	DDX_Text(pDX, IDC_S12, pship->backMultiplier);
+	DDX_Text(pDX, IDC_S13, pship->scannerRange);
+	DDX_Text(pDX, IDC_S14, pship->maxFuel);
+	DDX_Text(pDX, IDC_S15, pship->ecm);
+	DDX_Text(pDX, IDC_S16, pship->length);
+	DDX_Text(pDX, IDC_S17, pship->maxEnergy);
+	DDX_Text(pDX, IDC_S18, pship->rechargeRate);
+	DDX_Text(pDX, IDC_S19, pship->ripcordSpeed);
+	DDX_Text(pDX, IDC_S20, pship->ripcordCost);
 	DDX_Text(pDX, IDC_UID, uid);
-	DDX_Text(pDX, IDC_OVUID, pship->overriding_uid);
+	DDX_Text(pDX, IDC_OVUID, pship->successorHullID);
 
-	DDX_Text(pDX, IDC_SOUNDINT, sound_int);
-	DDX_Text(pDX, IDC_SOUNDEXT, sound_ext);
-	DDX_Text(pDX, IDC_SOUNDTHI, sound_thi);
-	DDX_Text(pDX, IDC_SOUNDTHE, sound_the);
-	DDX_Text(pDX, IDC_SOUNDTUI, sound_tui);
-	DDX_Text(pDX, IDC_SOUNDTUE, sound_tue);
+	DDX_Text(pDX, IDC_SOUNDINT, pship->interiorSound);
+	DDX_Text(pDX, IDC_SOUNDEXT, pship->exteriorSound);
+	DDX_Text(pDX, IDC_SOUNDTHI, pship->mainThrusterInteriorSound);
+	DDX_Text(pDX, IDC_SOUNDTHE, pship->mainThrusterExteriorSound);
+	DDX_Text(pDX, IDC_SOUNDTUI, pship->manuveringThrusterInteriorSound);
+	DDX_Text(pDX, IDC_SOUNDTUE, pship->manuveringThrusterExteriorSound);
 
-	DDX_Text(pDX, IDC_HP, pship->stats_hp);
+	DDX_Text(pDX, IDC_HP, pship->hitPoints);
 
 	if (pDX->m_bSaveAndValidate) // dialog to data
 	{
 		strcpy(pship->name,name);
-		strcpy(pship->model,model);
-		strcpy(pship->icon,obj);
+		strcpy(pship->modelName,model);
+		strcpy(pship->iconName,obj);
 		strncpy(pship->description,descr,IGC_DESCRIPTIONMAX);
-		pship->group = group;
+		pship->groupID = group;
 		CComboBox *cbac = (CComboBox *)GetDlgItem(IDC_AC);
-		pship->AC = cbac->GetCurSel();
-
-		pship->Sound_Interior=sound_int;
-		pship->Sound_Exterior=sound_ext;
-		pship->Sound_ThrustInterior=sound_thi;
-		pship->Sound_ThrustExterior=sound_the;
-		pship->Sound_TurnInterior=sound_tui;
-		pship->Sound_TurnExterior=sound_tue;
+		pship->defenseType = cbac->GetCurSel();
 
 		CButton *cbb;
 		cbb = (CButton *)CWnd::GetDlgItem(IDC_HB_BOARD);
-		pship->hullability = cbb->GetCheck()?IGCHullAbility_Board:0;
+		pship->habmCapabilities = cbb->GetCheck()?IGCHullAbility_Board:0;
 		cbb = (CButton *)CWnd::GetDlgItem(IDC_HB_RESCUE);
-		pship->hullability += cbb->GetCheck()?IGCHullAbility_Rescue:0;
+		pship->habmCapabilities += cbb->GetCheck()?IGCHullAbility_Rescue:0;
 		cbb = (CButton *)CWnd::GetDlgItem(IDC_HB_LIFEPOD);
-		pship->hullability += cbb->GetCheck()?IGCHullAbility_Lifepod:0;
+		pship->habmCapabilities += cbb->GetCheck()?IGCHullAbility_Lifepod:0;
 		cbb = (CButton *)CWnd::GetDlgItem(IDC_HB_NOPICKUP);
-		pship->hullability += cbb->GetCheck()?IGCHullAbility_NoPickup:0;
+		pship->habmCapabilities += cbb->GetCheck()?IGCHullAbility_NoPickup:0;
 		cbb = (CButton *)CWnd::GetDlgItem(IDC_HB_NOEJECTION);
-		pship->hullability += cbb->GetCheck()?IGCHullAbility_NoEjection:0;
+		pship->habmCapabilities += cbb->GetCheck()?IGCHullAbility_NoEjection:0;
 		cbb = (CButton *)CWnd::GetDlgItem(IDC_HB_NORIPCORD);
-		pship->hullability += cbb->GetCheck()?IGCHullAbility_NoRipcord:0;
+		pship->habmCapabilities += cbb->GetCheck()?IGCHullAbility_NoRipcord:0;
 		cbb = (CButton *)CWnd::GetDlgItem(IDC_HB_ISRIP);
-		pship->hullability += cbb->GetCheck()?IGCHullAbility_IsRip:0;
+		pship->habmCapabilities += cbb->GetCheck()?IGCHullAbility_IsRip:0;
 		cbb = (CButton *)CWnd::GetDlgItem(IDC_HB_FIGHTER);
-		pship->hullability += cbb->GetCheck()?IGCHullAbility_Fighter:0;
+		pship->habmCapabilities += cbb->GetCheck()?IGCHullAbility_Fighter:0;
 		cbb = (CButton *)CWnd::GetDlgItem(IDC_HB_CAPITAL);
-		pship->hullability += cbb->GetCheck()?IGCHullAbility_Captital:0;
+		pship->habmCapabilities += cbb->GetCheck()?IGCHullAbility_Captital:0;
 		cbb = (CButton *)CWnd::GetDlgItem(IDC_HB_F2);
-		pship->hullability += cbb->GetCheck()?IGCHullAbility_F2:0;
+		pship->habmCapabilities += cbb->GetCheck()?IGCHullAbility_F2:0;
 		cbb = (CButton *)CWnd::GetDlgItem(IDC_HB_ISDOCK);
-		pship->hullability += cbb->GetCheck()?IGCHullAbility_IsDock:0;
+		pship->habmCapabilities += cbb->GetCheck()?IGCHullAbility_IsDock:0;
 		cbb = (CButton *)CWnd::GetDlgItem(IDC_HB_F8);
-		pship->hullability += cbb->GetCheck()?IGCHullAbility_F8:0;
+		pship->habmCapabilities += cbb->GetCheck()?IGCHullAbility_F8:0;
 		cbb = (CButton *)CWnd::GetDlgItem(IDC_HB_ISSMALLRIP);
-		pship->hullability += cbb->GetCheck()?IGCHullAbility_IsSmallRip:0;
+		pship->habmCapabilities += cbb->GetCheck()?IGCHullAbility_IsSmallRip:0;
 		cbb = (CButton *)CWnd::GetDlgItem(IDC_HB_RIPTOSMALL);
-		pship->hullability += cbb->GetCheck()?IGCHullAbility_RipToSmallRip:0;
+		pship->habmCapabilities += cbb->GetCheck()?IGCHullAbility_RipToSmallRip:0;
 		cbb = (CButton *)CWnd::GetDlgItem(IDC_HB_MINER);
-		pship->hullability += cbb->GetCheck()?IGCHullAbility_IsMiner:0;
+		pship->habmCapabilities += cbb->GetCheck()?IGCHullAbility_IsMiner:0;
 		cbb = (CButton *)CWnd::GetDlgItem(IDC_HB_CONSTRUCTOR);
-		pship->hullability += cbb->GetCheck()?IGCHullAbility_IsConstructor:0;
+		pship->habmCapabilities += cbb->GetCheck()?IGCHullAbility_IsConstructor:0;
 	}
 	CDialog::DoDataExchange(pDX);
 }
 
 void CShipLoadout::DoDataExchange(CDataExchange* pDX)
 {
-	int ss1,ld1,ld2,ld3,nbparts;
+	int nbparts;
 	if (!pship) return;
 	if (!pcore) return;
 	ASSERT(sArtPath != "");
 	CListBox *clb = (CListBox *)GetDlgItem(IDC_WEPLIST);
 	if (!pDX->m_bSaveAndValidate) // data to dialog
 	{
-		ss1 = pship->stats_ss1;
-		ld1 = pship->stats_ld1;
-		ld2 = pship->stats_ld2;
-		ld3 = pship->stats_ld3;
-		nbparts = pship->nb_parts;
+
+		nbparts = pship->maxWeapons;
 
 		// IDC_PARTLIST
-		for (int i=0;i<IGCSHIPMAXPARTS;i++)
-			DLList[i] = pship->def_loadout[i];
+		for (int i=0;i<c_cMaxPreferredPartTypes;i++)
+			DLList[i] = pship->preferredPartsTypes[i];
 		BuildDL();
 
 		clb->ResetContent();
-		for (int p=0;p<pship->nb_parts;p++)
+		for (int p=0;p<pship->maxWeapons;p++)
 		{
 			CString wpn;
 			wpn.Format("PART %d",p);
 			clb->AddString(wpn);
 		}
-		if (pship->nb_parts >0)
+		if (pship->maxWeapons >0)
 		{
 			clb->SetCurSel(0);
 		}
 		OnSelchangeWepsel();
 		OnSelchangePartsel();
 	}
-	DDX_Text(pDX, IDC_SS1, ss1);
-	DDX_Text(pDX, IDC_SS5, ld1);
-	DDX_Text(pDX, IDC_SS6, ld2);
-	DDX_Text(pDX, IDC_SS7, ld3);
+	DDX_Text(pDX, IDC_SS1, pship->maxAmmo);
+	DDX_Text(pDX, IDC_SS5, pship->capacityMagazine);
+	DDX_Text(pDX, IDC_SS6, pship->capacityDispenser);
+	DDX_Text(pDX, IDC_SS7, pship->capacityChaffLauncher);
 	DDX_Text(pDX, IDC_NBPARTS, nbparts);
 
 
 	if (pDX->m_bSaveAndValidate) // dialog to data
 	{
-		pship->stats_ss1 = ss1;
-		pship->stats_ld1 = ld1;
-		pship->stats_ld2 = ld2;
-		pship->stats_ld3 = ld3;
-		pship->nb_parts = clb->GetCount();//nbparts;
+
+		pship->maxWeapons = clb->GetCount();//nbparts;
 
 		// Default loadout
 		SaveDL();
-		for (int i=0;i<IGCSHIPMAXPARTS;i++)
-			pship->def_loadout[i] = DLList[i]; 
+		for (int i=0;i<c_cMaxPreferredPartTypes;i++)
+			pship->preferredPartsTypes[i] = DLList[i]; 
 
 		int idx;
 		//CComboBox * cbpm = (CComboBox *)GetDlgItem(IDC_PARTSEL);
@@ -277,23 +258,23 @@ void CShipLoadout::DoDataExchange(CDataExchange* pDX)
 			//	pship->parts[idx].part_mask += cbb->GetCheck()?(1<<i):0;
 			//}
 			CButton *cbtype = (CButton *)GetDlgItem(IDC_WEPTYPE);
-			pship->parts[idx].part_type = (cbtype->GetCheck()==BST_CHECKED)?0:1;
+			pship->GetHardpointData(idx)->bFixed = (cbtype->GetCheck()==BST_CHECKED)?0:1;
 			CString wp_pos;
 			int wp_uk1,wp_uk2;
 			DDX_Text(pDX, IDC_WEPPOS, wp_pos);
 			DDX_Text(pDX, IDC_WEPS1, wp_uk1);
 			DDX_Text(pDX, IDC_WEPS2, wp_uk2);
 
-			strcpy(pship->parts[idx].position,wp_pos);
-			pship->parts[idx].uk1 = wp_uk1;
-			pship->parts[idx].uk2 = wp_uk2;
+			strcpy_s(pship->GetHardpointData(idx)->frameName,c_cbFileName,wp_pos);
+			pship->GetHardpointData(idx)->interiorSound = wp_uk1;
+			pship->GetHardpointData(idx)->turnSound = wp_uk2;
 		}
 		// recompute weapon slots (non turret)
-		pship->mnt_nbwpslots = 0;
-		for (int p=0;p<pship->nb_parts;p++)
+		pship->maxFixedWeapons = 0;
+		for (int p=0;p<pship->maxWeapons;p++)
 		{
-			if (pship->parts[p].part_type == 1)
-				pship->mnt_nbwpslots++;
+			if (pship->GetHardpointData(p)->bFixed == 1)
+				pship->maxFixedWeapons++;
 		}
 
 	}
@@ -420,7 +401,7 @@ void CShipLoadout::OnSelchangePartsel(void)
 				LPARAM pcpart;
 				char *pname=NULL;
 				if (!ppart->isspec)
-					if (ppart->usemask & pship->can_use[idx])
+					if (ppart->usemask & pship->pmEquipment[idx])
 					{
 						pname = ppart->name;
 						pcpart = (LPARAM)ppart;
@@ -429,7 +410,7 @@ void CShipLoadout::OnSelchangePartsel(void)
 				{
 					PtrCoreEntry pce = pcore->ProxyPart(ppart->usemask);
 					if (pce->IGCPartType == idx)
-					if (pce->usemask & pship->can_use[idx])
+					if (pce->usemask & pship->pmEquipment[idx])
 					{
 						pname = pcore->ProxyPartName(ppart->usemask);
 						pcpart = pce->entry;
@@ -472,7 +453,7 @@ void CShipLoadout::OnSelchangePartsel(void)
 					{
 						pname = ppart->name;
 						pcmask = ppart->usemask;
-						if (ppart->usemask & pship->can_use[idx])
+						if (ppart->usemask & pship->pmEquipment[idx])
 							bsel = true;
 					}
 					if (ppart->isspec)
@@ -482,7 +463,7 @@ void CShipLoadout::OnSelchangePartsel(void)
 						{
 							pname = pcore->ProxyPartName(ppart->usemask);
 							pcmask = pce->usemask;
-							if (pce->usemask & pship->can_use[idx]) bsel = true;
+							if (pce->usemask & pship->pmEquipment[idx]) bsel = true;
 						}
 						delete pce;
 					}
@@ -560,7 +541,7 @@ void CShipLoadout::OnSelchangeWepsel(void)
 								s.Format("%s",ppart->name);
 								int widx = cb->AddString(s);
 								cb->SetItemData(widx,ppart->usemask);
-								if (pship->parts[idx].part_mask & ppart->usemask)
+								if (pship->GetHardpointData(idx)->partMask & ppart->usemask)
 										cb->SetSel(widx,TRUE);
 							}
 						}
@@ -590,7 +571,7 @@ void CShipLoadout::OnSelchangeWepsel(void)
 					}
 					if (!IsUpgrade)
 					{
-						if (pship->parts[idx].part_mask & ppart->usemask)
+						if (pship->GetHardpointData(idx)->partMask & ppart->usemask)
 						{
 							CString s;
 							s.Format("%s",ppart->name);
@@ -618,10 +599,10 @@ void CShipLoadout::OnSelchangeWepsel(void)
 	}
 	else
 	{
-		SetDlgItemText(IDC_WEPPOS,pship->parts[idx].position);
-		SetDlgItemInt(IDC_WEPS1,pship->parts[idx].uk1,FALSE);
-		SetDlgItemInt(IDC_WEPS2,pship->parts[idx].uk2,FALSE);
-		cbtype->SetCheck(pship->parts[idx].part_type == 0?BST_CHECKED:BST_UNCHECKED);
+		SetDlgItemText(IDC_WEPPOS,pship->GetHardpointData(idx)->frameName);
+		SetDlgItemInt(IDC_WEPS1,pship->GetHardpointData(idx)->interiorSound,FALSE);
+		SetDlgItemInt(IDC_WEPS2,pship->GetHardpointData(idx)->turnSound,FALSE);
+		cbtype->SetCheck(pship->GetHardpointData(idx)->bFixed == 0?BST_CHECKED:BST_UNCHECKED);
 		cepos->EnableWindow(TRUE);
 		ces1->EnableWindow(TRUE);
 		ces2->EnableWindow(TRUE);
@@ -690,7 +671,7 @@ void CShipLoadout::BuildDL(void)
 				int idx = clb->AddString(s);
 				clb->SetItemData(idx,ppart->uid);
 				clb->SetSel(idx,FALSE);
-				for (int i=0;i<IGCSHIPMAXPARTS;i++)
+				for (int i=0;i<c_cMaxPreferredPartTypes;i++)
 				if (DLList[i] != 0xFFFF)
 				{
 					if (ppart->uid == DLList[i])
@@ -702,7 +683,7 @@ void CShipLoadout::BuildDL(void)
 	else // VIEW MODE
 	{
 		//clb->EnableWindow(FALSE);
-		for (int i=0;i<IGCSHIPMAXPARTS;i++)
+		for (int i=0;i<c_cMaxPreferredPartTypes;i++)
 			if (DLList[i] != 0xFFFF)
 			{
 				CString s = "ERROR-UNKNOWN PART";
@@ -728,14 +709,14 @@ void CShipLoadout::SaveDL(void)
 	CListBox *clb = (CListBox *)GetDlgItem(IDC_PARTLIST);
 	CButton *ctog = (CButton *)GetDlgItem(IDC_DLTOGGLE);
 
-	for (int i=0;i<IGCSHIPMAXPARTS;i++)
+	for (int i=0;i<c_cMaxPreferredPartTypes;i++)
 		DLList[i] = 0xFFFF;
 	int ipart = 0;
 	int nCount = (DLCheck==BST_CHECKED)?clb->GetSelCount():clb->GetCount();
-	if (nCount > IGCSHIPMAXPARTS)
+	if (nCount > c_cMaxPreferredPartTypes)
 	{
 		AfxMessageBox("Too many entries in default loadout, last ones will be ignored");
-		nCount = IGCSHIPMAXPARTS;
+		nCount = c_cMaxPreferredPartTypes;
 	}
 	if (DLCheck==BST_CHECKED) // EDIT MODE
 	{
@@ -785,10 +766,10 @@ void CShipLoadout::OnBnClickedWctoggle()
 		CArray<int,int> aryWeps;
 		aryWeps.SetSize(nCount);
 		clb->GetSelItems(nCount, aryWeps.GetData()); 
-		pship->parts[idx].part_mask = 0;
+		pship->GetHardpointData(idx)->partMask = 0;
 		for (int i=0;i<nCount;i++)
 		{
-			pship->parts[idx].part_mask |= (unsigned short)clb->GetItemData(aryWeps.GetAt(i));
+			pship->GetHardpointData(idx)->partMask |= (unsigned short)clb->GetItemData(aryWeps.GetAt(i));
 		}
 		aryWeps.RemoveAll();
 	}
@@ -812,9 +793,9 @@ void CShipLoadout::OnLbnSelchangeWepchoice()
 void CShipLoadout::OnBnClickedWepadd()
 {
 	CListBox *clb = (CListBox *)GetDlgItem(IDC_WEPLIST);
-	if (pship->nb_parts<IGCSHIPMAXWEAPONS)
+	if (pship->maxWeapons<c_maxMountedWeapons)
 	{
-		pship->nb_parts++;
+		pship->maxWeapons++;
 		UpdateData(FALSE);
 	}
 	else
@@ -829,8 +810,8 @@ void CShipLoadout::OnBnClickedWepdel()
 	int idx = clb->GetCurSel();
 	if (idx==CB_ERR) return;
 	for (int i=idx;i<clb->GetCount();i++)
-		pship->parts[i] = pship->parts[i+1];
-	pship->nb_parts--;
+		*(pship->GetHardpointData(i)) = *(pship->GetHardpointData(i+1));
+	pship->maxWeapons--;
 	UpdateData(FALSE);
 }
 
@@ -850,10 +831,10 @@ void CShipLoadout::OnBnClickedParttoggle()
 		CArray<int,int> aryParts;
 		aryParts.SetSize(nCount);
 		clb->GetSelItems(nCount, aryParts.GetData()); 
-		pship->can_use[idx] = 0;
+		pship->pmEquipment[idx] = 0;
 		for (int i=0;i<nCount;i++)
 		{
-			pship->can_use[idx] |= (unsigned short)clb->GetItemData(aryParts.GetAt(i));
+			pship->pmEquipment[idx] |= (unsigned short)clb->GetItemData(aryParts.GetAt(i));
 		}
 		aryParts.RemoveAll();
 	}
@@ -877,8 +858,8 @@ void CShipDlg::OnBnClickedBsucc()
 {
 	if (!pship) return;
 	if (!pcore) return;
-	if (pship->overriding_uid == -1) return;
-	PtrCoreShip succ = pcore->FindShip(pship->overriding_uid);
+	if (pship->successorHullID == -1) return;
+	PtrCoreShip succ = pcore->FindShip(pship->successorHullID);
 	if (succ)
 		MainUI->SelectPCE((LPARAM)succ);
 	else
