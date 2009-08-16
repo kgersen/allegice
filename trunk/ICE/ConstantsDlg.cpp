@@ -390,15 +390,15 @@ void CConstantsDlg::FillACUsage(int idx)
 	for (int i=0;i<pcore->cl_StationTypes.GetCount();i++)
 	{
 		PtrCoreStationType p = pcore->cl_StationTypes.GetAt(i);
-		if (p->ACHull == idx)
+		if (p->defenseTypeArmor == idx)
 		{
-			usedby.Format("Station Hull - %s (%d)",p->name,p->uid);
+			usedby.Format("Station Hull - %s (%d)",p->name,p->stationTypeID);
 			int idx = cbusage->AddString(usedby);
 			cbusage->SetItemDataPtr(idx,p);
 		}
-		if (p->ACShld == idx)
+		if (p->defenseTypeShield == idx)
 		{
-			usedby.Format("Station Shield - %s (%d)",p->name,p->uid);
+			usedby.Format("Station Shield - %s (%d)",p->name,p->stationTypeID);
 			int idx = cbusage->AddString(usedby);
 			cbusage->SetItemDataPtr(idx,p);
 		}

@@ -36,8 +36,8 @@ void CStationDlg::DoDataExchange(CDataExchange* pDX)
 {
 	CString name,model,obj,constructor,descr;
 	CString todo1 = "";
-	int uid,ss0;
-	int sounds[13];
+	int uid,ss0,groupID;
+
 	if (!pstation) return;
 	ASSERT(sArtPath != "");
 
@@ -58,38 +58,37 @@ void CStationDlg::DoDataExchange(CDataExchange* pDX)
 	if (!pDX->m_bSaveAndValidate) // data to dialog
 	{
 		name = pstation->name;
-		model = pstation->model;
-		obj = pstation->icon;
+		model = pstation->modelName;
+		obj = pstation->iconName;
 		descr = pstation->description;
 		mdlbmp.LoadMDLFile(sArtPath +"\\"+ obj + "bmp.mdl");
 		imdlbmp.LoadMDLFile(sArtPath +"\\i"+ model + "bmp.mdl");
-		constructor = pstation->constructor;
-		uid = pstation->uid;
-		cbach->SetCurSel(pstation->ACHull);
-		cbashld->SetCurSel(pstation->ACShld);
-		ss0 = pstation->stats_ss0;
+		constructor = pstation->builderName;
+		uid = pstation->stationTypeID;
+		cbach->SetCurSel(pstation->defenseTypeArmor);
+		cbashld->SetCurSel(pstation->defenseTypeShield);
+		ss0 = pstation->constructionDroneTypeID;
 	//		cbdock->SetCheck((pstation->dockable == 0x10)?BST_CHECKED:BST_UNCHECKED);
 	//	cbisgar->SetCheck((pstation->stats_isgar == 1)?BST_CHECKED:BST_UNCHECKED);
-		cbbhelium->SetCheck((pstation->buildon & IGCSTATIONF_BUILDON_HELIUM)?BST_CHECKED:BST_UNCHECKED);
-		cbbasteriod->SetCheck((pstation->buildon & IGCSTATIONF_BUILDON_ASTERIOD)?BST_CHECKED:BST_UNCHECKED);
-		cbburanium->SetCheck((pstation->buildon & IGCSTATIONF_BUILDON_URANIUM)?BST_CHECKED:BST_UNCHECKED);
-		cbbsilicon->SetCheck((pstation->buildon & IGCSTATIONF_BUILDON_SILICON)?BST_CHECKED:BST_UNCHECKED);
-		cbbcarbon->SetCheck((pstation->buildon & IGCSTATIONF_BUILDON_CARBON)?BST_CHECKED:BST_UNCHECKED);
-		cbbthorium->SetCheck((pstation->buildon & IGCSTATIONF_BUILDON_THORIUM)?BST_CHECKED:BST_UNCHECKED);
+		cbbhelium->SetCheck((pstation->aabmBuild & IGCSTATIONF_BUILDON_HELIUM)?BST_CHECKED:BST_UNCHECKED);
+		cbbasteriod->SetCheck((pstation->aabmBuild & IGCSTATIONF_BUILDON_ASTERIOD)?BST_CHECKED:BST_UNCHECKED);
+		cbburanium->SetCheck((pstation->aabmBuild & IGCSTATIONF_BUILDON_URANIUM)?BST_CHECKED:BST_UNCHECKED);
+		cbbsilicon->SetCheck((pstation->aabmBuild & IGCSTATIONF_BUILDON_SILICON)?BST_CHECKED:BST_UNCHECKED);
+		cbbcarbon->SetCheck((pstation->aabmBuild & IGCSTATIONF_BUILDON_CARBON)?BST_CHECKED:BST_UNCHECKED);
+		cbbthorium->SetCheck((pstation->aabmBuild & IGCSTATIONF_BUILDON_THORIUM)?BST_CHECKED:BST_UNCHECKED);
 		for (int i=0;i<IGCSTATION_TYPE_NBVALS;i++)
 		{
-			if (cbtype->GetItemData(i) == pstation->type)
+			if (cbtype->GetItemData(i) == pstation->classID)
 			{
 				cbtype->SetCurSel(i);
 				i = IGCSTATION_TYPE_NBVALS;
 			}
 		}
-		for (int i=0;i<13;i++) sounds[i] = pstation->Sounds[i];
 
 		for (int i=0;i<15;i++) 
 		{
 			CButton *cbb = (CButton *)CWnd::GetDlgItem(IDC_USEM0+i);
-			cbb->SetCheck((pstation->AbilityBitMask & (1L<<i))?BST_CHECKED:BST_UNCHECKED);
+			cbb->SetCheck((pstation->sabmCapabilities & (1L<<i))?BST_CHECKED:BST_UNCHECKED);
 		}
 		/*
 		for (int i=0;i<2;i++) 
@@ -97,9 +96,10 @@ void CStationDlg::DoDataExchange(CDataExchange* pDX)
 			CButton *cbb = (CButton *)CWnd::GetDlgItem(IDC_SSTAT6+i);
 			cbb->SetCheck((pstation->stats_flags & (1L<<i))?BST_CHECKED:BST_UNCHECKED);
 		}*/
+		groupID = pstation->groupID;
 
 	}
-	DDX_Text(pDX, IDC_GROUP, pstation->group);
+	DDX_Text(pDX, IDC_GROUP, groupID);
 
 	DDX_Text(pDX, IDC_NAME, name);
 	DDX_Text(pDX, IDC_MODEL, model);
@@ -107,62 +107,61 @@ void CStationDlg::DoDataExchange(CDataExchange* pDX)
 	DDX_Text(pDX, IDC_CONSTRUCTOR, constructor);
 	DDX_Text(pDX, IDC_DESCR, descr);
 	DDX_Text(pDX, IDC_UID, uid);
-	DDX_Text(pDX, IDC_OVUID, pstation->overriding_uid);
-	DDX_Text(pDX, IDC_S1, pstation->stats_s1);
-	DDX_Text(pDX, IDC_S2, pstation->stats_s2);
-	DDX_Text(pDX, IDC_S3, pstation->stats_s3);
-	DDX_Text(pDX, IDC_S4, pstation->stats_s4);
-	DDX_Text(pDX, IDC_S5, pstation->stats_s5);
-	DDX_Text(pDX, IDC_S6, pstation->stats_s6);
-	DDX_Text(pDX, IDC_S7, pstation->stats_s7);
-	DDX_Text(pDX, IDC_INCOME, pstation->stats_income);
-	DDX_Text(pDX, IDC_COST, pstation->cost);
-	DDX_Text(pDX, IDC_RTIME, pstation->research_time);
+	DDX_Text(pDX, IDC_OVUID, pstation->successorStationTypeID);
+	DDX_Text(pDX, IDC_S1, pstation->signature);
+	DDX_Text(pDX, IDC_S2, pstation->maxArmorHitPoints);
+	DDX_Text(pDX, IDC_S3, pstation->maxShieldHitPoints);
+	DDX_Text(pDX, IDC_S4, pstation->armorRegeneration);
+	DDX_Text(pDX, IDC_S5, pstation->shieldRegeneration);
+	DDX_Text(pDX, IDC_S6, pstation->scannerRange);
+	DDX_Text(pDX, IDC_S7, pstation->radius);
+	DDX_Text(pDX, IDC_INCOME, pstation->income);
+	DDX_Text(pDX, IDC_COST, pstation->price);
+	DDX_Text(pDX, IDC_RTIME, pstation->timeToBuild);
 
-	DDX_Text(pDX, IDC_SOUND1, sounds[0]);
-	DDX_Text(pDX, IDC_SOUND2, sounds[1]);
-	DDX_Text(pDX, IDC_SOUND3, sounds[2]);
-	DDX_Text(pDX, IDC_SOUND4, sounds[3]);
-	DDX_Text(pDX, IDC_SOUND5, sounds[4]);
-	DDX_Text(pDX, IDC_SOUND6, sounds[5]);
-	DDX_Text(pDX, IDC_SOUND7, sounds[6]);
-	DDX_Text(pDX, IDC_SOUND8, sounds[7]);
-	DDX_Text(pDX, IDC_SOUND9, sounds[8]);
-	DDX_Text(pDX, IDC_SOUND10, sounds[9]);
-	DDX_Text(pDX, IDC_SOUND11, sounds[10]);
-	DDX_Text(pDX, IDC_SOUND12, sounds[11]);
-	DDX_Text(pDX, IDC_SOUND13, sounds[12]);
+	DDX_Text(pDX, IDC_SOUND1, pstation->constructorNeedRockSound);
+	DDX_Text(pDX, IDC_SOUND2, pstation->constructorUnderAttackSound);
+	DDX_Text(pDX, IDC_SOUND3, pstation->constructorDestroyedSound);
+	DDX_Text(pDX, IDC_SOUND4, pstation->completionSound);
+	DDX_Text(pDX, IDC_SOUND5, pstation->interiorSound);
+	DDX_Text(pDX, IDC_SOUND6, pstation->exteriorSound);
+	DDX_Text(pDX, IDC_SOUND7, pstation->interiorAlertSound);
+	DDX_Text(pDX, IDC_SOUND8, pstation->underAttackSound);
+	DDX_Text(pDX, IDC_SOUND9, pstation->criticalSound);
+	DDX_Text(pDX, IDC_SOUND10,pstation->destroyedSound);
+	DDX_Text(pDX, IDC_SOUND11,pstation->capturedSound);
+	DDX_Text(pDX, IDC_SOUND12,pstation->enemyCapturedSound);
+	DDX_Text(pDX, IDC_SOUND13,pstation->enemyDestroyedSound);
 
 	DDX_Text(pDX, IDC_SS0, ss0);
 
 	if (pDX->m_bSaveAndValidate) // dialog to data
 	{
 		strcpy(pstation->name,name);
-		strcpy(pstation->model,model);
-		strcpy(pstation->icon,obj);
+		strcpy(pstation->modelName,model);
+		strcpy(pstation->iconName,obj);
 		strncpy(pstation->description,descr,IGC_DESCRIPTIONMAX);
 		mdlbmp.LoadMDLFile(sArtPath +"\\"+ obj + "bmp.mdl");
 		imdlbmp.LoadMDLFile(sArtPath +"\\i"+ model + "bmp.mdl");
-		strcpy(pstation->constructor,constructor);
-		pstation->ACHull = cbach->GetCurSel();
-		pstation->ACShld = cbashld->GetCurSel();
-		for (int i=0;i<13;i++)	 pstation->Sounds[i] = sounds[i];
-		pstation->stats_ss0 = ss0;
+		strcpy(pstation->builderName,constructor);
+		pstation->defenseTypeArmor = cbach->GetCurSel();
+		pstation->defenseTypeShield = cbashld->GetCurSel();
+		pstation->constructionDroneTypeID = ss0;
 		//	pstation->dockable = (cbdock->GetCheck()==BST_CHECKED)?0x10:0;
 		// pstation->stats_isgar = (cbisgar->GetCheck()==BST_CHECKED)?1:0;
-		pstation->buildon  = (cbbhelium->GetCheck()==BST_CHECKED)?IGCSTATIONF_BUILDON_HELIUM:0;
-		pstation->buildon += (cbbasteriod->GetCheck()==BST_CHECKED)?IGCSTATIONF_BUILDON_ASTERIOD:0;
-		pstation->buildon += (cbburanium->GetCheck()==BST_CHECKED)?IGCSTATIONF_BUILDON_URANIUM:0;
-		pstation->buildon += (cbbsilicon->GetCheck()==BST_CHECKED)?IGCSTATIONF_BUILDON_SILICON:0;
-		pstation->buildon += (cbbcarbon->GetCheck()==BST_CHECKED)?IGCSTATIONF_BUILDON_CARBON:0;
-		pstation->buildon += (cbbthorium->GetCheck()==BST_CHECKED)?IGCSTATIONF_BUILDON_THORIUM:0;
-		pstation->type = (UCHAR)cbtype->GetItemData(cbtype->GetCurSel());
+		pstation->aabmBuild  = (cbbhelium->GetCheck()==BST_CHECKED)?IGCSTATIONF_BUILDON_HELIUM:0;
+		pstation->aabmBuild += (cbbasteriod->GetCheck()==BST_CHECKED)?IGCSTATIONF_BUILDON_ASTERIOD:0;
+		pstation->aabmBuild += (cbburanium->GetCheck()==BST_CHECKED)?IGCSTATIONF_BUILDON_URANIUM:0;
+		pstation->aabmBuild += (cbbsilicon->GetCheck()==BST_CHECKED)?IGCSTATIONF_BUILDON_SILICON:0;
+		pstation->aabmBuild += (cbbcarbon->GetCheck()==BST_CHECKED)?IGCSTATIONF_BUILDON_CARBON:0;
+		pstation->aabmBuild += (cbbthorium->GetCheck()==BST_CHECKED)?IGCSTATIONF_BUILDON_THORIUM:0;
+		pstation->classID = (UCHAR)cbtype->GetItemData(cbtype->GetCurSel());
 
-		pstation->AbilityBitMask = 0;
+		pstation->sabmCapabilities = 0;
 		for (int i=0;i<15;i++) 
 		{
 			CButton *cbb = (CButton *)CWnd::GetDlgItem(IDC_USEM0+i);
-			pstation->AbilityBitMask += cbb->GetCheck()?(1<<i):0;
+			pstation->sabmCapabilities += cbb->GetCheck()?(1<<i):0;
 		}
 		/*pstation->stats_flags = 0;
 		for (int i=0;i<2;i++) 
@@ -170,7 +169,7 @@ void CStationDlg::DoDataExchange(CDataExchange* pDX)
 			CButton *cbb = (CButton *)CWnd::GetDlgItem(IDC_SSTAT6+i);
 			pstation->stats_flags += cbb->GetCheck()?(1<<i):0;
 		}*/	
-
+		pstation->groupID = groupID;
 	}
 	CDialog::DoDataExchange(pDX);
 }
@@ -318,8 +317,8 @@ void CStationDlg::OnBnClickedBsucc()
 {
 	if (!pstation) return;
 	if (!pcore) return;
-	if (pstation->overriding_uid == -1) return;
-	PtrCoreStationType succ = pcore->FindStationType(pstation->overriding_uid);
+	if (pstation->successorStationTypeID == -1) return;
+	PtrCoreStationType succ = pcore->FindStationType(pstation->successorStationTypeID);
 	if (succ)
 		MainUI->SelectPCE((LPARAM)succ);
 	else
@@ -337,7 +336,7 @@ void CStationDlg::OnBnClickedBdrone()
 {
 	if (!pstation) return;
 	if (!pcore) return;
-	PtrCoreDrone pdrone = pcore->FindDrone(pstation->stats_ss0);
+	PtrCoreDrone pdrone = pcore->FindDrone(pstation->constructionDroneTypeID);
 	if (pdrone)
 		MainUI->SelectPCE((LPARAM)pdrone);
 	else

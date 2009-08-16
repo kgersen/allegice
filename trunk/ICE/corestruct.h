@@ -109,54 +109,55 @@ const StationAbilityBitMask     c_sabmCapLand               = 0x1000;    //     
 const StationAbilityBitMask     c_sabmRescue                = 0x2000;    //           rescue pods
 const StationAbilityBitMask     c_sabmRescueAny             = 0x4000;    //           not used (but reserved for pods)
 */
-typedef struct SIGCCoreStationType //
-{
-	Money cost;
-	Money research_time;
-	char model[13];
-	char pad1;//CC or 00
-	char icon[13];
-	char name[25];
-	char description[200];
-	BYTE group;
-	BYTE zero;
-	UCHAR techtree[100];
-	char pad2[2]; // CD CD
-	float stats_s1; // sig multiplier
-	float stats_s2; // hull
-	float stats_s3; // shield
-	float stats_s4; // hull repair rate
-	float stats_s5; // shield repair rate
-	float stats_s6; // scan range
-	Money stats_income;
-	float stats_s7; // scale
-	UCHAR TechTreeLocal[50];
-	/* was :
-	UCHAR pad3[12];// all 00
-	long dockable; // 0x10 if dockable, 0 otherwise
-	UCHAR pad4[13];// all 00
-	UCHAR stats_isgar;// 1 = yes , 0 otherwise
-	UCHAR stats_flags; // 128 = capital can dock, 64 = starting base (gar) (TBC)
-	UCHAR stats_dockable; // = 1 if dockable, 0 otherwise
-	UCHAR pad5[18];// all 00
-	*/
-	unsigned short uid;
-	short overriding_uid;
-	UCHAR ACHull;
-	UCHAR ACShld;
-	unsigned short AbilityBitMask; // (as in igc.h)
-	/* was:
-	  UCHAR stats_sh2; // StationAbilityBitMask (low)
-	  UCHAR stats_sh3; // StationAbilityBitMask (high)
-	*/
-	unsigned short buildon; // see IGCSTATIONF_BUILDON_* values
-	UCHAR type; // see IGCSTATION_TYPE_* value - capture related ?
-	UCHAR pad6; // CD
-	unsigned short stats_ss0; // drone uid
-	unsigned short Sounds[13];
-	UCHAR uk3[13];//3*16+1-6-2-28
-	char constructor[25];
-} IGCCoreStationType;
+//typedef struct SIGCCoreStationType //
+//{
+//	Money cost;
+//	Money research_time;
+//	char model[13];
+//	char pad1;//CC or 00
+//	char icon[13];
+//	char name[25];
+//	char description[200];
+//	BYTE group;
+//	BYTE zero;
+//	UCHAR techtree[100];
+//	char pad2[2]; // CD CD
+//	float stats_s1; // sig multiplier
+//	float stats_s2; // hull
+//	float stats_s3; // shield
+//	float stats_s4; // hull repair rate
+//	float stats_s5; // shield repair rate
+//	float stats_s6; // scan range
+//	Money stats_income;
+//	float stats_s7; // scale
+//	UCHAR TechTreeLocal[50];
+//	/* was :
+//	UCHAR pad3[12];// all 00
+//	long dockable; // 0x10 if dockable, 0 otherwise
+//	UCHAR pad4[13];// all 00
+//	UCHAR stats_isgar;// 1 = yes , 0 otherwise
+//	UCHAR stats_flags; // 128 = capital can dock, 64 = starting base (gar) (TBC)
+//	UCHAR stats_dockable; // = 1 if dockable, 0 otherwise
+//	UCHAR pad5[18];// all 00
+//	*/
+//	unsigned short uid;
+//	short overriding_uid;
+//	UCHAR ACHull;
+//	UCHAR ACShld;
+//	unsigned short AbilityBitMask; // (as in igc.h)
+//	/* was:
+//	  UCHAR stats_sh2; // StationAbilityBitMask (low)
+//	  UCHAR stats_sh3; // StationAbilityBitMask (high)
+//	*/
+//	unsigned short buildon; // see IGCSTATIONF_BUILDON_* values
+//	UCHAR type; // see IGCSTATION_TYPE_* value - capture related ?
+//	UCHAR pad6; // CD
+//	unsigned short stats_ss0; // drone uid
+//	unsigned short Sounds[13];
+//	UCHAR uk3[13];//3*16+1-6-2-28
+//	char constructor[25];
+//} 
+typedef DataStationTypeIGC IGCCoreStationType;
 typedef IGCCoreStationType * PtrCoreStationType;
 
 //typedef struct SIGCCoreCiv // size = 268
@@ -709,7 +710,7 @@ public:
 	CMenu mBasesMenu;
 	CComboBox cbRenders;
 	void BuildBasesMenu(UINT);
-	void BuildRenders(CComboBox *);
+	//void BuildRenders(CComboBox *);
 	PtrCoreStationType GetBase(unsigned short uid);
 	CString GetBaseName(unsigned short uid);
 	CString GetBaseCivName(unsigned short uid);
