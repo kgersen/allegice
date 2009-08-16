@@ -197,22 +197,22 @@ typedef DataDevelopmentIGC IGCCoreDevel;
 
 typedef IGCCoreDevel *PtrCoreDevel;
 
-#define IGCHullAbility_Board			1
-#define IGCHullAbility_Rescue			2
-#define IGCHullAbility_Lifepod			4
-#define IGCHullAbility_NoPickup			8
-#define IGCHullAbility_NoEjection		16
-#define IGCHullAbility_NoRipcord		32
-#define IGCHullAbility_IsRip			64
-#define IGCHullAbility_Fighter			128
-#define IGCHullAbility_Captital			256
-#define IGCHullAbility_F2				(2*256)
-#define IGCHullAbility_IsDock			(4*256)
-#define IGCHullAbility_F8				(8*256)
-#define IGCHullAbility_IsSmallRip		(16*256)
-#define IGCHullAbility_RipToSmallRip    (32*256)
-#define IGCHullAbility_IsMiner			(64*256)
-#define IGCHullAbility_IsConstructor	(128*256)
+//#define IGCHullAbility_Board			1
+//#define IGCHullAbility_Rescue			2
+//#define IGCHullAbility_Lifepod			4
+//#define IGCHullAbility_NoPickup			8
+//#define IGCHullAbility_NoEjection		16
+//#define IGCHullAbility_NoRipcord		32
+//#define IGCHullAbility_IsRip			64
+//#define IGCHullAbility_Fighter			128
+//#define IGCHullAbility_Captital			256
+//#define IGCHullAbility_F2				(2*256)
+//#define IGCHullAbility_IsDock			(4*256)
+//#define IGCHullAbility_F8				(8*256)
+//#define IGCHullAbility_IsSmallRip		(16*256)
+//#define IGCHullAbility_RipToSmallRip    (32*256)
+//#define IGCHullAbility_IsMiner			(64*256)
+//#define IGCHullAbility_IsConstructor	(128*256)
 
 //typedef struct SIGCCoreShipMP // size 30
 //{
