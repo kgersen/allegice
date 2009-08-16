@@ -255,11 +255,11 @@ void CIGCCore::BuildBasesMenu(UINT uid)
 		{
 			PtrCoreStationType pst = cl_StationTypes.GetAt(b);
 			//if ((pst->uid > (100*j)) && (pst->uid < 100*(j+1)))
-			if (Depends(pst->techtree,(UCHAR *)&(pciv->ttbmBaseTechs))) //TODO
+			if (Depends((UCHAR *)&(pst->ttbmRequired),(UCHAR *)&(pciv->ttbmBaseTechs))) //TODO
 			{
 				CString res = pst->name;
-				res.AppendFormat("(%d)",pst->uid);
-				submenu->AppendMenu(MF_STRING,mID+pst->uid,res);
+				res.AppendFormat("(%d)",pst->stationTypeID);
+				submenu->AppendMenu(MF_STRING,mID+pst->stationTypeID,res);
 			}
 		}
 		mBasesMenu.AppendMenu(MF_POPUP,(UINT_PTR)submenu->m_hMenu,pciv->name);
@@ -285,7 +285,7 @@ PtrCoreStationType CIGCCore::GetBase(unsigned short uid)
 	for (int b=0;b<cl_StationTypes.GetSize();b++)
 	{
 		PtrCoreStationType pst = cl_StationTypes.GetAt(b);
-		if (pst->uid == uid)
+		if (pst->stationTypeID == uid)
 			return pst;
 	}
 	return NULL;
@@ -296,7 +296,7 @@ CString CIGCCore::GetBaseName(unsigned short uid)
 	for (int b=0;b<cl_StationTypes.GetSize();b++)
 	{
 		PtrCoreStationType pst = cl_StationTypes.GetAt(b);
-		if (pst->uid == uid)
+		if (pst->stationTypeID == uid)
 		{
 			CString res = pst->name;
 			return res;
@@ -315,12 +315,12 @@ CString CIGCCore::GetBaseCivName(unsigned short uid)
 	for (int b=0;b<cl_StationTypes.GetSize();b++)
 	{
 		PtrCoreStationType pst = cl_StationTypes.GetAt(b);
-		if (pst->uid == uid)
+		if (pst->stationTypeID == uid)
 		{
 			for (int c=0;c<cl_Civs.GetSize();c++)
 			{
 				PtrCoreCiv pciv = cl_Civs.GetAt(c);
-				if (Depends(pst->techtree,(UCHAR *)&(pciv->ttbmBaseTechs))) // TODO
+				if (Depends((UCHAR *)&(pst->ttbmRequired),(UCHAR *)&(pciv->ttbmBaseTechs))) // TODO
 				{
 					CString res = pciv->name;
 					return res;
@@ -332,132 +332,132 @@ CString CIGCCore::GetBaseCivName(unsigned short uid)
 
 
 }
-void CIGCCore::BuildRenders(CComboBox *cb)
-{
-	cb->ResetContent();
-	int idx;
-	for (int j=0;j<cl_Civs.GetSize();j++)
-	{
-		PtrCoreCiv pciv = cl_Civs.GetAt(j);
-		for (int b=0;b<cl_StationTypes.GetSize();b++)
-		{
-			PtrCoreStationType pst = cl_StationTypes.GetAt(b);
-			if ((pst->uid > (100*j)) && (pst->uid < 100*(j+1)))
-			{
-				CString s = "Base - ";
-				s.Append(pciv->name); s.Append(" - ");
-				s.Append(pst->name);
-				idx = cb->AddString(s);
-				cb->SetItemDataPtr(idx,(void *)pst->model);
-			}
-		}
-	}
-	for (int k=0;k<cl_Ships.GetSize();k++)
-	{
-		PtrCoreShip pship =  cl_Ships.GetAt(k);
-		int already_added = 0;
-		for (int l=0;l<cb->GetCount();l++)
-		{
-			if (strcmp(pship->model,(char *)cb->GetItemDataPtr(l)) == 0)
-			{
-				already_added = 1;
-				break;
-			}
-		}
-		if (!already_added)
-		{
-			CString s = "Ship - ";
-			s.Append(pship->name);s.AppendFormat(" (%s)",pship->model);
-			idx = cb->AddString(s); 
-			cb->SetItemDataPtr(idx,(void *)pship->model);
-		}
-	}
-	for (int k=0;k<cl_Counters.GetSize();k++)
-	{
-		PtrCoreCounter pcounter =  cl_Counters.GetAt(k);
-		int already_added = 0;
-		for (int l=0;l<cb->GetCount();l++)
-		{
-			if (strcmp(pcounter->model,(char *)cb->GetItemDataPtr(l)) == 0)
-			{
-				already_added = 1;
-				break;
-			}
-		}
-		if (!already_added)
-		{
-			CString s = "Counter - ";
-			s.Append(pcounter->name);s.AppendFormat(" (%s)",pcounter->model);
-			idx = cb->AddString(s); 
-			cb->SetItemDataPtr(idx,(void *)pcounter->model);
-		}
-	}
-	for (int k=0;k<cl_Missiles.GetSize();k++)
-	{
-		PtrCoreMissile pmissile =  cl_Missiles.GetAt(k);
-		int already_added = 0;
-		for (int l=0;l<cb->GetCount();l++)
-		{
-			if (strcmp(pmissile->model,(char *)cb->GetItemDataPtr(l)) == 0)
-			{
-				already_added = 1;
-				break;
-			}
-		}
-		if (!already_added)
-		{
-			CString s = "Missile - ";
-			s.Append(pmissile->name);s.AppendFormat(" (%s)",pmissile->model);
-			idx = cb->AddString(s); 
-			cb->SetItemDataPtr(idx,(void *)pmissile->model);
-		}
-	}
-
-	for (int k=0;k<cl_Mines.GetSize();k++)
-	{
-		PtrCoreMine pmine =  cl_Mines.GetAt(k);
-		int already_added = 0;
-		for (int l=0;l<cb->GetCount();l++)
-		{
-			if (strcmp(pmine->model,(char *)cb->GetItemDataPtr(l)) == 0)
-			{
-				already_added = 1;
-				break;
-			}
-		}
-		if (!already_added)
-		{
-			CString s = "Mine - ";
-			s.Append(pmine->name);s.AppendFormat(" (%s)",pmine->model);
-			idx = cb->AddString(s); 
-			cb->SetItemDataPtr(idx,(void *)pmine->model);
-		}
-	}
-
-	for (int k=0;k<cl_Drones.GetSize();k++)
-	{
-		PtrCoreDrone pdrone =  cl_Drones.GetAt(k);
-		int already_added = 0;
-		for (int l=0;l<cb->GetCount();l++)
-		{
-			if (strcmp(pdrone->modelName,(char *)cb->GetItemDataPtr(l)) == 0)
-			{
-				already_added = 1;
-				break;
-			}
-		}
-		if (!already_added)
-		{
-			CString s = "Drone - ";
-			s.Append(pdrone->name);s.AppendFormat(" (%s)",pdrone->modelName);
-			idx = cb->AddString(s); 
-			cb->SetItemDataPtr(idx,(void *)pdrone->modelName);
-		}
-	}
-
-}
-
-
+//void CIGCCore::BuildRenders(CComboBox *cb)
+//{
+//	cb->ResetContent();
+//	int idx;
+//	for (int j=0;j<cl_Civs.GetSize();j++)
+//	{
+//		PtrCoreCiv pciv = cl_Civs.GetAt(j);
+//		for (int b=0;b<cl_StationTypes.GetSize();b++)
+//		{
+//			PtrCoreStationType pst = cl_StationTypes.GetAt(b);
+//			if ((pst->stationTypeID > (100*j)) && (pst->stationTypeID < 100*(j+1)))
+//			{
+//				CString s = "Base - ";
+//				s.Append(pciv->name); s.Append(" - ");
+//				s.Append(pst->name);
+//				idx = cb->AddString(s);
+//				cb->SetItemDataPtr(idx,(void *)pst->modelName);
+//			}
+//		}
+//	}
+//	for (int k=0;k<cl_Ships.GetSize();k++)
+//	{
+//		PtrCoreShip pship =  cl_Ships.GetAt(k);
+//		int already_added = 0;
+//		for (int l=0;l<cb->GetCount();l++)
+//		{
+//			if (strcmp(pship->model,(char *)cb->GetItemDataPtr(l)) == 0)
+//			{
+//				already_added = 1;
+//				break;
+//			}
+//		}
+//		if (!already_added)
+//		{
+//			CString s = "Ship - ";
+//			s.Append(pship->name);s.AppendFormat(" (%s)",pship->model);
+//			idx = cb->AddString(s); 
+//			cb->SetItemDataPtr(idx,(void *)pship->model);
+//		}
+//	}
+//	for (int k=0;k<cl_Counters.GetSize();k++)
+//	{
+//		PtrCoreCounter pcounter =  cl_Counters.GetAt(k);
+//		int already_added = 0;
+//		for (int l=0;l<cb->GetCount();l++)
+//		{
+//			if (strcmp(pcounter->model,(char *)cb->GetItemDataPtr(l)) == 0)
+//			{
+//				already_added = 1;
+//				break;
+//			}
+//		}
+//		if (!already_added)
+//		{
+//			CString s = "Counter - ";
+//			s.Append(pcounter->name);s.AppendFormat(" (%s)",pcounter->model);
+//			idx = cb->AddString(s); 
+//			cb->SetItemDataPtr(idx,(void *)pcounter->model);
+//		}
+//	}
+//	for (int k=0;k<cl_Missiles.GetSize();k++)
+//	{
+//		PtrCoreMissile pmissile =  cl_Missiles.GetAt(k);
+//		int already_added = 0;
+//		for (int l=0;l<cb->GetCount();l++)
+//		{
+//			if (strcmp(pmissile->model,(char *)cb->GetItemDataPtr(l)) == 0)
+//			{
+//				already_added = 1;
+//				break;
+//			}
+//		}
+//		if (!already_added)
+//		{
+//			CString s = "Missile - ";
+//			s.Append(pmissile->name);s.AppendFormat(" (%s)",pmissile->model);
+//			idx = cb->AddString(s); 
+//			cb->SetItemDataPtr(idx,(void *)pmissile->model);
+//		}
+//	}
+//
+//	for (int k=0;k<cl_Mines.GetSize();k++)
+//	{
+//		PtrCoreMine pmine =  cl_Mines.GetAt(k);
+//		int already_added = 0;
+//		for (int l=0;l<cb->GetCount();l++)
+//		{
+//			if (strcmp(pmine->model,(char *)cb->GetItemDataPtr(l)) == 0)
+//			{
+//				already_added = 1;
+//				break;
+//			}
+//		}
+//		if (!already_added)
+//		{
+//			CString s = "Mine - ";
+//			s.Append(pmine->name);s.AppendFormat(" (%s)",pmine->model);
+//			idx = cb->AddString(s); 
+//			cb->SetItemDataPtr(idx,(void *)pmine->model);
+//		}
+//	}
+//
+//	for (int k=0;k<cl_Drones.GetSize();k++)
+//	{
+//		PtrCoreDrone pdrone =  cl_Drones.GetAt(k);
+//		int already_added = 0;
+//		for (int l=0;l<cb->GetCount();l++)
+//		{
+//			if (strcmp(pdrone->modelName,(char *)cb->GetItemDataPtr(l)) == 0)
+//			{
+//				already_added = 1;
+//				break;
+//			}
+//		}
+//		if (!already_added)
+//		{
+//			CString s = "Drone - ";
+//			s.Append(pdrone->name);s.AppendFormat(" (%s)",pdrone->modelName);
+//			idx = cb->AddString(s); 
+//			cb->SetItemDataPtr(idx,(void *)pdrone->modelName);
+//		}
+//	}
+//
+//}
+//
+//
 void CIGCCore::DumpCore(void)
 {
 	CFile ctmp("c:\\core.txt",CFile::modeCreate|CFile::modeReadWrite);
@@ -945,7 +945,7 @@ void CIGCCore::AddStationType(PtrCoreStationType pstation)
 		for (int j=0;j<cl_StationTypes.GetSize();j++)
 		{
 			PtrCoreStationType p = cl_StationTypes.GetAt(j);
-			if (p->uid == uid) {
+			if (p->stationTypeID == uid) {
 				used = true;
 				break;
 			}
@@ -958,7 +958,7 @@ void CIGCCore::AddStationType(PtrCoreStationType pstation)
 		AfxMessageBox("No more available UID for stations");
 		return;
 	}
-	pstation->uid = uid;
+	pstation->stationTypeID = uid;
 	cl_StationTypes.Add(pstation);
 }
 void CIGCCore::AddDrone(PtrCoreDrone pdrone)
@@ -1169,12 +1169,12 @@ void CIGCCore::SortEntries(void)
 	for (int j=0;j<cl_StationTypes.GetSize();j++)
 	{
 		PtrCoreStationType p = cl_StationTypes.GetAt(j);
-		if (p->overriding_uid != 0xFFFF)
+		if (p->successorStationTypeID != 0xFFFF)
 		{
 			for (int i=j+1;i<cl_StationTypes.GetSize();i++)
 			{
 				PtrCoreStationType pp = cl_StationTypes.GetAt(i);
-				if (pp->uid == p->overriding_uid)
+				if (pp->stationTypeID == p->successorStationTypeID)
 				{
 					cl_StationTypes.SetAt(i,p);
 					cl_StationTypes.SetAt(j,pp);
@@ -1579,7 +1579,7 @@ PtrCoreStationType CIGCCore::FindStationType(short uid)
 	for (int j=0;j<cl_StationTypes.GetSize();j++)
 	{
 		PtrCoreStationType pstation = cl_StationTypes.GetAt(j);
-		if (pstation->uid == uid) return pstation;
+		if (pstation->stationTypeID == uid) return pstation;
 	}
 	return NULL;
 }

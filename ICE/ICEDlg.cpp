@@ -549,13 +549,13 @@ void CICEDlg::BuildTree(void)
 	for (int j=0;j<pigccore->cl_StationTypes.GetSize();j++)
 	{
 		PtrCoreStationType pstation = pigccore->cl_StationTypes.GetAt(j);
-		if (bFilter & IsFiltered(pstation->techtree))
+		if (bFilter & IsFiltered((UCHAR *)&(pstation->ttbmRequired)))
 			continue;
 		CString s;
 		PtrCoreEntry pce = new CoreEntry;
 		pce->tag = OT_stationType;
 		pce->entry = (LPARAM)pstation;
-		s.Format("%s (%d)",pstation->name,pstation->uid);
+		s.Format("%s (%d)",pstation->name,pstation->stationTypeID);
 		pce->name.Format("Station: %s",s);
 		RefreshStores(pce);
 		maintree->InsertItem(TVIF_TEXT|TVIF_PARAM, s, 0, 0, 0, 0,  (LPARAM)pce, hStationsRoot/*hStations[pstation->uid / 100]*/, tvisort);
@@ -705,9 +705,9 @@ void CICEDlg::OnSelchangeMainTree(NMHDR *pNMHDR, LRESULT *pResult)
 			dlgStation.pstation = pstation;
 			dlgStation.UpdateData(FALSE);
 			curdiag = (CDialog *)&dlgStation;
-			pTechTree = pstation->techtree;
-			pTechTreeLocal = pstation->TechTreeLocal;
-			sTechName.Format("Station: %s (%d)",pstation->name,pstation->uid);
+			pTechTree = (UCHAR *)&(pstation->ttbmRequired); //TODO
+			pTechTreeLocal = (UCHAR *)&(pstation->ttbmLocal); //TODO
+			sTechName.Format("Station: %s (%d)",pstation->name,pstation->stationTypeID);
 			showmb=true;
 			}break;
 		case OT_droneType:{ // drone
@@ -1070,9 +1070,10 @@ CString CICEDlg::TTHaveBit(int ipBit,CListBox *clb, CString prefix)
 		for (int j=0;j<pigccore->cl_StationTypes.GetSize();j++)
 		{
 			PtrCoreStationType p = pigccore->cl_StationTypes.GetAt(j);
-			if (p->TechTreeLocal[idxciv] & imask)
+			UCHAR *techtreeloc = (UCHAR *)&(p->ttbmLocal); //TODO
+			if (techtreeloc[idxciv] & imask)
 			{
-				t.Format("Station: %s (%d) - local\r\n",p->name,p->uid);
+				t.Format("Station: %s (%d) - local\r\n",p->name,p->stationTypeID);
 				s+=t;
 				int idx = clb->AddString(prefix+t); clb->SetItemDataPtr(idx,p);
 			}
@@ -1107,9 +1108,10 @@ CString CICEDlg::TTHaveBit(int ipBit,CListBox *clb, CString prefix)
 	for (int j=0;j<pigccore->cl_StationTypes.GetSize();j++)
 	{
 		PtrCoreStationType p = pigccore->cl_StationTypes.GetAt(j);
-		if (p->techtree[idx] & imask)
+		UCHAR *techtree = (UCHAR*)&(p->ttbmRequired); // TODO
+		if (techtree[idx] & imask)
 		{
-			t.Format("Station: %s (%d)\r\n",p->name,p->uid);
+			t.Format("Station: %s (%d)\r\n",p->name,p->stationTypeID);
 			s+=t;
 			int idx = clb->AddString(prefix+t); clb->SetItemDataPtr(idx,p);
 		}
