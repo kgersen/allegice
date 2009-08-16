@@ -406,9 +406,9 @@ void CConstantsDlg::FillACUsage(int idx)
 	for (int i=0;i<pcore->cl_Ships.GetCount();i++)
 	{
 		PtrCoreShip p = pcore->cl_Ships.GetAt(i);
-		if (p->AC == idx)
+		if (p->defenseType == idx)
 		{
-			usedby.Format("Ship Hull - %s (%d)",p->name,p->uid);
+			usedby.Format("Ship Hull - %s (%d)",p->name,p->hullID);
 			int idx = cbusage->AddString(usedby);
 			cbusage->SetItemDataPtr(idx,p);
 		}
