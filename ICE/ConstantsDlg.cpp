@@ -357,9 +357,9 @@ void CConstantsDlg::FillDMUsage(int idx)
 	for (int i=0;i<pcore->cl_Mines.GetCount();i++)
 	{
 		PtrCoreMine pmine = pcore->cl_Mines.GetAt(i);
-		if (pmine->DM == idx)
+		if (pmine->damageType == idx)
 		{
-			usedby.Format("Mine - %s (%d)",pmine->name,pmine->uid);
+			usedby.Format("Mine - %s (%d)",pmine->launcherDef.name,pmine->expendabletypeID);
 			int idx = cbusage->AddString(usedby);
 			cbusage->SetItemDataPtr(idx,pmine);
 		}
