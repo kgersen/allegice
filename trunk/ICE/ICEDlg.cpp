@@ -420,7 +420,7 @@ void CICEDlg::BuildTree(void)
 						PtrCoreCounter pcounter = (PtrCoreCounter)prox->entry;
 						pce->tag = (ObjectType)prox->tag;
 						pce->entry = (LPARAM)pcounter;
-						s.Format("%s (%d)(%d)",pcounter->name,pcounter->uid,ppart->uid);
+						s.Format("%s (%d)(%d)",pcounter->launcherDef.name,pcounter->expendabletypeID,ppart->uid);
 						pce->name.Format("Counter: %s",s);
 						RefreshStores(pce);
 						maintree->InsertItem(TVIF_TEXT|TVIF_PARAM, s, 0, 0, 0, 0,  (LPARAM)pce, hParts, tvisort);
@@ -474,17 +474,17 @@ void CICEDlg::BuildTree(void)
 		for (int j=0;j<pigccore->cl_Counters.GetSize();j++)
 		{
 			PtrCoreCounter pcounter = pigccore->cl_Counters.GetAt(j);
-			if (bFilter & IsFiltered(pcounter->techtree))
+			if (bFilter & IsFiltered((UCHAR*)&(pcounter->launcherDef.ttbmRequired))) //TODO
 				continue;
 			CString s;
 			PtrCoreEntry pce = new CoreEntry;
 			pce->tag = (ObjectType)OT_chaffType;
 			pce->entry = (LPARAM)pcounter;
 			CString pxs = "";
-			PtrCorePart px = pigccore->ProxyGet(pcounter->uid);
+			PtrCorePart px = pigccore->ProxyGet(pcounter->expendabletypeID);
 			if (px)
 				pxs.Format("(%d)",px->uid);
-			s.Format("%s (%d)%s",pcounter->name,pcounter->uid,pxs);
+			s.Format("%s (%d)%s",pcounter->launcherDef.name,pcounter->expendabletypeID,pxs);
 			pce->name.Format("Counter: %s",s);
 			RefreshStores(pce);
 			maintree->InsertItem(TVIF_TEXT|TVIF_PARAM, s, 0, 0, 0, 0,  (LPARAM)pce, hCounters, tvisort);
@@ -753,8 +753,8 @@ void CICEDlg::OnSelchangeMainTree(NMHDR *pNMHDR, LRESULT *pResult)
 			dlgChaff.pcounter = pcounter;
 			dlgChaff.UpdateData(FALSE);
 			curdiag = (CDialog *)&dlgChaff;
-			pTechTree = pcounter->techtree;
-			sTechName.Format("Counter: %s (%d)",pcounter->name,pcounter->uid);
+			pTechTree = (UCHAR *)&(pcounter->launcherDef.ttbmRequired); //TODO
+			sTechName.Format("Counter: %s (%d)",pcounter->launcherDef.name,pcounter->expendabletypeID);
 			showmb=true;
 			}break;
 		case OT_probeType:{
@@ -1163,9 +1163,10 @@ CString CICEDlg::TTHaveBit(int ipBit,CListBox *clb, CString prefix)
 	for (int j=0;j<pigccore->cl_Counters.GetSize();j++)
 	{
 		PtrCoreCounter p = pigccore->cl_Counters.GetAt(j);
-		if (p->techtree[idx] & imask)
+		UCHAR *techtree = (UCHAR*)&(p->launcherDef.ttbmRequired); //TODO
+		if (techtree[idx] & imask)
 		{
-			t.Format("Counter: %s (%d)\r\n",p->name,p->uid);
+			t.Format("Counter: %s (%d)\r\n",p->launcherDef.name,p->expendabletypeID);
 			s+=t;
 			int idx = clb->AddString(prefix+t); clb->SetItemDataPtr(idx,p);
 		}
@@ -1259,7 +1260,7 @@ void CICEDlg::MoveEntry(int dir)
 			{
 			cl_Gen = (CArray<LPARAM,LPARAM> *)&pigccore->cl_Parts;
 			PtrCoreCounter pcounter = (PtrCoreCounter) curp;
-			curp = (LPARAM)pigccore->ProxyGet(pcounter->uid);
+			curp = (LPARAM)pigccore->ProxyGet(pcounter->expendabletypeID);
 			}
 			break;
 		case OT_probeType:
@@ -1321,7 +1322,7 @@ void CICEDlg::OnBnClickedAdd()
 	if (pce->tag == OT_chaffType)
 	{
 		PtrCoreCounter pp = (PtrCoreCounter) pce->entry;
-		PtrCorePart p = pigccore->ProxyGet(pp->uid);
+		PtrCorePart p = pigccore->ProxyGet(pp->expendabletypeID);
 		if (p != NULL)
 		{
 			pce->tag = OT_partType;
@@ -1443,7 +1444,7 @@ void CICEDlg::OnBnClickedAdd()
 					PtrCoreCounter pcounter = new IGCCoreCounter;
 					memcpy(pcounter,pcountercur,sizeof(IGCCoreCounter));
 					pigccore->AddCounter(pcounter);
-					ppart->usemask = pcounter->uid;
+					ppart->usemask = pcounter->expendabletypeID;
 					entry = (LPARAM)pcounter;
 					}break;
 				case OT_probeType:{

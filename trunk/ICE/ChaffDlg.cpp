@@ -35,20 +35,20 @@ void CChaffDlg::DoDataExchange(CDataExchange* pDX)
 	//CString todo1 = "";
 	int uid,usemask;
 	if (!pcounter) return;
-	PtrCorePart prox = pcore->ProxyGet(pcounter->uid);
+	PtrCorePart prox = pcore->ProxyGet(pcounter->expendabletypeID);
 	int uidprox = prox->uid;
 
 	if (!pDX->m_bSaveAndValidate) // data to dialog
 	{
-		name = pcounter->name;
-		model = pcounter->model;
+		name = pcounter->launcherDef.name;
+		model = pcounter->launcherDef.modelName;
 		model2 = pcounter->modelName;
-		descr = pcounter->description;
-		icon = pcounter->icon;
-		type = pcounter->type;
-		ukbmp = pcounter->ukbmp;
-		uid = pcounter->uid;
-		usemask = pcounter->use_mask;
+		descr = pcounter->launcherDef.description;
+		icon = pcounter->textureName;
+		type = pcounter->launcherDef.iconName;
+		ukbmp = pcounter->iconName;
+		uid = pcounter->expendabletypeID;
+		usemask = pcounter->launcherDef.partMask;
 
 		mdlbmp2.LoadMDLFile(sArtPath +"\\"+ type + "bmp.mdl");
 		mdlbmp.LoadMDLFile(sArtPath +"\\l"+ model + "bmp.mdl");
@@ -63,7 +63,7 @@ void CChaffDlg::DoDataExchange(CDataExchange* pDX)
 		OnBnClickedUsem0();
 
 		CComboBox *cbac = (CComboBox *)GetDlgItem(IDC_AC);
-		cbac->SetCurSel(pcounter->AC);
+		cbac->SetCurSel(pcounter->defenseType);
 
 	}
 	DDX_Text(pDX, IDC_NAME, name);
@@ -74,18 +74,18 @@ void CChaffDlg::DoDataExchange(CDataExchange* pDX)
 	DDX_Text(pDX, IDC_UKBMP, ukbmp);
 	DDX_Text(pDX, IDC_DESCRIPTION, descr);
 
-	DDX_Text(pDX, IDC_S1, pcounter->stats_s1);
-	DDX_Text(pDX, IDC_S2, pcounter->stats_s2);
-	DDX_Text(pDX, IDC_S3, pcounter->stats_s3);
-	DDX_Text(pDX, IDC_S4, pcounter->stats_s4);
-	DDX_Text(pDX, IDC_S5, pcounter->stats_s5);
-	DDX_Text(pDX, IDC_S6, pcounter->stats_s6);
-	DDX_Text(pDX, IDC_S7, pcounter->stats_s7);
-	DDX_Text(pDX, IDC_S8, pcounter->stats_s8);
-	DDX_Text(pDX, IDC_S9, pcounter->stats_s9);
-	DDX_Text(pDX, IDC_S10, pcounter->stats_s10);
-	DDX_Text(pDX, IDC_S11, pcounter->stats_s11);
-	DDX_Text(pDX, IDC_SS2, pcounter->expendableSize);
+	DDX_Text(pDX, IDC_S1, pcounter->radius);
+	DDX_Text(pDX, IDC_S2, pcounter->rotation);
+	DDX_Text(pDX, IDC_S3, pcounter->loadTime);
+	DDX_Text(pDX, IDC_S4, pcounter->lifespan);
+	DDX_Text(pDX, IDC_S5, pcounter->signature);
+	DDX_Text(pDX, IDC_S6, pcounter->launcherDef.price);
+	DDX_Text(pDX, IDC_S7, pcounter->launcherDef.timeToBuild);
+	DDX_Text(pDX, IDC_S8, pcounter->launcherDef.signature);
+	DDX_Text(pDX, IDC_S9, pcounter->launcherDef.mass);
+	DDX_Text(pDX, IDC_S10, pcounter->hitPoints);
+	DDX_Text(pDX, IDC_S11, pcounter->chaffStrength);
+	DDX_Text(pDX, IDC_SS2, pcounter->launcherDef.expendableSize);
 
 	DDX_Text(pDX, IDC_UID, uid);
 	//DDX_Text(pDX, IDC_USEFLAGS, usemask);
@@ -98,27 +98,27 @@ void CChaffDlg::DoDataExchange(CDataExchange* pDX)
 
 	if (pDX->m_bSaveAndValidate) // dialog to data
 	{
-		strcpy(pcounter->name,name);
-		strcpy(pcounter->model,model);
+		strcpy(pcounter->launcherDef.name,name);
+		strcpy(pcounter->launcherDef.modelName,model);
 		strcpy(pcounter->modelName,model2);
-		strcpy(pcounter->icon,icon);
-		strcpy(pcounter->type,type);
-		strcpy(pcounter->ukbmp,ukbmp);
-		strncpy(pcounter->description,descr,IGC_DESCRIPTIONMAX);
+		strcpy(pcounter->textureName,icon);
+		strcpy(pcounter->launcherDef.iconName,type);
+		strcpy(pcounter->iconName,ukbmp);
+		strncpy(pcounter->launcherDef.description,descr,IGC_DESCRIPTIONMAX);
 		//pcounter->use_mask = usemask;
-		pcounter->use_mask = 0;
+		pcounter->launcherDef.partMask = 0;
 		for (int i=0;i<16;i++) 
 		{
 			CButton *cbb = (CButton *)CWnd::GetDlgItem(IDC_USEM0+i);
-			pcounter->use_mask += cbb->GetCheck()?(1<<i):0;
+			pcounter->launcherDef.partMask += cbb->GetCheck()?(1<<i):0;
 		}
-		if (pcounter->use_mask == 0)
+		if (pcounter->launcherDef.partMask == 0)
 		{
 			MessageBox("Warning usage mask is zero");
 		}
 
 		CComboBox *cbac = (CComboBox *)GetDlgItem(IDC_AC);
-		pcounter->AC = cbac->GetCurSel();
+		pcounter->defenseType = cbac->GetCurSel();
 
 	}
 	CDialog::DoDataExchange(pDX);
@@ -182,9 +182,9 @@ void CChaffDlg::OnClickedDecodeh(void)
 
 void CChaffDlg::OnClickedOk(void)
 {
-	CString oldname = pcounter->name;
+	CString oldname = pcounter->launcherDef.name;
 	UpdateData(TRUE);
-	CString newname = pcounter->name;
+	CString newname = pcounter->launcherDef.name;
 	if (oldname != newname)
 		GetParent()->UpdateData(TRUE);
 	UpdateData(FALSE);
@@ -261,10 +261,10 @@ void CChaffDlg::OnBnClickedUsem0()
 	for (int j=0;j<pcore->cl_Counters.GetSize();j++)
 	{
 		PtrCoreCounter pp = pcore->cl_Counters.GetAt(j);
-		if ((pp->use_mask & umask) && (pp->uid != pcounter->uid))
+		if ((pp->launcherDef.partMask & umask) && (pp->expendabletypeID != pcounter->expendabletypeID))
 		{
 			CString s;
-			s.Format("%s (%d)",pp->name,pp->uid);
+			s.Format("%s (%d)",pp->launcherDef.name,pp->expendabletypeID);
 			int idx = clb->AddString(s);
 			clb->SetItemDataPtr(idx,pp);
 		}
@@ -274,7 +274,7 @@ void CChaffDlg::OnBnClickedBsucc()
 {
 	if (!pcounter) return;
 	if (!pcore) return;
-	PtrCorePart prox = pcore->ProxyGet(pcounter->uid);
+	PtrCorePart prox = pcore->ProxyGet(pcounter->expendabletypeID);
 	if (!prox) return;
 	if (prox->overriding_uid == -1) return;
 	
@@ -311,7 +311,7 @@ void CChaffDlg::OnLbnSelchangeUmlist()
 
 void CChaffDlg::OnBnClickedBeditdescr()
 {
-	CDescrDlg dlg(pcounter->description);
+	CDescrDlg dlg(pcounter->launcherDef.description);
 	if (dlg.DoModal() == IDOK)
-		SetDlgItemText(IDC_DESCRIPTION,pcounter->description);
+		SetDlgItemText(IDC_DESCRIPTION,pcounter->launcherDef.description);
 }

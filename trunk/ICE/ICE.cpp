@@ -76,8 +76,8 @@ BOOL CICEApp::InitInstance()
 //------------------------------------
 
 	CICEDlg dlg;
-	dlg.sTitle = GetAppDescription() + " " + GetAppVersion();
-	dlg.sVersion = GetAppProductName() + " " + GetAppVersion();
+	dlg.sTitle = GetAppDescription() + " " + GetAppVersion()+ " " + GetAppInternalName();
+	dlg.sVersion = GetAppProductName() + " " + GetAppVersion() + " " + GetAppInternalName();
 	dlg.cArtPath = pdata;
 	dlg.cArtPath = dlg.cArtPath + "\\artwork";
 	m_pMainWnd = &dlg;

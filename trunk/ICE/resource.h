@@ -136,7 +136,6 @@
 #define IDC_DAMAGE                      1045
 #define IDC_BUILDUID                    1045
 #define IDC_S15                         1046
-#define IDC_GROUPID                     1046
 #define IDC_S16                         1047
 #define IDC_S17                         1048
 #define IDC_DAMAGE_RADIUS               1048
@@ -434,15 +433,17 @@
 #define IDC_PWR_ENERGY                  1290
 #define IDC_PWR_FUEL                    1291
 #define IDC_PWR_AMMO                    1292
+#define IDC_DLUP                        1294
+#define IDC_DLDOWN                      1295
 #define DYNMENUSID                      5000
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        149
+#define _APS_NEXT_RESOURCE_VALUE        150
 #define _APS_NEXT_COMMAND_VALUE         32771
-#define _APS_NEXT_CONTROL_VALUE         1293
+#define _APS_NEXT_CONTROL_VALUE         1295
 #define _APS_NEXT_SYMED_VALUE           117
 #endif
 #endif

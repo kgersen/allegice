@@ -64,7 +64,7 @@ public:
 	void OnBnClickedDltoggle(void);
 protected:
 	int DLCheck;
-	unsigned short DLList[c_cMaxPreferredPartTypes];
+	PartID DLList[c_cMaxPreferredPartTypes];
 	void BuildDL(void);
 	void SaveDL(void);
 public:
@@ -76,4 +76,6 @@ public:
 	afx_msg void OnBnClickedParttoggle();
 	afx_msg void OnLbnSelcancelPartchoice();
 	afx_msg void OnLbnSelchangePartchoice();
+	afx_msg void OnBnClickedDlup();
+	afx_msg void OnBnClickedDldown();
 };
