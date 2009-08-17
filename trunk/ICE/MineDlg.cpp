@@ -35,7 +35,7 @@ void CMineDlg::DoDataExchange(CDataExchange* pDX)
 	CString todo1 = "";
 	int uid,ss1,ss2;
 	if (!pmine) return;
-	PtrCorePart prox = pcore->ProxyGet(pmine->uid);
+	PtrCorePart prox = pcore->ProxyGet(pmine->expendabletypeID);
 	bool mountable;
 	int uidprox = -1;
 	if (prox)
@@ -70,20 +70,20 @@ void CMineDlg::DoDataExchange(CDataExchange* pDX)
 
 	if (!pDX->m_bSaveAndValidate) // data to dialog
 	{
-		name = pmine->name;
-		model = pmine->model;
+		name = pmine->launcherDef.name;
+		model = pmine->launcherDef.modelName;
 		model2 = pmine->modelName;
-		descr = pmine->description;
+		descr = pmine->launcherDef.description;
 		icon = pmine->textureName;
-		type = pmine->type;
-		ukbmp = pmine->ukbmp;
+		type = pmine->launcherDef.iconName;
+		ukbmp = pmine->iconName;
 
 		mdlbmp2.LoadMDLFile(sArtPath +"\\"+ type + "bmp.mdl");
 		mdlbmp.LoadMDLFile(sArtPath +"\\l"+ model + "bmp.mdl");
 		mdlbmp3.LoadMDLFile(sArtPath +"\\"+ ukbmp + "bmp.mdl");
 
-		uid = pmine->uid;
-		ss1 = pmine->usemask;
+		uid = pmine->expendabletypeID;
+		ss1 = pmine->launcherDef.partMask;
 		for (int i=0;i<16;i++) 
 		{
 			CButton *cbb = (CButton *)CWnd::GetDlgItem(IDC_USEM0+i);
@@ -92,11 +92,11 @@ void CMineDlg::DoDataExchange(CDataExchange* pDX)
 		}
 		OnBnClickedUsem0();
 
-		ss2 = pmine->stats_ss2;
+		ss2 = pmine->launcherDef.expendableSize;
 		CComboBox *cbdm = (CComboBox *)GetDlgItem(IDC_DM);
-		cbdm->SetCurSel(pmine->DM);
+		cbdm->SetCurSel(pmine->damageType);
 		CComboBox *cbac = (CComboBox *)GetDlgItem(IDC_AC);
-		cbac->SetCurSel(pmine->AC);
+		cbac->SetCurSel(pmine->defenseType);
 
 		//todo1.AppendFormat("ss1 = %d (%04X)\r\n",pmine->stats_ss1,pmine->stats_ss1);
 		//todo1.AppendFormat("ss2 = %d (%04X)\r\n",pmine->stats_ss2,pmine->stats_ss2);
@@ -125,18 +125,18 @@ void CMineDlg::DoDataExchange(CDataExchange* pDX)
 	DDX_Text(pDX, IDC_SS1, ss1);
 	DDX_Text(pDX, IDC_SS2, ss2);
 
-	DDX_Text(pDX, IDC_S1, pmine->stats_s1);
-	DDX_Text(pDX, IDC_S2, pmine->stats_s2);
-	DDX_Text(pDX, IDC_S3, pmine->stats_s3);
-	DDX_Text(pDX, IDC_S4, pmine->stats_s4);
-	DDX_Text(pDX, IDC_S5, pmine->stats_s5);
-	DDX_Text(pDX, IDC_S6, pmine->stats_s6);
-	DDX_Text(pDX, IDC_S7, pmine->stats_endurance);
-	DDX_Text(pDX, IDC_DURATION, pmine->stats_duration);
+	DDX_Text(pDX, IDC_S1, pmine->rotation);
+	DDX_Text(pDX, IDC_S2, pmine->loadTime);
+	DDX_Text(pDX, IDC_S3, pmine->signature);
+	DDX_Text(pDX, IDC_S4, pmine->launcherDef.signature);
+	DDX_Text(pDX, IDC_S5, pmine->launcherDef.mass);
+	DDX_Text(pDX, IDC_S6, pmine->hitPoints);
+	DDX_Text(pDX, IDC_S7, pmine->endurance);
+	DDX_Text(pDX, IDC_DURATION, pmine->lifespan);
 
-	DDX_Text(pDX, IDC_DAMAGE, pmine->stats_damage);
-	DDX_Text(pDX, IDC_DAMAGE_RADIUS, pmine->stats_radius);
-	DDX_Text(pDX, IDC_COST, pmine->cost);
+	DDX_Text(pDX, IDC_DAMAGE, pmine->power);
+	DDX_Text(pDX, IDC_DAMAGE_RADIUS, pmine->radius);
+	DDX_Text(pDX, IDC_COST, pmine->launcherDef.price);
 	DDX_Text(pDX, IDC_UID, uid);
 
 	if (mountable)
@@ -149,30 +149,30 @@ void CMineDlg::DoDataExchange(CDataExchange* pDX)
 
 	if (pDX->m_bSaveAndValidate) // dialog to data
 	{
-		strcpy(pmine->name,name);
-		strcpy(pmine->model,model);
+		strcpy(pmine->launcherDef.name,name);
+		strcpy(pmine->launcherDef.modelName,model);
 		strcpy(pmine->modelName,model2);
 		strcpy(pmine->textureName,icon);
-		strcpy(pmine->type,type);
-		strcpy(pmine->ukbmp,ukbmp);
-		strncpy(pmine->description,descr,IGC_DESCRIPTIONMAX);
+		strcpy(pmine->launcherDef.iconName,type);
+		strcpy(pmine->iconName,ukbmp);
+		strncpy(pmine->launcherDef.description,descr,IGC_DESCRIPTIONMAX);
 		//pmine->usemask = ss1;
-		pmine->usemask = 0;
+		pmine->launcherDef.partMask = 0;
 		for (int i=0;i<16;i++) 
 		{
 			CButton *cbb = (CButton *)CWnd::GetDlgItem(IDC_USEM0+i);
-			pmine->usemask += cbb->GetCheck()?(1<<i):0;
+			pmine->launcherDef.partMask += cbb->GetCheck()?(1<<i):0;
 		}
-		if (pmine->usemask == 0)
+		if (pmine->launcherDef.partMask == 0)
 		{
 			MessageBox("Warning usage mask is zero");
 		}
 
-		pmine->stats_ss2 = ss2;
+		pmine->launcherDef.expendableSize = ss2;
 		CComboBox *cbdm = (CComboBox *)GetDlgItem(IDC_DM);
-		pmine->DM = cbdm->GetCurSel();
+		pmine->damageType = cbdm->GetCurSel();
 		CComboBox *cbac = (CComboBox *)GetDlgItem(IDC_AC);
-		pmine->AC = cbac->GetCurSel();
+		pmine->defenseType = cbac->GetCurSel();
 
 	}
 	CDialog::DoDataExchange(pDX);
@@ -236,9 +236,9 @@ void CMineDlg::OnClickedDecodeh(void)
 
 void CMineDlg::OnClickedOk(void)
 {
-	CString oldname = pmine->name;
+	CString oldname = pmine->launcherDef.name;
 	UpdateData(TRUE);
-	CString newname = pmine->name;
+	CString newname = pmine->launcherDef.name;
 	if (oldname != newname)
 		GetParent()->UpdateData(TRUE);
 	UpdateData(FALSE);
@@ -311,7 +311,7 @@ BOOL CMineDlg::OnInitDialog()
 void CMineDlg::OnBnClickedProxybut()
 {
 	if (!pmine) return;
-	PtrCorePart prox = pcore->ProxyGet(pmine->uid);
+	PtrCorePart prox = pcore->ProxyGet(pmine->expendabletypeID);
 	if (prox) // dismount
 	{
 		pcore->DeletePart(prox,false);
@@ -325,7 +325,7 @@ void CMineDlg::OnBnClickedProxybut()
 		prox->size = IGC_PROXYPARTSIZE;
 		prox->suk2 = 1;
 		prox->type = 1;
-		prox->usemask = pmine->uid;
+		prox->usemask = pmine->expendabletypeID;
 		prox->overriding_uid = -1;
 		strcpy(prox->slot,"invsmine");
 		pcore->AddPart(prox);
@@ -350,10 +350,10 @@ void CMineDlg::OnBnClickedUsem0()
 	for (int j=0;j<pcore->cl_Mines.GetSize();j++)
 	{
 		PtrCoreMine pp = pcore->cl_Mines.GetAt(j);
-		if ((pp->usemask & umask) && (pp->uid != pmine->uid))
+		if ((pp->launcherDef.partMask & umask) && (pp->expendabletypeID != pmine->expendabletypeID))
 		{
 			CString s;
-			s.Format("Mine: %s (%d)",pp->name,pp->uid);
+			s.Format("Mine: %s (%d)",pp->launcherDef.name,pp->expendabletypeID);
 			int idx = clb->AddString(s);
 			clb->SetItemDataPtr(idx,pp);
 		}
@@ -375,7 +375,7 @@ void CMineDlg::OnBnClickedBsucc()
 {
 	if (!pmine) return;
 	if (!pcore) return;
-	PtrCorePart prox = pcore->ProxyGet(pmine->uid);
+	PtrCorePart prox = pcore->ProxyGet(pmine->expendabletypeID);
 	if (!prox) return;
 	if (prox->overriding_uid == -1) return;
 	
@@ -412,7 +412,7 @@ void CMineDlg::OnLbnSelchangeUmlist()
 
 void CMineDlg::OnBnClickedBeditdescr()
 {
-	CDescrDlg dlg(pmine->description);
+	CDescrDlg dlg(pmine->launcherDef.description);
 	if (dlg.DoModal() == IDOK)
-		SetDlgItemText(IDC_DESCRIPTION,pmine->description);
+		SetDlgItemText(IDC_DESCRIPTION,pmine->launcherDef.description);
 }

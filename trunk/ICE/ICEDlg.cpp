@@ -442,7 +442,7 @@ void CICEDlg::BuildTree(void)
 						PtrCoreMine pmine = (PtrCoreMine)prox->entry;
 						pce->tag = (ObjectType)prox->tag;
 						pce->entry = (LPARAM)pmine;
-						s.Format("%s (%d)(%d)",pmine->name,pmine->uid,ppart->uid);
+						s.Format("%s (%d)(%d)",pmine->launcherDef.name,pmine->expendabletypeID,ppart->uid);
 						pce->name.Format("Mine: %s",s);
 						RefreshStores(pce);
 						maintree->InsertItem(TVIF_TEXT|TVIF_PARAM, s, 0, 0, 0, 0,  (LPARAM)pce, hParts, tvisort);
@@ -511,17 +511,17 @@ void CICEDlg::BuildTree(void)
 		for (int j=0;j<pigccore->cl_Mines.GetSize();j++)
 		{
 			PtrCoreMine pmine = pigccore->cl_Mines.GetAt(j);
-			if (bFilter & IsFiltered(pmine->techtree))
+			if (bFilter & IsFiltered((UCHAR*)&(pmine->launcherDef.ttbmRequired))) //TODO
 				continue;
 			CString s;
 			PtrCoreEntry pce = new CoreEntry;
 			pce->tag = OT_mineType;
 			pce->entry = (LPARAM)pmine;
 			CString pxs = "";
-			PtrCorePart px = pigccore->ProxyGet(pmine->uid);
+			PtrCorePart px = pigccore->ProxyGet(pmine->expendabletypeID);
 			if (px)
 				pxs.Format("(%d)",px->uid);
-			s.Format("%s (%d)%s",pmine->name,pmine->uid,pxs);
+			s.Format("%s (%d)%s",pmine->launcherDef.name,pmine->expendabletypeID,pxs);
 			pce->name.Format("Mine: %s",s);
 			RefreshStores(pce);
 			maintree->InsertItem(TVIF_TEXT|TVIF_PARAM, s, 0, 0, 0, 0,  (LPARAM)pce, hMines, tvisort);
@@ -744,8 +744,8 @@ void CICEDlg::OnSelchangeMainTree(NMHDR *pNMHDR, LRESULT *pResult)
 			dlgMine.pmine = pmine;
 			dlgMine.UpdateData(FALSE);
 			curdiag = (CDialog *)&dlgMine;
-			pTechTree = pmine->techtree;
-			sTechName.Format("Mine: %s (%d)",pmine->name,pmine->uid);
+			pTechTree = (UCHAR *)&(pmine->launcherDef.ttbmRequired);//TODO
+			sTechName.Format("Mine: %s (%d)",pmine->launcherDef.name,pmine->expendabletypeID);
 			showmb=true;
 			}break;
 		case OT_chaffType:{
@@ -1153,9 +1153,10 @@ CString CICEDlg::TTHaveBit(int ipBit,CListBox *clb, CString prefix)
 	for (int j=0;j<pigccore->cl_Mines.GetSize();j++)
 	{
 		PtrCoreMine p = pigccore->cl_Mines.GetAt(j);
-		if (p->techtree[idx] & imask)
+		UCHAR *techtree = (UCHAR*)&(p->launcherDef.ttbmRequired); //TODO
+		if (techtree[idx] & imask)
 		{
-			t.Format("Mine: %s (%d)\r\n",p->name,p->uid);
+			t.Format("Mine: %s (%d)\r\n",p->launcherDef.name,p->expendabletypeID);
 			s+=t;
 			int idx = clb->AddString(prefix+t); clb->SetItemDataPtr(idx,p);
 		}
@@ -1246,7 +1247,7 @@ void CICEDlg::MoveEntry(int dir)
 			{
 			cl_Gen = (CArray<LPARAM,LPARAM> *)&pigccore->cl_Parts;
 			PtrCoreMine pmine = (PtrCoreMine) curp;
-			curp = (LPARAM)pigccore->ProxyGet(pmine->uid);
+			curp = (LPARAM)pigccore->ProxyGet(pmine->expendabletypeID);
 			}
 			break;
 		case OT_missileType:
@@ -1343,7 +1344,7 @@ void CICEDlg::OnBnClickedAdd()
 	if (pce->tag == OT_mineType)
 	{
 		PtrCoreMine pp = (PtrCoreMine) pce->entry;
-		PtrCorePart p = pigccore->ProxyGet(pp->uid);
+		PtrCorePart p = pigccore->ProxyGet(pp->expendabletypeID);
 		if (p != NULL)
 		{
 			pce->tag = OT_partType;
@@ -1436,7 +1437,7 @@ void CICEDlg::OnBnClickedAdd()
 					PtrCoreMine pmine = new IGCCoreMine;
 					memcpy(pmine,pminecur,sizeof(IGCCoreMine));
 					pigccore->AddMine(pmine);
-					ppart->usemask = pmine->uid;
+					ppart->usemask = pmine->expendabletypeID;
 					entry = (LPARAM)pmine;
 					}break;
 				case OT_chaffType:{

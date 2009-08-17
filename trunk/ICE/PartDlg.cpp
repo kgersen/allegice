@@ -77,8 +77,8 @@ void CPartDlg::DoDataExchange(CDataExchange* pDX)
 			for (int i=0;i<pcore->cl_Mines.GetCount();i++)
 			{
 				PtrCoreMine pmine = pcore->cl_Mines.GetAt(i);
-				if (pmine->uid == ppart->usemask)
-					name = pmine->name;
+				if (pmine->expendabletypeID == ppart->usemask)
+					name = pmine->launcherDef.name;
 			}
 			for (int i=0;i<pcore->cl_Probes.GetCount();i++)
 			{

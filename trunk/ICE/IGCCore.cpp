@@ -744,8 +744,8 @@ char *CIGCCore::ProxyPartName(unsigned short uid)
 	for (int i=0;i<cl_Mines.GetCount();i++)
 	{
 		PtrCoreMine pmine = cl_Mines.GetAt(i);
-		if (pmine->uid == uid)
-			name = pmine->name;
+		if (pmine->expendabletypeID == uid)
+			name = pmine->launcherDef.name;
 	}
 	for (int i=0;i<cl_Probes.GetCount();i++)
 	{
@@ -815,11 +815,11 @@ PtrCoreEntry CIGCCore::ProxyPart(unsigned short uid)
 	for (int i=0;i<cl_Mines.GetCount();i++)
 	{
 		PtrCoreMine pmine = cl_Mines.GetAt(i);
-		if (pmine->uid == uid)
+		if (pmine->expendabletypeID == uid)
 		{
 			pce->tag = OT_mineType;
 			pce->IGCPartType = ET_Dispenser;
-			pce->usemask = pmine->usemask;
+			pce->usemask = pmine->launcherDef.partMask;
 			pce->entry = (LPARAM)pmine;
 			return pce;
 		}
@@ -1055,7 +1055,7 @@ void CIGCCore::AddMine(PtrCoreMine pmine)
 		AfxMessageBox("No more available UID for mines");
 		return;
 	}
-	pmine->uid = uid;
+	pmine->expendabletypeID = uid;
 	cl_Mines.Add(pmine);
 }
 void CIGCCore::AddCounter(PtrCoreCounter pcounter)
@@ -1099,7 +1099,7 @@ unsigned short CIGCCore::ProxyPartUID(void)
 		for (int j=0;j<cl_Mines.GetSize();j++)
 		{
 			PtrCoreMine p = cl_Mines.GetAt(j);
-			if (p->uid == uid) {
+			if (p->expendabletypeID == uid) {
 				used = true;
 				break;
 			}
@@ -1262,7 +1262,7 @@ LPARAM CIGCCore::DeletePart(PtrCorePart ppart, bool realparttoo)
 LPARAM CIGCCore::DeleteMine(PtrCoreMine pmine)
 {
 	if (!pmine) return NULL;
-	PtrCorePart ppart = ProxyGet(pmine->uid);
+	PtrCorePart ppart = ProxyGet(pmine->expendabletypeID);
 	if (ppart) return DeletePart(ppart,true);
     int j=0;
 	for (j=0;j<cl_Mines.GetSize();j++)
@@ -1640,7 +1640,7 @@ PtrCoreMine CIGCCore::FindMine(short uid)
 	for (int j=0;j<cl_Mines.GetSize();j++)
 	{
 		PtrCoreMine pmine = cl_Mines.GetAt(j);
-		if (pmine->uid == uid) return pmine;
+		if (pmine->expendabletypeID == uid) return pmine;
 	}
 	return NULL;
 }

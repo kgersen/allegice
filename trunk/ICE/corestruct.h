@@ -513,48 +513,49 @@ typedef struct SIGCCoreMissile // tag = 0x17, size = 0x2C0
 	UCHAR end[2]; //CDCD Checked
 } IGCCoreMissile;
 typedef IGCCoreMissile *PtrCoreMissile;
-typedef struct SIGCCoreMine // tag = 0x18, size = 480
-{
-	float pcRED; // all zero = percent RGBA
-	float pcGreen;
-	float pcBlue;
-	float pcAlpha;
-	UCHAR pad0[4]; // all 'CC' (could be float 'scale')
-	float stats_s1; // rate rotation 
-	char  modelName[13]; // all '00'
-	char  textureName[13]; //fxmine
-	UCHAR pad2[2]; // all 'CC'
-	float stats_s2; // load time
-	float stats_duration;
-	float stats_s3; // sig
-	Money cost;
-	UCHAR pad3[4]; // all '00'
-	char model[13];// inactive & loadout bmp (prefix with 'l')
-	UCHAR pad4; // CC
-	char type[13]; //part
-	char name[25];
-	char description[200];
-	BYTE group;
-	BYTE zero;
-	UCHAR techtree[100];
-	UCHAR pad5[2]; // CC
-	float stats_s4; // ship sig%
-	float stats_s5; // mass
-	unsigned short usemask; //usemask
-	unsigned short stats_ss2; //cargo payload
-	float stats_s6; // hitpoints
-	BYTE AC; // OB
-	UCHAR pad6[1]; // CD 
-	unsigned short uid;
-	unsigned short pad_zero; // 0000
-	char ukbmp[13]; // icon bmp
-	UCHAR pad7; // CC
-	float stats_radius;
-	float stats_damage;
-	float stats_endurance; // endurance
-	BYTE DM; // 10
-	UCHAR pad8[3]; // CD CD CD
-} IGCCoreMine;
+//typedef struct SIGCCoreMine // tag = 0x18, size = 480
+//{
+//	float pcRED; // all zero = percent RGBA
+//	float pcGreen;
+//	float pcBlue;
+//	float pcAlpha;
+//	UCHAR pad0[4]; // all 'CC' (could be float 'scale')
+//	float stats_s1; // rate rotation 
+//	char  modelName[13]; // all '00'
+//	char  textureName[13]; //fxmine
+//	UCHAR pad2[2]; // all 'CC'
+//	float stats_s2; // load time
+//	float stats_duration;
+//	float stats_s3; // sig
+//	Money cost;
+//	UCHAR pad3[4]; // all '00'
+//	char model[13];// inactive & loadout bmp (prefix with 'l')
+//	UCHAR pad4; // CC
+//	char type[13]; //part
+//	char name[25];
+//	char description[200];
+//	BYTE group;
+//	BYTE zero;
+//	UCHAR techtree[100];
+//	UCHAR pad5[2]; // CC
+//	float stats_s4; // ship sig%
+//	float stats_s5; // mass
+//	unsigned short usemask; //usemask
+//	unsigned short stats_ss2; //cargo payload
+//	float stats_s6; // hitpoints
+//	BYTE AC; // OB
+//	UCHAR pad6[1]; // CD 
+//	unsigned short uid;
+//	unsigned short pad_zero; // 0000
+//	char ukbmp[13]; // icon bmp
+//	UCHAR pad7; // CC
+//	float stats_radius;
+//	float stats_damage;
+//	float stats_endurance; // endurance
+//	BYTE DM; // 10
+//	UCHAR pad8[3]; // CD CD CD
+//} 
+typedef DataMineTypeIGC IGCCoreMine;
 typedef IGCCoreMine *PtrCoreMine;
 
 //typedef struct SIGCCoreDrone // tag = 21 size = 384
