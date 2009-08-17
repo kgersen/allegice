@@ -738,8 +738,8 @@ char *CIGCCore::ProxyPartName(unsigned short uid)
 	for (int i=0;i<cl_Counters.GetCount();i++)
 	{
 		PtrCoreCounter pcounter = cl_Counters.GetAt(i);
-		if (pcounter->uid == uid)
-			name = pcounter->name;
+		if (pcounter->expendabletypeID == uid)
+			name = pcounter->launcherDef.name;
 	}
 	for (int i=0;i<cl_Mines.GetCount();i++)
 	{
@@ -803,11 +803,11 @@ PtrCoreEntry CIGCCore::ProxyPart(unsigned short uid)
 	for (int i=0;i<cl_Counters.GetCount();i++)
 	{
 		PtrCoreCounter pcounter = cl_Counters.GetAt(i);
-		if (pcounter->uid == uid)
+		if (pcounter->expendabletypeID == uid)
 		{
 			pce->tag = (ObjectType)OT_chaffType;
 			pce->IGCPartType = ET_ChaffLauncher;
-			pce->usemask = pcounter->use_mask;
+			pce->usemask = pcounter->launcherDef.partMask;
 			pce->entry = (LPARAM)pcounter;
 			return pce;
 		}
@@ -1067,7 +1067,7 @@ void CIGCCore::AddCounter(PtrCoreCounter pcounter)
 		AfxMessageBox("No more available UID for counters");
 		return;
 	}
-	pcounter->uid = uid;
+	pcounter->expendabletypeID = uid;
 	cl_Counters.Add(pcounter);
 }
 void CIGCCore::AddProbe(PtrCoreProbe pprobe)
@@ -1107,7 +1107,7 @@ unsigned short CIGCCore::ProxyPartUID(void)
 		for (int j=0;j<cl_Counters.GetSize();j++)
 		{
 			PtrCoreCounter p = cl_Counters.GetAt(j);
-			if (p->uid == uid) {
+			if (p->expendabletypeID == uid) {
 				used = true;
 				break;
 			}
@@ -1284,7 +1284,7 @@ LPARAM CIGCCore::DeleteMine(PtrCoreMine pmine)
 LPARAM CIGCCore::DeleteCounter(PtrCoreCounter pcounter)
 {
 	if (!pcounter) return NULL;
-	PtrCorePart ppart = ProxyGet(pcounter->uid);
+	PtrCorePart ppart = ProxyGet(pcounter->expendabletypeID);
 	if (ppart) return DeletePart(ppart,true);
     int j=0;
 	for (j=0;j<cl_Counters.GetSize();j++)
@@ -1629,7 +1629,7 @@ PtrCoreCounter CIGCCore::FindCounter(short uid)
 	for (int j=0;j<cl_Counters.GetSize();j++)
 	{
 		PtrCoreCounter pcounter = cl_Counters.GetAt(j);
-		if (pcounter->uid == uid) return pcounter;
+		if (pcounter->expendabletypeID == uid) return pcounter;
 	}
 	return NULL;
 }

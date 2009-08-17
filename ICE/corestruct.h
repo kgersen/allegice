@@ -226,12 +226,12 @@ typedef IGCCoreDevel *PtrCoreDevel;
 
 //#define IGCSHIPMAXPARTS 14 == c_cMaxPreferredPartTypes
 
-#define IGCSHIPMAXUSE 8
+//#define IGCSHIPMAXUSE 8
 //#define IGCSHIPMAXWEAPONS 20
-const CString IGCShipUseMasks[IGCSHIPMAXUSE]=
+const CString IGCShipUseMasks[ET_MAX]=
 {
-	"Counter",	"*",
-		"Missile", "Pack","Shield","Cloak","*","Afterburner",
+	"Counter",	"Weapon(UNUSED)",
+		"Missile", "Dispenser","Shield","Cloak","Pack(UNUSED)","Afterburner",
 };
 //typedef short     EquipmentType; // this is PartTypeID in the database
 //const EquipmentType   ET_ChaffLauncher  = 0;
@@ -401,44 +401,45 @@ typedef struct SIGCCorePart // tag 0x1E, size = var
 } IGCCorePart;
 typedef IGCCorePart *PtrCorePart;
 
-typedef struct SIGCCoreCounter // tag = 1A, size = 0x1D4
-{
-	float pcRED; // all zero = percent RGBA
-	float pcGreen;
-	float pcBlue;
-	float pcAlpha;
-	float stats_s1; // radius
-	float stats_s2; // rate rotation
-	char  modelName[13]; // all 0
-	char icon[13];
-	char pad1[2]; //CC
-	float stats_s3; // load time
-	float stats_s4; // life span
-	float stats_s5; // sig
-	Money stats_s6; // cost
-	long stats_s7; // build time (seconds)
-	char model[13];
-	char pad3; // C
-	char type[13]; //part
-	char name[25];
-	char description[200];
-	BYTE group;
-	BYTE zero;
-	UCHAR techtree[100];
-	char pad4[2]; // CC
-	float stats_s8; // sig mod (%)
-	float stats_s9; // mass
-	unsigned short use_mask;
-	short expendableSize;//// cargo payload
-	float stats_s10; // hitpoints
-	BYTE AC; // 0B default (part)
-	UCHAR pad5[1]; //  CD 
-	unsigned short uid;
-	unsigned short stats_ss2;//0
-	char ukbmp[13];
-	UCHAR pad6; //CC
-	float stats_s11; // strength
-} IGCCoreCounter;
+//typedef struct SIGCCoreCounter // tag = 1A, size = 0x1D4
+//{
+//	float pcRED; // all zero = percent RGBA
+//	float pcGreen;
+//	float pcBlue;
+//	float pcAlpha;
+//	float stats_s1; // radius
+//	float stats_s2; // rate rotation
+//	char  modelName[13]; // all 0
+//	char icon[13];
+//	char pad1[2]; //CC
+//	float stats_s3; // load time
+//	float stats_s4; // life span
+//	float stats_s5; // sig
+//	Money stats_s6; // cost
+//	long stats_s7; // build time (seconds)
+//	char model[13];
+//	char pad3; // C
+//	char type[13]; //part
+//	char name[25];
+//	char description[200];
+//	BYTE group;
+//	BYTE zero;
+//	UCHAR techtree[100];
+//	char pad4[2]; // CC
+//	float stats_s8; // sig mod (%)
+//	float stats_s9; // mass
+//	unsigned short use_mask;
+//	short expendableSize;//// cargo payload
+//	float stats_s10; // hitpoints
+//	BYTE AC; // 0B default (part)
+//	UCHAR pad5[1]; //  CD 
+//	unsigned short uid;
+//	unsigned short stats_ss2;//0
+//	char ukbmp[13];
+//	UCHAR pad6; //CC
+//	float stats_s11; // strength
+//} 
+typedef DataChaffTypeIGC IGCCoreCounter;
 typedef IGCCoreCounter *PtrCoreCounter;
 
 #define IGCMISSILE_EFFECT_NONE				0

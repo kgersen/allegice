@@ -305,7 +305,7 @@ BOOL CShipLoadout::OnInitDialog(void)
 
 	CComboBox * cbpm = (CComboBox *)GetDlgItem(IDC_PARTSEL);
 	cbpm->ResetContent();
-	for (int i = 0;i<IGCSHIPMAXUSE;i++)
+	for (int i = 0;i<ET_MAX;i++)
 	{
 		if (IGCShipUseMasks[i][0] != '*')
 		{
@@ -631,6 +631,8 @@ BEGIN_MESSAGE_MAP(CShipLoadout, CDialog)
 	ON_BN_CLICKED(IDC_WEPDEL, OnBnClickedWepdel)
 	ON_BN_CLICKED(IDC_PARTTOGGLE, OnBnClickedParttoggle)
 	ON_LBN_SELCHANGE(IDC_PARTCHOICE, OnLbnSelchangePartchoice)
+	ON_BN_CLICKED(IDC_DLUP, &CShipLoadout::OnBnClickedDlup)
+	ON_BN_CLICKED(IDC_DLDOWN, &CShipLoadout::OnBnClickedDldown)
 END_MESSAGE_MAP()
 
 
@@ -651,6 +653,8 @@ void CShipLoadout::BuildDL(void)
 	if (DLCheck ==BST_CHECKED) // EDIT MODE
 	{
 		//clb->EnableWindow(TRUE);
+		GetDlgItem(IDC_DLUP)->ShowWindow(SW_HIDE);
+		GetDlgItem(IDC_DLDOWN)->ShowWindow(SW_HIDE);
 		for (int j=0;j<pcore->cl_Parts.GetSize();j++)
 		{
 			PtrCorePart ppart = pcore->cl_Parts.GetAt(j);
@@ -672,7 +676,7 @@ void CShipLoadout::BuildDL(void)
 				clb->SetItemData(idx,ppart->uid);
 				clb->SetSel(idx,FALSE);
 				for (int i=0;i<c_cMaxPreferredPartTypes;i++)
-				if (DLList[i] != 0xFFFF)
+				if (DLList[i] != -1)
 				{
 					if (ppart->uid == DLList[i])
 						clb->SetSel(idx,TRUE);
@@ -683,8 +687,10 @@ void CShipLoadout::BuildDL(void)
 	else // VIEW MODE
 	{
 		//clb->EnableWindow(FALSE);
+		GetDlgItem(IDC_DLUP)->ShowWindow(SW_SHOWNA);
+		GetDlgItem(IDC_DLDOWN)->ShowWindow(SW_SHOWNA);
 		for (int i=0;i<c_cMaxPreferredPartTypes;i++)
-			if (DLList[i] != 0xFFFF)
+			if (DLList[i] != -1)
 			{
 				CString s = "ERROR-UNKNOWN PART";
 				for (int j=0;j<pcore->cl_Parts.GetSize();j++)
@@ -710,7 +716,7 @@ void CShipLoadout::SaveDL(void)
 	CButton *ctog = (CButton *)GetDlgItem(IDC_DLTOGGLE);
 
 	for (int i=0;i<c_cMaxPreferredPartTypes;i++)
-		DLList[i] = 0xFFFF;
+		DLList[i] = -1;
 	int ipart = 0;
 	int nCount = (DLCheck==BST_CHECKED)?clb->GetSelCount():clb->GetCount();
 	if (nCount > c_cMaxPreferredPartTypes)
@@ -728,14 +734,14 @@ void CShipLoadout::SaveDL(void)
 		// fill in the partslist with aryParts
 		for (int i=0;i<nCount;i++)
 		{
-			DLList[ipart++] = (unsigned short)clb->GetItemData(aryParts.GetAt(i));
+			DLList[ipart++] = (PartID)clb->GetItemData(aryParts.GetAt(i));
 		}
 	}
 	else // VIEW MODE
 	{
 		for (int i=0;i<nCount;i++)
 		{
-			DLList[ipart++] = (unsigned short)clb->GetItemData(i);
+			DLList[ipart++] = (PartID)clb->GetItemData(i);
 		}
 	}
 }
@@ -746,10 +752,12 @@ void CShipLoadout::OnLbnSelchangePartlist()
 	CListBox *clb = (CListBox *)GetDlgItem(IDC_PARTLIST);
 	if (ctog->GetCheck() != BST_CHECKED)
 	{
-		LPARAM p = (LPARAM)clb->GetItemDataPtr(clb->GetCurSel());
+		//LPARAM p = (LPARAM)clb->GetItemDataPtr();
+		int idx = clb->GetCurSel();
 		for (int i=0;i<clb->GetCount();i++)
-			clb->SetSel(i,FALSE);
-		if (p!=-1) MainUI->SelectPCE(p);
+			if (i != idx) 
+				clb->SetSel(i,FALSE);
+		//if (p!=-1) MainUI->SelectPCE(p);
 	}
 }
 
@@ -871,4 +879,37 @@ void CShipDlg::OnBnClickedBeditdescr()
 	CDescrDlg dlg(pship->description);
 	if (dlg.DoModal() == IDOK)
 		SetDlgItemText(IDC_DESCRIPTION,pship->description);
+}
+
+void CShipLoadout::OnBnClickedDlup()
+{
+	CButton *ctog = (CButton *)GetDlgItem(IDC_DLTOGGLE);
+	CListBox *clb = (CListBox *)GetDlgItem(IDC_PARTLIST);
+	if (ctog->GetCheck() == BST_CHECKED) return;
+	int idx = clb->GetCurSel();
+	if (idx == CB_ERR)return;
+	if (idx == 0) return;
+	CString currs; clb->GetText(idx,currs); PartID currp = (PartID) clb->GetItemData(idx);
+	clb->DeleteString(idx);
+	idx = clb->InsertString(idx-1,currs);
+	clb->SetItemData(idx,currp);
+	clb->SetSel(idx,true);
+	//SaveDL();
+}
+
+void CShipLoadout::OnBnClickedDldown()
+{
+	CButton *ctog = (CButton *)GetDlgItem(IDC_DLTOGGLE);
+	CListBox *clb = (CListBox *)GetDlgItem(IDC_PARTLIST);
+	if (ctog->GetCheck() == BST_CHECKED) return;
+	int idx = clb->GetCurSel();
+	if (idx == CB_ERR) return;
+	if (idx == (clb->GetCount()-1)) return;
+
+	CString currs; clb->GetText(idx,currs); PartID currp = (PartID) clb->GetItemData(idx);
+	clb->DeleteString(idx);
+	idx = clb->InsertString(idx+1,currs);
+	clb->SetItemData(idx,currp);
+	clb->SetSel(idx,true);
+	//SaveDL();
 }

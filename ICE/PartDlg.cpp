@@ -71,8 +71,8 @@ void CPartDlg::DoDataExchange(CDataExchange* pDX)
 			for (int i=0;i<pcore->cl_Counters.GetCount();i++)
 			{
 				PtrCoreCounter pcounter = pcore->cl_Counters.GetAt(i);
-				if (pcounter->uid == ppart->usemask)
-					name = pcounter->name;
+				if (pcounter->expendabletypeID == ppart->usemask)
+					name = pcounter->launcherDef.name;
 			}
 			for (int i=0;i<pcore->cl_Mines.GetCount();i++)
 			{
