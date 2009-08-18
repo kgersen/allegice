@@ -431,7 +431,7 @@ void CICEDlg::BuildTree(void)
 						PtrCoreProbe pprobe = (PtrCoreProbe)prox->entry;
 						pce->tag = (ObjectType)prox->tag;
 						pce->entry = (LPARAM)pprobe;
-						s.Format("%s (%d)(%d)",pprobe->name,pprobe->uid,ppart->uid);
+						s.Format("%s (%d)(%d)",pprobe->launcherDef.name,pprobe->expendabletypeID,ppart->uid);
 						pce->name.Format("Probe: %s",s);
 						RefreshStores(pce);
 						maintree->InsertItem(TVIF_TEXT|TVIF_PARAM, s, 0, 0, 0, 0,  (LPARAM)pce, hParts, tvisort);
@@ -493,17 +493,17 @@ void CICEDlg::BuildTree(void)
 		for (int j=0;j<pigccore->cl_Probes.GetSize();j++)
 		{
 			PtrCoreProbe pprobe = pigccore->cl_Probes.GetAt(j);
-			if (bFilter & IsFiltered(pprobe->techtree))
+			if (bFilter & IsFiltered((UCHAR*)&(pprobe->launcherDef.ttbmRequired))) //TODO
 				continue;
 			CString s;
 			PtrCoreEntry pce = new CoreEntry;
 			pce->tag = OT_probeType;
 			pce->entry = (LPARAM)pprobe;
 			CString pxs = "";
-			PtrCorePart px = pigccore->ProxyGet(pprobe->uid);
+			PtrCorePart px = pigccore->ProxyGet(pprobe->expendabletypeID);
 			if (px)
 				pxs.Format("(%d)",px->uid);
-			s.Format("%s (%d)%s",pprobe->name,pprobe->uid,pxs);
+			s.Format("%s (%d)%s",pprobe->launcherDef.name,pprobe->expendabletypeID,pxs);
 			pce->name.Format("Probe: %s",s);
 			RefreshStores(pce);
 			maintree->InsertItem(TVIF_TEXT|TVIF_PARAM, s, 0, 0, 0, 0,  (LPARAM)pce, hProbes, tvisort);
@@ -762,8 +762,8 @@ void CICEDlg::OnSelchangeMainTree(NMHDR *pNMHDR, LRESULT *pResult)
 			dlgProbe.pprobe = pprobe;
 			dlgProbe.UpdateData(FALSE);
 			curdiag = (CDialog *)&dlgProbe;
-			pTechTree = pprobe->techtree;
-			sTechName.Format("Probe: %s (%d)",pprobe->name,pprobe->uid);
+			pTechTree = (UCHAR *)&(pprobe->launcherDef.ttbmRequired); //TODO
+			sTechName.Format("Probe: %s (%d)",pprobe->launcherDef.name,pprobe->expendabletypeID);
 			showmb=true;
 			}break;
 		case OT_projectileType:{
@@ -1175,9 +1175,10 @@ CString CICEDlg::TTHaveBit(int ipBit,CListBox *clb, CString prefix)
 	for (int j=0;j<pigccore->cl_Probes.GetSize();j++)
 	{
 		PtrCoreProbe p = pigccore->cl_Probes.GetAt(j);
-		if (p->techtree[idx] & imask)
+		UCHAR *techtree = (UCHAR*)&(p->launcherDef.ttbmRequired); //TODO
+		if (techtree[idx] & imask)
 		{
-			t.Format("Probe: %s (%d)\r\n",p->name,p->uid);
+			t.Format("Probe: %s (%d)\r\n",p->launcherDef.name,p->expendabletypeID);
 			s+=t;
 			int idx = clb->AddString(prefix+t); clb->SetItemDataPtr(idx,p);
 		}
@@ -1268,7 +1269,7 @@ void CICEDlg::MoveEntry(int dir)
 			{
 			cl_Gen = (CArray<LPARAM,LPARAM> *)&pigccore->cl_Parts;
 			PtrCoreProbe pprobe = (PtrCoreProbe) curp;
-			curp = (LPARAM)pigccore->ProxyGet(pprobe->uid);
+			curp = (LPARAM)pigccore->ProxyGet(pprobe->expendabletypeID);
 			}
 			break;
 		default:
@@ -1333,7 +1334,7 @@ void CICEDlg::OnBnClickedAdd()
 	if (pce->tag == OT_probeType)
 	{
 		PtrCoreProbe pp = (PtrCoreProbe) pce->entry;
-		PtrCorePart p = pigccore->ProxyGet(pp->uid);
+		PtrCorePart p = pigccore->ProxyGet(pp->expendabletypeID);
 		if (p != NULL)
 		{
 			pce->tag = OT_partType;
@@ -1453,7 +1454,7 @@ void CICEDlg::OnBnClickedAdd()
 					PtrCoreProbe pprobe = new IGCCoreProbe;
 					memcpy(pprobe,pprobecur,sizeof(IGCCoreProbe));
 					pigccore->AddProbe(pprobe);
-					ppart->usemask = pprobe->uid;
+					ppart->usemask = pprobe->expendabletypeID;
 					entry = (LPARAM)pprobe;
 					}break;
 				}

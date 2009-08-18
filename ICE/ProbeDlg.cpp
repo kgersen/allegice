@@ -34,11 +34,11 @@ void CProbeDlg::SetIcons(HICON iJumpIcon)
 void CProbeDlg::DoDataExchange(CDataExchange* pDX)
 {
 	CString name,model,type,icon,descr,ukbmp;
-	CString todo1 = "";
+
 	int uid,ss1,ss2,ss3,ss4,proj,sound;
 	if (!pprobe) return;
 	ASSERT(sArtPath != "");
-	PtrCorePart prox = pcore->ProxyGet(pprobe->uid);
+	PtrCorePart prox = pcore->ProxyGet(pprobe->expendabletypeID);
 	bool mountable;
 	int uidprox = -1;
 	if (prox)
@@ -73,18 +73,18 @@ void CProbeDlg::DoDataExchange(CDataExchange* pDX)
 
 	if (!pDX->m_bSaveAndValidate) // data to dialog
 	{
-		name = pprobe->name;
-		model = pprobe->model;
-		descr = pprobe->description;
-		icon = pprobe->icon;
+		name = pprobe->launcherDef.name;
+		model = pprobe->modelName;
+		descr = pprobe->launcherDef.description;
+		icon = pprobe->iconName;
 		mdlbmp.LoadMDLFile(sArtPath +"\\"+ icon + "bmp.mdl");
-		type = pprobe->iconName;
+		type = pprobe->launcherDef.iconName;
 		mdlbmp3.LoadMDLFile(sArtPath +"\\"+ type + "bmp.mdl");
-		ukbmp = pprobe->ukbmp;
+		ukbmp = pprobe->launcherDef.modelName;
 		mdlbmp2.LoadMDLFile(sArtPath +"\\l"+ ukbmp + "bmp.mdl");
-		uid = pprobe->uid;
-		// usemask
-		ss1	= pprobe->usemask;
+		uid = pprobe->expendabletypeID;
+
+		ss1	= pprobe->launcherDef.partMask;
 		for (int i=0;i<16;i++) 
 		{
 			CButton *cbb = (CButton *)CWnd::GetDlgItem(IDC_USEM48+i);
@@ -94,18 +94,18 @@ void CProbeDlg::DoDataExchange(CDataExchange* pDX)
 		OnBnClickedUsem48();
 
 		CComboBox *cbac = (CComboBox *)GetDlgItem(IDC_AC);
-		cbac->SetCurSel(pprobe->AC);
+		cbac->SetCurSel(pprobe->defenseType);
 
-		ss2	= pprobe->stats_ss2;
-		ss3	= pprobe->stats_ss3;
-		ss4 = pprobe->stats_ss4;
-		sound = pprobe->stats_sound;
-		proj = pprobe->stats_projectile;
-		todo1.AppendFormat("\r\nEND");
+		ss2	= pprobe->launcherDef.expendableSize;
+		ss3	= pprobe->eabmCapabilities;
+		ss4 = pprobe->ammo;
+		sound = pprobe->ambientSound;
+		proj = pprobe->projectileTypeID;
+
 		for (int i=0;i<16;i++)
 		{
 			CButton *cbb = (CButton *)CWnd::GetDlgItem(IDC_USEM0+i);
-			cbb->SetCheck((pprobe->stats_ss3 & (1<<i))?BST_CHECKED:BST_UNCHECKED);
+			cbb->SetCheck((pprobe->eabmCapabilities & (1<<i))?BST_CHECKED:BST_UNCHECKED);
 		}
 	}
 	DDX_Text(pDX, IDC_NAME, name);
@@ -114,29 +114,28 @@ void CProbeDlg::DoDataExchange(CDataExchange* pDX)
 	DDX_Text(pDX, IDC_TYPE, type);
 	DDX_Text(pDX, IDC_UKBMP, ukbmp);
 	DDX_Text(pDX, IDC_DESCRIPTION, descr);
-	//DDX_Text(pDX, IDC_TODO1, todo1);
 
-	DDX_Text(pDX, IDC_COST, pprobe->price);
+	DDX_Text(pDX, IDC_COST, pprobe->launcherDef.price);
 
-	DDX_Text(pDX, IDC_S1, pprobe->stats_s1);
-	DDX_Text(pDX, IDC_S2, pprobe->stats_s2);
-	DDX_Text(pDX, IDC_S3, pprobe->stats_s3);
-	DDX_Text(pDX, IDC_S4, pprobe->stats_s4);
-	DDX_Text(pDX, IDC_S5, pprobe->stats_s5);
-	DDX_Text(pDX, IDC_S6, pprobe->stats_s6);
-	DDX_Text(pDX, IDC_S7, pprobe->stats_s7);
-	DDX_Text(pDX, IDC_S8, pprobe->stats_s8);
-	DDX_Text(pDX, IDC_S9, pprobe->stats_s9);
-	DDX_Text(pDX, IDC_S10, pprobe->stats_s10);
-	DDX_Text(pDX, IDC_S11, pprobe->stats_s11);
+	DDX_Text(pDX, IDC_S1, pprobe->radius);
+	DDX_Text(pDX, IDC_S2, pprobe->rotation);
+	DDX_Text(pDX, IDC_S3, pprobe->loadTime);
+	DDX_Text(pDX, IDC_S4, pprobe->lifespan);
+	DDX_Text(pDX, IDC_S5, pprobe->signature);
+	DDX_Text(pDX, IDC_S6, pprobe->launcherDef.mass);
+	DDX_Text(pDX, IDC_S7, pprobe->hitPoints);
+	DDX_Text(pDX, IDC_S8, pprobe->scannerRange);
+	DDX_Text(pDX, IDC_S9, pprobe->dtimeBurst);
+	DDX_Text(pDX, IDC_S10, pprobe->dispersion);
+	DDX_Text(pDX, IDC_S11, pprobe->accuracy);
 	DDX_Text(pDX, IDC_SS1, ss1);
 	DDX_Text(pDX, IDC_SS2, ss2);
 	DDX_Text(pDX, IDC_SS3, ss3);
 	DDX_Text(pDX, IDC_SS4, ss4);
 	DDX_Text(pDX, IDC_SOUND, sound);
 	DDX_Text(pDX, IDC_PROJ, proj);
-	DDX_Text(pDX, IDC_DELAY, pprobe->stats_activation_delay);
-//	DDX_Text(pDX, IDC_DURATION, pprobe->stats_duration);
+	DDX_Text(pDX, IDC_DELAY, pprobe->dtRipcord);
+
 	DDX_Text(pDX, IDC_UID, uid);
 
 	if (mountable)
@@ -148,98 +147,42 @@ void CProbeDlg::DoDataExchange(CDataExchange* pDX)
 	}
 	if (pDX->m_bSaveAndValidate) // dialog to data
 	{
-		strcpy(pprobe->name,name);
-		strcpy(pprobe->model,model);
-		strcpy(pprobe->icon,icon);
-		strcpy(pprobe->iconName,type);
-		strcpy(pprobe->ukbmp,ukbmp);
-		strncpy(pprobe->description,descr,IGC_DESCRIPTIONMAX);
-		// usemask
-		//pprobe->stats_ss1 = ss1;
-		pprobe->usemask = 0;
+		strcpy(pprobe->launcherDef.name,name);
+		strcpy(pprobe->modelName,model);
+		strcpy(pprobe->iconName,icon);
+		strcpy(pprobe->launcherDef.iconName,type);
+		strcpy(pprobe->launcherDef.modelName,ukbmp);
+		strncpy(pprobe->launcherDef.description,descr,IGC_DESCRIPTIONMAX);
+
+		pprobe->launcherDef.partMask = 0;
 		for (int i=0;i<16;i++) 
 		{
 			CButton *cbb = (CButton *)CWnd::GetDlgItem(IDC_USEM48+i);
-			pprobe->usemask += cbb->GetCheck()?(1<<i):0;
+			pprobe->launcherDef.partMask += cbb->GetCheck()?(1<<i):0;
 		}
-		if (pprobe->usemask == 0)
+		if (pprobe->launcherDef.partMask == 0)
 		{
 			MessageBox("Warning usage mask is zero");
 		}
 
 		CComboBox *cbac = (CComboBox *)GetDlgItem(IDC_AC);
-		pprobe->AC = cbac->GetCurSel();
+		pprobe->defenseType = cbac->GetCurSel();
 
-		pprobe->stats_ss2 = ss2;
-		pprobe->stats_ss3 = ss3;
-		pprobe->stats_ss4 = ss4;
-		pprobe->stats_projectile = proj;
-		pprobe->stats_sound = sound;
+		pprobe->launcherDef.expendableSize = ss2;
+		pprobe->eabmCapabilities = ss3;
+		pprobe->ammo = ss4;
+		pprobe->projectileTypeID = proj;
+		pprobe->ambientSound = sound;
 
-		pprobe->stats_ss3 = 0;
+		pprobe->eabmCapabilities = 0;
 		for (int i=0;i<16;i++)
 		{
 			CButton *cbb = (CButton *)CWnd::GetDlgItem(IDC_USEM0+i);
-			pprobe->stats_ss3 += (cbb->GetCheck()==BST_CHECKED)?(1<<i):0;
+			pprobe->eabmCapabilities += (cbb->GetCheck()==BST_CHECKED)?(1<<i):0;
 		}
 
 	}
 	CDialog::DoDataExchange(pDX);
-}
-
-void CProbeDlg::OnClickedDecodesel(void)
-{
-	CEdit *cetodo = (CEdit *) CWnd::GetDlgItem(IDC_TODO1);
-	int i,j;
-	cetodo->GetSel(i,j);
-
-	// NT SPECIFIC
-   HLOCAL h = cetodo->GetHandle();
-   LPCTSTR lpszText = (LPCTSTR)LocalLock(h);
-	char res[1000];
-	strncpy(res,&(lpszText[i]),j-i);
-	SetDlgItemText(IDC_DECDEC,res);
-	float f;
-	unsigned char *pf;
-	unsigned int b1,b2,b3,b4;
-	pf = (unsigned char *)&f;
-	sscanf(res,"%x %x %x %x",&b1,&b2,&b3,&b4);
-	pf[0] = b1;
-	pf[1] = b2;
-	pf[2] = b3;
-	pf[3] = b4;
-	CString sres;
-	sres.Format("%g",f);
-	SetDlgItemText(IDC_DECFLOAT,sres);
-	
-   LocalUnlock(h);
-}
-
-void CProbeDlg::OnClickedDecodeh(void)
-{
-	CEdit *cetodo = (CEdit *) CWnd::GetDlgItem(IDC_TODO1);
-	int i,j;
-	cetodo->GetSel(i,j);
-
-	// NT SPECIFIC
-   HLOCAL h = cetodo->GetHandle();
-   LPCTSTR lpszText = (LPCTSTR)LocalLock(h);
-	char res[1000];
-	strncpy(res,&(lpszText[i]),j-i);
-	SetDlgItemText(IDC_DECDEC,res);
-	unsigned short f;
-	unsigned char *pf;
-	unsigned int b1,b2;
-	pf = (unsigned char *)&f;
-	sscanf(res,"%x %x",&b1,&b2);
-	pf[0] = b1;
-	pf[1] = b2;
-	CString sres;
-	sres.Format("%04X = %d",f,f);
-	SetDlgItemText(IDC_DECFLOAT,sres);
-	
-   LocalUnlock(h);
-	// END OF NT SPECIFIC
 }
 
 BOOL CProbeDlg::OnInitDialog(void)
@@ -264,9 +207,9 @@ BOOL CProbeDlg::OnInitDialog(void)
 
 void CProbeDlg::OnClickedOk(void)
 {
-	CString oldname = pprobe->name;
+	CString oldname = pprobe->launcherDef.name;
 	UpdateData(TRUE);
-	CString newname = pprobe->name;
+	CString newname = pprobe->launcherDef.name;
 	if (oldname != newname)
 		GetParent()->UpdateData(TRUE);
 	UpdateData(FALSE);
@@ -279,8 +222,6 @@ void CProbeDlg::OnClickedCancel(void)
 
 
 BEGIN_MESSAGE_MAP(CProbeDlg, CDialog)
-	ON_BN_CLICKED(IDC_DECODESEL, OnClickedDecodesel)
-	ON_BN_CLICKED(IDC_DECODEH, OnClickedDecodeh)
 	ON_BN_CLICKED(IDOK, OnClickedOk)
 	ON_BN_CLICKED(IDCANCEL, OnClickedCancel)
 	ON_BN_CLICKED(IDC_PROXYBUT, OnBnClickedProxybut)
@@ -312,7 +253,7 @@ END_MESSAGE_MAP()
 void CProbeDlg::OnBnClickedProxybut()
 {
 	if (!pprobe) return;
-	PtrCorePart prox = pcore->ProxyGet(pprobe->uid);
+	PtrCorePart prox = pcore->ProxyGet(pprobe->expendabletypeID);
 	if (prox) // dismount
 	{
 		pcore->DeletePart(prox,false);
@@ -326,7 +267,7 @@ void CProbeDlg::OnBnClickedProxybut()
 		prox->size = IGC_PROXYPARTSIZE;
 		prox->suk2 = 1;
 		prox->type = 1;
-		prox->usemask = pprobe->uid;
+		prox->usemask = pprobe->expendabletypeID;
 		prox->overriding_uid = -1;
 		strcpy(prox->slot,"invsmine");
 		pcore->AddPart(prox);
@@ -351,10 +292,10 @@ void CProbeDlg::OnBnClickedUsem48()
 	for (int j=0;j<pcore->cl_Probes.GetSize();j++)
 	{
 		PtrCoreProbe pp = pcore->cl_Probes.GetAt(j);
-		if ((pp->usemask & umask) && (pp->uid != pprobe->uid))
+		if ((pp->launcherDef.partMask & umask) && (pp->expendabletypeID != pprobe->expendabletypeID))
 		{
 			CString s;
-			s.Format("Probe: %s (%d)",pp->name,pp->uid);
+			s.Format("Probe: %s (%d)",pp->launcherDef.name,pp->expendabletypeID);
 			int idx = clb->AddString(s);
 			clb->SetItemDataPtr(idx,pp);
 		}
@@ -376,8 +317,8 @@ void CProbeDlg::OnBnClickedBprojid()
 {
 	if (!pprobe) return;
 	if (!pcore) return;
-	if (pprobe->stats_projectile == -1) return;
-	PtrCoreProjectile pp = pcore->FindProjectile(pprobe->stats_projectile);
+	if (pprobe->projectileTypeID == -1) return;
+	PtrCoreProjectile pp = pcore->FindProjectile(pprobe->projectileTypeID);
 	if (pp)
 		MainUI->SelectPCE((LPARAM)pp);
 	else
@@ -388,7 +329,7 @@ void CProbeDlg::OnBnClickedBsucc()
 {
 	if (!pprobe) return;
 	if (!pcore) return;
-	PtrCorePart prox = pcore->ProxyGet(pprobe->uid);
+	PtrCorePart prox = pcore->ProxyGet(pprobe->expendabletypeID);
 	if (!prox) return;
 	if (prox->overriding_uid == -1) return;
 	
@@ -426,7 +367,7 @@ void CProbeDlg::OnLbnSelchangeUmlist()
 
 void CProbeDlg::OnBnClickedBeditdescr()
 {
-	CDescrDlg dlg(pprobe->description);
+	CDescrDlg dlg(pprobe->launcherDef.description);
 	if (dlg.DoModal() == IDOK)
-		SetDlgItemText(IDC_DESCRIPTION,pprobe->description);
+		SetDlgItemText(IDC_DESCRIPTION,pprobe->launcherDef.description);
 }

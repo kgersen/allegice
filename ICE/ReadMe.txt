@@ -338,7 +338,8 @@ NEW IN 3.42 (WORK IN PROGRESS - UNRELEASED- WILL PROBABLY BE ICE 4.0)
      * stations: <todo>
      * ships: weapon & pack masks (unused yet) <todo> - unsorted DL and up/down buttons
      * chaffs: <todo>
-     * mines: <todo> 
+     * mines: <todo>
+     * probes: <todo>
 Known bugs:
 	none
 

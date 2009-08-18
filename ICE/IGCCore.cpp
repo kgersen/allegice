@@ -750,8 +750,8 @@ char *CIGCCore::ProxyPartName(unsigned short uid)
 	for (int i=0;i<cl_Probes.GetCount();i++)
 	{
 		PtrCoreProbe pprobe = cl_Probes.GetAt(i);
-		if (pprobe->uid == uid)
-			name = pprobe->name;
+		if (pprobe->expendabletypeID == uid)
+			name = pprobe->launcherDef.name;
 	}
 	for (int i=0;i<cl_Missiles.GetCount();i++)
 	{
@@ -827,11 +827,11 @@ PtrCoreEntry CIGCCore::ProxyPart(unsigned short uid)
 	for (int i=0;i<cl_Probes.GetCount();i++)
 	{
 		PtrCoreProbe pprobe = cl_Probes.GetAt(i);
-		if (pprobe->uid == uid)
+		if (pprobe->expendabletypeID == uid)
 		{
 			pce->tag = OT_probeType;
 			pce->IGCPartType = ET_Dispenser;
-			pce->usemask = pprobe->usemask;
+			pce->usemask = pprobe->launcherDef.partMask;
 			pce->entry = (LPARAM)pprobe;
 			return pce;
 		}
@@ -1079,7 +1079,7 @@ void CIGCCore::AddProbe(PtrCoreProbe pprobe)
 		AfxMessageBox("No more available UID for probes");
 		return;
 	}
-	pprobe->uid = uid;
+	pprobe->expendabletypeID = uid;
 	cl_Probes.Add(pprobe);
 }
 unsigned short CIGCCore::ProxyPartUID(void)
@@ -1115,7 +1115,7 @@ unsigned short CIGCCore::ProxyPartUID(void)
 		for (int j=0;j<cl_Probes.GetSize();j++)
 		{
 			PtrCoreProbe p = cl_Probes.GetAt(j);
-			if (p->uid == uid) {
+			if (p->expendabletypeID == uid) {
 				used = true;
 				break;
 			}
@@ -1328,7 +1328,7 @@ LPARAM CIGCCore::DeleteMissile(PtrCoreMissile pmissile)
 LPARAM CIGCCore::DeleteProbe(PtrCoreProbe pprobe)
 {
 	if (!pprobe) return NULL;
-	PtrCorePart ppart = ProxyGet(pprobe->uid);
+	PtrCorePart ppart = ProxyGet(pprobe->expendabletypeID);
 	if (ppart) return DeletePart(ppart,true);
     int j=0;
 	for (j=0;j<cl_Probes.GetSize();j++)
@@ -1607,7 +1607,7 @@ PtrCoreProbe CIGCCore::FindProbe(short uid)
 	for (int j=0;j<cl_Probes.GetSize();j++)
 	{
 		PtrCoreProbe pprobe = cl_Probes.GetAt(j);
-		if (pprobe->uid == uid) return pprobe;
+		if (pprobe->expendabletypeID == uid) return pprobe;
 	}
 	return NULL;
 }
@@ -1757,9 +1757,9 @@ LPARAM CIGCCore::FindError(char **pszReason)
 	for (int j=0;j<cl_Probes.GetSize();j++)
 	{
 		PtrCoreProbe pprobe = cl_Probes.GetAt(j);
-		if (pprobe->stats_projectile != -1)
+		if (pprobe->projectileTypeID != -1)
 		{
-			PtrCoreProjectile pp = FindProjectile(pprobe->stats_projectile);
+			PtrCoreProjectile pp = FindProjectile(pprobe->projectileTypeID);
 			if (!pp) return BuildError((LPARAM)pprobe,"Invalid probe projectile",pszReason);
 		}
 	}

@@ -361,10 +361,10 @@ void CMineDlg::OnBnClickedUsem0()
 	for (int j=0;j<pcore->cl_Probes.GetSize();j++)
 	{
 		PtrCoreProbe pp = pcore->cl_Probes.GetAt(j);
-		if ((pp->usemask & umask))
+		if ((pp->launcherDef.partMask & umask))
 		{
 			CString s;
-			s.Format("Probe: %s (%d)",pp->name,pp->uid);
+			s.Format("Probe: %s (%d)",pp->launcherDef.name,pp->expendabletypeID);
 			int idx = clb->AddString(s);
 			clb->SetItemDataPtr(idx,pp);
 		}

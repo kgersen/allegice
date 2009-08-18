@@ -83,8 +83,8 @@ void CPartDlg::DoDataExchange(CDataExchange* pDX)
 			for (int i=0;i<pcore->cl_Probes.GetCount();i++)
 			{
 				PtrCoreProbe pprobe = pcore->cl_Probes.GetAt(i);
-				if (pprobe->uid == ppart->usemask)
-					name = pprobe->name;
+				if (pprobe->expendabletypeID == ppart->usemask)
+					name = pprobe->launcherDef.name;
 			}
 			for (int i=0;i<pcore->cl_Missiles.GetCount();i++)
 			{
