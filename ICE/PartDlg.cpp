@@ -89,8 +89,8 @@ void CPartDlg::DoDataExchange(CDataExchange* pDX)
 			for (int i=0;i<pcore->cl_Missiles.GetCount();i++)
 			{
 				PtrCoreMissile pmis = pcore->cl_Missiles.GetAt(i);
-				if (pmis->uid == ppart->usemask)
-					name = pmis->name;
+				if (pmis->expendabletypeID == ppart->usemask)
+					name = pmis->launcherDef.name;
 			}
 		}
 		else

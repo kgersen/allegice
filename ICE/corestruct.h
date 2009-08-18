@@ -461,58 +461,61 @@ const unsigned short ICGMissileEffectsValues[IGCMISSILE_EFFECT_NBVALS] =
 	IGCMISSILE_EFFECT_RESONATOR,			
 	IGCMISSILE_EFFECT_RESONATORSINGLE
 };
-typedef struct SIGCCoreMissile // tag = 0x17, size = 0x2C0
-{
-	UCHAR header[16]; // ALL ZERO - Checked
-	float stats_s1; // scale
-	float stats_s2; // rate rotation
-	char ldbmp[13];
-	UCHAR pad0[13]; // ALL ZERO - Checked
-	UCHAR pad1[2];  // CC - Checked
-	float stats_s3; // reload time
-	float stats_s4; // life span
-	float stats_s5; // sig
-	Money cost;
-	int pad2; // Zero - Checked
-	char model[13];
-	UCHAR pad3; // C - Checked
-	char iconName[13]; //part (icon)
-	char name[25];
-	char description[200];
-	BYTE group;
-	BYTE zero;
-	UCHAR techtree[100];
-	char pad4[2];//CC - checked
-	float stats_sig; // sig%
-	float stats_s6; // mass
-	unsigned short use_flags;
-	unsigned short stats_ss1; // cargo payload
-	float stats_s16; // hitpoints
-	BYTE AC; // 0B
-	UCHAR pad5[1]; // 0B CD - Checked
-	unsigned short uid;
-	unsigned short special_effect; // 1 for nerve, 2 for reso , 0 otherwise
-	char icon[13]; // SWARM = append '\00s'      
-	char pad6;//CD - Checked
-	float stats_s7; // accel
-	float stats_s8; // turn radius
-	float stats_s9; // launch velocity
-	float stats_s10; // lock time
-	float stats_s11; // ready time
-	float stats_s12; // max lock
-	float stats_s13; // CM resistance
-	float stats_s14; // salvo ratio
-	float stats_s15; // lock radius
-	float stats_power; // power
-	float stats_blast_power; // blastPower
-	float stats_blast_radius; // blastRadius
-	float stats_unused2; // width (default 0)
-	unsigned short DM; 
-	unsigned short stats_ss3; //sound launch
-	unsigned short stats_ss4; //sound flight
-	UCHAR end[2]; //CDCD Checked
-} IGCCoreMissile;
+//typedef struct SIGCCoreMissile // tag = 0x17, size = 0x2C0
+//{
+//	UCHAR header[16]; // ALL ZERO - Checked
+//	float stats_s1; // scale
+//	float stats_s2; // rate rotation
+//	char ldbmp[13];
+//	UCHAR pad0[13]; // ALL ZERO - Checked
+//	UCHAR pad1[2];  // CC - Checked
+//	float stats_s3; // reload time
+//	float stats_s4; // life span
+//	float stats_s5; // sig
+//	Money cost;
+//	int pad2; // Zero - Checked = timeToBuild
+//	char model[13];
+//	UCHAR pad3; // C - Checked
+//	char iconName[13]; //part (icon)
+//	char name[25];
+//	char description[200];
+//	BYTE group;
+//	BYTE zero;
+//	UCHAR techtree[100];
+//	char pad4[2];//CC - checked
+//	float stats_sig; // sig%
+//	float stats_s6; // mass
+//	unsigned short use_flags;
+//	unsigned short stats_ss1; // cargo payload
+//	float stats_s16; // hitpoints
+//	BYTE AC; // 0B
+//	UCHAR pad5[1]; // 0B CD - Checked
+//	unsigned short uid;
+//	unsigned short special_effect; // 1 for nerve, 2 for reso , 0 otherwise
+//	char icon[13]; // SWARM = append '\00s'      
+//	char pad6;//CD - Checked
+//	float stats_s7; // accel
+//	float stats_s8; // turn radius
+//	float stats_s9; // launch velocity
+//	float stats_s10; // lock time
+//	float stats_s11; // ready time
+//	float stats_s12; // max lock
+//	float stats_s13; // CM resistance
+//	float stats_s14; // salvo ratio
+//	float stats_s15; // lock radius
+//	float stats_power; // power
+//	float stats_blast_power; // blastPower
+//	float stats_blast_radius; // blastRadius
+//	float stats_unused2; // width (default 0)
+//	unsigned short DM; 
+//	unsigned short stats_ss3; //sound launch
+//	unsigned short stats_ss4; //sound flight
+//	UCHAR end[2]; //CDCD Checked
+//} IGCCoreMissile;
+
+typedef DataMissileTypeIGC IGCCoreMissile;
 typedef IGCCoreMissile *PtrCoreMissile;
+
 //typedef struct SIGCCoreMine // tag = 0x18, size = 480
 //{
 //	float pcRED; // all zero = percent RGBA

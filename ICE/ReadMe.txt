@@ -340,6 +340,7 @@ NEW IN 3.42 (WORK IN PROGRESS - UNRELEASED- WILL PROBABLY BE ICE 4.0)
      * chaffs: <todo>
      * mines: <todo>
      * probes: <todo>
+     * missiles: bDirectional <todo> width textureName timeToBuild
 Known bugs:
 	none
 
