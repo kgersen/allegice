@@ -756,8 +756,8 @@ char *CIGCCore::ProxyPartName(unsigned short uid)
 	for (int i=0;i<cl_Missiles.GetCount();i++)
 	{
 		PtrCoreMissile pmis = cl_Missiles.GetAt(i);
-		if (pmis->uid == uid)
-			name = pmis->name;
+		if (pmis->expendabletypeID == uid)
+			name = pmis->launcherDef.name;
 	}
 	return name;
 }
@@ -839,11 +839,11 @@ PtrCoreEntry CIGCCore::ProxyPart(unsigned short uid)
 	for (int i=0;i<cl_Missiles.GetCount();i++)
 	{
 		PtrCoreMissile pmis = cl_Missiles.GetAt(i);
-		if (pmis->uid == uid)
+		if (pmis->expendabletypeID == uid)
 		{
 			pce->tag = OT_missileType;
 			pce->IGCPartType = ET_Magazine;
-			pce->usemask = pmis->use_flags;
+			pce->usemask = pmis->launcherDef.partMask;
 			pce->entry = (LPARAM)pmis;
 			return pce;
 		}
@@ -1043,7 +1043,7 @@ void CIGCCore::AddMissile(PtrCoreMissile pmissile)
 		AfxMessageBox("No more available UID for missiles");
 		return;
 	}
-	pmissile->uid = uid;
+	pmissile->expendabletypeID = uid;
 	cl_Missiles.Add(pmissile);
 }
 void CIGCCore::AddMine(PtrCoreMine pmine)
@@ -1091,7 +1091,7 @@ unsigned short CIGCCore::ProxyPartUID(void)
 		for (int j=0;j<cl_Missiles.GetSize();j++)
 		{
 			PtrCoreMissile p = cl_Missiles.GetAt(j);
-			if (p->uid == uid) {
+			if (p->expendabletypeID == uid) {
 				used = true;
 				break;
 			}
@@ -1306,7 +1306,7 @@ LPARAM CIGCCore::DeleteCounter(PtrCoreCounter pcounter)
 LPARAM CIGCCore::DeleteMissile(PtrCoreMissile pmissile)
 {
 	if (!pmissile) return NULL;
-	PtrCorePart ppart = ProxyGet(pmissile->uid);
+	PtrCorePart ppart = ProxyGet(pmissile->expendabletypeID);
 	if (ppart) return DeletePart(ppart,true);
     int j=0;
 	for (j=0;j<cl_Missiles.GetSize();j++)
@@ -1618,7 +1618,7 @@ PtrCoreMissile CIGCCore::FindMissile(short uid)
 	for (int j=0;j<cl_Missiles.GetSize();j++)
 	{
 		PtrCoreMissile pmissile = cl_Missiles.GetAt(j);
-		if (pmissile->uid == uid) return pmissile;
+		if (pmissile->expendabletypeID == uid) return pmissile;
 	}
 	return NULL;
 }

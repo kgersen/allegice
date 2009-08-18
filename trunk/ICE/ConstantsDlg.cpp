@@ -367,9 +367,9 @@ void CConstantsDlg::FillDMUsage(int idx)
 	for (int i=0;i<pcore->cl_Missiles.GetCount();i++)
 	{
 		PtrCoreMissile pmis = pcore->cl_Missiles.GetAt(i);
-		if (pmis->DM == idx)
+		if (pmis->damageType == idx)
 		{
-			usedby.Format("Missile - %s (%d)",pmis->name,pmis->uid);
+			usedby.Format("Missile - %s (%d)",pmis->launcherDef.name,pmis->expendabletypeID);
 			int idx = cbusage->AddString(usedby);
 			cbusage->SetItemDataPtr(idx,pmis);
 		}

@@ -453,7 +453,7 @@ void CICEDlg::BuildTree(void)
 						PtrCoreMissile pmissile = (PtrCoreMissile)prox->entry;
 						pce->tag = (ObjectType)prox->tag;
 						pce->entry = (LPARAM)pmissile;
-						s.Format("%s (%d)(%d)",pmissile->name,pmissile->uid,ppart->uid);
+						s.Format("%s (%d)(%d)",pmissile->launcherDef.name,pmissile->expendabletypeID,ppart->uid);
 						pce->name.Format("Missile: %s",s);
 						RefreshStores(pce);
 						maintree->InsertItem(TVIF_TEXT|TVIF_PARAM, s, 0, 0, 0, 0,  (LPARAM)pce, hParts, tvisort);
@@ -529,17 +529,17 @@ void CICEDlg::BuildTree(void)
 		for (int j=0;j<pigccore->cl_Missiles.GetSize();j++)
 		{
 			PtrCoreMissile pmissile = pigccore->cl_Missiles.GetAt(j);
-			if (bFilter & IsFiltered(pmissile->techtree))
+			if (bFilter & IsFiltered((UCHAR*)&(pmissile->launcherDef.ttbmRequired))) //TODO
 				continue;
 			CString s;
 			PtrCoreEntry pce = new CoreEntry;
 			pce->tag = OT_missileType;
 			pce->entry = (LPARAM)pmissile;
 			CString pxs = "";
-			PtrCorePart px = pigccore->ProxyGet(pmissile->uid);
+			PtrCorePart px = pigccore->ProxyGet(pmissile->expendabletypeID);
 			if (px)
 				pxs.Format("(%d)",px->uid);
-			s.Format("%s (%d)%s",pmissile->name,pmissile->uid,pxs);
+			s.Format("%s (%d)%s",pmissile->launcherDef.name,pmissile->expendabletypeID,pxs);
 			pce->name.Format("Missile: %s",s);
 			RefreshStores(pce);
 			maintree->InsertItem(TVIF_TEXT|TVIF_PARAM, s, 0, 0, 0, 0,  (LPARAM)pce, hMissiles, tvisort);
@@ -724,8 +724,8 @@ void CICEDlg::OnSelchangeMainTree(NMHDR *pNMHDR, LRESULT *pResult)
 			dlgMissile.pmissile = pmissile;
 			dlgMissile.UpdateData(FALSE);
 			curdiag = (CDialog *)&dlgMissile;
-			pTechTree = pmissile->techtree;
-			sTechName.Format("Missile: %s (%d)",pmissile->name,pmissile->uid);
+			pTechTree = (UCHAR *)&(pmissile->launcherDef.ttbmRequired); //TODO
+			sTechName.Format("Missile: %s (%d)",pmissile->launcherDef.name,pmissile->expendabletypeID);
 			showmb=true;
 			}break;
 		case OT_partType:{ // part
@@ -1132,9 +1132,10 @@ CString CICEDlg::TTHaveBit(int ipBit,CListBox *clb, CString prefix)
 	for (int j=0;j<pigccore->cl_Missiles.GetSize();j++)
 	{
 		PtrCoreMissile p = pigccore->cl_Missiles.GetAt(j);
-		if (p->techtree[idx] & imask)
+		UCHAR *techtree = (UCHAR*)&(p->launcherDef.ttbmRequired); //TODO
+		if (techtree[idx] & imask)
 		{
-			t.Format("Missile: %s (%d)\r\n",p->name,p->uid);
+			t.Format("Missile: %s (%d)\r\n",p->launcherDef.name,p->expendabletypeID);
 			s+=t;
 			int idx = clb->AddString(prefix+t); clb->SetItemDataPtr(idx,p);
 		}
@@ -1255,7 +1256,7 @@ void CICEDlg::MoveEntry(int dir)
 			{
 			cl_Gen = (CArray<LPARAM,LPARAM> *)&pigccore->cl_Parts;
 			PtrCoreMissile pmissile = (PtrCoreMissile) curp;
-			curp = (LPARAM)pigccore->ProxyGet(pmissile->uid);
+			curp = (LPARAM)pigccore->ProxyGet(pmissile->expendabletypeID);
 			}
 			break;
 		case OT_chaffType:
@@ -1314,7 +1315,7 @@ void CICEDlg::OnBnClickedAdd()
 	if (pce->tag == OT_missileType)
 	{
 		PtrCoreMissile pp = (PtrCoreMissile) pce->entry;
-		PtrCorePart p = pigccore->ProxyGet(pp->uid);
+		PtrCorePart p = pigccore->ProxyGet(pp->expendabletypeID);
 		if (p != NULL)
 		{
 			pce->tag = OT_partType;
@@ -1430,7 +1431,7 @@ void CICEDlg::OnBnClickedAdd()
 					PtrCoreMissile pmissile = new IGCCoreMissile;
 					memcpy(pmissile,pmissilecur,sizeof(IGCCoreMissile));
 					pigccore->AddMissile(pmissile);
-					ppart->usemask = pmissile->uid;
+					ppart->usemask = pmissile->expendabletypeID;
 					entry = (LPARAM)pmissile;
 					}break;
 				case OT_mineType:{ // mine

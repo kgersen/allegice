@@ -38,33 +38,33 @@ void CMissileDlg::DoDataExchange(CDataExchange* pDX)
 	if (!pmissile) return;
 	ASSERT(sArtPath != "");
 	CComboBox *cbse = (CComboBox *)CWnd::GetDlgItem(IDC_SEFFECT);
-	PtrCorePart prox = pcore->ProxyGet(pmissile->uid);
+	PtrCorePart prox = pcore->ProxyGet(pmissile->expendabletypeID);
 	int uidprox = prox->uid;
  
 	if (!pDX->m_bSaveAndValidate) // data to dialog
 	{
-		name = pmissile->name;
-		model = pmissile->model;
-		icon = pmissile->icon;
+		name = pmissile->launcherDef.name;
+		model = pmissile->launcherDef.modelName;
+		icon = pmissile->iconName;
 		mdlbmp.LoadMDLFile(sArtPath +"\\"+ icon + "bmp.mdl");
-		ldbmp = pmissile->ldbmp;
+		ldbmp = pmissile->modelName;
 		mdlbmp2.LoadMDLFile(sArtPath +"\\l"+ ldbmp + "bmp.mdl");
-		descr = pmissile->description;
-		type = pmissile->iconName;
+		descr = pmissile->launcherDef.description;
+		type = pmissile->launcherDef.iconName;
 		mdlbmp3.LoadMDLFile(sArtPath +"\\"+ type + "bmp.mdl");
-		uid = pmissile->uid;
+		uid = pmissile->expendabletypeID;
 
 		cbse->SetCurSel(-1); // pmissile->special_effect);
 		for (int i=0;i<IGCMISSILE_EFFECT_NBVALS;i++)
 		{
-			if (pmissile->special_effect == ICGMissileEffectsValues[i])
+			if (pmissile->eabmCapabilities == ICGMissileEffectsValues[i])
 			{
 				cbse->SetCurSel(i);
 				break;
 			}
 		}
 		
-		useflags = pmissile->use_flags;
+		useflags = pmissile->launcherDef.partMask;
 		for (int i=0;i<16;i++) 
 		{
 			CButton *cbb = (CButton *)CWnd::GetDlgItem(IDC_USEM0+i);
@@ -73,14 +73,16 @@ void CMissileDlg::DoDataExchange(CDataExchange* pDX)
 		}
 		OnBnClickedUsem0();
 
-		ss1 = pmissile->stats_ss1;
+		ss1 = pmissile->launcherDef.expendableSize;
 		CComboBox *cbdm = (CComboBox *)GetDlgItem(IDC_DM);
-		cbdm->SetCurSel(pmissile->DM);
+		cbdm->SetCurSel(pmissile->damageType);
 		CComboBox *cbac = (CComboBox *)GetDlgItem(IDC_AC);
-		cbac->SetCurSel(pmissile->AC);
+		cbac->SetCurSel(pmissile->defenseType);
 
-		ss3 = pmissile->stats_ss3;
-		ss4 = pmissile->stats_ss4;
+		((CButton*)GetDlgItem(IDC_DIRECTIONNAL))->SetCheck( pmissile->bDirectional ? BST_CHECKED : BST_UNCHECKED);
+
+		ss3 = pmissile->launchSound;
+		ss4 = pmissile->ambientSound;
 
 	}
 	DDX_Text(pDX, IDC_NAME, name);
@@ -96,28 +98,30 @@ void CMissileDlg::DoDataExchange(CDataExchange* pDX)
 	DDX_Text(pDX, IDC_SS4, ss4);
 	DDX_Text(pDX, IDC_USEFLAGS, useflags);
 
-	DDX_Text(pDX, IDC_S1, pmissile->stats_s1);
-	DDX_Text(pDX, IDC_S2, pmissile->stats_s2);
-	DDX_Text(pDX, IDC_S3, pmissile->stats_s3);
-	DDX_Text(pDX, IDC_S4, pmissile->stats_s4);
-	DDX_Text(pDX, IDC_S5, pmissile->stats_s5);
-	DDX_Text(pDX, IDC_S6, pmissile->stats_s6);
-	DDX_Text(pDX, IDC_S7, pmissile->stats_s7);
-	DDX_Text(pDX, IDC_S8, pmissile->stats_s8);
-	DDX_Text(pDX, IDC_S9, pmissile->stats_s9);
-	DDX_Text(pDX, IDC_S10, pmissile->stats_s10);
-	DDX_Text(pDX, IDC_S11, pmissile->stats_s11);
-	DDX_Text(pDX, IDC_S12, pmissile->stats_s12);
-	DDX_Text(pDX, IDC_S13, pmissile->stats_s13);
-	DDX_Text(pDX, IDC_S14, pmissile->stats_s14);
-	DDX_Text(pDX, IDC_S15, pmissile->stats_s15);
-	DDX_Text(pDX, IDC_S16, pmissile->stats_s16);
-	DDX_Text(pDX, IDC_DAMAGE, pmissile->stats_power);
-	DDX_Text(pDX, IDC_DAMAGE_RADIUS, pmissile->stats_blast_radius);
-	DDX_Text(pDX, IDC_BLAST_POWER, pmissile->stats_blast_power);
-	DDX_Text(pDX, IDC_SIG, pmissile->stats_sig);
-	DDX_Text(pDX, IDC_COST, pmissile->cost);
+	DDX_Text(pDX, IDC_S1, pmissile->radius);
+	DDX_Text(pDX, IDC_S2, pmissile->rotation);
+	DDX_Text(pDX, IDC_S3, pmissile->loadTime);
+	DDX_Text(pDX, IDC_S4, pmissile->lifespan);
+	DDX_Text(pDX, IDC_S5, pmissile->signature);
+	DDX_Text(pDX, IDC_S6, pmissile->launcherDef.mass);
+	DDX_Text(pDX, IDC_SIG, pmissile->launcherDef.signature);
+	DDX_Text(pDX, IDC_COST, pmissile->launcherDef.price);
+	DDX_Text(pDX, IDC_S16, pmissile->hitPoints);
 
+	// missile specific attributes
+	DDX_Text(pDX, IDC_S7, pmissile->acceleration);
+	DDX_Text(pDX, IDC_S8, pmissile->turnRate);
+	DDX_Text(pDX, IDC_S9, pmissile->initialSpeed);
+	DDX_Text(pDX, IDC_S10, pmissile->lockTime);
+	DDX_Text(pDX, IDC_S11, pmissile->readyTime);
+	DDX_Text(pDX, IDC_S12, pmissile->maxLock);
+	DDX_Text(pDX, IDC_S13, pmissile->chaffResistance);
+	DDX_Text(pDX, IDC_S14, pmissile->dispersion);
+	DDX_Text(pDX, IDC_S15, pmissile->lockAngle);
+	DDX_Text(pDX, IDC_DAMAGE, pmissile->power);
+	DDX_Text(pDX, IDC_DAMAGE_RADIUS, pmissile->blastRadius);
+	DDX_Text(pDX, IDC_BLAST_POWER, pmissile->blastPower);
+	
 	DDX_Text(pDX, IDC_UID, uid);
 
 	DDX_Text(pDX, IDC_UIDPROX, uidprox);
@@ -127,34 +131,37 @@ void CMissileDlg::DoDataExchange(CDataExchange* pDX)
 
 	if (pDX->m_bSaveAndValidate) // dialog to data
 	{
-		strcpy(pmissile->name,name);
-		strcpy(pmissile->model,model);
-		strcpy(pmissile->ldbmp,ldbmp);
-		strcpy(pmissile->icon,icon);
-		strcpy(pmissile->iconName,type);
-		strncpy(pmissile->description,descr,IGC_DESCRIPTIONMAX);
+		strcpy(pmissile->launcherDef.name,name);
+		strcpy(pmissile->launcherDef.modelName,model);
+		strcpy(pmissile->modelName,ldbmp);
+		strcpy(pmissile->iconName,icon);
+		strcpy(pmissile->launcherDef.iconName,type);
+		strncpy(pmissile->launcherDef.description,descr,IGC_DESCRIPTIONMAX);
 		
-		pmissile->special_effect = ICGMissileEffectsValues[cbse->GetCurSel()];
+		pmissile->eabmCapabilities = ICGMissileEffectsValues[cbse->GetCurSel()];
 
 		CComboBox *cbdm = (CComboBox *)GetDlgItem(IDC_DM);
-		pmissile->DM = cbdm->GetCurSel();
+		pmissile->damageType = cbdm->GetCurSel();
 		CComboBox *cbac = (CComboBox *)GetDlgItem(IDC_AC);
-		pmissile->AC = cbac->GetCurSel();
+		pmissile->defenseType = cbac->GetCurSel();
 
 		//pmissile->use_flags = useflags;
-		pmissile->use_flags = 0;
+		pmissile->launcherDef.partMask = 0;
 		for (int i=0;i<16;i++) 
 		{
 			CButton *cbb = (CButton *)CWnd::GetDlgItem(IDC_USEM0+i);
-			pmissile->use_flags += cbb->GetCheck()?(1<<i):0;
+			pmissile->launcherDef.partMask += cbb->GetCheck()?(1<<i):0;
 		}
-		if (pmissile->use_flags == 0)
+		if (pmissile->launcherDef.partMask == 0)
 		{
 			MessageBox("Warning usage mask is zero");
 		}
-		pmissile->stats_ss1 = ss1;
-		pmissile->stats_ss3 = ss3;
-		pmissile->stats_ss4 = ss4;
+		pmissile->launcherDef.expendableSize = ss1;
+
+		pmissile->bDirectional = (((CButton*)GetDlgItem(IDC_DIRECTIONNAL))->GetCheck()) == BST_CHECKED;
+
+		pmissile->launchSound = ss3;
+		pmissile->ambientSound = ss4;
 
 	}
 	CDialog::DoDataExchange(pDX);
@@ -253,9 +260,9 @@ BOOL CMissileDlg::OnInitDialog(void)
 
 void CMissileDlg::OnClickedOk(void)
 {
-	CString oldname = pmissile->name;
+	CString oldname = pmissile->launcherDef.name;
 	UpdateData(TRUE);
-	CString newname = pmissile->name;
+	CString newname = pmissile->launcherDef.name;
 	if (oldname != newname)
 		GetParent()->UpdateData(TRUE);
 	UpdateData(FALSE);
@@ -312,10 +319,10 @@ void CMissileDlg::OnBnClickedUsem0()
 	for (int j=0;j<pcore->cl_Missiles.GetSize();j++)
 	{
 		PtrCoreMissile pp = pcore->cl_Missiles.GetAt(j);
-		if ((pp->use_flags & umask) && (pp->uid != pmissile->uid))
+		if ((pp->launcherDef.partMask & umask) && (pp->expendabletypeID != pmissile->expendabletypeID))
 		{
 			CString s;
-			s.Format("%s (%d)",pp->name,pp->uid);
+			s.Format("%s (%d)",pp->launcherDef.name,pp->expendabletypeID);
 			int idx = clb->AddString(s);
 			clb->SetItemDataPtr(idx,pp);
 		}
@@ -326,7 +333,7 @@ void CMissileDlg::OnBnClickedBsucc()
 {
 	if (!pmissile) return;
 	if (!pcore) return;
-	PtrCorePart prox = pcore->ProxyGet(pmissile->uid);
+	PtrCorePart prox = pcore->ProxyGet(pmissile->expendabletypeID);
 	if (!prox) return;
 	if (prox->overriding_uid == -1) return;
 	
@@ -363,7 +370,7 @@ void CMissileDlg::OnLbnSelchangeUmlist()
 
 void CMissileDlg::OnBnClickedBeditdescr()
 {
-	CDescrDlg dlg(pmissile->description);
+	CDescrDlg dlg(pmissile->launcherDef.description);
 	if (dlg.DoModal() == IDOK)
-		SetDlgItemText(IDC_DESCRIPTION,pmissile->description);
+		SetDlgItemText(IDC_DESCRIPTION,pmissile->launcherDef.description);
 }
