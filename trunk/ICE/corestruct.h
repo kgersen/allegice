@@ -583,50 +583,51 @@ typedef IGCCoreMine *PtrCoreMine;
 typedef DataDroneTypeIGC IGCCoreDrone;
 typedef IGCCoreDrone *PtrCoreDrone;
 
-typedef struct SIGCCoreProbe // tag = 0x19 (OT_probeType), size = 492
-{
-	UCHAR header[16]; // ALL '0' = 4 floats = RGBA values (as in SIGCCoreMine)
-	float stats_s1; // scale
-	float stats_s2; // rate rotation
-	char model[13];
-	char model1[13];
-	char pad1[2]; // CC CC
-	float stats_s3; // arming time
-	float stats_s4; // lifespan
-	float stats_s5; // sig
-// DataBuyableIGC
-	Money price;
-	DWORD timeToBuild;// all '0'
-	char ukbmp[13]; // inactive/loadout model
-	char pad2; // CC
-	char iconName[13]; // part
-	char name[25];
-	char description[200];
-	BYTE group;
-	BYTE zero;
-	UCHAR techtree[100];
-	char pad3[2]; // CD CD
-	float signature; // 
-	float stats_s6;  // mass
-	unsigned short usemask; // usemask
-	unsigned short stats_ss2; // cargo payload
-	float stats_s7; // hitpoints
-	BYTE AC;// 0B
-	char pad4; // CD
-	unsigned short uid;
-	unsigned short stats_ss3; //features (bits mask, as in AbilityBitMask in igc.h)
-	char icon[13]; //DataExpendableTypeIGC.iconName
-	char pad5; // CD
-	float stats_s8; // scan range
-	float stats_s9; // shot interval
-	float stats_s10; // accuracy
-	float stats_s11; // leading
-	short stats_ss4; // ammo capacity
-	short stats_projectile;
-	short stats_sound; // 720 mainly (soundprobe)
-	UCHAR pad6[2];    // CD CD 
-	float stats_activation_delay; // -1 or # secs for teleport activation
-} IGCCoreProbe;
+//typedef struct SIGCCoreProbe // tag = 0x19 (OT_probeType), size = 492
+//{
+//	UCHAR header[16]; // ALL '0' = 4 floats = RGBA values (as in SIGCCoreMine)
+//	float stats_s1; // scale
+//	float stats_s2; // rate rotation
+//	char model[13];
+//	char model1[13];
+//	char pad1[2]; // CC CC
+//	float stats_s3; // arming time
+//	float stats_s4; // lifespan
+//	float stats_s5; // sig
+//// DataBuyableIGC
+//	Money price;
+//	DWORD timeToBuild;// all '0'
+//	char ukbmp[13]; // inactive/loadout model
+//	char pad2; // CC
+//	char iconName[13]; // part
+//	char name[25];
+//	char description[200];
+//	BYTE group;
+//	BYTE zero;
+//	UCHAR techtree[100];
+//	char pad3[2]; // CD CD
+//	float signature; // 
+//	float stats_s6;  // mass
+//	unsigned short usemask; // usemask
+//	unsigned short stats_ss2; // cargo payload
+//	float stats_s7; // hitpoints
+//	BYTE AC;// 0B
+//	char pad4; // CD
+//	unsigned short uid;
+//	unsigned short stats_ss3; //features (bits mask, as in AbilityBitMask in igc.h)
+//	char icon[13]; //DataExpendableTypeIGC.iconName
+//	char pad5; // CD
+//	float stats_s8; // scan range
+//	float stats_s9; // shot interval
+//	float stats_s10; // accuracy
+//	float stats_s11; // leading
+//	short stats_ss4; // ammo capacity
+//	short stats_projectile;
+//	short stats_sound; // 720 mainly (soundprobe)
+//	UCHAR pad6[2];    // CD CD 
+//	float stats_activation_delay; // -1 or # secs for teleport activation
+//} IGCCoreProbe;
+typedef DataProbeTypeIGC IGCCoreProbe;
 typedef IGCCoreProbe *PtrCoreProbe;
 
 //typedef struct SIGCCoreProjectile // tag = 0x16 (OT_projectileType), size = 88 

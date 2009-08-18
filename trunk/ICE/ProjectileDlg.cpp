@@ -69,9 +69,9 @@ void CProjectileDlg::DoDataExchange(CDataExchange* pDX)
 		for (int j=0;j<pcore->cl_Probes.GetSize();j++)
 		{
 			PtrCoreProbe pprobe = pcore->cl_Probes.GetAt(j);
-			if (pprobe->stats_projectile == uid)
+			if (pprobe->projectileTypeID == uid)
 			{
-					weplist.Format("%s (%d)\r\n",pprobe->name,pprobe->uid);
+					weplist.Format("%s (%d)\r\n",pprobe->launcherDef.name,pprobe->expendabletypeID);
 					int idx = clusage->AddString(weplist);
 					clusage->SetItemDataPtr(idx,pprobe);
 			}

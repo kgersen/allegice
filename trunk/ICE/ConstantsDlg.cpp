@@ -345,9 +345,9 @@ void CConstantsDlg::FillDMUsage(int idx)
 				for (int j=0;j<pcore->cl_Probes.GetSize();j++)
 				{
 					PtrCoreProbe pprobe = pcore->cl_Probes.GetAt(j);
-					if (pprobe->stats_projectile == pproj->projectileTypeID)
+					if (pprobe->projectileTypeID == pproj->projectileTypeID)
 					{
-						usedby.Format("%s (%d) (projectile - p #%d)",pprobe->name,pprobe->uid,pproj->projectileTypeID);
+						usedby.Format("%s (%d) (projectile - p #%d)",pprobe->launcherDef.name,pprobe->expendabletypeID,pproj->projectileTypeID);
 						int idx = cbusage->AddString(usedby);
 						cbusage->SetItemDataPtr(idx,pprobe);
 					}
