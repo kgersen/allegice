@@ -1,0 +1,160 @@
+================================================================================
+    ICE Project - Kirth Gersen /KGJV (kgersen@hotmail.com)
+    Sec 1.95
+
+===============================================================================
+TECH TREE
+
+All objects excepts:
+ projectiles
+ proxy parts (part which refer to another object.Exemple: invsmine(13))
+have 2 sets of numbers to code their tech dependancies.
+
+1st set of numbers, called 'Pre', give the numbers needed to get that object (pre-requist)
+2nd set of numbers, called 'Def', give the numbers that object defines.
+NOTE: For Factions, 'Pre' = 'Def' and 'Def' is unknown for now (need some test here).
+
+---------------------------------------------------------------------------------------------------------------
+Let's see an exemple: the gigacorp bomber
+---------------ICE OUTPUT--------------
+Ship: Bomber (204):
+Pre = 1 19 35 
+Def = 35 
+Depends on:
+1:
+  GP: Allow Devel
+  
+19:
+  Faction: Gigacorp (18)
+  
+35:
+  Devel: Bomber (37)
+  Devel: Bomber (38)
+  Devel: Ballista (193)
+  Ship: Bomber (204)
+  Ship: Bomber (304)
+  Ship: Bomber (404)
+  Ship: Bomber (504)
+  Ship: Ballista (604)
+-------------------------------------
+
+
+the number '1' is given by games where 'allow devel' is on (in fact all faction define it).
+the number '19' is given by the gigacorp factiob (NOTE: in its 'pre' set not 'Def' set).
+the number '35' is given by many objects:
+    but in our case, the usefull one is "Devel: Bomber (37)"
+
+Now let's see ICE output for "Devel: Bomber (37)"
+---------------ICE OUTPUT--------------
+Devel: Bomber (37):
+Pre = 1 22 149 173 
+Def = 35 
+Depends on:
+1:
+  GP: Allow Devel
+  
+22:
+  Station: Starbase (10)    **
+  Station: Garrison (15)    **
+  Station: Starbase (110)
+  Station: Garrison (115)
+  Station: Starbase (210)
+  Station: Starbase (310)
+  Station: Garrison (315)
+  Station: Starbase (410)
+  Station: Garrison (415)
+  
+149:
+  Faction: Gigacorp (18)    **
+  Faction: Iron Coalition (25)
+  Faction: Bios (35)
+  Faction: Rixian (201)
+  
+173:
+  Faction: Gigacorp (18)    **
+  Faction: Iron Coalition (25)
+  Faction: Bios (35)
+  Faction: Belters (101)
+-------------------------------------
+Here again the usefull ones have '**' appended,
+
+SO to get an object a team needs all the 'Pre' numbers. In our case, at start been gigacorp defines:
+Faction: Gigacorp (18):
+Pre = 1 19 37 81 87 97 101 105 107 120 130 149 173 174 188 215 
+Def = not used
+
+Having a gigacorp garrison (Station: Garrison (15)) gives:
+Station: Garrison (15):
+Pre = 19 248 
+Def = 22 
+
+So at start, we have 1,22,149,173 -> Devel: Bomber (37) can be researched. Upon researching it, it gives: 35
+Since we had 1 and 19 already, with 35 we now have Ship: Bomber (204).
+
+Pfffff
+---------------------------------------------------------------------------------------------------------------
+
+MODIFYING THE TECH TREE SETS:
+
+To modify the sets use the drop-down list and the checkbox in the bottom middle. Select a number with the drop-down list (both sets are in the list, numbers in 'Pre' begins with 'P', those in 'Def' with D). Once selected, the checkbox reflects the current presence of the value in the set. Click on the checkbox revert this presence. There is not 'Apply' so be carefull cause the display is updated immediatly.
+
+---------------------------------------------------------------------------------------------------------------
+FULL EXEMPLE: the rix Lancer3 glitch:
+
+----MULTIPLE ICE OUTPUT-----
+Part: PW Lancer 2 (1004):
+Pre = 17 263 
+Def = 263 
+
+Part: PW Lancer 3 (1005):
+Pre = 17 263 
+Def = 263 
+
+Devel: PW Lancer 2 (196):
+Pre = 1 12 17 
+Def = 263 
+
+Devel: PW Lancer 3 (197):
+Pre = 1 12 17 263 
+Def = 262
+
+Station: Shipyard (403):
+Pre = 6 17 223 232 
+Def = 12 228
+
+Station: Drydock (401):
+Pre = 6 17 138 223 232 
+Def = 12 190 228 
+-----------------------------
+
+there is 3 bugs:
+  B1: "Devel: PW Lancer 3 (197)" depends on Shipyard (thru number 12) and not Drydock (which add number 190 to the set)
+  B2: "Part: PW Lancer 2 (1004)" and "Part: PW Lancer 3 (1005)" have the same sets (cut/paste bug :))
+  
+To correct:
+  B2: replace 12 with 190 in the 'Pre' set of "Devel: PW Lancer 3 (197)"
+  B1: replace 263 with 262 in both sets of "Part: PW Lancer 3 (1005)" since "Devel: PW Lancer 3 (197)" defines 262 (262 was reserved for Lancer3 but not used in its "pre" set).
+
+The corrected entries are:
+----MULTIPLE ICE OUTPUT-----
+Part: PW Lancer 3 (1005):
+Pre = 17 262 
+Def = 262
+
+Devel: PW Lancer 3 (197):
+Pre = 1 17 190 263 
+Def = 262
+-----------------------------
+
+So now 'Part Lancer3' needs 'Devel Lancer3' or pick 'Part Lancer3'.
+'Devel Lancer3' needs 'Part Lancer2'(263) AND 'Drydock'(190)
+
+MODIFYING THE TECH TREE SETS:
+    Type a value in the little box,use + or - to inc/dec this value.
+    When editing the litte box, the right most window shows infos on that value.
+    Use Toggle Pre/Def to add/remove this value from the Pre/Def set
+    Clear All Pre and Clear All Def remove all Pre and Def set entries.
+    There is not 'Apply' so be carefull cause the display is updated immediatly.
+
+Kirth
+/////////////////////////////////////////////////////////////////////////////
