@@ -35,13 +35,13 @@ void CMineDlg::DoDataExchange(CDataExchange* pDX)
 	CString todo1 = "";
 	int uid,ss1,ss2;
 	if (!pmine) return;
-	PtrCorePart prox = pcore->ProxyGet(pmine->expendabletypeID);
+	PtrCoreLauncher pl = pcore->GetLauncher(pmine->expendabletypeID);
 	bool mountable;
 	int uidprox = -1;
-	if (prox)
+	if (pl)
 	{
 		mountable = true;
-		uidprox = prox->uid;
+		uidprox = pl->partID;
 		GetDlgItem(IDC_UIDPROX)->ShowWindow(SW_SHOWNA);
 		GetDlgItem(IDC_OVUIDPROX)->ShowWindow(SW_SHOWNA);
 		GetDlgItem(IDC_LAUNCHCOUNT)->ShowWindow(SW_SHOWNA);
@@ -142,9 +142,9 @@ void CMineDlg::DoDataExchange(CDataExchange* pDX)
 	if (mountable)
 	{
 		DDX_Text(pDX, IDC_UIDPROX, uidprox);
-		DDX_Text(pDX, IDC_OVUIDPROX, prox->overriding_uid);
-		DDX_Text(pDX, IDC_LAUNCHCOUNT, prox->type);
-		DDX_Text(pDX, IDC_AMOUNT,prox->suk2);
+		DDX_Text(pDX, IDC_OVUIDPROX, pl->successorPartID);
+		DDX_Text(pDX, IDC_LAUNCHCOUNT, pl->launchCount);
+		DDX_Text(pDX, IDC_AMOUNT, pl->amount);
 	}
 
 	if (pDX->m_bSaveAndValidate) // dialog to data
@@ -311,24 +311,22 @@ BOOL CMineDlg::OnInitDialog()
 void CMineDlg::OnBnClickedProxybut()
 {
 	if (!pmine) return;
-	PtrCorePart prox = pcore->ProxyGet(pmine->expendabletypeID);
-	if (prox) // dismount
+	PtrCoreLauncher pl = pcore->GetLauncher(pmine->expendabletypeID);
+	if (pl) // dismount
 	{
-		pcore->DeletePart(prox,false);
+		pcore->DeleteLauncher(pl);
 		UpdateData(FALSE);
 		GetParent()->UpdateData(TRUE);
 	}
 	else // mount
 	{
-		prox = new IGCCorePart;
-		prox->isspec = true;
-		prox->size = IGC_PROXYPARTSIZE;
-		prox->suk2 = 1;
-		prox->type = 1;
-		prox->usemask = pmine->expendabletypeID;
-		prox->overriding_uid = -1;
-		strcpy(prox->slot,"invsmine");
-		pcore->AddPart(prox);
+		pl = new IGCCoreLauncher;
+		pl->amount = 1;
+		pl->launchCount = 1;
+		pl->expendabletypeID = pmine->expendabletypeID;
+		pl->successorPartID = -1;
+		strcpy(pl->inventoryLineMDL,"invsmine");
+		pcore->AddLauncher(pl);
 		UpdateData(FALSE);
 		GetParent()->UpdateData(TRUE);
 	}
@@ -375,17 +373,17 @@ void CMineDlg::OnBnClickedBsucc()
 {
 	if (!pmine) return;
 	if (!pcore) return;
-	PtrCorePart prox = pcore->ProxyGet(pmine->expendabletypeID);
-	if (!prox) return;
-	if (prox->overriding_uid == -1) return;
+	PtrCoreLauncher pl = pcore->GetLauncher(pmine->expendabletypeID);
+	if (!pl) return;
+	if (pl->successorPartID == -1) return;
 	
-	PtrCorePart succ = pcore->FindPart(prox->overriding_uid);
+	PtrCoreLauncher succ = pcore->FindLauncher(pl->successorPartID);
 	if (succ)
 	{
 		LPARAM p = (LPARAM)succ;
-		if (succ->isspec)
+		if (1) //TODO
 		{
-			PtrCoreEntry pce = pcore->ProxyPart(succ->usemask);
+			PtrCoreEntry pce = pcore->ProxyPart(succ->expendabletypeID);
 			if (pce)
 			{
 				p = pce->entry;

@@ -332,11 +332,11 @@ void CConstantsDlg::FillDMUsage(int idx)
 				for (int j=0;j<pcore->cl_Parts.GetSize();j++)
 				{
 					PtrCorePart ppart = pcore->cl_Parts.GetAt(j);
-					if ((ppart->type == ET_Weapon) && (!ppart->isspec))
+					if (ppart->equipmentType == ET_Weapon)
 					{
-						if (ppart->specs.wep.wep_projectile_uid == pproj->projectileTypeID)
+						if (((DataWeaponTypeIGC*)ppart)->projectileTypeID == pproj->projectileTypeID)
 						{
-							usedby.Format("Weapon - %s (%d) (projectile - p #%d)",ppart->name,ppart->uid,pproj->projectileTypeID);
+							usedby.Format("Weapon - %s (%d) (projectile - p #%d)",ppart->name,ppart->partID,pproj->projectileTypeID);
 							int idx = cbusage->AddString(usedby);
 							cbusage->SetItemDataPtr(idx,ppart);
 						}
@@ -416,11 +416,10 @@ void CConstantsDlg::FillACUsage(int idx)
 	for (int i=0;i<pcore->cl_Parts.GetCount();i++)
 	{
 		PtrCorePart p = pcore->cl_Parts.GetAt(i);
-		if (p->isspec) continue;
-		if (p->type != ET_Shield) continue;
-		if (p->specs.shld.shld_AC == idx)
+		if (p->equipmentType != ET_Shield) continue;
+		if (((DataShieldTypeIGC*)p)->defenseType == idx)
 		{
-			usedby.Format("Shield - %s (%d)",p->name,p->uid);
+			usedby.Format("Shield - %s (%d)",p->name,p->partID);
 			int idx = cbusage->AddString(usedby);
 			cbusage->SetItemDataPtr(idx,p);
 		}

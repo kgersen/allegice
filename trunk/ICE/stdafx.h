@@ -86,3 +86,10 @@ typedef struct _D3DCOLORVALUE {
 #include "IGCLib\Alleg\constants.h"
 #include "IGCLib\Alleg\igc_types.h"
 #include "IGCLib\Alleg\igc_static.h"
+
+#ifdef _DEBUG
+// simple debug fucntion
+void debugf(const char* format, ...);
+#else
+#define debugf(x)
+#endif

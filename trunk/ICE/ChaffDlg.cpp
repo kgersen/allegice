@@ -35,8 +35,8 @@ void CChaffDlg::DoDataExchange(CDataExchange* pDX)
 	//CString todo1 = "";
 	int uid,usemask;
 	if (!pcounter) return;
-	PtrCorePart prox = pcore->ProxyGet(pcounter->expendabletypeID);
-	int uidprox = prox->uid;
+	PtrCoreLauncher pl= pcore->GetLauncher(pcounter->expendabletypeID);
+	int uidprox = pl->partID;
 
 	if (!pDX->m_bSaveAndValidate) // data to dialog
 	{
@@ -92,9 +92,9 @@ void CChaffDlg::DoDataExchange(CDataExchange* pDX)
 
 	DDX_Text(pDX, IDC_UIDPROX, uidprox);
 
-	DDX_Text(pDX, IDC_OVUIDPROX, prox->overriding_uid);
-	DDX_Text(pDX, IDC_LAUNCHCOUNT, prox->type);
-	DDX_Text(pDX, IDC_AMOUNT,prox->suk2);
+	DDX_Text(pDX, IDC_OVUIDPROX, pl->successorPartID);
+	DDX_Text(pDX, IDC_LAUNCHCOUNT, pl->launchCount);
+	DDX_Text(pDX, IDC_AMOUNT,pl->amount);
 
 	if (pDX->m_bSaveAndValidate) // dialog to data
 	{
@@ -274,17 +274,17 @@ void CChaffDlg::OnBnClickedBsucc()
 {
 	if (!pcounter) return;
 	if (!pcore) return;
-	PtrCorePart prox = pcore->ProxyGet(pcounter->expendabletypeID);
-	if (!prox) return;
-	if (prox->overriding_uid == -1) return;
+	PtrCoreLauncher pl = pcore->GetLauncher(pcounter->expendabletypeID);
+	if (!pl) return;
+	if (pl->successorPartID == -1) return;
 	
-	PtrCorePart succ = pcore->FindPart(prox->overriding_uid);
+	PtrCoreLauncher succ = pcore->FindLauncher(pl->successorPartID);
 	if (succ)
 	{
 		LPARAM p = (LPARAM)succ;
-		if (succ->isspec)
+		if (1) //TODO
 		{
-			PtrCoreEntry pce = pcore->ProxyPart(succ->usemask);
+			PtrCoreEntry pce = pcore->ProxyPart(succ->expendabletypeID);
 			if (pce)
 			{
 				p = pce->entry;

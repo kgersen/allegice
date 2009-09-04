@@ -38,13 +38,13 @@ void CProbeDlg::DoDataExchange(CDataExchange* pDX)
 	int uid,ss1,ss2,ss3,ss4,proj,sound;
 	if (!pprobe) return;
 	ASSERT(sArtPath != "");
-	PtrCorePart prox = pcore->ProxyGet(pprobe->expendabletypeID);
+	PtrCoreLauncher pl = pcore->GetLauncher(pprobe->expendabletypeID);
 	bool mountable;
 	int uidprox = -1;
-	if (prox)
+	if (pl)
 	{
 		mountable = true;
-		uidprox = prox->uid;
+		uidprox = pl->partID;
 		GetDlgItem(IDC_UIDPROX)->ShowWindow(SW_SHOWNA);
 		GetDlgItem(IDC_OVUIDPROX)->ShowWindow(SW_SHOWNA);
 		GetDlgItem(IDC_LAUNCHCOUNT)->ShowWindow(SW_SHOWNA);
@@ -141,9 +141,9 @@ void CProbeDlg::DoDataExchange(CDataExchange* pDX)
 	if (mountable)
 	{
 		DDX_Text(pDX, IDC_UIDPROX, uidprox);
-		DDX_Text(pDX, IDC_OVUIDPROX, prox->overriding_uid);
-		DDX_Text(pDX, IDC_LAUNCHCOUNT, prox->type);
-		DDX_Text(pDX, IDC_AMOUNT,prox->suk2);
+		DDX_Text(pDX, IDC_OVUIDPROX, pl->successorPartID);
+		DDX_Text(pDX, IDC_LAUNCHCOUNT, pl->launchCount);
+		DDX_Text(pDX, IDC_AMOUNT,pl->amount);
 	}
 	if (pDX->m_bSaveAndValidate) // dialog to data
 	{
@@ -253,24 +253,22 @@ END_MESSAGE_MAP()
 void CProbeDlg::OnBnClickedProxybut()
 {
 	if (!pprobe) return;
-	PtrCorePart prox = pcore->ProxyGet(pprobe->expendabletypeID);
-	if (prox) // dismount
+	PtrCoreLauncher pl = pcore->GetLauncher(pprobe->expendabletypeID);
+	if (pl) // dismount
 	{
-		pcore->DeletePart(prox,false);
+		pcore->DeleteLauncher(pl);
 		UpdateData(FALSE);
 		GetParent()->UpdateData(TRUE);
 	}
 	else // mount
 	{
-		prox = new IGCCorePart;
-		prox->isspec = true;
-		prox->size = IGC_PROXYPARTSIZE;
-		prox->suk2 = 1;
-		prox->type = 1;
-		prox->usemask = pprobe->expendabletypeID;
-		prox->overriding_uid = -1;
-		strcpy(prox->slot,"invsmine");
-		pcore->AddPart(prox);
+		pl = new IGCCoreLauncher;
+		pl->amount = 1;
+		pl->launchCount = 1;
+		pl->expendabletypeID = pprobe->expendabletypeID;
+		pl->successorPartID = -1;
+		strcpy(pl->inventoryLineMDL,"invsmine"); //TODO
+		pcore->AddLauncher(pl);
 		UpdateData(FALSE);
 		GetParent()->UpdateData(TRUE);
 	}
@@ -329,17 +327,17 @@ void CProbeDlg::OnBnClickedBsucc()
 {
 	if (!pprobe) return;
 	if (!pcore) return;
-	PtrCorePart prox = pcore->ProxyGet(pprobe->expendabletypeID);
-	if (!prox) return;
-	if (prox->overriding_uid == -1) return;
+	PtrCoreLauncher pl = pcore->GetLauncher(pprobe->expendabletypeID);
+	if (!pl) return;
+	if (pl->successorPartID == -1) return;
 	
-	PtrCorePart succ = pcore->FindPart(prox->overriding_uid);
+	PtrCoreLauncher succ = pcore->FindLauncher(pl->successorPartID);
 	if (succ)
 	{
 		LPARAM p = (LPARAM)succ;
-		if (succ->isspec)
+		if (1) //TODO
 		{
-			PtrCoreEntry pce = pcore->ProxyPart(succ->usemask);
+			PtrCoreEntry pce = pcore->ProxyPart(succ->expendabletypeID);
 			if (pce)
 			{
 				p = pce->entry;
