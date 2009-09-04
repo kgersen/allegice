@@ -34,7 +34,7 @@ void CStationDlg::SetIcons(HICON iJumpIcon)
 }
 void CStationDlg::DoDataExchange(CDataExchange* pDX)
 {
-	CString name,model,obj,constructor,descr;
+	CString name,model,obj,constructor,descr,texture;
 	CString todo1 = "";
 	int uid,ss0,groupID;
 
@@ -64,6 +64,8 @@ void CStationDlg::DoDataExchange(CDataExchange* pDX)
 		mdlbmp.LoadMDLFile(sArtPath +"\\"+ obj + "bmp.mdl");
 		imdlbmp.LoadMDLFile(sArtPath +"\\i"+ model + "bmp.mdl");
 		constructor = pstation->builderName;
+		texture = pstation->textureName;
+
 		uid = pstation->stationTypeID;
 		cbach->SetCurSel(pstation->defenseTypeArmor);
 		cbashld->SetCurSel(pstation->defenseTypeShield);
@@ -105,6 +107,8 @@ void CStationDlg::DoDataExchange(CDataExchange* pDX)
 	DDX_Text(pDX, IDC_MODEL, model);
 	DDX_Text(pDX, IDC_OBJ, obj);
 	DDX_Text(pDX, IDC_CONSTRUCTOR, constructor);
+	DDX_Text(pDX, IDC_TEXTURE, texture);
+
 	DDX_Text(pDX, IDC_DESCR, descr);
 	DDX_Text(pDX, IDC_UID, uid);
 	DDX_Text(pDX, IDC_OVUID, pstation->successorStationTypeID);
@@ -144,6 +148,7 @@ void CStationDlg::DoDataExchange(CDataExchange* pDX)
 		mdlbmp.LoadMDLFile(sArtPath +"\\"+ obj + "bmp.mdl");
 		imdlbmp.LoadMDLFile(sArtPath +"\\i"+ model + "bmp.mdl");
 		strcpy(pstation->builderName,constructor);
+		strcpy_s(pstation->textureName,c_cbFileName,texture);
 		pstation->defenseTypeArmor = cbach->GetCurSel();
 		pstation->defenseTypeShield = cbashld->GetCurSel();
 		pstation->constructionDroneTypeID = ss0;

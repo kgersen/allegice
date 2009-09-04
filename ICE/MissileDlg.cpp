@@ -31,7 +31,7 @@ void CMissileDlg::SetIcons(HICON iJumpIcon)
 }
 void CMissileDlg::DoDataExchange(CDataExchange* pDX)
 {
-	CString name,model,ldbmp,type,icon,descr;
+	CString name,model,ldbmp,type,icon,descr,invline;
 	CString todo1 = "";
 	int ss1,ss3,ss4,useflags;
 	int uid;
@@ -84,6 +84,7 @@ void CMissileDlg::DoDataExchange(CDataExchange* pDX)
 		ss3 = pmissile->launchSound;
 		ss4 = pmissile->ambientSound;
 
+		invline = pl->inventoryLineMDL;
 	}
 	DDX_Text(pDX, IDC_NAME, name);
 	DDX_Text(pDX, IDC_MODEL, model);
@@ -128,6 +129,7 @@ void CMissileDlg::DoDataExchange(CDataExchange* pDX)
 	DDX_Text(pDX, IDC_OVUIDPROX, pl->successorPartID);
 	DDX_Text(pDX, IDC_LAUNCHCOUNT, pl->launchCount);
 	DDX_Text(pDX, IDC_AMOUNT,pl->amount);
+	DDX_Text(pDX, IDC_INVLINE, invline);
 
 	if (pDX->m_bSaveAndValidate) // dialog to data
 	{
@@ -163,6 +165,7 @@ void CMissileDlg::DoDataExchange(CDataExchange* pDX)
 		pmissile->launchSound = ss3;
 		pmissile->ambientSound = ss4;
 
+		strcpy_s(pl->inventoryLineMDL,c_cbFileName,invline);
 	}
 	CDialog::DoDataExchange(pDX);
 }

@@ -72,7 +72,13 @@ void CTreasureDlg::DoDataExchange(CDataExchange* pDX)
 					s.Format("Cash: $%d",p->treasureID);
 					break;
 				case c_tcDevelopment:
-					// NYI
+					{
+						PtrCoreDevel pdevel = pcore->FindDevel(p->treasureID);
+						if (pdevel)
+							s.Format("Devel: %s (%d)",pdevel->name,p->treasureID);
+						else
+							s.Format("UNKNOWN DEVEL ! (%d)",p->treasureID);
+					}
 					break;
 				default:
 					s.Format("????");
@@ -115,6 +121,7 @@ BEGIN_MESSAGE_MAP(CTreasureDlg, CDialog)
 	ON_BN_CLICKED(IDC_ADDCASH, OnBnClickedAddcash)
 	ON_BN_CLICKED(IDC_ADDPWUP, OnBnClickedAddpwup)
 	ON_BN_CLICKED(IDC_SETCHANCE, OnBnClickedSetchance)
+	ON_BN_CLICKED(IDC_CINCDEV, &CTreasureDlg::OnBnClickedCincdev)
 END_MESSAGE_MAP()
 
 
@@ -253,10 +260,8 @@ void CTreasureDlg::BuildPL()
 	{
 		PtrCorePart ppart = pcore->cl_Parts.GetAt(j);
 		CString s;
-		//if (ppart->isspec)
-		//	s.Format("Part: %s (%d)",pcore->ProxyPartName(ppart->usemask),ppart->uid);
-		//else
-			s.Format("Part: %s (%d)",ppart->name,ppart->partID);
+
+		s.Format("Part: %s (%d)",ppart->name,ppart->partID);
 
 		bool bSkip = false;
 		for (int n=0;n<ptres->nTreasureData;n++)
@@ -299,7 +304,8 @@ void CTreasureDlg::BuildPL()
 			t->treasureID = pl->partID;
 			clParts->SetItemDataPtr(idx,t);
 		}
-	}	
+	}
+	if (((CButton *)GetDlgItem(IDC_CINCDEV))->GetCheck() == BST_CHECKED)
 	for (int j=0;j<pcore->cl_Devels.GetSize();j++)
 	{
 		PtrCoreDevel devel = pcore->cl_Devels.GetAt(j);
@@ -404,4 +410,9 @@ void CTreasureDlg::OnBnClickedSetchance()
 		clTres->SetItemDataPtr(idx,t);
 		clTres->SetSel(idx);		
 	}
+}
+
+void CTreasureDlg::OnBnClickedCincdev()
+{
+	UpdateData(FALSE);
 }
