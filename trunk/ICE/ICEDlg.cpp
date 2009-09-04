@@ -1334,7 +1334,12 @@ void CICEDlg::OnBnClickedAdd()
 		memcpy(p,pcur,sizeof(IGCCoreMissile));
 		pigccore->AddMissile(p);
 		entry = (LPARAM)p;
-		//TODO auto add the launcher
+		PtrCoreLauncher plcur = pigccore->GetLauncher(pcur->expendabletypeID);
+		PtrCoreLauncher pl = new IGCCoreLauncher;
+		memcpy(pl,plcur,sizeof(IGCCoreLauncher));
+		pl->expendabletypeID = p->expendabletypeID;
+		pl->successorPartID = -1;
+		pigccore->AddLauncher(pl);
 		}break;
 	case OT_chaffType:{
 		PtrCoreCounter pcur = (PtrCoreCounter) pce->entry;
@@ -1342,7 +1347,12 @@ void CICEDlg::OnBnClickedAdd()
 		memcpy(p,pcur,sizeof(IGCCoreCounter));
 		pigccore->AddCounter(p);
 		entry = (LPARAM)p;
-		//TODO auto add the launcher
+		PtrCoreLauncher plcur = pigccore->GetLauncher(pcur->expendabletypeID);
+		PtrCoreLauncher pl = new IGCCoreLauncher;
+		memcpy(pl,plcur,sizeof(IGCCoreLauncher));
+		pl->expendabletypeID = p->expendabletypeID;
+		pl->successorPartID = -1;
+		pigccore->AddLauncher(pl);
 		}break;
 	case OT_civilization:{
 		PtrCoreCiv pcivcur = (PtrCoreCiv) pce->entry;

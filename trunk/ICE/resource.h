@@ -45,6 +45,7 @@
 #define IDC_MODEL2                      1007
 #define IDC_FACTOR1                     1008
 #define IDC_DECFLOAT                    1008
+#define IDC_INVLINE                     1008
 #define IDC_FACTOR2                     1009
 #define IDC_DECODESEL                   1009
 #define IDC_FACTOR3                     1010
@@ -435,6 +436,7 @@
 #define IDC_PWR_AMMO                    1292
 #define IDC_DLUP                        1294
 #define IDC_DLDOWN                      1295
+#define IDC_INVLINELABEL                1295
 #define DYNMENUSID                      5000
 
 // Next default values for new objects
@@ -443,7 +445,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        150
 #define _APS_NEXT_COMMAND_VALUE         32771
-#define _APS_NEXT_CONTROL_VALUE         1295
+#define _APS_NEXT_CONTROL_VALUE         1296
 #define _APS_NEXT_SYMED_VALUE           117
 #endif
 #endif

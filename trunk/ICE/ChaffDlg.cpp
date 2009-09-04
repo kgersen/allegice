@@ -31,7 +31,7 @@ void CChaffDlg::SetIcons(HICON iJumpIcon)
 }
 void CChaffDlg::DoDataExchange(CDataExchange* pDX)
 {
-	CString name,model,model2,type,icon,descr,ukbmp;
+	CString name,model,model2,type,icon,descr,ukbmp,invline;
 	//CString todo1 = "";
 	int uid,usemask;
 	if (!pcounter) return;
@@ -65,6 +65,7 @@ void CChaffDlg::DoDataExchange(CDataExchange* pDX)
 		CComboBox *cbac = (CComboBox *)GetDlgItem(IDC_AC);
 		cbac->SetCurSel(pcounter->defenseType);
 
+		invline = pl->inventoryLineMDL;
 	}
 	DDX_Text(pDX, IDC_NAME, name);
 	DDX_Text(pDX, IDC_MODEL, model);
@@ -95,6 +96,7 @@ void CChaffDlg::DoDataExchange(CDataExchange* pDX)
 	DDX_Text(pDX, IDC_OVUIDPROX, pl->successorPartID);
 	DDX_Text(pDX, IDC_LAUNCHCOUNT, pl->launchCount);
 	DDX_Text(pDX, IDC_AMOUNT,pl->amount);
+	DDX_Text(pDX, IDC_INVLINE, invline);
 
 	if (pDX->m_bSaveAndValidate) // dialog to data
 	{
@@ -119,7 +121,7 @@ void CChaffDlg::DoDataExchange(CDataExchange* pDX)
 
 		CComboBox *cbac = (CComboBox *)GetDlgItem(IDC_AC);
 		pcounter->defenseType = cbac->GetCurSel();
-
+		strcpy_s(pl->inventoryLineMDL,c_cbFileName,invline);
 	}
 	CDialog::DoDataExchange(pDX);
 }

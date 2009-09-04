@@ -165,14 +165,14 @@ bool CIGCCore::ReadFromFile(CString fn)
 			{
 				if (size == sizeof(DataLauncherTypeIGC)){
 					PtrCoreLauncher pl = new IGCCoreLauncher;  
-					debugf("LAUNCHER!\n");
+					//debugf("LAUNCHER!\n");
 					cfmap.Read(pl,size);
 					cl_Launchers.Add(pl);
 				}
 				else
 				{
 					IGCCorePart *ppart = (IGCCorePart *)new char[size];
-					debugf("PART!\n");
+					//debugf("PART!\n");
 					cfmap.Read(ppart,size);
 					cl_Parts.Add(ppart);
 				}
@@ -757,25 +757,37 @@ char *CIGCCore::ProxyPartName(ExpendableTypeID uid)
 	{
 		PtrCoreCounter pcounter = cl_Counters.GetAt(i);
 		if (pcounter->expendabletypeID == uid)
+		{
 			name = pcounter->launcherDef.name;
+			return name;
+		}
 	}
 	for (int i=0;i<cl_Mines.GetCount();i++)
 	{
 		PtrCoreMine pmine = cl_Mines.GetAt(i);
 		if (pmine->expendabletypeID == uid)
+		{
 			name = pmine->launcherDef.name;
+			return name;
+		}
 	}
 	for (int i=0;i<cl_Probes.GetCount();i++)
 	{
 		PtrCoreProbe pprobe = cl_Probes.GetAt(i);
 		if (pprobe->expendabletypeID == uid)
+		{
 			name = pprobe->launcherDef.name;
+			return name;
+		}
 	}
 	for (int i=0;i<cl_Missiles.GetCount();i++)
 	{
 		PtrCoreMissile pmis = cl_Missiles.GetAt(i);
 		if (pmis->expendabletypeID == uid)
+		{
 			name = pmis->launcherDef.name;
+			return name;
+		}
 	}
 	return name;
 }
@@ -786,6 +798,12 @@ char *CIGCCore::PartName(unsigned short uid)
 		PtrCorePart ppart = cl_Parts.GetAt(j);
 		if (ppart->partID == uid)
 				return ppart->name;
+	}
+	for (int j=0;j<cl_Launchers.GetSize();j++)
+	{
+		PtrCoreLauncher pl = cl_Launchers.GetAt(j);
+		if (pl->partID == uid)
+			return ProxyPartName(pl->expendabletypeID);
 	}
 	return NULL;
 }
@@ -804,7 +822,7 @@ PtrCoreLauncher CIGCCore::GetLauncher(unsigned short uid)
 	for (int i=0;i<cl_Launchers.GetCount();i++)
 	{
 		PtrCoreLauncher pl = cl_Launchers.GetAt(i);
-		if (pl->expendabletypeID = uid)
+		if (pl->expendabletypeID == uid)
 				return pl;
 	}
 	return NULL;
