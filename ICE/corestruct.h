@@ -319,87 +319,92 @@ const CString ICGPartType[ET_MAX] =
 
 // size of proxy
 #define IGC_PROXYPARTSIZE 0x18
-typedef struct SIGCCorePart // tag 0x1E, size = var
-{
-    Money   price;
-    DWORD   timeToBuild;
-	char model[13];
-	char pad1; // CC
-	char icon[13];
-	char name[25];
-	char description[200]; // check len
-	short group;
-	UCHAR techtree[100];
-	char pad2[2]; // CC CC
-	float stats_s1; // GS1
-	unsigned short suk1;// suk1+suk2 = float = sig modifier (%) (NON SPECS PARTS)
-	short suk2;// START FOR MISSILE/CHAFF/MINES (SPECS PARTS) = amuont
-	unsigned short uid; //
-	short overriding_uid; // uid of part that overrides this one (-1 if none)
-	short type; // 1 = weapon, 2 = shield, 5 = cloak, 7 = after, 6 = default
-	/*  AGCEquipmentType_ChaffLauncher = 0,
-		ET_Weapon = 1,
-		AGCEquipmentType_Magazine = 2,
-		AGCEquipmentType_Dispenser = 3,
-		AGCEquipmentType_Shield = 4,
-		AGCEquipmentType_Cloak = 5, 
-		AGCEquipmentType_Pack = 6,
-		AGCEquipmentType_Afterburner = 7,
-		AGCEquipmentType_MAX = 8
-	type = launch count for proxy part*/
-	unsigned short usemask; // = uid a corresponding object for SPECS PARTS
-	char slot[13];
-	UCHAR pad3[1]; // CC -  END FOR MISSILE/CHAFF/MINES (SPECS PARTS)
-	char pad4[2]; // all CC
-	union Uspecs {
-		struct Spak {
-			BYTE pak_stats_ss1; // Type (0=Ammo,1=fuel)
-			BYTE pak_pad1; // CC
-			unsigned short pak_stats_ss2; // Quantity
-		} pak;
-		struct Swep {
-			float wep_stats_s1; // Time ready
-			float wep_stats_s2; // Shot interval
-			float wep_stats_s3; // Energy consumption
-			float wep_stats_s4; // Particle spread
-			unsigned short wep_stats_ss1; // ammo consumption
-			unsigned short wep_projectile_uid;
-			unsigned short wep_stats_ss2; // activation sound
-			unsigned short wep_stats_ss3; // shot sound
-			unsigned short wep_stats_ss4; // burst sound
-			BYTE wep_pad1[2]; // CC CC
-		} wep;
-		struct Sshld {
-			float shld_stats_s1; //Recharge rate
-			float shld_stats_s2; //Hitpoints
-			BYTE shld_AC; // armor class
-			BYTE shld_pad; //CC
-			unsigned short shld_sound1;//Activate sound
-			unsigned short shld_sound2;//Desactivate sound
-			BYTE shld_pad1[2]; // CC CC
-		} shld;
-		struct Saftb {
-			float aftb_stats_s1; // Rate of consumption
-			float aftb_stats_s2; // Thrust amount
-			float aftb_stats_s3; // % acceleration
-			float aftb_stats_s4; // Release duration
-			unsigned short aftb_stats_ss1; // activate sound
-			unsigned short aftb_stats_ss2; // desactivate sound
-		} aftb;
-		struct Sclk {
-			float clk_stats_s1; // Energy drain
-			float clk_stats_s2; // Sig reduction
-			float clk_stats_s3; // Activation duration
-			float clk_stats_s4; // Release duration
-			unsigned short clk_sound1; // sound on
-			unsigned short clk_sound2; // sound off
-		} clk;
-	} specs;
-	UCHAR Todo[1000]; // assume max
-	int size;
-	bool isspec;
-} IGCCorePart;
+//typedef struct SIGCCorePart // tag 0x1E, size = var
+//{
+//    Money   price;
+//    DWORD   timeToBuild;
+//	char model[13];
+//	char pad1; // CC
+//	char icon[13];
+//	char name[25];
+//	char description[200]; // check len
+//	short group;
+//	UCHAR techtree[100];
+//	char pad2[2]; // CC CC
+//	float stats_s1; // GS1
+//	unsigned short suk1;// suk1+suk2 = float = sig modifier (%) (NON SPECS PARTS)
+//	short suk2;// START FOR MISSILE/CHAFF/MINES (SPECS PARTS) = amuont
+//	unsigned short uid; //
+//	short overriding_uid; // uid of part that overrides this one (-1 if none)
+//	short type; // 1 = weapon, 2 = shield, 5 = cloak, 7 = after, 6 = default
+//	/*  AGCEquipmentType_ChaffLauncher = 0,
+//		ET_Weapon = 1,
+//		AGCEquipmentType_Magazine = 2,
+//		AGCEquipmentType_Dispenser = 3,
+//		AGCEquipmentType_Shield = 4,
+//		AGCEquipmentType_Cloak = 5, 
+//		AGCEquipmentType_Pack = 6,
+//		AGCEquipmentType_Afterburner = 7,
+//		AGCEquipmentType_MAX = 8
+//	type = launch count for proxy part*/
+//	unsigned short usemask; // = uid a corresponding object for SPECS PARTS
+//	char slot[13];
+//	UCHAR pad3[1]; // CC -  END FOR MISSILE/CHAFF/MINES (SPECS PARTS)
+//	char pad4[2]; // all CC
+//	union Uspecs {
+//		struct Spak {
+//			BYTE pak_stats_ss1; // Type (0=Ammo,1=fuel)
+//			BYTE pak_pad1; // CC
+//			unsigned short pak_stats_ss2; // Quantity
+//		} pak;
+//		struct Swep {
+//			float wep_stats_s1; // Time ready
+//			float wep_stats_s2; // Shot interval
+//			float wep_stats_s3; // Energy consumption
+//			float wep_stats_s4; // Particle spread
+//			unsigned short wep_stats_ss1; // ammo consumption
+//			unsigned short wep_projectile_uid;
+//			unsigned short wep_stats_ss2; // activation sound
+//			unsigned short wep_stats_ss3; // shot sound
+//			unsigned short wep_stats_ss4; // burst sound
+//			BYTE wep_pad1[2]; // CC CC
+//		} wep;
+//		struct Sshld {
+//			float shld_stats_s1; //Recharge rate
+//			float shld_stats_s2; //Hitpoints
+//			BYTE shld_AC; // armor class
+//			BYTE shld_pad; //CC
+//			unsigned short shld_sound1;//Activate sound
+//			unsigned short shld_sound2;//Desactivate sound
+//			BYTE shld_pad1[2]; // CC CC
+//		} shld;
+//		struct Saftb {
+//			float aftb_stats_s1; // Rate of consumption
+//			float aftb_stats_s2; // Thrust amount
+//			float aftb_stats_s3; // % acceleration
+//			float aftb_stats_s4; // Release duration
+//			unsigned short aftb_stats_ss1; // activate sound
+//			unsigned short aftb_stats_ss2; // desactivate sound
+//		} aftb;
+//		struct Sclk {
+//			float clk_stats_s1; // Energy drain
+//			float clk_stats_s2; // Sig reduction
+//			float clk_stats_s3; // Activation duration
+//			float clk_stats_s4; // Release duration
+//			unsigned short clk_sound1; // sound on
+//			unsigned short clk_sound2; // sound off
+//		} clk;
+//	} specs;
+//	UCHAR Todo[1000]; // assume max
+//	int size;
+//	bool isspec;
+//} IGCCorePart;
+
+typedef DataPartTypeIGC IGCCorePart;
 typedef IGCCorePart *PtrCorePart;
+
+typedef DataLauncherTypeIGC IGCCoreLauncher;
+typedef IGCCoreLauncher *PtrCoreLauncher;
 
 //typedef struct SIGCCoreCounter // tag = 1A, size = 0x1D4
 //{
@@ -707,6 +712,7 @@ public:
 	CArray<PtrCoreDevel,PtrCoreDevel> cl_Devels;
 	CArray<PtrCoreShip,PtrCoreShip> cl_Ships;
 	CArray<PtrCorePart,PtrCorePart> cl_Parts;
+	CArray<DataLauncherTypeIGC *,DataLauncherTypeIGC *> cl_Launchers;
 	CArray<PtrCoreCounter,PtrCoreCounter> cl_Counters;
 	CArray<PtrCoreMissile,PtrCoreMissile> cl_Missiles;
 	CArray<PtrCoreMine,PtrCoreMine> cl_Mines;
@@ -724,7 +730,7 @@ public:
 	CString GetBaseName(unsigned short uid);
 	CString GetBaseCivName(unsigned short uid);
 	void DumpCore(void);
-	char *ProxyPartName(unsigned short uid);
+	char *ProxyPartName(ExpendableTypeID uid);
 	char *PartName(unsigned short uid);
 	char *DevelName(unsigned short uid);
 	PtrCoreEntry ProxyPart(unsigned short uid);
@@ -735,18 +741,20 @@ public:
 	void AddDrone(PtrCoreDrone);
 	void AddProjectile(PtrCoreProjectile);
 	void AddPart(PtrCorePart);
+	void AddLauncher(PtrCoreLauncher);
 	void AddMissile(PtrCoreMissile);
 	void AddMine(PtrCoreMine);
 	void AddCounter(PtrCoreCounter);
 	void AddProbe(PtrCoreProbe);
 	unsigned short ProxyPartUID(void);
 	bool MoveDevel(PtrCoreDevel pdevel,int dir);
-	PtrCorePart ProxyGet(unsigned short uid);
+	PtrCoreLauncher GetLauncher(unsigned short uid);
 	LPARAM DeleteProbe(PtrCoreProbe pprobe);
 	LPARAM DeleteMissile(PtrCoreMissile pmissile);
 	LPARAM DeleteCounter(PtrCoreCounter pcounter);
 	LPARAM DeleteMine(PtrCoreMine pmine);
-	LPARAM DeletePart(PtrCorePart ppart,bool);
+	LPARAM DeletePart(PtrCorePart ppart);
+	void DeleteLauncher(PtrCoreLauncher pl);
 	LPARAM DeleteCiv(PtrCoreCiv pciv);
 	LPARAM DeleteStationType(PtrCoreStationType pstation);
 	LPARAM DeleteShip(PtrCoreShip pship);
@@ -764,6 +772,7 @@ public:
 	PtrCoreCounter FindCounter(short uid);
 	PtrCoreMine FindMine(short uid);
 	PtrCorePart FindPart(short uid);
+	PtrCoreLauncher FindLauncher(ObjectID uid);
 	PtrCoreShip FindShip(short uid);
 	PtrCoreProjectile FindProjectile(short uid);
 	PtrCoreDrone FindDrone(short uid);
@@ -776,6 +785,7 @@ public:
 protected:
 	void SortEntries(void);
 	CoreEntry error_entry;
+	PartID GenPartID();
 
 };
 typedef CIGCCore *PtrCore;

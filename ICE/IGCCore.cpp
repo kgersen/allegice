@@ -70,6 +70,7 @@ void CIGCCore::UnloadCore()
 	FreeArray(cl_Missiles);		cl_Missiles.RemoveAll();
 	FreeArray(cl_Ships);		cl_Ships.RemoveAll();
 	FreeArray(cl_Parts);		cl_Parts.RemoveAll();
+	FreeArray(cl_Launchers);	cl_Launchers.RemoveAll();
 	FreeArray(cl_StationTypes);	cl_StationTypes.RemoveAll();
 	FreeArray(cl_Projectiles);	cl_Projectiles.RemoveAll();
 	FreeArray(cl_TreasureSets);	cl_TreasureSets.RemoveAll();
@@ -162,17 +163,19 @@ bool CIGCCore::ReadFromFile(CString fn)
 			break;
 		case OT_partType: // parts
 			{
-				IGCCorePart *ppart = new IGCCorePart;
-				ppart->isspec = false;
-				if (size == IGC_PROXYPARTSIZE){
-					cfmap.Read(&(ppart->suk2),size);
-					strcpy_s(ppart->name,25,ppart->slot);
-					ppart->isspec = true;
+				if (size == sizeof(DataLauncherTypeIGC)){
+					PtrCoreLauncher pl = new IGCCoreLauncher;  
+					debugf("LAUNCHER!\n");
+					cfmap.Read(pl,size);
+					cl_Launchers.Add(pl);
 				}
 				else
+				{
+					IGCCorePart *ppart = (IGCCorePart *)new char[size];
+					debugf("PART!\n");
 					cfmap.Read(ppart,size);
-				ppart->size = size;
-				cl_Parts.Add(ppart);
+					cl_Parts.Add(ppart);
+				}
 				break;
 			}
 		case OT_chaffType /*AGC_ChaffType is bogus (36)*/ ://Counter
@@ -642,18 +645,33 @@ bool CIGCCore::SaveToFile(CString fn)
 	for (int j=0;j<cl_Parts.GetSize();j++)
 	{
 		PtrCorePart ppart = cl_Parts.GetAt(j);
+		tag_size = -1;
+		switch (ppart->equipmentType)
+		{
+			case ET_Weapon:      tag_size = sizeof(DataWeaponTypeIGC); break;
+			case ET_Shield:      tag_size = sizeof(DataShieldTypeIGC); break;
+			case ET_Cloak:       tag_size = sizeof(DataCloakTypeIGC); break;
+			case ET_Pack:        tag_size = sizeof(DataPackTypeIGC); break;
+			case ET_Afterburner: tag_size = sizeof(DataAfterburnerTypeIGC); break;
+			default: break;
+		}
+		if (tag_size == -1)
+		{
+			AfxMessageBox("INVALID equipmentType detected! ignoring");
+			continue;
+		}
 		cfcore.Write(&tag,sizeof(tag));
-		tag_size = ppart->size;
-		if (ppart->isspec)
-		{
-			cfcore.Write(&tag_size,sizeof(tag_size));
-			cfcore.Write(&(ppart->suk2),tag_size);
-		}
-		else
-		{
-			cfcore.Write(&tag_size,sizeof(tag_size));
-			cfcore.Write(ppart,tag_size);
-		}
+		cfcore.Write(&tag_size,sizeof(tag_size));
+		cfcore.Write(ppart,tag_size);
+	}
+    // Parts - Launchers
+	tag = OT_partType; tag_size = sizeof(IGCCoreLauncher);
+	for (int j=0;j<cl_Launchers.GetSize();j++)
+	{
+		PtrCoreLauncher pl = cl_Launchers.GetAt(j);
+		cfcore.Write(&tag,sizeof(tag));
+		cfcore.Write(&tag_size,sizeof(tag_size));
+		cfcore.Write(pl,tag_size);
 	}
 
 	// Buckets (Ships)
@@ -732,7 +750,7 @@ bool CIGCCore::SaveToFile(CString fn)
 	return true;
 }
 
-char *CIGCCore::ProxyPartName(unsigned short uid)
+char *CIGCCore::ProxyPartName(ExpendableTypeID uid)
 {
 	char *name = NULL;
 	for (int i=0;i<cl_Counters.GetCount();i++)
@@ -766,10 +784,7 @@ char *CIGCCore::PartName(unsigned short uid)
 	for (int j=0;j<cl_Parts.GetSize();j++)
 	{
 		PtrCorePart ppart = cl_Parts.GetAt(j);
-		if (ppart->uid == uid)
-			if (ppart->isspec)
-				return ProxyPartName(ppart->usemask);
-			else
+		if (ppart->partID == uid)
 				return ppart->name;
 	}
 	return NULL;
@@ -784,14 +799,13 @@ char *CIGCCore::DevelName(unsigned short uid)
 	}
 	return NULL;
 }
-PtrCorePart CIGCCore::ProxyGet(unsigned short uid)
+PtrCoreLauncher CIGCCore::GetLauncher(unsigned short uid)
 {
-	for (int i=0;i<cl_Parts.GetCount();i++)
+	for (int i=0;i<cl_Launchers.GetCount();i++)
 	{
-		PtrCorePart ppart = cl_Parts.GetAt(i);
-		if (ppart->isspec)
-			if (ppart->usemask == uid)
-				return ppart;
+		PtrCoreLauncher pl = cl_Launchers.GetAt(i);
+		if (pl->expendabletypeID = uid)
+				return pl;
 	}
 	return NULL;
 }
@@ -1008,17 +1022,27 @@ void CIGCCore::AddProjectile(PtrCoreProjectile pproj)
 	pproj->projectileTypeID = uid;
 	cl_Projectiles.Add(pproj);
 }
-void CIGCCore::AddPart(PtrCorePart ppart)
+
+PartID CIGCCore::GenPartID()
 {
-	if (!ppart) return;
-	unsigned short uid;
-	for (uid=1;uid<0xFFFF;uid++)
+	PartID uid;
+
+	for (uid=1;uid<SHRT_MAX;uid++)
 	{
 		bool used = false;
 		for (int j=0;j<cl_Parts.GetSize();j++)
 		{
 			PtrCorePart p = cl_Parts.GetAt(j);
-			if (p->uid == uid) {
+			if (p->partID == uid) {
+				used = true;
+				break;
+			}
+		}
+		for (int j=0;j<cl_Launchers.GetSize();j++)
+		{
+			PtrCoreLauncher p = cl_Launchers.GetAt(j);
+			if (p->partID == uid)
+			{
 				used = true;
 				break;
 			}
@@ -1026,13 +1050,34 @@ void CIGCCore::AddPart(PtrCorePart ppart)
 		if (!used) 
 			break;
 	}
-	if (uid == 0xFFFF)
+	if (uid == SHRT_MAX)
+		return -1;
+	else
+		return uid;
+}
+void CIGCCore::AddPart(PtrCorePart ppart)
+{
+	if (!ppart) return;
+	PartID uid = GenPartID();
+    if (uid == -1)
 	{
 		AfxMessageBox("No more available UID for parts");
 		return;
 	}
-	ppart->uid = uid;
+	ppart->partID = uid;
 	cl_Parts.Add(ppart);
+}
+void CIGCCore::AddLauncher(PtrCoreLauncher pl)
+{
+	if (!pl) return;
+	PartID uid = GenPartID();
+    if (uid == -1)
+	{
+		AfxMessageBox("No more available UID for parts (launcher)");
+		return;
+	}
+	pl->partID = uid;
+	cl_Launchers.Add(pl);
 }
 void CIGCCore::AddMissile(PtrCoreMissile pmissile)
 {
@@ -1130,12 +1175,12 @@ void CIGCCore::SortEntries(void)
 	for (int j=0;j<cl_Parts.GetSize();j++)
 	{
 		PtrCorePart p = cl_Parts.GetAt(j);
-		if (p->overriding_uid != 0xFFFF)
+		if (p->successorPartID != -1)
 		{
 			for (int i=j+1;i<cl_Parts.GetSize();i++)
 			{
 				PtrCorePart pp = cl_Parts.GetAt(i);
-				if (pp->uid == p->overriding_uid)
+				if (pp->partID == p->successorPartID)
 				{
 					cl_Parts.SetAt(i,p);
 					cl_Parts.SetAt(j,pp);
@@ -1218,15 +1263,9 @@ bool CIGCCore::MoveDevel(PtrCoreDevel pdevel,int dir)
 	cl_Devels.SetAt(imate,pdevel);
 	return true;
 }
-LPARAM CIGCCore::DeletePart(PtrCorePart ppart, bool realparttoo)
+LPARAM CIGCCore::DeletePart(PtrCorePart ppart)
 {
 	if (!ppart) return NULL;
-	unsigned short rp = 0xFFFF;
-	PtrCoreEntry pce = NULL;
-	if (ppart->isspec)
-	{
-		pce = ProxyPart(ppart->usemask);
-	}
     int j=0;
 	for (j=0;j<cl_Parts.GetSize();j++)
 	{
@@ -1237,21 +1276,7 @@ LPARAM CIGCCore::DeletePart(PtrCorePart ppart, bool realparttoo)
 			break;
 		}
 	}
-	if ((pce !=NULL) & realparttoo)
-	{
-		switch(pce->tag)
-		{
-		case OT_probeType:
-			return DeleteProbe((PtrCoreProbe)pce->entry);
-		case OT_mineType:
-			return DeleteMine((PtrCoreMine)pce->entry);
-		case OT_chaffType:
-			return DeleteCounter((PtrCoreCounter)pce->entry);
-		case OT_missileType:
-			return DeleteMissile((PtrCoreMissile)pce->entry);
-		}
-		delete pce;
-	}
+
 	if (cl_Parts.GetSize()==0)
 		return (LPARAM)pConstants;
 	else if (j<cl_Parts.GetSize())
@@ -1259,12 +1284,27 @@ LPARAM CIGCCore::DeletePart(PtrCorePart ppart, bool realparttoo)
 	else
 		return (LPARAM)cl_Parts.GetAt(0);
 }
+
+void CIGCCore::DeleteLauncher(PtrCoreLauncher pl)
+{
+	if (!pl) return;
+	for (int j=0;j<cl_Launchers.GetSize();j++)
+	{
+		if (cl_Launchers.GetAt(j) == pl)
+		{
+			cl_Launchers.RemoveAt(j);
+			delete pl;
+			break;
+		}
+	}
+}
 LPARAM CIGCCore::DeleteMine(PtrCoreMine pmine)
 {
 	if (!pmine) return NULL;
-	PtrCorePart ppart = ProxyGet(pmine->expendabletypeID);
-	if (ppart) return DeletePart(ppart,true);
-    int j=0;
+	PtrCoreLauncher pl = GetLauncher(pmine->expendabletypeID);
+	if (pl) DeleteLauncher(pl);
+    
+	int j=0;
 	for (j=0;j<cl_Mines.GetSize();j++)
 	{
 		if (cl_Mines.GetAt(j) == pmine)
@@ -1284,9 +1324,10 @@ LPARAM CIGCCore::DeleteMine(PtrCoreMine pmine)
 LPARAM CIGCCore::DeleteCounter(PtrCoreCounter pcounter)
 {
 	if (!pcounter) return NULL;
-	PtrCorePart ppart = ProxyGet(pcounter->expendabletypeID);
-	if (ppart) return DeletePart(ppart,true);
-    int j=0;
+	PtrCoreLauncher pl = GetLauncher(pcounter->expendabletypeID);
+	if (pl) DeleteLauncher(pl);
+
+	int j=0;
 	for (j=0;j<cl_Counters.GetSize();j++)
 	{
 		if (cl_Counters.GetAt(j) == pcounter)
@@ -1306,9 +1347,10 @@ LPARAM CIGCCore::DeleteCounter(PtrCoreCounter pcounter)
 LPARAM CIGCCore::DeleteMissile(PtrCoreMissile pmissile)
 {
 	if (!pmissile) return NULL;
-	PtrCorePart ppart = ProxyGet(pmissile->expendabletypeID);
-	if (ppart) return DeletePart(ppart,true);
-    int j=0;
+	PtrCoreLauncher pl = GetLauncher(pmissile->expendabletypeID);
+	if (pl) DeleteLauncher(pl);
+
+	int j=0;
 	for (j=0;j<cl_Missiles.GetSize();j++)
 	{
 		if (cl_Missiles.GetAt(j) == pmissile)
@@ -1328,9 +1370,10 @@ LPARAM CIGCCore::DeleteMissile(PtrCoreMissile pmissile)
 LPARAM CIGCCore::DeleteProbe(PtrCoreProbe pprobe)
 {
 	if (!pprobe) return NULL;
-	PtrCorePart ppart = ProxyGet(pprobe->expendabletypeID);
-	if (ppart) return DeletePart(ppart,true);
-    int j=0;
+	PtrCoreLauncher pl = GetLauncher(pprobe->expendabletypeID);
+	if (pl) DeleteLauncher(pl);
+
+	int j=0;
 	for (j=0;j<cl_Probes.GetSize();j++)
 	{
 		if (cl_Probes.GetAt(j) == pprobe)
@@ -1513,11 +1556,6 @@ bool CIGCCore::SaveDepList(CString fn)
 	for (int j=0;j<cl_Parts.GetSize();j++)
 	{
 		PtrCorePart ppart = cl_Parts.GetAt(j);
-		if (ppart->isspec)
-		{
-			//cfcore.Write(ppart->slot+".mdl\n"); // txt mdl
-		}
-		else
 		{
 			//cfcore.Write(ppart->icon+"bmp.mdl\n");
 			//cfcore.Write(ppart->model+".mdl\n");
@@ -1650,7 +1688,17 @@ PtrCorePart CIGCCore::FindPart(short uid)
 	for (int j=0;j<cl_Parts.GetSize();j++)
 	{
 		PtrCorePart ppart = cl_Parts.GetAt(j);
-		if (ppart->uid == uid) return ppart;
+		if (ppart->partID == uid) return ppart;
+	}
+	return NULL;
+}
+PtrCoreLauncher CIGCCore::FindLauncher(short uid)
+{
+	if (uid==-1) return NULL;
+	for (int j=0;j<cl_Launchers.GetSize();j++)
+	{
+		PtrCoreLauncher pl = cl_Launchers.GetAt(j);
+		if (pl->partID == uid) return pl;
 	}
 	return NULL;
 }
@@ -1728,29 +1776,40 @@ LPARAM CIGCCore::FindError(char **pszReason)
 	for (int j=0;j<cl_Parts.GetSize();j++)
 	{
 		PtrCorePart ppart = cl_Parts.GetAt(j);
-		if (ppart->overriding_uid != -1)
+		if (ppart->successorPartID != -1)
 		{
-			PtrCorePart pover = FindPart(ppart->overriding_uid);
+			PtrCorePart pover = FindPart(ppart->successorPartID);
 			if (!pover)
 			{
-				if (ppart->isspec)
-				{
-					PtrCoreEntry prox = ProxyPart(ppart->usemask);
-					if (!prox) BuildError((LPARAM)ppart,"Invalid part (fatal error)",pszReason);
-					LPARAM p = prox->entry;
-					delete prox;
-					if (p)
-						return BuildError(p,"Invalid successor (overided by)",pszReason);
-				}
-				else
+				//if (ppart->isspec)
+				//{
+				//	PtrCoreEntry prox = ProxyPart(ppart->usemask);
+				//	if (!prox) BuildError((LPARAM)ppart,"Invalid part (fatal error)",pszReason);
+				//	LPARAM p = prox->entry;
+				//	delete prox;
+				//	if (p)
+				//		return BuildError(p,"Invalid successor (overided by)",pszReason);
+				//}
+				//else
 					return BuildError((LPARAM)ppart,"Invalid successor (overided by)",pszReason);
 			}
 		}
-		if (ppart->isspec) continue;
-		if (ppart->type == ET_Weapon)
+		if (ppart->equipmentType == ET_Weapon)
 		{
-			PtrCoreProjectile pp = FindProjectile(ppart->specs.wep.wep_projectile_uid);
+			DataWeaponTypeIGC* pwep = (DataWeaponTypeIGC*) ppart;
+			PtrCoreProjectile pp = FindProjectile(pwep->projectileTypeID);
 			if (!pp) return BuildError((LPARAM)ppart,"Invalid weapon projectile",pszReason);
+		}
+	}
+	// Launchers
+	for (int j=0;j<cl_Launchers.GetSize();j++)
+	{
+		DataLauncherTypeIGC* pl = cl_Launchers.GetAt(j);
+		if (pl->successorPartID != -1)
+		{
+			if (!FindLauncher(pl->successorPartID))
+				BuildError((LPARAM)pl,"Invalid successor (overided by)",pszReason);
+			
 		}
 	}
 	// Probes

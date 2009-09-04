@@ -341,6 +341,8 @@ NEW IN 3.42 (WORK IN PROGRESS - UNRELEASED- WILL PROBABLY BE ICE 4.0)
      * mines: <todo>
      * probes: <todo>
      * missiles: bDirectional <todo> width textureName timeToBuild
+     * parts: mdl line in launcher, more launchers fixes (in ships)
+     * <todo>: change ttbm
 Known bugs:
 	none
 

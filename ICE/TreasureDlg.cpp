@@ -253,17 +253,17 @@ void CTreasureDlg::BuildPL()
 	{
 		PtrCorePart ppart = pcore->cl_Parts.GetAt(j);
 		CString s;
-		if (ppart->isspec)
-			s.Format("Part: %s (%d)",pcore->ProxyPartName(ppart->usemask),ppart->uid);
-		else
-			s.Format("Part: %s (%d)",ppart->name,ppart->uid);
+		//if (ppart->isspec)
+		//	s.Format("Part: %s (%d)",pcore->ProxyPartName(ppart->usemask),ppart->uid);
+		//else
+			s.Format("Part: %s (%d)",ppart->name,ppart->partID);
 
 		bool bSkip = false;
 		for (int n=0;n<ptres->nTreasureData;n++)
 		{
 			TreasureData *t = ptres->treasureData0()+n;
 			if(t->treasureCode == c_tcPart)
-				if (t->treasureID == ppart->uid)
+				if (t->treasureID == ppart->partID)
 					bSkip = true;
 		}
 		if (!bSkip)
@@ -272,33 +272,58 @@ void CTreasureDlg::BuildPL()
 			TreasureData *t = new TreasureData;
 			t->chance = 2;
 			t->treasureCode = c_tcPart;
-			t->treasureID = ppart->uid;
+			t->treasureID = ppart->partID;
 			clParts->SetItemDataPtr(idx,t);
 		}
 	}
-	//for (int j=0;j<pcore->cl_Devels.GetSize();j++)
-	//{
-	//	PtrCoreDevel devel = pcore->cl_Devels.GetAt(j);
-	//	CString s;
-	//	s.Format("Dev: %s (%d)",devel->name,devel->uid);
+	for (int j=0;j<pcore->cl_Launchers.GetSize();j++)
+	{
+		PtrCoreLauncher pl = pcore->cl_Launchers.GetAt(j);
+		CString s;
+		s.Format("Part: %s (%d)",pcore->ProxyPartName(pl->expendabletypeID),pl->partID);
 
-	//	bool bSkip = false;
-	//	for (int n=0;n<ptres->count;n++)
-	//	{
-	//		if(ptres->ChanceEntries[n].Code == 0)
-	//			if (ptres->ChanceEntries[n].uid == devel->uid)
-	//				bSkip = true;
-	//	}
-	//	if (!bSkip)
-	//	{
-	//		int idx = clParts->AddString(s);
-	//		IGCCoreTreasureChance *t = new IGCCoreTreasureChance;
-	//		t->Chance = 2;
-	//		t->Code = 8;
-	//		t->uid = devel->uid;
-	//		clParts->SetItemDataPtr(idx,t);
-	//	}
-	//}
+		bool bSkip = false;
+		for (int n=0;n<ptres->nTreasureData;n++)
+		{
+			TreasureData *t = ptres->treasureData0()+n;
+			if(t->treasureCode == c_tcPart)
+				if (t->treasureID == pl->partID)
+					bSkip = true;
+		}
+		if (!bSkip)
+		{
+			int idx = clParts->AddString(s);
+			TreasureData *t = new TreasureData;
+			t->chance = 2;
+			t->treasureCode = c_tcPart;
+			t->treasureID = pl->partID;
+			clParts->SetItemDataPtr(idx,t);
+		}
+	}	
+	for (int j=0;j<pcore->cl_Devels.GetSize();j++)
+	{
+		PtrCoreDevel devel = pcore->cl_Devels.GetAt(j);
+		CString s;
+		s.Format("Devel: %s (%d)",devel->name,devel->developmentID);
+
+		bool bSkip = false;
+		for (int n=0;n<ptres->nTreasureData;n++)
+		{
+			TreasureData *t = ptres->treasureData0()+n;
+			if(t->treasureCode == c_tcDevelopment)
+				if (t->treasureID == devel->developmentID)
+					bSkip = true;
+		}
+		if (!bSkip)
+		{
+			int idx = clParts->AddString(s);
+			TreasureData *t = new TreasureData;
+			t->chance = 2;
+			t->treasureCode = c_tcDevelopment;
+			t->treasureID = devel->developmentID;
+			clParts->SetItemDataPtr(idx,t);
+		}
+	}
 }
 void CTreasureDlg::OnBnClickedAddcash()
 {

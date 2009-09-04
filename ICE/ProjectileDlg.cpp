@@ -56,11 +56,11 @@ void CProjectileDlg::DoDataExchange(CDataExchange* pDX)
 		for (int j=0;j<pcore->cl_Parts.GetSize();j++)
 		{
 			PtrCorePart ppart = pcore->cl_Parts.GetAt(j);
-			if ((ppart->type == ET_Weapon) && (!ppart->isspec))
+			if (ppart->equipmentType == ET_Weapon)
 			{
-				if (ppart->specs.wep.wep_projectile_uid == uid)
+				if (((DataWeaponTypeIGC*)ppart)->projectileTypeID == uid)
 				{
-					weplist.Format("%s (%d)\r\n",ppart->name,ppart->uid);
+					weplist.Format("%s (%d)\r\n",ppart->name,ppart->partID);
 					int idx = clusage->AddString(weplist);
 					clusage->SetItemDataPtr(idx,ppart);
 				}

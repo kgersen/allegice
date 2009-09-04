@@ -393,76 +393,76 @@ void CICEDlg::BuildTree(void)
 	for (int j=0;j<pigccore->cl_Parts.GetSize();j++)
 	{
 		PtrCorePart ppart = pigccore->cl_Parts.GetAt(j);
-		if (bFilter & IsFiltered(ppart->techtree))
+		if (bFilter & IsFiltered((UCHAR*)&(ppart->ttbmRequired))) //TODO
 			continue;
-		if (!ppart->isspec)
+		//if (!ppart->isspec)
 		{
 			CString s;
 			PtrCoreEntry pce = new CoreEntry;
 			pce->tag = OT_partType;
 			pce->entry = (LPARAM)ppart;
-			s.Format("%s (%d)",ppart->name,ppart->uid);
+			s.Format("%s (%d)",ppart->name,ppart->partID);
 			pce->name.Format("Part: %s",s);
 			RefreshStores(pce);
 			maintree->InsertItem(TVIF_TEXT|TVIF_PARAM, s, 0, 0, 0, 0,  (LPARAM)pce, hParts, tvisort);
 		}
-		if (ppart->isspec && tvisort==NULL)
-		{
-			PtrCoreEntry prox = pigccore->ProxyPart(ppart->usemask);
-			if (prox)
-			{
-				CString s;
-				PtrCoreEntry pce = new CoreEntry;
-				switch (prox->tag)
-				{
-					case OT_chaffType:
-					{
-						PtrCoreCounter pcounter = (PtrCoreCounter)prox->entry;
-						pce->tag = (ObjectType)prox->tag;
-						pce->entry = (LPARAM)pcounter;
-						s.Format("%s (%d)(%d)",pcounter->launcherDef.name,pcounter->expendabletypeID,ppart->uid);
-						pce->name.Format("Counter: %s",s);
-						RefreshStores(pce);
-						maintree->InsertItem(TVIF_TEXT|TVIF_PARAM, s, 0, 0, 0, 0,  (LPARAM)pce, hParts, tvisort);
-					}
-					break;
-					case OT_probeType:
-					{
-						PtrCoreProbe pprobe = (PtrCoreProbe)prox->entry;
-						pce->tag = (ObjectType)prox->tag;
-						pce->entry = (LPARAM)pprobe;
-						s.Format("%s (%d)(%d)",pprobe->launcherDef.name,pprobe->expendabletypeID,ppart->uid);
-						pce->name.Format("Probe: %s",s);
-						RefreshStores(pce);
-						maintree->InsertItem(TVIF_TEXT|TVIF_PARAM, s, 0, 0, 0, 0,  (LPARAM)pce, hParts, tvisort);
-					}
-					break;
-					case OT_mineType:
-					{
-						PtrCoreMine pmine = (PtrCoreMine)prox->entry;
-						pce->tag = (ObjectType)prox->tag;
-						pce->entry = (LPARAM)pmine;
-						s.Format("%s (%d)(%d)",pmine->launcherDef.name,pmine->expendabletypeID,ppart->uid);
-						pce->name.Format("Mine: %s",s);
-						RefreshStores(pce);
-						maintree->InsertItem(TVIF_TEXT|TVIF_PARAM, s, 0, 0, 0, 0,  (LPARAM)pce, hParts, tvisort);
-					}
-					break;
-					case OT_missileType:
-					{
-						PtrCoreMissile pmissile = (PtrCoreMissile)prox->entry;
-						pce->tag = (ObjectType)prox->tag;
-						pce->entry = (LPARAM)pmissile;
-						s.Format("%s (%d)(%d)",pmissile->launcherDef.name,pmissile->expendabletypeID,ppart->uid);
-						pce->name.Format("Missile: %s",s);
-						RefreshStores(pce);
-						maintree->InsertItem(TVIF_TEXT|TVIF_PARAM, s, 0, 0, 0, 0,  (LPARAM)pce, hParts, tvisort);
-					}
-					break;
-				}
-				delete prox;
-			}
-		}
+	//	if (ppart->isspec && tvisort==NULL)
+	//	{
+	//		PtrCoreEntry prox = pigccore->ProxyPart(ppart->usemask);
+	//		if (prox)
+	//		{
+	//			CString s;
+	//			PtrCoreEntry pce = new CoreEntry;
+	//			switch (prox->tag)
+	//			{
+	//				case OT_chaffType:
+	//				{
+	//					PtrCoreCounter pcounter = (PtrCoreCounter)prox->entry;
+	//					pce->tag = (ObjectType)prox->tag;
+	//					pce->entry = (LPARAM)pcounter;
+	//					s.Format("%s (%d)(%d)",pcounter->launcherDef.name,pcounter->expendabletypeID,ppart->uid);
+	//					pce->name.Format("Counter: %s",s);
+	//					RefreshStores(pce);
+	//					maintree->InsertItem(TVIF_TEXT|TVIF_PARAM, s, 0, 0, 0, 0,  (LPARAM)pce, hParts, tvisort);
+	//				}
+	//				break;
+	//				case OT_probeType:
+	//				{
+	//					PtrCoreProbe pprobe = (PtrCoreProbe)prox->entry;
+	//					pce->tag = (ObjectType)prox->tag;
+	//					pce->entry = (LPARAM)pprobe;
+	//					s.Format("%s (%d)(%d)",pprobe->launcherDef.name,pprobe->expendabletypeID,ppart->uid);
+	//					pce->name.Format("Probe: %s",s);
+	//					RefreshStores(pce);
+	//					maintree->InsertItem(TVIF_TEXT|TVIF_PARAM, s, 0, 0, 0, 0,  (LPARAM)pce, hParts, tvisort);
+	//				}
+	//				break;
+	//				case OT_mineType:
+	//				{
+	//					PtrCoreMine pmine = (PtrCoreMine)prox->entry;
+	//					pce->tag = (ObjectType)prox->tag;
+	//					pce->entry = (LPARAM)pmine;
+	//					s.Format("%s (%d)(%d)",pmine->launcherDef.name,pmine->expendabletypeID,ppart->uid);
+	//					pce->name.Format("Mine: %s",s);
+	//					RefreshStores(pce);
+	//					maintree->InsertItem(TVIF_TEXT|TVIF_PARAM, s, 0, 0, 0, 0,  (LPARAM)pce, hParts, tvisort);
+	//				}
+	//				break;
+	//				case OT_missileType:
+	//				{
+	//					PtrCoreMissile pmissile = (PtrCoreMissile)prox->entry;
+	//					pce->tag = (ObjectType)prox->tag;
+	//					pce->entry = (LPARAM)pmissile;
+	//					s.Format("%s (%d)(%d)",pmissile->launcherDef.name,pmissile->expendabletypeID,ppart->uid);
+	//					pce->name.Format("Missile: %s",s);
+	//					RefreshStores(pce);
+	//					maintree->InsertItem(TVIF_TEXT|TVIF_PARAM, s, 0, 0, 0, 0,  (LPARAM)pce, hParts, tvisort);
+	//				}
+	//				break;
+	//			}
+	//			delete prox;
+	//		}
+	//	}
 	}
 	if (tvisort!=NULL)
 	{
@@ -481,9 +481,9 @@ void CICEDlg::BuildTree(void)
 			pce->tag = (ObjectType)OT_chaffType;
 			pce->entry = (LPARAM)pcounter;
 			CString pxs = "";
-			PtrCorePart px = pigccore->ProxyGet(pcounter->expendabletypeID);
+			PtrCoreLauncher px = pigccore->GetLauncher(pcounter->expendabletypeID);
 			if (px)
-				pxs.Format("(%d)",px->uid);
+				pxs.Format("(%d)",px->partID);
 			s.Format("%s (%d)%s",pcounter->launcherDef.name,pcounter->expendabletypeID,pxs);
 			pce->name.Format("Counter: %s",s);
 			RefreshStores(pce);
@@ -500,9 +500,9 @@ void CICEDlg::BuildTree(void)
 			pce->tag = OT_probeType;
 			pce->entry = (LPARAM)pprobe;
 			CString pxs = "";
-			PtrCorePart px = pigccore->ProxyGet(pprobe->expendabletypeID);
+			PtrCoreLauncher px = pigccore->GetLauncher(pprobe->expendabletypeID);
 			if (px)
-				pxs.Format("(%d)",px->uid);
+				pxs.Format("(%d)",px->partID);
 			s.Format("%s (%d)%s",pprobe->launcherDef.name,pprobe->expendabletypeID,pxs);
 			pce->name.Format("Probe: %s",s);
 			RefreshStores(pce);
@@ -518,9 +518,9 @@ void CICEDlg::BuildTree(void)
 			pce->tag = OT_mineType;
 			pce->entry = (LPARAM)pmine;
 			CString pxs = "";
-			PtrCorePart px = pigccore->ProxyGet(pmine->expendabletypeID);
+			PtrCoreLauncher px = pigccore->GetLauncher(pmine->expendabletypeID);
 			if (px)
-				pxs.Format("(%d)",px->uid);
+				pxs.Format("(%d)",px->partID);
 			s.Format("%s (%d)%s",pmine->launcherDef.name,pmine->expendabletypeID,pxs);
 			pce->name.Format("Mine: %s",s);
 			RefreshStores(pce);
@@ -536,9 +536,9 @@ void CICEDlg::BuildTree(void)
 			pce->tag = OT_missileType;
 			pce->entry = (LPARAM)pmissile;
 			CString pxs = "";
-			PtrCorePart px = pigccore->ProxyGet(pmissile->expendabletypeID);
+			PtrCoreLauncher px = pigccore->GetLauncher(pmissile->expendabletypeID);
 			if (px)
-				pxs.Format("(%d)",px->uid);
+				pxs.Format("(%d)",px->partID);
 			s.Format("%s (%d)%s",pmissile->launcherDef.name,pmissile->expendabletypeID,pxs);
 			pce->name.Format("Missile: %s",s);
 			RefreshStores(pce);
@@ -733,10 +733,8 @@ void CICEDlg::OnSelchangeMainTree(NMHDR *pNMHDR, LRESULT *pResult)
 			dlgPart.ppart = ppart;
 			dlgPart.UpdateData(FALSE);
 			curdiag = (CDialog *)&dlgPart;
-			if (!ppart->isspec){
-				pTechTree = ppart->techtree;
-				sTechName.Format("Part: %s (%d)",ppart->name,ppart->uid);
-			}
+			pTechTree = (UCHAR *)&(ppart->ttbmRequired); //TODO
+			sTechName.Format("Part: %s (%d)",ppart->name,ppart->partID);
 			showmb=true;
 			}break;
 		case OT_mineType:{ // mine
@@ -1143,13 +1141,13 @@ CString CICEDlg::TTHaveBit(int ipBit,CListBox *clb, CString prefix)
 	for (int j=0;j<pigccore->cl_Parts.GetSize();j++)
 	{
 		PtrCorePart p = pigccore->cl_Parts.GetAt(j);
-		if (!p->isspec)
-			if (p->techtree[idx] & imask)
-			{
-				t.Format("Part: %s (%d)\r\n",p->name,p->uid);
-				s+=t;
-				int idx = clb->AddString(prefix+t); clb->SetItemDataPtr(idx,p);
-			}
+		UCHAR *techtree = (UCHAR*)&(p->ttbmRequired); //TODO
+		if (techtree[idx] & imask)
+		{
+			t.Format("Part: %s (%d)\r\n",p->name,p->partID);
+			s+=t;
+			int idx = clb->AddString(prefix+t); clb->SetItemDataPtr(idx,p);
+		}
 	}
 	for (int j=0;j<pigccore->cl_Mines.GetSize();j++)
 	{
@@ -1249,28 +1247,28 @@ void CICEDlg::MoveEntry(int dir)
 			{
 			cl_Gen = (CArray<LPARAM,LPARAM> *)&pigccore->cl_Parts;
 			PtrCoreMine pmine = (PtrCoreMine) curp;
-			curp = (LPARAM)pigccore->ProxyGet(pmine->expendabletypeID);
+			curp = (LPARAM)pigccore->GetLauncher(pmine->expendabletypeID);
 			}
 			break;
 		case OT_missileType:
 			{
 			cl_Gen = (CArray<LPARAM,LPARAM> *)&pigccore->cl_Parts;
 			PtrCoreMissile pmissile = (PtrCoreMissile) curp;
-			curp = (LPARAM)pigccore->ProxyGet(pmissile->expendabletypeID);
+			curp = (LPARAM)pigccore->GetLauncher(pmissile->expendabletypeID);
 			}
 			break;
 		case OT_chaffType:
 			{
 			cl_Gen = (CArray<LPARAM,LPARAM> *)&pigccore->cl_Parts;
 			PtrCoreCounter pcounter = (PtrCoreCounter) curp;
-			curp = (LPARAM)pigccore->ProxyGet(pcounter->expendabletypeID);
+			curp = (LPARAM)pigccore->GetLauncher(pcounter->expendabletypeID);
 			}
 			break;
 		case OT_probeType:
 			{
 			cl_Gen = (CArray<LPARAM,LPARAM> *)&pigccore->cl_Parts;
 			PtrCoreProbe pprobe = (PtrCoreProbe) curp;
-			curp = (LPARAM)pigccore->ProxyGet(pprobe->expendabletypeID);
+			curp = (LPARAM)pigccore->GetLauncher(pprobe->expendabletypeID);
 			}
 			break;
 		default:
@@ -1312,47 +1310,6 @@ void CICEDlg::OnBnClickedAdd()
 	AfxMessageBox(mes);
 	return;
 */
-	if (pce->tag == OT_missileType)
-	{
-		PtrCoreMissile pp = (PtrCoreMissile) pce->entry;
-		PtrCorePart p = pigccore->ProxyGet(pp->expendabletypeID);
-		if (p != NULL)
-		{
-			pce->tag = OT_partType;
-			pce->entry = (LPARAM)p;
-		}
-	}
-	if (pce->tag == OT_chaffType)
-	{
-		PtrCoreCounter pp = (PtrCoreCounter) pce->entry;
-		PtrCorePart p = pigccore->ProxyGet(pp->expendabletypeID);
-		if (p != NULL)
-		{
-			pce->tag = OT_partType;
-			pce->entry = (LPARAM)p;
-		}
-	}
-	if (pce->tag == OT_probeType)
-	{
-		PtrCoreProbe pp = (PtrCoreProbe) pce->entry;
-		PtrCorePart p = pigccore->ProxyGet(pp->expendabletypeID);
-		if (p != NULL)
-		{
-			pce->tag = OT_partType;
-			pce->entry = (LPARAM)p;
-		}
-	}
-
-	if (pce->tag == OT_mineType)
-	{
-		PtrCoreMine pp = (PtrCoreMine) pce->entry;
-		PtrCorePart p = pigccore->ProxyGet(pp->expendabletypeID);
-		if (p != NULL)
-		{
-			pce->tag = OT_partType;
-			pce->entry = (LPARAM)p;
-		}
-	}
 
 	LPARAM entry = NULL;
 	switch(pce->tag)
@@ -1370,6 +1327,22 @@ void CICEDlg::OnBnClickedAdd()
 		memcpy(pmine,pminecur,sizeof(IGCCoreMine));
 		pigccore->AddMine(pmine);
 		entry = (LPARAM)pmine;
+		}break;
+	case OT_missileType:{
+		PtrCoreMissile pcur = (PtrCoreMissile) pce->entry;
+		PtrCoreMissile p = new IGCCoreMissile;
+		memcpy(p,pcur,sizeof(IGCCoreMissile));
+		pigccore->AddMissile(p);
+		entry = (LPARAM)p;
+		//TODO auto add the launcher
+		}break;
+	case OT_chaffType:{
+		PtrCoreCounter pcur = (PtrCoreCounter) pce->entry;
+		PtrCoreCounter p = new IGCCoreCounter;
+		memcpy(p,pcur,sizeof(IGCCoreCounter));
+		pigccore->AddCounter(p);
+		entry = (LPARAM)p;
+		//TODO auto add the launcher
 		}break;
 	case OT_civilization:{
 		PtrCoreCiv pcivcur = (PtrCoreCiv) pce->entry;
@@ -1419,54 +1392,7 @@ void CICEDlg::OnBnClickedAdd()
 		memcpy(ppart,ppartcur,sizeof(IGCCorePart));
 		pigccore->AddPart(ppart);
 		entry = (LPARAM)ppart;
-		if (ppart->isspec)
-		{
-            PtrCoreEntry pce = pigccore->ProxyPart(ppartcur->usemask);
-			if (pce != NULL)
-			{
-				switch(pce->tag)
-				{
-				case OT_missileType:{ // drone
-					PtrCoreMissile pmissilecur = (PtrCoreMissile) pce->entry;
-					PtrCoreMissile pmissile = new IGCCoreMissile;
-					memcpy(pmissile,pmissilecur,sizeof(IGCCoreMissile));
-					pigccore->AddMissile(pmissile);
-					ppart->usemask = pmissile->expendabletypeID;
-					entry = (LPARAM)pmissile;
-					}break;
-				case OT_mineType:{ // mine
-					PtrCoreMine pminecur = (PtrCoreMine) pce->entry;
-					PtrCoreMine pmine = new IGCCoreMine;
-					memcpy(pmine,pminecur,sizeof(IGCCoreMine));
-					pigccore->AddMine(pmine);
-					ppart->usemask = pmine->expendabletypeID;
-					entry = (LPARAM)pmine;
-					}break;
-				case OT_chaffType:{
-					PtrCoreCounter pcountercur = (PtrCoreCounter) pce->entry;
-					PtrCoreCounter pcounter = new IGCCoreCounter;
-					memcpy(pcounter,pcountercur,sizeof(IGCCoreCounter));
-					pigccore->AddCounter(pcounter);
-					ppart->usemask = pcounter->expendabletypeID;
-					entry = (LPARAM)pcounter;
-					}break;
-				case OT_probeType:{
-					PtrCoreProbe pprobecur = (PtrCoreProbe) pce->entry;
-					PtrCoreProbe pprobe = new IGCCoreProbe;
-					memcpy(pprobe,pprobecur,sizeof(IGCCoreProbe));
-					pigccore->AddProbe(pprobe);
-					ppart->usemask = pprobe->expendabletypeID;
-					entry = (LPARAM)pprobe;
-					}break;
-				}
-				delete pce;
-			}
-		}
 		}break;
-	case OT_missileType:
-	case OT_chaffType:
-		AfxMessageBox("Warning: unproxied part ! - this should not happend ! - contact the author of ICE");
-		break;
 	case OT_constants:{
 		//dlgConstants.pconst = (PtrCoreConstants) pce->entry;
 		}break;
@@ -1493,7 +1419,7 @@ void CICEDlg::OnBnClickedDelete()
 	switch(pce->tag)
 	{
 	case OT_partType:{ // part
-		entry = pigccore->DeletePart((PtrCorePart) pce->entry,true);
+		entry = pigccore->DeletePart((PtrCorePart) pce->entry);
 		}break;
 	case OT_probeType:{
 		entry = pigccore->DeleteProbe((PtrCoreProbe) pce->entry);

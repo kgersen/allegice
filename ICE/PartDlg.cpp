@@ -37,7 +37,7 @@ void CPartDlg::DoDataExchange(CDataExchange* pDX)
 
 	int uid,usemask;
 	int ss5,ss1,ss2,ss3,ss4;
-	float s1,s2,s3,s4,*sigm;
+	float s1,s2,s3,s4;
 	CString ls1,ls2,ls3,ls4,ls7;
 	CString lss5,lss1,lss2,lss3,lss4;
 	if (!ppart) return;
@@ -50,12 +50,11 @@ void CPartDlg::DoDataExchange(CDataExchange* pDX)
 	ls1 = ""; ls2 = ""; ls3 = ""; ls4 = ""; ls7= ""; 
 	lss1 = ""; lss2 = ""; lss3 = ""; lss4 = ""; lss5 = "";
 
-	sigm = (float *)&(ppart->suk1);
 	if (!pDX->m_bSaveAndValidate) // data to dialog
 	{
 		cbpt->ResetContent();
-		if (ppart->isspec)
-		{
+		//if (ppart->isspec)
+		/*{
 			cbpt->AddString("Proxy");
 			cbpt->SetCurSel(0);
 			s1 = ppart->type; ls1 = "Launch count";
@@ -92,10 +91,9 @@ void CPartDlg::DoDataExchange(CDataExchange* pDX)
 				if (pmis->expendabletypeID == ppart->usemask)
 					name = pmis->launcherDef.name;
 			}
-		}
-		else
+		}*/
+		//else
 		{
-			DDX_Text(pDX, IDC_SIGM,*sigm);
 			ls7 = "Sig %";
 			for (int  i=0;i<ET_MAX;i++)
 				cbpt->AddString(ICGPartType[i]);
@@ -103,75 +101,90 @@ void CPartDlg::DoDataExchange(CDataExchange* pDX)
 			cemodel->EnableWindow(TRUE);
 			ceicon->EnableWindow(TRUE);
 			name = ppart->name;
-			model = ppart->model;
+			model = ppart->modelName;
 			descr = ppart->description;
-			obj = ppart->icon;
+			obj = ppart->iconName;
 			mdlbmp2.LoadMDLFile(sArtPath +"\\"+ obj + "bmp.mdl");
 			mdlbmp.LoadMDLFile(sArtPath +"\\L"+ model + "bmp.mdl");
-			usemask = ppart->usemask;
+			usemask = ppart->partMask;
 			for (int i=0;i<16;i++) 
 			{
 				CButton *cbb = (CButton *)CWnd::GetDlgItem(IDC_USEM0+i);
-				if (ppart->isspec)
+				//if (ppart->isspec)
+				//{
+				//	cbb->EnableWindow(FALSE);
+				//	cbb->SetCheck(BST_UNCHECKED);
+				//}
+				//else
 				{
-					cbb->EnableWindow(FALSE);
-					cbb->SetCheck(BST_UNCHECKED);
-				}
-				else
-				{
-					cbb->SetCheck((ppart->usemask & (1<<i))?BST_CHECKED:BST_UNCHECKED);
+					cbb->SetCheck((ppart->partMask & (1<<i))?BST_CHECKED:BST_UNCHECKED);
 					cbb->EnableWindow(TRUE);
 				}
 			}
 			OnBnClickedUsem0();
 			CButton *cbproj = (CButton *)CWnd::GetDlgItem(IDC_BPROJID);
 			cbproj->ShowWindow(SW_HIDE);
-			switch (ppart->type)
+			switch (ppart->equipmentType)
 			{
 				case ET_Weapon:
+					{
 					cbproj->ShowWindow(SW_SHOWNA);
-					s1 = ppart->specs.wep.wep_stats_s1; ls1 = "Time ready";
-					s2 = ppart->specs.wep.wep_stats_s2; ls2 = "Shot interval";
-					s3 = ppart->specs.wep.wep_stats_s3; ls3 = "Energy consumption";
-					s4 = ppart->specs.wep.wep_stats_s4; ls4 = "Particle spread";
-					ss1 = ppart->specs.wep.wep_stats_ss1; lss1 = "Bullets per shot";
-					ss2 = ppart->specs.wep.wep_stats_ss2; lss2 = "Activation sound";
-					ss3 = ppart->specs.wep.wep_stats_ss3; lss3 = "Shoot sound";
-					ss4 = ppart->specs.wep.wep_stats_ss4; lss4 = "Burst sound";
-					ss5 = ppart->specs.wep.wep_projectile_uid;  lss5 = "Projectile";
+					DataWeaponTypeIGC *p = (DataWeaponTypeIGC *)ppart;
+					s1 = p->dtimeReady; ls1 = "dt Ready";
+					s2 = p->dtimeBurst; ls2 = "dt Burst";
+					s3 = p->energyPerShot; ls3 = "Energy per shot";
+					s4 = p->dispersion; ls4 = "Dispersion";
+					ss1 = p->cAmmoPerShot; lss1 = "Ammo per shot";
+					ss2 = p->activateSound; lss2 = "Activation sound";
+					ss3 = p->singleShotSound; lss3 = "Single shot sound";
+					ss4 = p->burstSound; lss4 = "Burst sound";
+					ss5 = p->projectileTypeID;  lss5 = "Projectile";
+					}
 					break;
 				case ET_Cloak:
-					s1 = ppart->specs.clk.clk_stats_s1; ls1 = "Energy drain";
-					s2 = ppart->specs.clk.clk_stats_s2; ls2 = "Sig reduction";
-					s3 = ppart->specs.clk.clk_stats_s3; ls3 = "Activation duration";
-					s4 = ppart->specs.clk.clk_stats_s4; ls4 = "Release duration";
-					ss1 = ppart->specs.clk.clk_sound1; lss1 = "Sound On";
-					ss2 = ppart->specs.clk.clk_sound2; lss2 = "Sound Off";
+					{
+					DataCloakTypeIGC *p = (DataCloakTypeIGC *)ppart;
+					s1 = p->energyConsumption; ls1 = "Energy Consumption";
+					s2 = p->maxCloaking; ls2 = "Max cloaking";
+					s3 = p->onRate; ls3 = "On rate";
+					s4 = p->offRate; ls4 = "Off rate";
+					ss1 = p->engageSound; lss1 = "Engage sound";
+					ss2 = p->disengageSound; lss2 = "Disengage sound";
+					}
 				break;
 				case ET_Afterburner:
-					s1 = ppart->specs.aftb.aftb_stats_s1; ls1 = "Rate of consumption";
-					s2 = ppart->specs.aftb.aftb_stats_s2; ls2 = "Thrust amount";
-					s3 = ppart->specs.aftb.aftb_stats_s3; ls3 = "% acceleration";
-					s4 = ppart->specs.aftb.aftb_stats_s4; ls4 = "Release duration";
-					ss1 = ppart->specs.aftb.aftb_stats_ss1; lss1 = "Sound activate";
-					ss2 = ppart->specs.aftb.aftb_stats_ss2; lss2 = "Sound desactivate";
+					{
+					DataAfterburnerTypeIGC *p = (DataAfterburnerTypeIGC *)ppart;
+					s1 = p->fuelConsumption; ls1 = "Rate of consumption";
+					s2 = p->maxThrust; ls2 = "Thrust amount";
+					s3 = p->onRate; ls3 = "On rate";
+					s4 = p->offRate; ls4 = "Off rate";
+					ss1 = p->interiorSound; lss1 = "Interior sound";
+					ss2 = p->exteriorSound; lss2 = "Exterior sound";
+					}
 				break;
 				case ET_Pack:
-					ss1 = ppart->specs.pak.pak_stats_ss1; lss1 = "Type (0=Ammo,1=fuel)";
-					ss2 = ppart->specs.pak.pak_stats_ss2; lss2 = "Quantity";
+					{
+					DataPackTypeIGC *p = (DataPackTypeIGC *)ppart;
+					ss1 = p->packType; lss1 = "Type (0=Ammo,1=fuel)";
+					ss2 = p->amount; lss2 = "Quantity";
+					}
 				break;
 				case ET_Shield:
-					s1 = ppart->specs.shld.shld_stats_s1; ls1 = "Recharge rate";
-					s2 = ppart->specs.shld.shld_stats_s2; ls2 = "Hitpoints";
-					ss1 = ppart->specs.shld.shld_sound1; lss1 = "Sound activate";
-					ss2 = ppart->specs.shld.shld_sound2; lss2 = "Sound desactivate";
-					cbac->SetCurSel(ppart->specs.shld.shld_AC);
+					{
+					DataShieldTypeIGC *p = (DataShieldTypeIGC *)ppart;
+					s1 = p->rateRegen; ls1 = "Regen rate";
+					s2 = p->maxStrength; ls2 = "Hitpoints";
+					ss1 = p->activateSound; lss1 = "Activate sound";
+					ss2 = p->deactivateSound; lss2 = "Desactivate sound";
+					cbac->SetCurSel(p->defenseType);
+					}
 				break;
 			}
-			cbpt->SetCurSel(ppart->type);
+			cbpt->SetCurSel(ppart->equipmentType);
 		}
-		slot = ppart->slot;
-		uid = ppart->uid;
+		slot = ppart->inventoryLineMDL;
+		uid = ppart->partID;
 
 	}
 	DDX_Text(pDX, IDC_NAME, name);
@@ -180,31 +193,26 @@ void CPartDlg::DoDataExchange(CDataExchange* pDX)
 	DDX_Text(pDX, IDC_SLOT, slot);
 	DDX_Text(pDX, IDC_DESCRIPTION, descr);
 	DDX_Text(pDX, IDC_UID, uid);
-	DDX_Text(pDX, IDC_OVUID, ppart->overriding_uid);
+	DDX_Text(pDX, IDC_OVUID, ppart->successorPartID);
+
+	DDX_Text(pDX, IDC_SIGM,ppart->signature);
 
 	DDX_Text(pDX, IDC_COST, ppart->price);
 	cbac->ShowWindow(SW_HIDE);
 	GetDlgItem(IDC_ACC)->ShowWindow(SW_HIDE);
-	if (ppart->isspec)
+
+	GetDlgItem(IDC_GS1)->EnableWindow(TRUE);
+	GetDlgItem(IDC_USEMASK)->EnableWindow(TRUE);
+
+	DDX_Text(pDX, IDC_GS1, ppart->mass);
+	DDX_Text(pDX, IDC_USEMASK, usemask);
+
+	if (ppart->equipmentType == ET_Shield)
 	{
-		CString gs1 = "N/A";
-		GetDlgItem(IDC_GS1)->EnableWindow(FALSE);
-		GetDlgItem(IDC_USEMASK)->EnableWindow(FALSE);
-		DDX_Text(pDX, IDC_GS1, gs1);
-		DDX_Text(pDX, IDC_USEMASK, gs1);
+		cbac->ShowWindow(SW_SHOWNA);
+		GetDlgItem(IDC_ACC)->ShowWindow(SW_SHOWNA);
 	}
-	else
-	{
-		GetDlgItem(IDC_GS1)->EnableWindow(TRUE);
-		GetDlgItem(IDC_USEMASK)->EnableWindow(TRUE);
-		DDX_Text(pDX, IDC_GS1, ppart->stats_s1);
-		DDX_Text(pDX, IDC_USEMASK, usemask);
-		if (ppart->type == ET_Shield)
-		{
-			cbac->ShowWindow(SW_SHOWNA);
-			GetDlgItem(IDC_ACC)->ShowWindow(SW_SHOWNA);
-		}
-	}
+
 	SetDlgItemText(IDC_PS1,ls1);
 	SetDlgItemText(IDC_PS2,ls2);
 	SetDlgItemText(IDC_PS3,ls3);
@@ -239,70 +247,66 @@ void CPartDlg::DoDataExchange(CDataExchange* pDX)
 
 	if (pDX->m_bSaveAndValidate) // dialog to data
 	{
-		if (!ppart->isspec)
+		strcpy(ppart->name,name);
+		strcpy(ppart->modelName,model);
+		strcpy(ppart->iconName,obj);
+		strcpy(ppart->inventoryLineMDL,slot);
+		strncpy(ppart->description,descr,IGC_DESCRIPTIONMAX);
+		
+		// usemask
+		ppart->partMask = usemask;
+		ppart->partMask = 0;
+		for (int i=0;i<16;i++) 
 		{
-			DDX_Text(pDX, IDC_SIGM,*sigm);
-			strcpy(ppart->name,name);
-			strcpy(ppart->model,model);
-			strcpy(ppart->icon,obj);
-			strcpy(ppart->slot,slot);
-			strncpy(ppart->description,descr,IGC_DESCRIPTIONMAX);
-			
-			// usemask
-			ppart->usemask = usemask;
-			ppart->usemask = 0;
-			for (int i=0;i<16;i++) 
-			{
-				CButton *cbb = (CButton *)CWnd::GetDlgItem(IDC_USEM0+i);
-				ppart->usemask += cbb->GetCheck()?(1<<i):0;
-			}
-
-			switch (ppart->type)
-			{
-				case ET_Weapon:
-					ppart->specs.wep.wep_stats_s1 = s1;
-					ppart->specs.wep.wep_stats_s2 = s2;
-					ppart->specs.wep.wep_stats_s3 = s3;
-					ppart->specs.wep.wep_stats_s4 = s4;
-					ppart->specs.wep.wep_stats_ss1 = ss1;
-					ppart->specs.wep.wep_stats_ss2 = ss2;
-					ppart->specs.wep.wep_stats_ss3 = ss3;
-					ppart->specs.wep.wep_stats_ss4 = ss4;
-					ppart->specs.wep.wep_projectile_uid = ss5;
-					break;
-				case ET_Cloak:
-					ppart->specs.clk.clk_stats_s1 = s1;
-					ppart->specs.clk.clk_stats_s2 = s2;
-					ppart->specs.clk.clk_stats_s3 = s3;
-					ppart->specs.clk.clk_stats_s4 = s4;
-					ppart->specs.clk.clk_sound1 = ss1;
-					ppart->specs.clk.clk_sound2 = ss2;
-				break;
-				case ET_Afterburner:
-					ppart->specs.aftb.aftb_stats_s1 = s1;
-					ppart->specs.aftb.aftb_stats_s2 = s2;
-					ppart->specs.aftb.aftb_stats_s3 = s3;
-					ppart->specs.aftb.aftb_stats_s4 = s4;
-					ppart->specs.aftb.aftb_stats_ss1 = ss1;
-					ppart->specs.aftb.aftb_stats_ss2 = ss2;
-				break;
-				case ET_Pack:
-					ppart->specs.pak.pak_stats_ss1 = ss1;
-					ppart->specs.pak.pak_stats_ss2 = ss2;
-				break;
-				case ET_Shield:
-					ppart->specs.shld.shld_stats_s1 = s1;
-					ppart->specs.shld.shld_stats_s2 = s2;
-					ppart->specs.shld.shld_sound1 = ss1;
-					ppart->specs.shld.shld_sound2 = ss2;
-					ppart->specs.shld.shld_AC = cbac->GetCurSel();
-				break;
-			}
+			CButton *cbb = (CButton *)CWnd::GetDlgItem(IDC_USEM0+i);
+			ppart->partMask += cbb->GetCheck()?(1<<i):0;
 		}
-		else
+
+		switch (ppart->equipmentType)
 		{
-			ppart->type	= (int)s1;
-			ppart->suk2 = (int)s2;
+			case ET_Weapon:{
+				DataWeaponTypeIGC *p = (DataWeaponTypeIGC *)ppart;
+				 p->dtimeReady         = s1;
+				 p->dtimeBurst         = s2;
+				 p->energyPerShot      = s3;
+				 p->dispersion         = s4;
+				 p->cAmmoPerShot       = ss1;
+				 p->activateSound      = ss2;
+				 p->singleShotSound    = ss3;
+				 p->burstSound         = ss4;
+				 p->projectileTypeID   = ss5;
+	 			 }break;
+			case ET_Cloak:{
+				DataCloakTypeIGC *p = (DataCloakTypeIGC *)ppart;
+				p->energyConsumption = s1;
+				p->maxCloaking       = s2;
+				p->onRate            = s3;
+				p->offRate           = s4;
+				p->engageSound       = ss1;
+				p->disengageSound    = ss2;
+				}break;
+			case ET_Afterburner:{
+				DataAfterburnerTypeIGC *p = (DataAfterburnerTypeIGC *)ppart;
+				p->fuelConsumption = s1;
+				p->maxThrust       = s2;
+				p->onRate          = s3;
+				p->offRate         = s4;
+				p->interiorSound   = ss1;
+				p->exteriorSound   = ss2;
+				}break;
+			case ET_Pack:{
+				DataPackTypeIGC *p = (DataPackTypeIGC *)ppart;
+				p->packType = ss1;
+				p->amount = ss2;
+				}break;
+			case ET_Shield:{
+				DataShieldTypeIGC *p = (DataShieldTypeIGC *)ppart;
+				p->rateRegen = s1;
+				p->maxStrength = s2;
+				p->activateSound = ss1;
+				p->deactivateSound = ss2;
+				p->defenseType = cbac->GetCurSel();
+				}break;
 		}
 	}
 	CDialog::DoDataExchange(pDX);
@@ -446,13 +450,13 @@ void CPartDlg::OnBnClickedUsem0()
 	for (int j=0;j<pcore->cl_Parts.GetSize();j++)
 	{
 		PtrCorePart pp = pcore->cl_Parts.GetAt(j);
-		if ((pp->type == ppart->type) && (!pp->isspec))
+		if ((pp->equipmentType == ppart->equipmentType))
 		{
 			bool IsUpgrade = false;
 			for (int jj=0;jj<pcore->cl_Parts.GetSize();jj++)
 			{
 				PtrCorePart ppart2 = pcore->cl_Parts.GetAt(jj);
-				if (ppart2->overriding_uid == pp->uid)
+				if (ppart2->successorPartID == pp->partID)
 				{
 					IsUpgrade = true;
 					break;
@@ -460,7 +464,7 @@ void CPartDlg::OnBnClickedUsem0()
 			}
 			if (!IsUpgrade)
 			{
-				if (pp->usemask & umask)
+				if (pp->partMask & umask)
 				{
 					int idx = clb->AddString(pp->name);
 					clb->SetItemDataPtr(idx,pp);
@@ -475,10 +479,10 @@ void CPartDlg::OnBnClickedBprojid()
 {
 	if (!ppart) return;
 	if (!pcore) return;
-	if (ppart->type != ET_Weapon) return;
-	if (ppart->specs.wep.wep_projectile_uid == -1)
+	if (ppart->equipmentType != ET_Weapon) return;
+	if (((DataWeaponTypeIGC*)ppart)->projectileTypeID == -1)
 		AfxMessageBox("projectile is undefined");
-	PtrCoreProjectile pp = pcore->FindProjectile(ppart->specs.wep.wep_projectile_uid);
+	PtrCoreProjectile pp = pcore->FindProjectile(((DataWeaponTypeIGC*)ppart)->projectileTypeID);
 	if (pp)
 		MainUI->SelectPCE((LPARAM)pp);
 	else
@@ -498,8 +502,8 @@ void CPartDlg::OnBnClickedBsucc()
 {
 	if (!ppart) return;
 	if (!pcore) return;
-	if (ppart->overriding_uid == -1) return;
-	PtrCorePart succ = pcore->FindPart(ppart->overriding_uid);
+	if (ppart->successorPartID == -1) return;
+	PtrCorePart succ = pcore->FindPart(ppart->successorPartID);
 	if (succ)
 		MainUI->SelectPCE((LPARAM)succ);
 	else

@@ -384,13 +384,13 @@ void CShipLoadout::OnSelchangePartsel(void)
 	for (int j=0;j<pcore->cl_Parts.GetSize();j++)
 	{
 		PtrCorePart ppart = pcore->cl_Parts.GetAt(j);
-		if ((ppart->type == idx) || (ppart->isspec))
+		if ((ppart->equipmentType == idx) /*|| (ppart->isspec)*/)
 		{
 			bool IsUpgrade = false;
 			for (int jj=0;jj<pcore->cl_Parts.GetSize();jj++)
 			{
 				PtrCorePart ppart2 = pcore->cl_Parts.GetAt(jj);
-				if (ppart2->overriding_uid == ppart->uid)
+				if (ppart2->successorPartID == ppart->partID)
 				{
 					IsUpgrade = true;
 					break;
@@ -400,23 +400,23 @@ void CShipLoadout::OnSelchangePartsel(void)
 			{
 				LPARAM pcpart;
 				char *pname=NULL;
-				if (!ppart->isspec)
-					if (ppart->usemask & pship->pmEquipment[idx])
+				//if (!ppart->isspec)
+					if (ppart->partMask & pship->pmEquipment[idx])
 					{
 						pname = ppart->name;
 						pcpart = (LPARAM)ppart;
 					}
-				if (ppart->isspec)
-				{
-					PtrCoreEntry pce = pcore->ProxyPart(ppart->usemask);
-					if (pce->IGCPartType == idx)
-					if (pce->usemask & pship->pmEquipment[idx])
-					{
-						pname = pcore->ProxyPartName(ppart->usemask);
-						pcpart = pce->entry;
-					}
-					delete pce;
-				}
+				//if (ppart->isspec)
+				//{
+				//	PtrCoreEntry pce = pcore->ProxyPart(ppart->usemask);
+				//	if (pce->IGCPartType == idx)
+				//	if (pce->usemask & pship->pmEquipment[idx])
+				//	{
+				//		pname = pcore->ProxyPartName(ppart->usemask);
+				//		pcpart = pce->entry;
+				//	}
+				//	delete pce;
+				//}
 				if (pname != NULL)
 				{
 					int ipc = cbpc->AddString(pname);
@@ -432,13 +432,13 @@ void CShipLoadout::OnSelchangePartsel(void)
 		for (int j=0;j<pcore->cl_Parts.GetSize();j++)
 		{
 			PtrCorePart ppart = pcore->cl_Parts.GetAt(j);
-			if ((ppart->type == idx) || (ppart->isspec))
+			if ((ppart->equipmentType == idx) /*|| (ppart->isspec)*/)
 			{
 				bool IsUpgrade = false;
 				for (int jj=0;jj<pcore->cl_Parts.GetSize();jj++)
 				{
 					PtrCorePart ppart2 = pcore->cl_Parts.GetAt(jj);
-					if (ppart2->overriding_uid == ppart->uid)
+					if (ppart2->successorPartID == ppart->partID)
 					{
 						IsUpgrade = true;
 						break;
@@ -449,24 +449,24 @@ void CShipLoadout::OnSelchangePartsel(void)
 					bool bsel = false;
 					unsigned short pcmask;
 					char *pname=NULL;
-					if ((!ppart->isspec) && (ppart->usemask & umask))
+					if (/*(!ppart->isspec) &&*/ (ppart->partMask & umask))
 					{
 						pname = ppart->name;
-						pcmask = ppart->usemask;
-						if (ppart->usemask & pship->pmEquipment[idx])
+						pcmask = ppart->partMask;
+						if (ppart->partMask & pship->pmEquipment[idx])
 							bsel = true;
 					}
-					if (ppart->isspec)
-					{
-						PtrCoreEntry pce = pcore->ProxyPart(ppart->usemask);
-						if ((pce->IGCPartType == idx) && (pce->usemask & umask))
-						{
-							pname = pcore->ProxyPartName(ppart->usemask);
-							pcmask = pce->usemask;
-							if (pce->usemask & pship->pmEquipment[idx]) bsel = true;
-						}
-						delete pce;
-					}
+					//if (ppart->isspec)
+					//{
+					//	PtrCoreEntry pce = pcore->ProxyPart(ppart->usemask);
+					//	if ((pce->IGCPartType == idx) && (pce->usemask & umask))
+					//	{
+					//		pname = pcore->ProxyPartName(ppart->usemask);
+					//		pcmask = pce->usemask;
+					//		if (pce->usemask & pship->pmEquipment[idx]) bsel = true;
+					//	}
+					//	delete pce;
+					//}
 					if (pname != NULL)
 					{
 						int ipc = cbpc->AddString(pname);
@@ -520,28 +520,28 @@ void CShipLoadout::OnSelchangeWepsel(void)
 				for (int j=0;j<pcore->cl_Parts.GetSize();j++)
 				{
 					PtrCorePart ppart = pcore->cl_Parts.GetAt(j);
-					if (ppart->type == ET_Weapon)
+					if (ppart->equipmentType == ET_Weapon)
 					{
-						if (!ppart->isspec)
+						//if (!ppart->isspec)
 						{
 							bool IsUpgrade = false;
 							for (int jj=0;jj<pcore->cl_Parts.GetSize();jj++)
 							{
 								PtrCorePart ppart2 = pcore->cl_Parts.GetAt(jj);
-								if ((ppart2->overriding_uid == ppart->uid) && (ppart2->usemask == ppart->usemask))
+								if ((ppart2->successorPartID == ppart->partID) && (ppart2->partMask == ppart->partMask))
 								{
 									IsUpgrade = true;
 									break;
 								}
 							}
 							if (!IsUpgrade)
-							if (ppart->usemask & umask)
+							if (ppart->partMask & umask)
 							{
 								CString s;
 								s.Format("%s",ppart->name);
 								int widx = cb->AddString(s);
-								cb->SetItemData(widx,ppart->usemask);
-								if (pship->GetHardpointData(idx)->partMask & ppart->usemask)
+								cb->SetItemData(widx,ppart->partMask);
+								if (pship->GetHardpointData(idx)->partMask & ppart->partMask)
 										cb->SetSel(widx,TRUE);
 							}
 						}
@@ -555,15 +555,15 @@ void CShipLoadout::OnSelchangeWepsel(void)
 		for (int j=0;j<pcore->cl_Parts.GetSize();j++)
 		{
 			PtrCorePart ppart = pcore->cl_Parts.GetAt(j);
-			if (ppart->type == ET_Weapon)
+			if (ppart->equipmentType == ET_Weapon)
 			{
-				if (!ppart->isspec)
+				//if (!ppart->isspec)
 				{
 					bool IsUpgrade = false;
 					for (int jj=0;jj<pcore->cl_Parts.GetSize();jj++)
 					{
 						PtrCorePart ppart2 = pcore->cl_Parts.GetAt(jj);
-						if ((ppart2->overriding_uid == ppart->uid) && (ppart2->usemask == ppart->usemask))
+						if ((ppart2->successorPartID == ppart->partID) && (ppart2->partMask == ppart->partMask))
 						{
 							IsUpgrade = true;
 							break;
@@ -571,7 +571,7 @@ void CShipLoadout::OnSelchangeWepsel(void)
 					}
 					if (!IsUpgrade)
 					{
-						if (pship->GetHardpointData(idx)->partMask & ppart->usemask)
+						if (pship->GetHardpointData(idx)->partMask & ppart->partMask)
 						{
 							CString s;
 							s.Format("%s",ppart->name);
@@ -663,22 +663,22 @@ void CShipLoadout::BuildDL(void)
 			for (int jj=0;jj<pcore->cl_Parts.GetSize();jj++)
 			{
 				PtrCorePart ppart2 = pcore->cl_Parts.GetAt(jj);
-				if (ppart2->overriding_uid == ppart->uid)
+				if (ppart2->successorPartID == ppart->partID)
 					IsUpgrade = true;
 			}
 			if (!IsUpgrade)
 			{
-				if (ppart->isspec)
-					s.Format("%s(%d)",pcore->ProxyPartName(ppart->usemask),ppart->uid);
-				else
-					s.Format("%s(%d)",ppart->name,ppart->uid);
+				//if (ppart->isspec)
+				//	s.Format("%s(%d)",pcore->ProxyPartName(ppart->usemask),ppart->uid);
+				//else
+					s.Format("%s(%d)",ppart->name,ppart->partID);
 				int idx = clb->AddString(s);
-				clb->SetItemData(idx,ppart->uid);
+				clb->SetItemData(idx,ppart->partID);
 				clb->SetSel(idx,FALSE);
 				for (int i=0;i<c_cMaxPreferredPartTypes;i++)
 				if (DLList[i] != -1)
 				{
-					if (ppart->uid == DLList[i])
+					if (ppart->partID == DLList[i])
 						clb->SetSel(idx,TRUE);
 				}
 			}
@@ -696,12 +696,12 @@ void CShipLoadout::BuildDL(void)
 				for (int j=0;j<pcore->cl_Parts.GetSize();j++)
 				{
 					PtrCorePart ppart = pcore->cl_Parts.GetAt(j);
-					if (ppart->uid == DLList[i])
+					if (ppart->partID == DLList[i])
 					{
-						if (ppart->isspec)
-							s.Format("%s(%d)",pcore->ProxyPartName(ppart->usemask),ppart->uid);
-						else
-							s.Format("%s(%d)",ppart->name,ppart->uid);
+						//if (ppart->isspec)
+						//	s.Format("%s(%d)",pcore->ProxyPartName(ppart->usemask),ppart->partID);
+						//else
+							s.Format("%s(%d)",ppart->name,ppart->partID);
 					}
 				}
 				int idx = clb->AddString(s);
