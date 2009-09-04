@@ -380,60 +380,58 @@ void CShipLoadout::OnSelchangePartsel(void)
 	CButton *ctog = (CButton *)GetDlgItem(IDC_PARTTOGGLE);
 
 	if (ctog->GetCheck() == BST_UNCHECKED)
-	// view mode
-	for (int j=0;j<pcore->cl_Parts.GetSize();j++)
+	// view mode - parts
+	switch (idx)
 	{
-		PtrCorePart ppart = pcore->cl_Parts.GetAt(j);
-		if ((ppart->equipmentType == idx) /*|| (ppart->isspec)*/)
-		{
-			bool IsUpgrade = false;
-			for (int jj=0;jj<pcore->cl_Parts.GetSize();jj++)
+		case ET_ChaffLauncher :
+		case ET_Magazine :
+		case ET_Dispenser :
+			for (int j=0;j<pcore->cl_Launchers.GetSize();j++)
 			{
-				PtrCorePart ppart2 = pcore->cl_Parts.GetAt(jj);
-				if (ppart2->successorPartID == ppart->partID)
+				PtrCoreLauncher pl = pcore->cl_Launchers.GetAt(j);
+
+				bool IsUpgrade = false;
+				for (int jj=0;jj<pcore->cl_Launchers.GetSize();jj++)
 				{
-					IsUpgrade = true;
-					break;
+					PtrCoreLauncher pl2 = pcore->cl_Launchers.GetAt(jj);
+					if (pl2->successorPartID == pl->partID)
+					{
+						IsUpgrade = true;
+						break;
+					}
 				}
-			}
-			if (!IsUpgrade)
-			{
+				if (IsUpgrade) continue;
+			
 				LPARAM pcpart;
 				char *pname=NULL;
-				//if (!ppart->isspec)
-					if (ppart->partMask & pship->pmEquipment[idx])
-					{
-						pname = ppart->name;
-						pcpart = (LPARAM)ppart;
-					}
-				//if (ppart->isspec)
-				//{
-				//	PtrCoreEntry pce = pcore->ProxyPart(ppart->usemask);
-				//	if (pce->IGCPartType == idx)
-				//	if (pce->usemask & pship->pmEquipment[idx])
-				//	{
-				//		pname = pcore->ProxyPartName(ppart->usemask);
-				//		pcpart = pce->entry;
-				//	}
-				//	delete pce;
-				//}
+
+				PtrCoreEntry pce = pcore->ProxyPart(pl->expendabletypeID);
+				if (!pce) continue;
+				if (pce->IGCPartType == idx)
+				if (pce->usemask & pship->pmEquipment[idx])
+				{
+					pname = pcore->ProxyPartName(pl->expendabletypeID);
+					pcpart = pce->entry;
+				}
+				delete pce;
+
 				if (pname != NULL)
 				{
 					int ipc = cbpc->AddString(pname);
 					cbpc->SetItemData(ipc,pcpart);
 				}
 			}
-		}
-	}
-	else // EDIT MODE
-	for (int i=0;i<16;i++)
-	{
-		unsigned short umask = 1<<i;
-		for (int j=0;j<pcore->cl_Parts.GetSize();j++)
-		{
-			PtrCorePart ppart = pcore->cl_Parts.GetAt(j);
-			if ((ppart->equipmentType == idx) /*|| (ppart->isspec)*/)
+			break;
+		case ET_Weapon :
+		case ET_Shield :
+		case ET_Cloak :
+		case ET_Pack :
+		case ET_Afterburner:
+			for (int j=0;j<pcore->cl_Parts.GetSize();j++)
 			{
+				PtrCorePart ppart = pcore->cl_Parts.GetAt(j);
+				if (ppart->equipmentType != idx) continue;
+			
 				bool IsUpgrade = false;
 				for (int jj=0;jj<pcore->cl_Parts.GetSize();jj++)
 				{
@@ -444,41 +442,137 @@ void CShipLoadout::OnSelchangePartsel(void)
 						break;
 					}
 				}
-				if (!IsUpgrade)
+				if (IsUpgrade) continue;
+			
+				LPARAM pcpart;
+				char *pname=NULL;
+
+				if (ppart->partMask & pship->pmEquipment[idx])
 				{
-					bool bsel = false;
-					unsigned short pcmask;
-					char *pname=NULL;
-					if (/*(!ppart->isspec) &&*/ (ppart->partMask & umask))
-					{
-						pname = ppart->name;
-						pcmask = ppart->partMask;
-						if (ppart->partMask & pship->pmEquipment[idx])
-							bsel = true;
-					}
-					//if (ppart->isspec)
-					//{
-					//	PtrCoreEntry pce = pcore->ProxyPart(ppart->usemask);
-					//	if ((pce->IGCPartType == idx) && (pce->usemask & umask))
-					//	{
-					//		pname = pcore->ProxyPartName(ppart->usemask);
-					//		pcmask = pce->usemask;
-					//		if (pce->usemask & pship->pmEquipment[idx]) bsel = true;
-					//	}
-					//	delete pce;
-					//}
-					if (pname != NULL)
-					{
-						int ipc = cbpc->AddString(pname);
-						cbpc->SetItemData(ipc,pcmask);
-						if (bsel)
-							cbpc->SetSel(ipc,TRUE);
-					}
+					pname = ppart->name;
+					pcpart = (LPARAM)ppart;
+				}
+
+				if (pname != NULL)
+				{
+					int ipc = cbpc->AddString(pname);
+					cbpc->SetItemData(ipc,pcpart);
 				}
 			}
-		}//for j
-		int ipc = cbpc->AddString("----------------------------------------------");
-		cbpc->SetItemData(ipc,0);
+			break;
+	}
+
+	else // EDIT MODE
+	switch (idx)
+	{
+		case ET_ChaffLauncher :
+		case ET_Magazine :
+		case ET_Dispenser :
+			for (int i=0;i<16;i++)
+			{
+				unsigned short umask = 1<<i;
+				for (int j=0;j<pcore->cl_Launchers.GetSize();j++)
+				{
+					PtrCoreLauncher pl = pcore->cl_Launchers.GetAt(j);
+
+					PtrCoreEntry pce = pcore->ProxyPart(pl->expendabletypeID);
+					if (!pce) continue;
+
+					if ((pce->IGCPartType == idx) && (pce->usemask & umask))
+					{
+						bool IsUpgrade = false;
+						for (int jj=0;jj<pcore->cl_Launchers.GetSize();jj++)
+						{
+							PtrCoreLauncher pl2 = pcore->cl_Launchers.GetAt(jj);
+							if (pl2->successorPartID == pl->partID)
+							{
+								IsUpgrade = true;
+								break;
+							}
+						}
+						if (!IsUpgrade)
+						{
+							bool bsel = false;
+							unsigned short pcmask = pce->usemask;;
+							char *pname= pcore->ProxyPartName(pl->expendabletypeID);
+
+							if (pce->usemask & pship->pmEquipment[idx]) bsel = true;
+
+							if (pname != NULL)
+							{
+								int ipc = cbpc->AddString(pname);
+								cbpc->SetItemData(ipc,pcmask);
+								if (bsel)
+									cbpc->SetSel(ipc,TRUE);
+							}
+						}
+					}
+					delete pce;
+				}//for j
+				int ipc = cbpc->AddString("----------------------------------------------");
+				cbpc->SetItemData(ipc,0);
+			}
+			break;
+		case ET_Weapon :
+		case ET_Shield :
+		case ET_Cloak :
+		case ET_Pack :
+		case ET_Afterburner:
+			for (int i=0;i<16;i++)
+			{
+				unsigned short umask = 1<<i;
+				for (int j=0;j<pcore->cl_Parts.GetSize();j++)
+				{
+					PtrCorePart ppart = pcore->cl_Parts.GetAt(j);
+					if ((ppart->equipmentType == idx) /*|| (ppart->isspec)*/)
+					{
+						bool IsUpgrade = false;
+						for (int jj=0;jj<pcore->cl_Parts.GetSize();jj++)
+						{
+							PtrCorePart ppart2 = pcore->cl_Parts.GetAt(jj);
+							if (ppart2->successorPartID == ppart->partID)
+							{
+								IsUpgrade = true;
+								break;
+							}
+						}
+						if (!IsUpgrade)
+						{
+							bool bsel = false;
+							unsigned short pcmask;
+							char *pname=NULL;
+							if (/*(!ppart->isspec) &&*/ (ppart->partMask & umask))
+							{
+								pname = ppart->name;
+								pcmask = ppart->partMask;
+								if (ppart->partMask & pship->pmEquipment[idx])
+									bsel = true;
+							}
+							//if (ppart->isspec)
+							//{
+							//	PtrCoreEntry pce = pcore->ProxyPart(ppart->usemask);
+							//	if ((pce->IGCPartType == idx) && (pce->usemask & umask))
+							//	{
+							//		pname = pcore->ProxyPartName(ppart->usemask);
+							//		pcmask = pce->usemask;
+							//		if (pce->usemask & pship->pmEquipment[idx]) bsel = true;
+							//	}
+							//	delete pce;
+							//}
+							if (pname != NULL)
+							{
+								int ipc = cbpc->AddString(pname);
+								cbpc->SetItemData(ipc,pcmask);
+								if (bsel)
+									cbpc->SetSel(ipc,TRUE);
+							}
+						}
+					}
+				}//for j
+				int ipc = cbpc->AddString("----------------------------------------------");
+				cbpc->SetItemData(ipc,0);
+			}
+			break;
 	}
 }
 
@@ -683,6 +777,33 @@ void CShipLoadout::BuildDL(void)
 				}
 			}
 		}
+		for (int j=0;j<pcore->cl_Launchers.GetSize();j++)
+		{
+			CString s;
+			PtrCoreLauncher pl = pcore->cl_Launchers.GetAt(j);
+			bool IsUpgrade = false;
+			for (int jj=0;jj<pcore->cl_Launchers.GetSize();jj++)
+			{
+				PtrCoreLauncher pl2 = pcore->cl_Launchers.GetAt(jj);
+				if (pl2->successorPartID == pl->partID)
+				{
+					IsUpgrade = true; break;
+				}
+			}
+			if (!IsUpgrade)
+			{
+				s.Format("%s(%d)",pcore->ProxyPartName(pl->expendabletypeID),pl->partID);
+				int idx = clb->AddString(s);
+				clb->SetItemData(idx,pl->partID);
+				clb->SetSel(idx,FALSE);
+				for (int i=0;i<c_cMaxPreferredPartTypes;i++)
+				if (DLList[i] != -1)
+				{
+					if (pl->partID == DLList[i])
+						clb->SetSel(idx,TRUE);
+				}
+			}
+		}
 	}
 	else // VIEW MODE
 	{
@@ -692,18 +813,27 @@ void CShipLoadout::BuildDL(void)
 		for (int i=0;i<c_cMaxPreferredPartTypes;i++)
 			if (DLList[i] != -1)
 			{
-				CString s = "ERROR-UNKNOWN PART";
+				CString s = "";
+				
 				for (int j=0;j<pcore->cl_Parts.GetSize();j++)
 				{
 					PtrCorePart ppart = pcore->cl_Parts.GetAt(j);
 					if (ppart->partID == DLList[i])
 					{
-						//if (ppart->isspec)
-						//	s.Format("%s(%d)",pcore->ProxyPartName(ppart->usemask),ppart->partID);
-						//else
-							s.Format("%s(%d)",ppart->name,ppart->partID);
+						s.Format("%s(%d)",ppart->name,ppart->partID);
+						break;
 					}
 				}
+				for (int j=0;j<pcore->cl_Launchers.GetSize();j++)
+				{
+					PtrCoreLauncher pl = pcore->cl_Launchers.GetAt(j);
+					if (pl->partID == DLList[i])
+					{
+						s.Format("%s(%d)",pcore->ProxyPartName(pl->expendabletypeID),pl->partID);
+						break;
+					}
+				}
+				if (s=="") s = "ERROR-UNKNOWN PART";
 				int idx = clb->AddString(s);
 				clb->SetItemData(idx,DLList[i]);
 			}

@@ -31,7 +31,7 @@ void CMineDlg::SetIcons(HICON iJumpIcon)
 }
 void CMineDlg::DoDataExchange(CDataExchange* pDX)
 {
-	CString name,model,model2,type,icon,descr,ukbmp;
+	CString name,model,model2,type,icon,descr,ukbmp, invline;
 	CString todo1 = "";
 	int uid,ss1,ss2;
 	if (!pmine) return;
@@ -51,6 +51,8 @@ void CMineDlg::DoDataExchange(CDataExchange* pDX)
 		GetDlgItem(IDC_LAUNCHCOUNTLABEL)->ShowWindow(SW_SHOWNA);
 		GetDlgItem(IDC_AMOUNTLABEL)->ShowWindow(SW_SHOWNA);
 		GetDlgItem(IDC_BSUCC)->ShowWindow(SW_SHOWNA);
+		GetDlgItem(IDC_INVLINE)->ShowWindow(SW_SHOWNA);
+		GetDlgItem(IDC_INVLINELABEL)->ShowWindow(SW_SHOWNA);
 		CWnd::SetDlgItemText(IDC_PROXYBUT,"Disable");
 	}
 	else
@@ -65,6 +67,8 @@ void CMineDlg::DoDataExchange(CDataExchange* pDX)
 		GetDlgItem(IDC_LAUNCHCOUNTLABEL)->ShowWindow(SW_HIDE);
 		GetDlgItem(IDC_AMOUNTLABEL)->ShowWindow(SW_HIDE);
 		GetDlgItem(IDC_BSUCC)->ShowWindow(SW_HIDE);
+		GetDlgItem(IDC_INVLINE)->ShowWindow(SW_HIDE);
+		GetDlgItem(IDC_INVLINELABEL)->ShowWindow(SW_HIDE);
 		CWnd::SetDlgItemText(IDC_PROXYBUT,"Enable");
 	}
 
@@ -98,20 +102,9 @@ void CMineDlg::DoDataExchange(CDataExchange* pDX)
 		CComboBox *cbac = (CComboBox *)GetDlgItem(IDC_AC);
 		cbac->SetCurSel(pmine->defenseType);
 
-		//todo1.AppendFormat("ss1 = %d (%04X)\r\n",pmine->stats_ss1,pmine->stats_ss1);
-		//todo1.AppendFormat("ss2 = %d (%04X)\r\n",pmine->stats_ss2,pmine->stats_ss2);
-		//todo1.AppendFormat("\r\n");
-		//todo1.AppendFormat("pad7 = %02X\r\n",pmine->pad7);
-		/*
-		for (int i=0;i<sizeof(pmine->pad8);i++)
-		{
-			todo1.AppendFormat("%02X ",pmine->pad8[i]);
-			if (!((i+1)%16)) todo1.AppendFormat("\r\n");
-		}
-		todo1.AppendFormat("\r\n");
-		todo1.AppendFormat("RGBA = %f %f %f %f\r\n",pmine->pcRED,pmine->pcBlue,pmine->pcGreen,pmine->pcAlpha);
+		if (mountable)
+			invline = pl->inventoryLineMDL;
 
-		todo1.AppendFormat("\r\nEND");*/
 	}
 	DDX_Text(pDX, IDC_NAME, name);
 	DDX_Text(pDX, IDC_MODEL, model);
@@ -145,6 +138,7 @@ void CMineDlg::DoDataExchange(CDataExchange* pDX)
 		DDX_Text(pDX, IDC_OVUIDPROX, pl->successorPartID);
 		DDX_Text(pDX, IDC_LAUNCHCOUNT, pl->launchCount);
 		DDX_Text(pDX, IDC_AMOUNT, pl->amount);
+		DDX_Text(pDX, IDC_INVLINE, invline);
 	}
 
 	if (pDX->m_bSaveAndValidate) // dialog to data
@@ -174,6 +168,8 @@ void CMineDlg::DoDataExchange(CDataExchange* pDX)
 		CComboBox *cbac = (CComboBox *)GetDlgItem(IDC_AC);
 		pmine->defenseType = cbac->GetCurSel();
 
+		if (mountable)
+			strcpy_s(pl->inventoryLineMDL,c_cbFileName,invline);
 	}
 	CDialog::DoDataExchange(pDX);
 }

@@ -712,7 +712,7 @@ public:
 	CArray<PtrCoreDevel,PtrCoreDevel> cl_Devels;
 	CArray<PtrCoreShip,PtrCoreShip> cl_Ships;
 	CArray<PtrCorePart,PtrCorePart> cl_Parts;
-	CArray<DataLauncherTypeIGC *,DataLauncherTypeIGC *> cl_Launchers;
+	CArray<PtrCoreLauncher,PtrCoreLauncher> cl_Launchers;
 	CArray<PtrCoreCounter,PtrCoreCounter> cl_Counters;
 	CArray<PtrCoreMissile,PtrCoreMissile> cl_Missiles;
 	CArray<PtrCoreMine,PtrCoreMine> cl_Mines;

@@ -332,7 +332,7 @@ NEW IN 3.42 (WORK IN PROGRESS - UNRELEASED- WILL PROBABLY BE ICE 4.0)
   * 'shared IGC source' with Allegiance, exposing new attributes (or changing old ones):
      * factions: HUD
      * devel: floating icon
-     * treasures set: detailed powerups
+     * treasures set: detailed powerups, devels added
      * projectiles: directionnal & absolute speed as check boxes
      * drones: icon preview and path added
      * stations: <todo>
@@ -341,9 +341,8 @@ NEW IN 3.42 (WORK IN PROGRESS - UNRELEASED- WILL PROBABLY BE ICE 4.0)
      * mines: <todo>
      * probes: <todo>
      * missiles: bDirectional <todo> width textureName timeToBuild
-     * parts: mdl line in launcher, more launchers fixes (in ships)
+     * parts: mdl line in launcher (chaff & mine done), more launchers fixes (in ships, partial done)
      * <todo>: change ttbm
-     * currently doesnt work
 Known bugs:
 	none
 
