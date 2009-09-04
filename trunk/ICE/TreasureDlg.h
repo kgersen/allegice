@@ -34,4 +34,5 @@ public:
 	afx_msg void OnBnClickedAddcash();
 	afx_msg void OnBnClickedAddpwup();
 	afx_msg void OnBnClickedSetchance();
+	afx_msg void OnBnClickedCincdev();
 };

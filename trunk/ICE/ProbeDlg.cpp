@@ -33,7 +33,7 @@ void CProbeDlg::SetIcons(HICON iJumpIcon)
 
 void CProbeDlg::DoDataExchange(CDataExchange* pDX)
 {
-	CString name,model,type,icon,descr,ukbmp;
+	CString name,model,type,icon,descr,ukbmp,invline;
 
 	int uid,ss1,ss2,ss3,ss4,proj,sound;
 	if (!pprobe) return;
@@ -54,6 +54,8 @@ void CProbeDlg::DoDataExchange(CDataExchange* pDX)
 		GetDlgItem(IDC_LAUNCHCOUNTLABEL)->ShowWindow(SW_SHOWNA);
 		GetDlgItem(IDC_AMOUNTLABEL)->ShowWindow(SW_SHOWNA);
 		GetDlgItem(IDC_BSUCC)->ShowWindow(SW_SHOWNA);
+		GetDlgItem(IDC_INVLINE)->ShowWindow(SW_SHOWNA);
+		GetDlgItem(IDC_INVLINELABEL)->ShowWindow(SW_SHOWNA);
 		CWnd::SetDlgItemText(IDC_PROXYBUT,"Disable");
 	}
 	else
@@ -68,6 +70,8 @@ void CProbeDlg::DoDataExchange(CDataExchange* pDX)
 		GetDlgItem(IDC_LAUNCHCOUNTLABEL)->ShowWindow(SW_HIDE);
 		GetDlgItem(IDC_AMOUNTLABEL)->ShowWindow(SW_HIDE);
 		GetDlgItem(IDC_BSUCC)->ShowWindow(SW_HIDE);
+		GetDlgItem(IDC_INVLINE)->ShowWindow(SW_HIDE);
+		GetDlgItem(IDC_INVLINELABEL)->ShowWindow(SW_HIDE);
 		CWnd::SetDlgItemText(IDC_PROXYBUT,"Enable");
 	}
 
@@ -107,6 +111,9 @@ void CProbeDlg::DoDataExchange(CDataExchange* pDX)
 			CButton *cbb = (CButton *)CWnd::GetDlgItem(IDC_USEM0+i);
 			cbb->SetCheck((pprobe->eabmCapabilities & (1<<i))?BST_CHECKED:BST_UNCHECKED);
 		}
+
+		if (mountable)
+			invline = pl->inventoryLineMDL;
 	}
 	DDX_Text(pDX, IDC_NAME, name);
 	DDX_Text(pDX, IDC_MODEL, model);
@@ -144,6 +151,7 @@ void CProbeDlg::DoDataExchange(CDataExchange* pDX)
 		DDX_Text(pDX, IDC_OVUIDPROX, pl->successorPartID);
 		DDX_Text(pDX, IDC_LAUNCHCOUNT, pl->launchCount);
 		DDX_Text(pDX, IDC_AMOUNT,pl->amount);
+		DDX_Text(pDX, IDC_INVLINE,invline);
 	}
 	if (pDX->m_bSaveAndValidate) // dialog to data
 	{
@@ -180,6 +188,9 @@ void CProbeDlg::DoDataExchange(CDataExchange* pDX)
 			CButton *cbb = (CButton *)CWnd::GetDlgItem(IDC_USEM0+i);
 			pprobe->eabmCapabilities += (cbb->GetCheck()==BST_CHECKED)?(1<<i):0;
 		}
+
+		if (mountable)
+			strcpy_s(pl->inventoryLineMDL,c_cbFileName,invline);
 
 	}
 	CDialog::DoDataExchange(pDX);

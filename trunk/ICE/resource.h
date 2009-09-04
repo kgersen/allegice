@@ -43,6 +43,7 @@
 #define IDC_FACTOR0                     1007
 #define IDC_DECDEC                      1007
 #define IDC_MODEL2                      1007
+#define IDC_CONSTRUCTOR2                1007
 #define IDC_FACTOR1                     1008
 #define IDC_DECFLOAT                    1008
 #define IDC_INVLINE                     1008
@@ -409,6 +410,7 @@
 #define IDC_CHECK1                      1266
 #define IDC_AUTOBACKUP                  1266
 #define IDC_ABSSPEED                    1266
+#define IDC_CINCDEV                     1266
 #define IDC_VALIDATE                    1267
 #define IDC_DIRECTIONNAL                1267
 #define IDC_BBACK                       1268

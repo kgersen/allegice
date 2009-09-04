@@ -1,6 +1,6 @@
 ================================================================================
     ICE Project - Kirth Gersen /KGJV (kgersen@hotmail.com)
-    Release 3.41 (minor build)
+    Release 3.42 (major build)
 ===============================================================================
 
 Disclaimer & warning:
@@ -335,13 +335,13 @@ NEW IN 3.42 (WORK IN PROGRESS - UNRELEASED- WILL PROBABLY BE ICE 4.0)
      * treasures set: detailed powerups, devels added
      * projectiles: directionnal & absolute speed as check boxes
      * drones: icon preview and path added
-     * stations: <todo>
+     * stations: texture
      * ships: weapon & pack masks (unused yet) <todo> - unsorted DL and up/down buttons
      * chaffs: <todo>
      * mines: <todo>
      * probes: <todo>
      * missiles: bDirectional <todo> width textureName timeToBuild
-     * parts: mdl line in launcher (chaff & mine done), more launchers fixes (in ships, partial done)
+     * parts: mdl line in launcher  more launchers fixes (in ships, partial done)
      * <todo>: change ttbm
 Known bugs:
 	none

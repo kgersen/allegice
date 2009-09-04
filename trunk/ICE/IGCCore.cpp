@@ -1826,7 +1826,12 @@ LPARAM CIGCCore::FindError(char **pszReason)
 		if (pl->successorPartID != -1)
 		{
 			if (!FindLauncher(pl->successorPartID))
-				BuildError((LPARAM)pl,"Invalid successor (overided by)",pszReason);
+			{
+				PtrCoreEntry pce = ProxyPart(pl->expendabletypeID);
+				LPARAM p = pce->entry;
+				delete pce;
+				return BuildError((LPARAM)p,"Invalid successor (overided by)",pszReason);
+			}
 			
 		}
 	}
