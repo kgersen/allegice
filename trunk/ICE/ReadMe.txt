@@ -343,6 +343,7 @@ NEW IN 3.42 (WORK IN PROGRESS - UNRELEASED- WILL PROBABLY BE ICE 4.0)
      * missiles: bDirectional <todo> width textureName timeToBuild
      * parts: mdl line in launcher, more launchers fixes (in ships)
      * <todo>: change ttbm
+     * currently doesnt work
 Known bugs:
 	none
 
