@@ -31,9 +31,9 @@ void CMissileDlg::SetIcons(HICON iJumpIcon)
 }
 void CMissileDlg::DoDataExchange(CDataExchange* pDX)
 {
-	CString name,model,ldbmp,type,icon,descr,invline;
+	CString name,model,ldbmp,type,icon,descr,invline,texture;
 	CString todo1 = "";
-	int ss1,ss3,ss4,useflags;
+	int ss1,ss3,ss4;
 	int uid;
 	if (!pmissile) return;
 	ASSERT(sArtPath != "");
@@ -53,6 +53,8 @@ void CMissileDlg::DoDataExchange(CDataExchange* pDX)
 		type = pmissile->launcherDef.iconName;
 		mdlbmp3.LoadMDLFile(sArtPath +"\\"+ type + "bmp.mdl");
 		uid = pmissile->expendabletypeID;
+		texture = pmissile->textureName;
+
 
 		cbse->SetCurSel(-1); // pmissile->special_effect);
 		for (int i=0;i<IGCMISSILE_EFFECT_NBVALS;i++)
@@ -64,7 +66,7 @@ void CMissileDlg::DoDataExchange(CDataExchange* pDX)
 			}
 		}
 		
-		useflags = pmissile->launcherDef.partMask;
+		unsigned short useflags = pmissile->launcherDef.partMask;
 		for (int i=0;i<16;i++) 
 		{
 			CButton *cbb = (CButton *)CWnd::GetDlgItem(IDC_USEM0+i);
@@ -97,7 +99,6 @@ void CMissileDlg::DoDataExchange(CDataExchange* pDX)
 	DDX_Text(pDX, IDC_SS1, ss1);
 	DDX_Text(pDX, IDC_SS3, ss3);
 	DDX_Text(pDX, IDC_SS4, ss4);
-	DDX_Text(pDX, IDC_USEFLAGS, useflags);
 
 	DDX_Text(pDX, IDC_S1, pmissile->radius);
 	DDX_Text(pDX, IDC_S2, pmissile->rotation);
@@ -131,6 +132,8 @@ void CMissileDlg::DoDataExchange(CDataExchange* pDX)
 	DDX_Text(pDX, IDC_AMOUNT,pl->amount);
 	DDX_Text(pDX, IDC_INVLINE, invline);
 
+	DDX_Text(pDX, IDC_TEXTURE, texture);
+
 	if (pDX->m_bSaveAndValidate) // dialog to data
 	{
 		strcpy(pmissile->launcherDef.name,name);
@@ -139,6 +142,7 @@ void CMissileDlg::DoDataExchange(CDataExchange* pDX)
 		strcpy(pmissile->iconName,icon);
 		strcpy(pmissile->launcherDef.iconName,type);
 		strncpy(pmissile->launcherDef.description,descr,IGC_DESCRIPTIONMAX);
+		strcpy_s(pmissile->textureName,c_cbFileName,texture);
 		
 		pmissile->eabmCapabilities = ICGMissileEffectsValues[cbse->GetCurSel()];
 

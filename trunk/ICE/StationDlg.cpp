@@ -72,12 +72,12 @@ void CStationDlg::DoDataExchange(CDataExchange* pDX)
 		ss0 = pstation->constructionDroneTypeID;
 	//		cbdock->SetCheck((pstation->dockable == 0x10)?BST_CHECKED:BST_UNCHECKED);
 	//	cbisgar->SetCheck((pstation->stats_isgar == 1)?BST_CHECKED:BST_UNCHECKED);
-		cbbhelium->SetCheck((pstation->aabmBuild & IGCSTATIONF_BUILDON_HELIUM)?BST_CHECKED:BST_UNCHECKED);
-		cbbasteriod->SetCheck((pstation->aabmBuild & IGCSTATIONF_BUILDON_ASTERIOD)?BST_CHECKED:BST_UNCHECKED);
-		cbburanium->SetCheck((pstation->aabmBuild & IGCSTATIONF_BUILDON_URANIUM)?BST_CHECKED:BST_UNCHECKED);
-		cbbsilicon->SetCheck((pstation->aabmBuild & IGCSTATIONF_BUILDON_SILICON)?BST_CHECKED:BST_UNCHECKED);
-		cbbcarbon->SetCheck((pstation->aabmBuild & IGCSTATIONF_BUILDON_CARBON)?BST_CHECKED:BST_UNCHECKED);
-		cbbthorium->SetCheck((pstation->aabmBuild & IGCSTATIONF_BUILDON_THORIUM)?BST_CHECKED:BST_UNCHECKED);
+		cbbhelium->SetCheck((pstation->aabmBuild & c_aabmMineHe3)?BST_CHECKED:BST_UNCHECKED);
+		cbbasteriod->SetCheck((pstation->aabmBuild & c_aabmBuildable)?BST_CHECKED:BST_UNCHECKED);
+		cbburanium->SetCheck((pstation->aabmBuild & c_aabmSpecial)?BST_CHECKED:BST_UNCHECKED);
+		cbbsilicon->SetCheck((pstation->aabmBuild & (c_aabmSpecial<<1))?BST_CHECKED:BST_UNCHECKED);
+		cbbcarbon->SetCheck((pstation->aabmBuild & (c_aabmSpecial<<2))?BST_CHECKED:BST_UNCHECKED);
+		cbbthorium->SetCheck((pstation->aabmBuild & c_aabmMineGold)?BST_CHECKED:BST_UNCHECKED);
 		for (int i=0;i<IGCSTATION_TYPE_NBVALS;i++)
 		{
 			if (cbtype->GetItemData(i) == pstation->classID)
@@ -154,12 +154,12 @@ void CStationDlg::DoDataExchange(CDataExchange* pDX)
 		pstation->constructionDroneTypeID = ss0;
 		//	pstation->dockable = (cbdock->GetCheck()==BST_CHECKED)?0x10:0;
 		// pstation->stats_isgar = (cbisgar->GetCheck()==BST_CHECKED)?1:0;
-		pstation->aabmBuild  = (cbbhelium->GetCheck()==BST_CHECKED)?IGCSTATIONF_BUILDON_HELIUM:0;
-		pstation->aabmBuild += (cbbasteriod->GetCheck()==BST_CHECKED)?IGCSTATIONF_BUILDON_ASTERIOD:0;
-		pstation->aabmBuild += (cbburanium->GetCheck()==BST_CHECKED)?IGCSTATIONF_BUILDON_URANIUM:0;
-		pstation->aabmBuild += (cbbsilicon->GetCheck()==BST_CHECKED)?IGCSTATIONF_BUILDON_SILICON:0;
-		pstation->aabmBuild += (cbbcarbon->GetCheck()==BST_CHECKED)?IGCSTATIONF_BUILDON_CARBON:0;
-		pstation->aabmBuild += (cbbthorium->GetCheck()==BST_CHECKED)?IGCSTATIONF_BUILDON_THORIUM:0;
+		pstation->aabmBuild  = (cbbhelium->GetCheck()==BST_CHECKED)?c_aabmMineHe3:0;
+		pstation->aabmBuild += (cbbasteriod->GetCheck()==BST_CHECKED)?c_aabmBuildable:0;
+		pstation->aabmBuild += (cbburanium->GetCheck()==BST_CHECKED)?c_aabmSpecial:0;
+		pstation->aabmBuild += (cbbsilicon->GetCheck()==BST_CHECKED)?(c_aabmSpecial<<1):0;
+		pstation->aabmBuild += (cbbcarbon->GetCheck()==BST_CHECKED)?(c_aabmSpecial<<2):0;
+		pstation->aabmBuild += (cbbthorium->GetCheck()==BST_CHECKED)?c_aabmMineGold:0;
 		pstation->classID = (UCHAR)cbtype->GetItemData(cbtype->GetCurSel());
 
 		pstation->sabmCapabilities = 0;
