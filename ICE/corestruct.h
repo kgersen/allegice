@@ -46,17 +46,8 @@
 #define IGC_NAMEMAX c_cbName
 #define IGC_DESCRIPTIONMAX c_cbDescriptionDB // TODO: should be c_cbDescription
 
-
-//#define IGCNUMC 40
-//typedef struct SIGCCoreConstants // tag=0x22 size=440*4
-//{
-//	float constants[IGCNUMC];
-//	float damages[20][20];
-//} 
 typedef Constants IGCCoreConstants;
 typedef IGCCoreConstants * PtrCoreConstants;
-
-
 
 #define IGCDMMAX c_dmgidMax
 #define IGCACMAX c_defidMax
@@ -64,18 +55,9 @@ const CString IGCArmorClasses[IGCACMAX] = {
 "asteroid","light","medium","heavy",
 "extra heavy","utility","minor base hull","major base hull",
 "lt/med shld","minor base shld","major base shld","parts",
-"lt base hull","lt base shld","large shield","AC15",
+"lt base hull","lt base shld","large shld","AC15",
 "AC16","AC17","AC18","AC19"
 };
-
-
-#define IGCSTATIONF_BUILDON_HELIUM c_aabmMineHe3
-#define IGCSTATIONF_BUILDON_THORIUM c_aabmMineGold
-#define IGCSTATIONF_BUILDON_ASTERIOD c_aabmBuildable
-#define IGCSTATIONF_BUILDON_URANIUM c_aabmSpecial
-#define IGCSTATIONF_BUILDON_SILICON (c_aabmSpecial<<1)
-#define IGCSTATIONF_BUILDON_CARBON (c_aabmSpecial<<2)
-
 
 #define IGCSTATION_TYPE_NBVALS 20 // TODO: be dynamic and store names in core ?
 const CString IGCStationTypeNames[IGCSTATION_TYPE_NBVALS] = 
