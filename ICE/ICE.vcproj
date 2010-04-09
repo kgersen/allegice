@@ -47,7 +47,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="C:\dev\FreeImage\Dist"
+				AdditionalIncludeDirectories="External\FreeImage\Dist"
 				PreprocessorDefinitions="__ICE;_DEBUG;_CRT_SECURE_NO_DEPRECATE"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -71,7 +71,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="C:\dev\extern\FreeImage\Dist\FreeImage.lib"
+				AdditionalDependencies="External\FreeImage\Dist\FreeImage.lib"
 				Version="3.41"
 				LinkIncremental="2"
 				SuppressStartupBanner="true"
@@ -136,7 +136,7 @@
 				Optimization="2"
 				InlineFunctionExpansion="1"
 				OmitFramePointers="true"
-				AdditionalIncludeDirectories="C:\dev\FreeImage\Dist"
+				AdditionalIncludeDirectories="External\FreeImage\Dist"
 				PreprocessorDefinitions="__ICE;_ICEPUB;_CRT_SECURE_NO_DEPRECATE"
 				IgnoreStandardIncludePath="false"
 				StringPooling="true"
@@ -162,7 +162,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="C:\dev\extern\FreeImage\Dist\FreeImage.lib"
+				AdditionalDependencies="External\FreeImage\Dist\FreeImage.lib"
 				Version="3.41"
 				LinkIncremental="1"
 				SuppressStartupBanner="true"

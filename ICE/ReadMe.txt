@@ -327,6 +327,7 @@ NEW IN 3.41
   * zoomable editing for all 'description' fields.
   
 NEW IN 3.42 (WORK IN PROGRESS - UNRELEASED- WILL PROBABLY BE ICE 4.0)
+  * minor error messages fix
   * ship loadout UI fixes
   * link button from station to drone (constructor)
   * 'shared IGC source' with Allegiance, exposing new attributes (or changing old ones):
@@ -335,8 +336,8 @@ NEW IN 3.42 (WORK IN PROGRESS - UNRELEASED- WILL PROBABLY BE ICE 4.0)
      * treasures set: detailed powerups, devels added
      * projectiles: directionnal & absolute speed as check boxes
      * drones: icon preview and path added
-     * stations: texture
-     * ships: weapon & pack masks (unused yet) <todo> - unsorted DL and up/down buttons
+     * stations: 'scale' renamed 'radius', texture
+     * ships: 'scale' renamed 'length', weapon & pack masks (unused yet) <todo> - unsorted DL and up/down buttons
      * chaffs: <todo>
      * mines: <todo>
      * probes: <todo>
