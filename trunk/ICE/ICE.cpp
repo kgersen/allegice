@@ -61,7 +61,7 @@ BOOL CICEApp::InitInstance()
 	regres = RegOpenKeyEx(HKEY_LOCAL_MACHINE,"SOFTWARE\\Microsoft\\Microsoft Games\\Allegiance\\1.0",0, KEY_READ, &hKey);
 	if (regres != ERROR_SUCCESS)
 	{
-		AfxMessageBox(_T("Allegiance server not found in registry !!!"));
+		AfxMessageBox(_T("Allegiance is not installed !!!"));
 		return FALSE;
 	}
 	regres = RegQueryValueEx(hKey,"EXE Path",NULL,NULL,(LPBYTE)pdata,&psize);
