@@ -327,6 +327,7 @@ NEW IN 3.41
   * zoomable editing for all 'description' fields.
   
 NEW IN 3.42 (WORK IN PROGRESS - UNRELEASED- WILL PROBABLY BE ICE 4.0)
+  * now use registry key "Artpath" instead of "EXE Path" for artwork location
   * minor error messages fix
   * ship loadout UI fixes
   * link button from station to drone (constructor)
