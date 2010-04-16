@@ -64,13 +64,13 @@ BOOL CICEApp::InitInstance()
 		AfxMessageBox(_T("Allegiance is not installed !!!"));
 		return FALSE;
 	}
-	regres = RegQueryValueEx(hKey,"EXE Path",NULL,NULL,(LPBYTE)pdata,&psize);
+	regres = RegQueryValueEx(hKey,"ArtPath",NULL,NULL,(LPBYTE)pdata,&psize);
 	RegCloseKey(hKey);
 
 	// create igpp based on the registry
 	if (regres != ERROR_SUCCESS)
 	{
-		AfxMessageBox(_T("Allegiance EXE Path not found in registry !!!"));
+		AfxMessageBox(_T("Allegiance ArtPath key not found in registry !!!"));
 		return FALSE;
 	}
 //------------------------------------
@@ -79,7 +79,7 @@ BOOL CICEApp::InitInstance()
 	dlg.sTitle = GetAppDescription() + " " + GetAppVersion()+ " " + GetAppInternalName();
 	dlg.sVersion = GetAppProductName() + " " + GetAppVersion() + " " + GetAppInternalName();
 	dlg.cArtPath = pdata;
-	dlg.cArtPath = dlg.cArtPath + "\\artwork";
+	//dlg.cArtPath = dlg.cArtPath + "\\artwork";
 	m_pMainWnd = &dlg;
 
 	dlg.iBackIcon = LoadIcon(IDI_ICONBACK);

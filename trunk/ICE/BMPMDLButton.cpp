@@ -83,7 +83,7 @@ void CBMPMDLButton::LoadMDLFile(CString sMDLPath)
 				mdlfile.RootObject->image->header.m_pitch,
 				mdlfile.RootObject->image->header.m_bitCount,
 				mdlfile.RootObject->image->header.m_redMask, mdlfile.RootObject->image->header.m_greenMask, mdlfile.RootObject->image->header.m_blueMask,
-				TRUE);
+				FALSE); // change in FreeImage API
 		if (!m_bitmap.CreateBitmap(width,height,1,screenbpp,bits))
 		{
 			CString res;
