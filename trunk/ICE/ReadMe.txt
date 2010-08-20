@@ -326,25 +326,22 @@ NEW IN 3.41
   * minor changes in some labels
   * zoomable editing for all 'description' fields.
   
-NEW IN 3.42 (WORK IN PROGRESS - UNRELEASED- WILL PROBABLY BE ICE 4.0)
+NEW IN 3.42
   * now use registry key "Artpath" instead of "EXE Path" for artwork location
-  * minor error messages fix
+  * minor error messages fix & sorting
   * ship loadout UI fixes
   * link button from station to drone (constructor)
-  * 'shared IGC source' with Allegiance, exposing new attributes (or changing old ones):
+  * more checks in validation: station successor and constructor & last station must be a flag pedestal
+  * major internal change: 'shared IGC source' with Allegiance. This exposed new attributes (or changing names of old ones):
      * factions: HUD
      * devel: floating icon
      * treasures set: detailed powerups, devels added
      * projectiles: directionnal & absolute speed as check boxes
      * drones: icon preview and path added
      * stations: 'scale' renamed 'radius', texture
-     * ships: 'scale' renamed 'length', weapon & pack masks (unused yet) <todo> - unsorted DL and up/down buttons
-     * chaffs: <todo>
-     * mines: <todo>
-     * probes: <todo>
-     * missiles: bDirectional <todo> width textureName timeToBuild
-     * parts: mdl line in launcher  more launchers fixes (in ships, partial done)
-     * <todo>: change ttbm
+     * ships: 'scale' renamed 'length', weapon & pack masks exposed (unused by game yet as of R5/R6)
+     * missiles: bDirectional textureName (nyi: timeToBuild & width)
+     * parts: lot of attributes renamed 
 Known bugs:
 	none
 

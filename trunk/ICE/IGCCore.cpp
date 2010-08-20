@@ -1857,5 +1857,28 @@ LPARAM CIGCCore::FindError(char **pszReason)
 		}
 
 	}
+	// Stations
+	for (int j=0;j<cl_StationTypes.GetSize();j++)
+	{
+		PtrCoreStationType pstation = cl_StationTypes.GetAt(j);
+		if (pstation->successorStationTypeID != -1)
+		{
+			PtrCoreStationType pssucc = FindStationType(pstation->successorStationTypeID);
+			if (!pssucc) return BuildError((LPARAM)pstation,"Invalid successor ",pszReason);
+		}
+		if (pstation->constructionDroneTypeID != -1) // todo: check if no condrone is allowed
+		{
+			PtrCoreDrone pcon = FindDrone(pstation->constructionDroneTypeID);
+			if (!pcon) return BuildError((LPARAM)pstation,"Invalid construction drone ",pszReason);
+		}
+	}
+	// Stations : last station must have flag for CTF game type to work
+	if (cl_StationTypes.GetSize()>0)
+	{
+		// last station
+		PtrCoreStationType pstation = cl_StationTypes.GetAt(cl_StationTypes.GetSize()-1);
+		if (!(pstation->sabmCapabilities & c_sabmPedestal))
+			return BuildError((LPARAM)pstation,"Last station must be a flag pedestal",pszReason);
+	}
 	return NULL;
 }

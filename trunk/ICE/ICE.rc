@@ -16,10 +16,8 @@
 // Neutral resources
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_NEU)
-#ifdef _WIN32
 LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
 #pragma code_page(1252)
-#endif //_WIN32
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -83,7 +81,7 @@ FONT 8, "MS Sans Serif", 0, 0, 0x1
 BEGIN
     ICON            IDR_MAINFRAME,IDC_STATIC,7,7,20,20
     DEFPUSHBUTTON   "OK",IDOK,178,7,50,14,WS_GROUP
-    LTEXT           "Copyright (C) 2001-2009 Kirth Gersen (KGJV)",IDC_STATIC,40,25,188,8
+    LTEXT           "Copyright (C) 2001-2010 Kirth Gersen (KGJV)",IDC_STATIC,40,25,188,8
     LTEXT           "kgersen@hotmail.com",IDC_STATIC,40,39,119,8
     LTEXT           "Logo by Nick Thoman (NoodleNT)",IDC_STATIC,40,50,179,8
     LTEXT           "Other decoders: Your_Persona, EvanTaylor, tpaganj, Vlymoxyd",IDC_STATIC,39,72,179,21
@@ -621,12 +619,12 @@ BEGIN
     EDITTEXT        IDC_S16,288,35,39,14,ES_AUTOHSCROLL
     RTEXT           "HitPoints",IDC_STATIC,256,38,29,8
     EDITTEXT        IDC_SS1,289,54,38,14,ES_AUTOHSCROLL
-    RTEXT           "Cargo payload",IDC_PSS1,239,59,46,8
+    RTEXT           "Cargo payload",IDC_PSS1,239,57,46,8
     RTEXT           "DM",IDC_PSS2,272,76,12,8
     EDITTEXT        IDC_SS3,288,231,38,14,ES_AUTOHSCROLL
-    RTEXT           "Launch sound",IDC_PSS3,238,236,46,8
+    RTEXT           "Launch sound",IDC_PSS3,238,235,46,8
     EDITTEXT        IDC_SS4,288,247,38,14,ES_AUTOHSCROLL
-    RTEXT           "Flight sound",IDC_PSS4,246,250,39,8
+    RTEXT           "Flight sound",IDC_PSS4,245,249,39,8
     EDITTEXT        IDC_UKBMP,11,142,55,14,ES_AUTOHSCROLL
     LTEXT           "I. model - loadout",IDC_STATIC,9,133,55,8
     CONTROL         "Icon",IDC_PICT2,"Button",BS_OWNERDRAW | WS_TABSTOP,68,131,82,25,WS_EX_STATICEDGE
@@ -674,7 +672,7 @@ BEGIN
     RTEXT           "Blast Power",IDC_STATIC,161,94,38,8
     CONTROL         "Icon",IDC_PICT3,"Button",BS_OWNERDRAW | WS_TABSTOP,141,35,12,11,WS_EX_STATICEDGE
     PUSHBUTTON      "E",IDC_BEDITDESCR,162,114,11,12
-    CONTROL         "Directionnal",IDC_DIRECTIONNAL,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,107,79,52,10
+    CONTROL         "Directionnal",IDC_DIRECTIONNAL,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,104,87,52,10
     EDITTEXT        IDC_UIDPROX,37,10,19,14,ES_AUTOHSCROLL | ES_READONLY
     RTEXT           "Part UID",IDC_STATIC,8,13,28,8
     EDITTEXT        IDC_OVUIDPROX,99,10,27,14,ES_AUTOHSCROLL
@@ -1311,7 +1309,7 @@ END
 //
 
 #ifdef APSTUDIO_INVOKED
-GUIDELINES DESIGNINFO 
+GUIDELINES DESIGNINFO
 BEGIN
     IDD_LOADOUT, DIALOG
     BEGIN
@@ -1335,6 +1333,10 @@ BEGIN
     IDD_DEVELDLG, DIALOG
     BEGIN
         BOTTOMMARGIN, 276
+    END
+
+    IDD_MISSILEDLG, DIALOG
+    BEGIN
     END
 
     IDD_PROBEDLG, DIALOG
@@ -1367,13 +1369,11 @@ END
 
 
 /////////////////////////////////////////////////////////////////////////////
-// English (U.S.) resources
+// English (United States) resources
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
-#ifdef _WIN32
 LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 #pragma code_page(1252)
-#endif //_WIN32
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -1401,8 +1401,8 @@ BEGIN
             VALUE "CompanyName", "Kirth Gersen/KGJV "
             VALUE "FileDescription", "IGC Core Editor"
             VALUE "FileVersion", "3.42"
-            VALUE "InternalName", "WORK IN PROGRESS VERSION"
-            VALUE "LegalCopyright", "Copyright (C) Kirth Gersen 2001-2009"
+            VALUE "InternalName", "20 august 2010"
+            VALUE "LegalCopyright", "Copyright (C) Kirth Gersen 2001-2010"
             VALUE "OriginalFilename", "ICE.EXE"
             VALUE "ProductName", "ICE"
             VALUE "ProductVersion", "3.42"
@@ -1420,12 +1420,12 @@ END
 // String Table
 //
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     IDS_ABOUTBOX            "&About ICE..."
 END
 
-#endif    // English (U.S.) resources
+#endif    // English (United States) resources
 /////////////////////////////////////////////////////////////////////////////
 
 
@@ -1433,10 +1433,8 @@ END
 // French (France) resources
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_FRA)
-#ifdef _WIN32
 LANGUAGE LANG_FRENCH, SUBLANG_FRENCH
 #pragma code_page(1252)
-#endif //_WIN32
 
 #ifdef APSTUDIO_INVOKED
 /////////////////////////////////////////////////////////////////////////////
