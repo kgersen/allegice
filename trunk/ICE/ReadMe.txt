@@ -1,7 +1,7 @@
 ================================================================================
     ICE Project - Kirth Gersen /KGJV (kgersen@hotmail.com)
-    Release 3.42 (major build)
-===============================================================================
+    Release 3.43 
+================================================================================
 
 Disclaimer & warning:
 
@@ -343,7 +343,10 @@ NEW IN 3.42
      * missiles: bDirectional textureName (nyi: timeToBuild & width)
      * parts: lot of attributes renamed 
 Known bugs:
-	none
+	duplicating a non launcher part causes memory corruption
+
+NEW IN 3.43
+	* fix duplication bug for parts
 
 Kirth
 /////////////////////////////////////////////////////////////////////////////

@@ -1398,8 +1398,15 @@ void CICEDlg::OnBnClickedAdd()
 		}break;
 	case OT_partType:{ // part
 		PtrCorePart ppartcur = (PtrCorePart) pce->entry;
-		PtrCorePart ppart = new IGCCorePart;
-		memcpy(ppart,ppartcur,sizeof(IGCCorePart));
+		int size = pigccore->PartSize(ppartcur);
+		if (size==-1)
+		{
+			AfxMessageBox("unexpected error in duplicate, contact developper!");
+			entry = NULL;
+			break;
+		}
+		PtrCorePart ppart = (PtrCorePart) new char[size];
+		memcpy(ppart,ppartcur,size);
 		pigccore->AddPart(ppart);
 		entry = (LPARAM)ppart;
 		}break;

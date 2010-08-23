@@ -564,6 +564,19 @@ void CIGCCore::DumpCore(void)
 */	ctmp.Close();
 
 }
+int CIGCCore::PartSize(PtrCorePart ppart)
+{
+		switch (ppart->equipmentType)
+		{
+			case ET_Weapon:      return sizeof(DataWeaponTypeIGC); break;
+			case ET_Shield:      return sizeof(DataShieldTypeIGC); break;
+			case ET_Cloak:       return sizeof(DataCloakTypeIGC); break;
+			case ET_Pack:        return sizeof(DataPackTypeIGC); break;
+			case ET_Afterburner: return sizeof(DataAfterburnerTypeIGC); break;
+			default: break;
+		}
+		return -1;
+}
 bool CIGCCore::SaveToFile(CString fn)
 {
     CFile cfcore;
@@ -645,16 +658,7 @@ bool CIGCCore::SaveToFile(CString fn)
 	for (int j=0;j<cl_Parts.GetSize();j++)
 	{
 		PtrCorePart ppart = cl_Parts.GetAt(j);
-		tag_size = -1;
-		switch (ppart->equipmentType)
-		{
-			case ET_Weapon:      tag_size = sizeof(DataWeaponTypeIGC); break;
-			case ET_Shield:      tag_size = sizeof(DataShieldTypeIGC); break;
-			case ET_Cloak:       tag_size = sizeof(DataCloakTypeIGC); break;
-			case ET_Pack:        tag_size = sizeof(DataPackTypeIGC); break;
-			case ET_Afterburner: tag_size = sizeof(DataAfterburnerTypeIGC); break;
-			default: break;
-		}
+		tag_size = PartSize(ppart);
 		if (tag_size == -1)
 		{
 			AfxMessageBox("INVALID equipmentType detected! ignoring");
