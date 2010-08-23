@@ -702,6 +702,7 @@ public:
 	CArray<PtrCoreProbe,PtrCoreProbe> cl_Probes;
 	CArray<PtrCoreProjectile,PtrCoreProjectile> cl_Projectiles;
 	CArray<PtrCoreTreasureSet,PtrCoreTreasureSet> cl_TreasureSets;
+	int PartSize(PtrCorePart ppart);
 	bool ReadFromFile(CString);
 	bool SaveToFile(CString);
 	CMenu mBasesMenu;
