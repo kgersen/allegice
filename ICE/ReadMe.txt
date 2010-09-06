@@ -342,11 +342,14 @@ NEW IN 3.42
      * ships: 'scale' renamed 'length', weapon & pack masks exposed (unused by game yet as of R5/R6)
      * missiles: bDirectional textureName (nyi: timeToBuild & width)
      * parts: lot of attributes renamed 
-Known bugs:
-	duplicating a non launcher part causes memory corruption
 
 NEW IN 3.43
 	* fix duplication bug for parts
+NEW IN 3.44
+	* fix duplication bug for hulls (ships)
+
+Known bugs:
+	when in sorting mode, launched parts (mines,missiles,probes and drones) are not shown.
 
 Kirth
 /////////////////////////////////////////////////////////////////////////////
