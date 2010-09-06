@@ -1370,8 +1370,8 @@ void CICEDlg::OnBnClickedAdd()
 		}break;
 	case OT_hullType:{ // ship
 		PtrCoreShip pshipcur = (PtrCoreShip) pce->entry;
-		PtrCoreShip pship = new IGCCoreShip;
-		memcpy(pship,pshipcur,sizeof(IGCCoreShip));
+		PtrCoreShip pship = (DataHullTypeIGC *)new char[sizeof(IGCCoreShip)+c_maxMountedWeapons*sizeof(HardpointData)];
+		memcpy(pship,pshipcur,sizeof(IGCCoreShip)+c_maxMountedWeapons*sizeof(HardpointData));
 		pigccore->AddShip(pship);
 		entry = (LPARAM)pship;
 		}break;
