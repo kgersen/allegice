@@ -1,6 +1,6 @@
 ================================================================================
     ICE Project - Kirth Gersen /KGJV (kgersen@hotmail.com)
-    Release 3.44 
+    Release 3.45 
 ================================================================================
 
 Disclaimer & warning:
@@ -347,7 +347,9 @@ NEW IN 3.43
 	* fix duplication bug for parts
 NEW IN 3.44
 	* fix duplication bug for hulls (ships)
-
+NEW IN 3.45
+	* supports now Allegiance 1.2 registry (and only that)
+	
 Known bugs:
 	when in sorting mode, launched parts (mines,missiles,probes and drones) are not shown.
 
