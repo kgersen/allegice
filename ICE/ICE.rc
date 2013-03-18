@@ -1400,12 +1400,12 @@ BEGIN
             VALUE "Comments", "IGC Core Editor"
             VALUE "CompanyName", "Kirth Gersen/KGJV "
             VALUE "FileDescription", "IGC Core Editor"
-            VALUE "FileVersion", "3.4.4.0"
+            VALUE "FileVersion", "3.44"
             VALUE "InternalName", "6 september 2010"
             VALUE "LegalCopyright", "Copyright (C) Kirth Gersen 2001-2010"
             VALUE "OriginalFilename", "ICE.EXE"
             VALUE "ProductName", "ICE"
-            VALUE "ProductVersion", "3.4.4.0"
+            VALUE "ProductVersion", "3.44"
         END
     END
     BLOCK "VarFileInfo"
