@@ -58,7 +58,7 @@ BOOL CICEApp::InitInstance()
 	HKEY hKey;
 
 	// read the parameters in the registry
-	regres = RegOpenKeyEx(HKEY_LOCAL_MACHINE,"SOFTWARE\\Microsoft\\Microsoft Games\\Allegiance\\1.0",0, KEY_READ, &hKey);
+	regres = RegOpenKeyEx(HKEY_LOCAL_MACHINE,"SOFTWARE\\Microsoft\\Microsoft Games\\Allegiance\\1.2",0, KEY_READ, &hKey);
 	if (regres != ERROR_SUCCESS)
 	{
 		AfxMessageBox(_T("Allegiance is not installed !!!"));

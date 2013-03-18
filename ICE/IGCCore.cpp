@@ -93,13 +93,7 @@ bool CIGCCore::ReadFromFile(CString fn)
 
 	cfmap.Read(&iCoreHeader,sizeof(size));
 	char *p = (char*)&iCoreHeader;
-/*#ifndef __ICE
-	if (p[2] != 2 || p[3] != 0x3b) // bad magic
-	{
-		cfmap.Close();
-		return false;
-	}
-#endif*/
+
 	cfmap.Read(&cfmap_size,sizeof(size));
 	cfmap_read = 0;
 	while (cfmap_read < cfmap_size)
