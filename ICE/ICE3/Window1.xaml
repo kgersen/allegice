@@ -1,7 +1,7 @@
 ﻿<Window x:Class="ICE3.Window1"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    Title="ICE 3" Height="315.423" Width="448">
+    Title="ICE 3" Height="426.281" Width="637.27">
     <Window.Resources>
         <DataTemplate x:Key="civFormating" DataType="DataCivilizationIGC">
             <StackPanel Orientation="Horizontal">
