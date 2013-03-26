@@ -142,10 +142,23 @@ public class ObjectDumper {
         else if (o is TechTreeBitMask)
         {
             TechTreeBitMask ttbm = (TechTreeBitMask)o;
+
+            // temporary fix.
+            BitArray bol = new BitArray(ttbm.bits.Length);
+            bol.SetAll(false);
             int idx = 0;
             foreach (bool b in ttbm.bits)
             {
-                if (b) WriteValue(" "+idx);
+                if (b)
+                    bol.Set(((idx / 8) * 8 + (7 - idx % 8)), true);
+                idx++;
+            }
+            // end of fix: to revert replace bol with ttbm.bits
+            idx = 0;
+            foreach (bool b in bol)
+            {
+                if (b)
+                    WriteValue(" " + idx);
                 idx++;
             }
         }
