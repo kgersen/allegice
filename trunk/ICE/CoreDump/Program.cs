@@ -59,6 +59,31 @@ namespace CoreDump
                 string pid = "Parts-" + p.name + "(" + p.partID + ")-";
                 ObjectDumper.Write(pid, p);
             }
+            foreach (DataChaffTypeIGC m in core.m_chaffTypes)
+            {
+                string mid = "Chaffs-" + m.launcherDef.name + "(" + m.expendabletypeID + ")-";
+                ObjectDumper.Write(mid, m);
+            }
+            foreach (DataMineTypeIGC m in core.m_mineTypes)
+            {
+                string mid = "Mines-"+ m.launcherDef.name + "("+ m.expendabletypeID +")-";
+                ObjectDumper.Write(mid, m);
+            }
+            foreach (DataMissileTypeIGC m in core.m_missileTypes)
+            {
+                string mid = "Missiles-" + m.launcherDef.name + "(" + m.expendabletypeID + ")-";
+                ObjectDumper.Write(mid, m);
+            }
+            foreach (DataProbeTypeIGC m in core.m_probeTypes)
+            {
+                string mid = "Probes-" + m.launcherDef.name + "(" + m.expendabletypeID + ")-";
+                ObjectDumper.Write(mid, m);
+            }
+            foreach (DataLauncherTypeIGC l in core.m_launcherTypes)
+            {
+                string lid = "Launchers-" + l.partID + "-" + l.expendabletypeID+"-";
+                ObjectDumper.Write(lid, l);
+            }
             foreach (DataTreasureSetIGC t in core.m_treasureSets)
             {
                 string tid = "Treasures-" + t.name + "(" + t.treasureSetID + ")-";
