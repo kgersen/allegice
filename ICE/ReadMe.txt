@@ -349,7 +349,10 @@ NEW IN 3.44
 	* fix duplication bug for hulls (ships)
 NEW IN 3.45
 	* supports now Allegiance 1.2 registry (and only that)
-	
+NEW IN 3.46
+    * project moved to github
+    * gitignore
+	* vista+ file dialog
 Known bugs:
 	when in sorting mode, launched parts (mines,missiles,probes and drones) are not shown.
 

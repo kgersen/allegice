@@ -952,9 +952,9 @@ void CICEDlg::OnClickedSaveas(void)
 {
 	CString startpath = cArtPath + "\\*.igc";
 #ifdef _ICEPUB
-	CFileDialog cfd(FALSE,"igc",NULL,OFN_NOCHANGEDIR|OFN_NONETWORKBUTTON|OFN_OVERWRITEPROMPT,"Allegiance Core|*.igc|",this,OPENFILENAME_SIZE_VERSION_400);
+	CFileDialog cfd(FALSE,"igc",NULL,OFN_NOCHANGEDIR|OFN_NONETWORKBUTTON|OFN_OVERWRITEPROMPT,"Allegiance Core|*.igc|",this,0,TRUE);
 #else
-	CFileDialog cfd(FALSE,"igc",startpath,OFN_NOCHANGEDIR|OFN_NONETWORKBUTTON|OFN_OVERWRITEPROMPT,"Allegiance Core|*.igc|",this,OPENFILENAME_SIZE_VERSION_400);
+	CFileDialog cfd(FALSE,"igc",startpath,OFN_NOCHANGEDIR|OFN_NONETWORKBUTTON|OFN_OVERWRITEPROMPT,"Allegiance Core|*.igc|",this,0,TRUE);
 #endif
 	if (cfd.DoModal() == IDOK)
 	{

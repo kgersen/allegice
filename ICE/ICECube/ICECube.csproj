@@ -103,12 +103,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\IGCLib\IGCLib.vcxproj">
-      <Project>{EDE83343-470F-4718-AF8E-1F1D438EA77D}</Project>
-      <Name>IGCLib</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
       <Visible>False</Visible>
       <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
