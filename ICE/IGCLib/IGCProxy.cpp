@@ -642,13 +642,20 @@ namespace IGCLib {
 		PtoM(signature);
 		PtoM(speed);
 
-		m->maxTurnRates.Yaw = p->maxTurnRates[c_axisYaw];
-		m->maxTurnRates.Pitch = p->maxTurnRates[c_axisPitch];
-		m->maxTurnRates.Roll = p->maxTurnRates[c_axisRoll];
 
-		m->turnTorques.Yaw = p->turnTorques[c_axisYaw];
-		m->turnTorques.Pitch = p->turnTorques[c_axisPitch];
-		m->turnTorques.Roll = p->turnTorques[c_axisRoll];
+		{YawPitchRoll ypr;
+			ypr.Yaw=p->maxTurnRates[c_axisYaw];
+			ypr.Pitch=p->maxTurnRates[c_axisPitch];
+			ypr.Roll=p->maxTurnRates[c_axisRoll];
+			m->maxTurnRates = ypr;
+		}
+
+		{YawPitchRoll ypr;
+			ypr.Yaw=p->turnTorques[c_axisYaw];
+			ypr.Pitch=p->turnTorques[c_axisPitch];
+			ypr.Roll=p->turnTorques[c_axisRoll];
+			m->turnTorques = ypr;
+		}
 
 		PtoM(thrust);
 		PtoM(sideMultiplier);

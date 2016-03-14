@@ -136,7 +136,14 @@ public class ObjectDumper {
         else if (o is DateTime) {
             Write(((DateTime)o).ToShortDateString());
         }
-        else if (o is ValueType || o is string) {
+        else if (o is YawPitchRoll)
+        {
+            Write(((YawPitchRoll)o).Yaw.ToString()); Write(":");
+            Write(((YawPitchRoll)o).Pitch.ToString()); Write(":");
+            Write(((YawPitchRoll)o).Roll.ToString());
+        }
+        else if (o is ValueType || o is string)
+        {
             Write(o.ToString());
         }
         else if (o is TechTreeBitMask)
