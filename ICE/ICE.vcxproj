@@ -49,12 +49,12 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <OutDir>Debug\</OutDir>
     <IntDir>Debug\</IntDir>
-    <LinkIncremental>false</LinkIncremental>
+    <LinkIncremental>true</LinkIncremental>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <OutDir>Release\</OutDir>
     <IntDir>Release\</IntDir>
-    <LinkIncremental>false</LinkIncremental>
+    <LinkIncremental>true</LinkIncremental>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <Midl>
@@ -189,7 +189,6 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="res\backward.ico" />
-    <Image Include="res\ico00001.ico" />
     <Image Include="res\icon2.ico" />
     <Image Include="res\play.ico" />
   </ItemGroup>

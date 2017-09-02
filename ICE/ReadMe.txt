@@ -1,6 +1,6 @@
 ================================================================================
     ICE Project - Kirth Gersen /KGJV (kgersen@hotmail.com)
-    Release 3.45 
+    Release 3.47
 ================================================================================
 
 Disclaimer & warning:
@@ -353,6 +353,9 @@ NEW IN 3.46
     * project moved to github
     * gitignore
 	* vista+ file dialog
+NEW IN 3.47
+	* supports now Allegiance 1.4 registry (will fallback to 1.2 if 1.4 not found)
+	* min target is now Windows 7 (sorry XP & before)
 Known bugs:
 	when in sorting mode, launched parts (mines,missiles,probes and drones) are not shown.
 

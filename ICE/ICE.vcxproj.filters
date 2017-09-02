@@ -1,0 +1,91 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="BMPMDLButton.cpp" />
+    <ClCompile Include="ChaffDlg.cpp" />
+    <ClCompile Include="CivDlg.cpp" />
+    <ClCompile Include="ConstantsDlg.cpp" />
+    <ClCompile Include="DevelDlg.cpp" />
+    <ClCompile Include="DroneDlg.cpp" />
+    <ClCompile Include="ICE.cpp" />
+    <ClCompile Include="ICEDlg.cpp" />
+    <ClCompile Include="IGCCore.cpp" />
+    <ClCompile Include="IGCCoreIO.cpp" />
+    <ClCompile Include="MDLView.cpp" />
+    <ClCompile Include="MineDlg.cpp" />
+    <ClCompile Include="MissileDlg.cpp" />
+    <ClCompile Include="PartDlg.cpp" />
+    <ClCompile Include="ProbeDlg.cpp" />
+    <ClCompile Include="ProjectileDlg.cpp" />
+    <ClCompile Include="ShipDlg.cpp" />
+    <ClCompile Include="StationDlg.cpp" />
+    <ClCompile Include="stdafx.cpp" />
+    <ClCompile Include="TreasureDlg.cpp" />
+    <ClCompile Include="VersionApp.cpp" />
+    <ClCompile Include="External\BitmapGlue.cpp" />
+    <ClCompile Include="External\MDLFile.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="BMPMDLButton.h" />
+    <ClInclude Include="ChaffDlg.h" />
+    <ClInclude Include="CivDlg.h" />
+    <ClInclude Include="ConstantsDlg.h" />
+    <ClInclude Include="corestruct.h" />
+    <ClInclude Include="DevelDlg.h" />
+    <ClInclude Include="DroneDlg.h" />
+    <ClInclude Include="ICE.h" />
+    <ClInclude Include="ICEDlg.h" />
+    <ClInclude Include="MDLView.h" />
+    <ClInclude Include="MineDlg.h" />
+    <ClInclude Include="MissileDlg.h" />
+    <ClInclude Include="PartDlg.h" />
+    <ClInclude Include="ProbeDlg.h" />
+    <ClInclude Include="ProjectileDlg.h" />
+    <ClInclude Include="ShipDlg.h" />
+    <ClInclude Include="StationDlg.h" />
+    <ClInclude Include="stdafx.h" />
+    <ClInclude Include="TreasureDlg.h" />
+    <ClInclude Include="VersionApp.h" />
+    <ClInclude Include="External\BitmapGlue.h" />
+    <ClInclude Include="External\MDLFile.h" />
+    <ClInclude Include="Resource.h">
+      <Filter>Resources</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="res\backward.ico">
+      <Filter>Icones</Filter>
+    </Image>
+    <Image Include="res\icon2.ico">
+      <Filter>Icones</Filter>
+    </Image>
+    <Image Include="res\play.ico">
+      <Filter>Icones</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="resource.hm">
+      <Filter>Resources</Filter>
+    </None>
+    <None Include="res\ICE.rc2">
+      <Filter>Resources</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="ReadMe.txt" />
+    <Text Include="TechTree.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Icones">
+      <UniqueIdentifier>{9ded847a-808e-478f-a9d1-dc081ca039b2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resources">
+      <UniqueIdentifier>{6493e359-5129-47a5-9ea7-38611bd6ceb7}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="ICE.rc">
+      <Filter>Resources</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+</Project>
