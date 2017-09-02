@@ -1391,8 +1391,8 @@ LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 3,4,6,0
- PRODUCTVERSION 3,4,6,0
+ FILEVERSION 3,4,7,0
+ PRODUCTVERSION 3,4,7,0
  FILEFLAGSMASK 0x17L
 #ifdef _DEBUG
  FILEFLAGS 0x1L
@@ -1410,12 +1410,12 @@ BEGIN
             VALUE "Comments", "IGC Core Editor"
             VALUE "CompanyName", "Kirth Gersen/KGJV "
             VALUE "FileDescription", "IGC Core Editor"
-            VALUE "FileVersion", "3.4.6.0"
-            VALUE "InternalName", "september 2017"
+            VALUE "FileVersion", "3.47"
+            VALUE "InternalName", "2017-09-02"
             VALUE "LegalCopyright", "Copyright (C) Kirth Gersen 2001-2017"
             VALUE "OriginalFilename", "ICE.EXE"
             VALUE "ProductName", "ICE"
-            VALUE "ProductVersion", "3.4.7.0"
+            VALUE "ProductVersion", "3.47"
         END
     END
     BLOCK "VarFileInfo"
