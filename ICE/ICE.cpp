@@ -61,6 +61,8 @@ BOOL CICEApp::InitInstance()
  	regres = RegOpenKeyEx(HKEY_LOCAL_MACHINE, "SOFTWARE\\Microsoft\\Microsoft Games\\Allegiance\\1.4", 0, KEY_READ, &hKey);
 	if (regres != ERROR_SUCCESS)
 		regres = RegOpenKeyEx(HKEY_LOCAL_MACHINE,"SOFTWARE\\Microsoft\\Microsoft Games\\Allegiance\\1.2",0, KEY_READ, &hKey);
+	if (regres != ERROR_SUCCESS)
+		regres = RegOpenKeyEx(HKEY_CURRENT_USER, "SOFTWARE\\Microsoft\\Microsoft Games\\Allegiance\\1.4", 0, KEY_READ, &hKey);
 
 	if (regres != ERROR_SUCCESS)
 	{
