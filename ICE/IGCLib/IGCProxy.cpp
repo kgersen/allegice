@@ -4,7 +4,7 @@ using namespace System::IO;
 using namespace System::Collections;
 using namespace System::Collections::Generic;
 
-#include "stdafx.h"
+#include "igcstatic.h"
 #include "IGCProxy.h"
 
 #define IGC_FILE_VERSION_TYPE   int

@@ -61,6 +61,7 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <WarningLevel>Level4</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <PrecompiledHeaderFile>igcstatic.h</PrecompiledHeaderFile>
     </ClCompile>
     <Link>
       <AdditionalDependencies />
@@ -80,6 +81,7 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <PrecompiledHeaderFile>igcstatic.h</PrecompiledHeaderFile>
     </ClCompile>
     <Link>
       <AdditionalDependencies />
@@ -121,9 +123,9 @@
     <ClInclude Include="igclib.h" />
     <ClInclude Include="IGCProxy.h" />
     <ClInclude Include="resource.h" />
-    <ClInclude Include="Stdafx.h" />
+    <ClInclude Include="igcstatic.h" />
     <ClInclude Include="Alleg\constants.h" />
-    <ClInclude Include="Alleg\igc_static.h" />
+    <ClInclude Include="Alleg\igc_static_types.h" />
     <ClInclude Include="Alleg\igc_types.h" />
     <ClInclude Include="Alleg\mask.h" />
     <ClInclude Include="Alleg\vector.h" />

@@ -1,4 +1,4 @@
-#include "stdafx.h"
+#include "igcstatic.h"
 
 using namespace System;
 using namespace System::Reflection;
@@ -16,7 +16,7 @@ using namespace System::Security::Permissions;
 [assembly:AssemblyConfigurationAttribute("")];
 [assembly:AssemblyCompanyAttribute("kgersen@hotmail.com")];
 [assembly:AssemblyProductAttribute("IGCLib")];
-[assembly:AssemblyCopyrightAttribute("Copyright (c) kgersen 2008")];
+[assembly:AssemblyCopyrightAttribute("Copyright (c) kgersen 2008-1027")];
 [assembly:AssemblyTrademarkAttribute("")];
 [assembly:AssemblyCultureAttribute("")];
 
@@ -37,4 +37,4 @@ using namespace System::Security::Permissions;
 
 [assembly:CLSCompliantAttribute(true)];
 
-[assembly:SecurityPermission(SecurityAction::RequestMinimum, UnmanagedCode = true)];
+//[assembly:SecurityPermission(SecurityAction::RequestMinimum, UnmanagedCode = true)];

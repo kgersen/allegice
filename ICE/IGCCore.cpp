@@ -92,7 +92,7 @@ bool CIGCCore::ReadFromFile(CString fn)
 	UnloadCore();
 
 	cfmap.Read(&iCoreHeader,sizeof(size));
-	char *p = (char*)&iCoreHeader;
+	//char *p = (char*)&iCoreHeader;
 
 	cfmap.Read(&cfmap_size,sizeof(size));
 	cfmap_read = 0;
