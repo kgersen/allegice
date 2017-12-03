@@ -1,0 +1,70 @@
+	igpp = ParamsFromReg();
+	igpp->PutGameName("DUNE-Custom Map-beta");
+	igpp->PutLockGameOpen(TRUE);
+	igpp->PutDefaultCountdown(5);
+	igpp->PutRestartCountdown(5);
+	igpp->PutInitialMinersPerTeam(1);
+	igpp->PutMaxMinersPerTeam(6);
+	igpp->PutRandomWormholes(TRUE);
+	igpp->PutStoryText("The battle for Dune\n   6 miners\n   no tactital tree\n   AZ factions\n   custom map\n\nKGJV's beta test game");
+	igpp->PutAllowSupremacyPath(TRUE);
+	igpp->PutAllowTacticalPath(FALSE);
+	igpp->PutAllowExpansionPath(TRUE);
+	igpp->PutIGCStaticFile("zone_core");
+	igpp->PutIsGoalConquest(TRUE);
+	igpp->PutIsGoalArtifacts(FALSE);
+	igpp->PutIsGoalTeamMoney(FALSE);
+	igpp->PutIsGoalTeamKills(FALSE);
+	igpp->PutIsGoalFlags(FALSE);
+	igpp->PutGoalFlagsCount(10);
+	//igpp->PutOverriddenTechBit (team, short iBitID, VARIANT_BOOL pVal )
+	//igpp->PutSetOverriddenTechBitRange (team, short iBitID_First, short iBitID_Last, VARIANT_BOOL _arg4 )
+	igpp->PutMinPlayers(1);
+	igpp->PutMaxPlayers(16);
+	igpp->PutTotalMaxPlayers(32);
+	igpp->PutLockTeamSettings(TRUE);
+	//igpp->PutAlephsPerSector(2);
+	//igpp->PutRandomEncounters(2);
+	//igpp->PutNeutralSectors(FALSE);
+	//igpp->PutAlephPositioning(2);
+	//igpp->PutMapType(10);
+	//igpp->PutMapSize(1);
+	igpp->PutCustomMap("custmap01");
+	igpp->PutShowMap(TRUE);
+	igpp->PutDrones(TRUE);
+	igpp->PutTeams(2);
+	igpp->PutTeamName(0,"Atreides");
+	igpp->PutTeamName(1,"Harkonnen");
+	/*  rix   = hc9 = 201
+		belt  = h65 = 101
+		bios  = h23 = 35
+		ic    = h19 = 25
+		giga  = h12 = 18
+	*/
+	igpp->PutCivIDs(0,25);
+	igpp->PutCivIDs(1,101);
+	//igpp->PutTeamName(2,"Bene Gesserit");
+	//igpp->PutTeamName(3,"IX");
+	//igpp->PutTeamName(4,"Fremen");
+	//igpp->PutNoTeams(TRUE);
+	igpp->PutAllowEmptyTeams(TRUE);
+	igpp->PutMaxImbalance(3);
+
+	igpp->PutStartingMoney(0); // 0-9
+	igpp->PutHe3Density(7); // 0-9
+	igpp->PutNeutralSectorSpecialAsteroids(9);
+	igpp->PutPlayerSectorSpecialAsteroids(3);
+	igpp->PutNeutralSectorMineableAsteroids(9);
+	igpp->PutPlayerSectorMineableAsteroids(1);
+	igpp->PutNeutralSectorAsteroids(30);
+	igpp->PutPlayerSectorAsteroids(9);
+/*
+  PlayerSectorAsteroids must be less than 40.
+  NeutralSectorAsteroids must be less than 40.
+  PlayerSectorMineableAsteroids must be less than 10.
+  NeutralSectorMineableAsteroids must be less than 10.
+  PlayerSectorSpecialAsteroids must be less than 10.
+  NeutralSectorSpecialAsteroids must be less than 10.
+*/
+	ParamsToReg(igpp);
+	igpp = NULL;

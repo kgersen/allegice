@@ -1,0 +1,688 @@
+// Microsoft Visual C++ generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "afxres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// Neutral resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_NEU)
+LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
+#pragma code_page(1252)
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_ABOUTBOX DIALOGEX 0, 0, 235, 111
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "About AME"
+FONT 8, "MS Sans Serif", 0, 0, 0x1
+BEGIN
+    ICON            IDR_MAINFRAME,IDC_STATIC,11,17,20,20
+    LTEXT           "AME Version 1.97",IDC_STATIC,40,10,58,8,SS_NOPREFIX
+    LTEXT           "Copyright (C) 2002-2017 - Kirth Gersen (KGJV)",IDC_STATIC,40,25,145,8
+    DEFPUSHBUTTON   "OK",IDOK,178,7,50,14,WS_GROUP
+    LTEXT           "kgersen@hotmail.com for bugs/comments",IDC_STATIC,39,42,162,8
+    LTEXT           "http://www.alleg.net/",IDC_STATIC,38,57,162,8
+    LTEXT           "Logo by Nick Thoman (NoodleNT)",IDC_STATIC,37,74,162,8
+    LTEXT           "Aleph randomizing algorithm by Spunkmeier",IDC_STATIC,37,88,162,8
+END
+
+IDD_MAP DIALOGEX 0, 0, 494, 327
+STYLE DS_LOCALEDIT | DS_SETFONT | DS_MODALFRAME | DS_3DLOOK | DS_CENTER | WS_MINIMIZEBOX | WS_MAXIMIZEBOX | WS_POPUP | WS_CAPTION
+EXSTYLE WS_EX_APPWINDOW
+CAPTION "Allegiance Map Editor"
+FONT 8, "MS Sans Serif", 0, 0, 0x1
+BEGIN
+    PUSHBUTTON      "Quit",ID_MAP_QUIT,444,312,50,14
+    LISTBOX         IDC_LB_SECTORS,6,17,74,160,LBS_SORT | LBS_NOINTEGRALHEIGHT | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Sectors",IDC_STATIC_Sectors,8,6,44,8
+    PUSHBUTTON      "2DMAP",IDC_2DMAP_OLD,7,199,152,105,NOT WS_VISIBLE
+    PUSHBUTTON      "Save",ID_MAP_SAVE,104,312,50,14,WS_DISABLED
+    GROUPBOX        "",IDC_SECTVIEW_FRAME,169,17,324,290,NOT WS_VISIBLE
+    PUSHBUTTON      "Save as ...",ID_MAP_SAVEAS,156,312,50,14,WS_DISABLED
+    PUSHBUTTON      "Load",ID_MAP_LOAD,52,312,50,14
+    PUSHBUTTON      "New",ID_MAP_NEW,0,312,50,14
+    LTEXT           "",IDC_MAP_NAME,170,3,251,14,WS_BORDER
+    PUSHBUTTON      "Templates",IDC_B_TEMPLATES,87,18,68,14
+    PUSHBUTTON      "Delete all alephs",IDC_B_DELALL_ALEPHS,86,71,69,14
+    PUSHBUTTON      "Delete all bases",IDC_B_DELALL_BASES,86,87,69,14
+    PUSHBUTTON      "Delete all rocks",IDC_B_DELALL_ROCKS,86,103,69,14
+    PUSHBUTTON      "Randomize alephs",IDC_B_RDALL_ALEPHS,86,34,69,14
+    PUSHBUTTON      "Randomize rocks",IDC_B_RDALL_ROCKS,86,51,69,14
+    CONTROL         "Snap to grid",IDC_MAP_SNAP,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,190,54,10
+    CONTROL         "View grid",IDC_MAP_GRID,"Button",BS_AUTOCHECKBOX | BS_LEFT | WS_TABSTOP,115,190,45,10
+    CONTROL         "Show Z values",IDC_CKZVIEW,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,428,4,63,10
+    PUSHBUTTON      "Rename sectors",IDC_B_RENAME_SECTORS,87,164,69,14
+    PUSHBUTTON      "Change core",IDC_CORELOAD,332,312,50,14
+    EDITTEXT        IDC_CORE_NAME,236,312,96,14,ES_AUTOHSCROLL | ES_READONLY
+    LTEXT           "Core",IDC_STATIC,217,315,16,8
+    PUSHBUTTON      "About",IDC_ABOUT,389,312,50,14
+END
+
+IDD_SECTDLG DIALOGEX 0, 0, 407, 210
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Sector properties"
+FONT 8, "MS Sans Serif", 0, 0, 0x1
+BEGIN
+    DEFPUSHBUTTON   "Apply",ID_MAP_S_APPLY,2,196,50,14
+    COMBOBOX        IDC_SECT_GLOBE,183,2,65,113,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    COMBOBOX        IDC_SECT_NEBBG,161,35,65,134,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    RTEXT           "Nebulas",IDC_S_Globe,141,5,32,8
+    COMBOBOX        IDC_SECT_TEAM,362,3,39,117,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    RTEXT           "Team",IDC_S_Team,340,5,19,8
+    EDITTEXT        IDC_SECT_NAME,25,1,99,14,ES_AUTOHSCROLL
+    LTEXT           "Name",IDC_S_Name,1,5,20,8
+    CONTROL         "",IDC_SECT_LightColor,"Button",BS_OWNERDRAW | WS_TABSTOP,38,58,37,14
+    EDITTEXT        IDC_SECT_POSX,28,23,36,14,ES_AUTOHSCROLL
+    EDITTEXT        IDC_SECT_POSY,79,23,36,14,ES_AUTOHSCROLL
+    RTEXT           "Color",IDC_S_Col5,17,61,17,8
+    LTEXT           "X",IDC_S_PosX,18,28,8,8
+    LTEXT           "Y",IDC_S_PosY,69,26,8,8
+    PUSHBUTTON      "Delete",ID_MAP_S_DELETE,175,196,50,14
+    PUSHBUTTON      "Cancel",ID_SDLG_CANCEL,356,196,50,14
+    EDITTEXT        IDC_SECT_LITEX,39,74,36,14,ES_AUTOHSCROLL
+    EDITTEXT        IDC_SECT_LITEY,39,90,36,14,ES_AUTOHSCROLL
+    LTEXT           "Dir. X",IDC_S_PosX2,19,79,18,8
+    LTEXT           "Dir. Y",IDC_S_PosY2,19,93,18,8
+    EDITTEXT        IDC_SECT_LITEZ,39,106,36,14,ES_AUTOHSCROLL
+    LTEXT           "Dir. Z",IDC_S_PosY3,19,108,18,8
+    GROUPBOX        "Light",IDC_STATIC,10,47,89,85
+    EDITTEXT        IDC_SECT_DEBRISC,61,137,36,14,ES_AUTOHSCROLL | ES_NUMBER
+    EDITTEXT        IDC_SECT_STARSC,61,153,36,14,ES_AUTOHSCROLL | ES_NUMBER
+    RTEXT           "Debris count",IDC_S_PosX3,15,140,41,8
+    RTEXT           "Stars count",IDC_S_PosY4,19,156,37,8
+    EDITTEXT        IDC_SECT_STARSEED,61,169,36,14,ES_AUTOHSCROLL | ES_NUMBER
+    RTEXT           "Stars seed",IDC_S_PosX4,22,172,34,8
+    EDITTEXT        IDC_SECT_PLLAT,191,50,36,14,ES_AUTOHSCROLL
+    EDITTEXT        IDC_SECT_PLLONG,191,66,36,14,ES_AUTOHSCROLL
+    RTEXT           "Sin Latitude %",IDC_S_PosX5,142,53,46,8
+    RTEXT           "Longitude %",IDC_S_PosY5,148,68,40,8
+    EDITTEXT        IDC_SECT_PLRADIUS,191,81,36,14,ES_AUTOHSCROLL | ES_NUMBER
+    RTEXT           "Radius",IDC_S_PosX6,147,84,41,8
+    RTEXT           "Bitmap",IDC_S_Globe2,125,38,32,8
+    GROUPBOX        "Planet",IDC_STATIC,128,23,278,167
+    LTEXT           "Dir will be auto-normalized",IDC_STATIC,14,121,82,8
+    CONTROL         "",IDC_PLANET,"Button",BS_OWNERDRAW | BS_TOP,232,31,170,156,WS_EX_STATICEDGE
+    EDITTEXT        IDC_SECT_GLOBENAME,250,2,74,14,ES_AUTOHSCROLL | ES_READONLY
+END
+
+IDD_ALEPHDLG DIALOGEX 0, 0, 338, 141
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Aleph properties"
+FONT 8, "MS Sans Serif", 0, 0, 0x1
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,3,125,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,288,125,50,14
+    COMBOBOX        IDC_ALEPH_RENDER,262,2,76,113,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    EDITTEXT        IDC_A_NAME,29,2,95,14,ES_AUTOHSCROLL
+    LTEXT           "Name",IDC_AL_Name,6,5,20,8
+    EDITTEXT        IDC_ALEPH_POSX,25,35,36,14,ES_AUTOHSCROLL
+    EDITTEXT        IDC_ALEPH_POSY,25,51,36,14,ES_AUTOHSCROLL
+    EDITTEXT        IDC_ALEPH_POSZ,25,66,36,14,ES_AUTOHSCROLL
+    EDITTEXT        IDC_ALEPH_SIG,300,18,36,14,ES_AUTOHSCROLL
+    EDITTEXT        IDC_ALEPH_RADIUS,300,34,36,14,ES_AUTOHSCROLL
+    LTEXT           "X",IDC_AL_x,16,39,8,8
+    LTEXT           "Y",IDC_AL_y,15,54,8,8
+    LTEXT           "Z",IDC_AL_z,15,69,8,8
+    LTEXT           "Render",IDC_AL_Name2,232,6,24,8
+    LTEXT           "Sig",IDC_AL_Name3,287,20,11,8
+    LTEXT           "Radius",IDC_AL_Name4,276,36,23,8
+    EDITTEXT        IDC_ALEPH_O1X,97,44,36,14,ES_AUTOHSCROLL
+    EDITTEXT        IDC_ALEPH_O1Y,97,60,36,14,ES_AUTOHSCROLL
+    EDITTEXT        IDC_ALEPH_O1Z,98,76,36,14,ES_AUTOHSCROLL
+    LTEXT           "Orientation",IDC_AL_x2,100,33,35,8
+    LTEXT           "Z",IDC_AL_y2,86,78,8,8
+    EDITTEXT        IDC_ALEPH_SPINX,142,44,36,14,ES_AUTOHSCROLL
+    EDITTEXT        IDC_ALEPH_SPINY,142,60,36,14,ES_AUTOHSCROLL
+    EDITTEXT        IDC_ALEPH_SPINZ,142,76,36,14,ES_AUTOHSCROLL
+    PUSHBUTTON      "Apply to current sector",IDAPPLYTOSECT,77,125,76,14,NOT WS_VISIBLE
+    EDITTEXT        IDC_ALEPH_SPIN_SPEED,184,61,36,14,ES_AUTOHSCROLL
+    GROUPBOX        "Orientation and spin",IDC_STATIC,77,17,155,91
+    LTEXT           "Spin speed",IDC_AL_z3,183,49,36,8
+    LTEXT           "X",IDC_AL_x4,85,46,8,8
+    LTEXT           "Spin axis",IDC_AL_x6,145,33,29,8
+    LTEXT           "Y",IDC_AL_y4,86,63,8,8
+    CONTROL         "Always to center",IDC_ALEPH_AUTOORIENT,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,108,94,68,10
+    CONTROL         "no spin",IDC_ALEPH_NOSPIN,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,185,94,39,10
+    PUSHBUTTON      "Apply to all",IDAPPLYTOALL,182,125,50,14,NOT WS_VISIBLE
+    CONTROL         "Include Orientation and spin",IDC_APPLYSPIN,"Button",BS_AUTOCHECKBOX | NOT WS_VISIBLE | WS_TABSTOP,104,115,104,10
+    GROUPBOX        "",IDC_S_INCAPPLY,77,110,155,29,NOT WS_VISIBLE
+    CONTROL         "Do not randomize",IDC_ALEPH_FIXED,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,4,84,71,10
+    EDITTEXT        IDC_A_ICON,281,71,54,14,ES_AUTOHSCROLL
+    LTEXT           "Icon",IDC_AL_Name5,264,74,15,8
+    CONTROL         "",IDC_A_ICONBMP,"Button",BS_OWNERDRAW | WS_TABSTOP,282,86,51,37
+END
+
+IDD_BASEDLG DIALOGEX 0, 0, 239, 162
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Base properties"
+FONT 8, "MS Sans Serif", 0, 0, 0x1
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,2,146,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,185,146,50,14
+    COMBOBOX        IDC_BASE_TEAM,188,3,43,113,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    EDITTEXT        IDC_BASE_NAME,29,2,111,14,ES_AUTOHSCROLL
+    LTEXT           "Name",IDC_AL_Name,6,5,20,8
+    EDITTEXT        IDC_BASE_POSX,24,43,36,14,ES_AUTOHSCROLL
+    EDITTEXT        IDC_BASE_POSY,24,59,36,14,ES_AUTOHSCROLL
+    EDITTEXT        IDC_BASE_POSZ,24,74,36,14,ES_AUTOHSCROLL
+    EDITTEXT        IDC_BASE_TYPENAME,31,122,111,14,ES_AUTOHSCROLL | ES_READONLY
+    LTEXT           "X",IDC_AL_x,14,47,8,8
+    LTEXT           "Y",IDC_AL_y,14,62,8,8
+    LTEXT           "Z",IDC_AL_z,14,77,8,8
+    LTEXT           "Team",IDC_S_Base,162,4,19,8,NOT WS_GROUP
+    EDITTEXT        IDC_BASE_O1X,95,39,36,14,ES_AUTOHSCROLL
+    EDITTEXT        IDC_BASE_O1Y,95,55,36,14,ES_AUTOHSCROLL
+    EDITTEXT        IDC_BASE_O1Z,95,70,36,14,ES_AUTOHSCROLL
+    LTEXT           "O1",IDC_AL_x2,105,27,8,8
+    LTEXT           "O2",IDC_AL_y2,146,27,10,8
+    LTEXT           "Spin speed",IDC_AL_z2,97,92,36,8
+    EDITTEXT        IDC_BASE_O2X,134,39,36,14,ES_AUTOHSCROLL
+    EDITTEXT        IDC_BASE_O2Y,134,55,36,14,ES_AUTOHSCROLL
+    EDITTEXT        IDC_BASE_O2Z,134,71,36,14,ES_AUTOHSCROLL
+    PUSHBUTTON      "Delete",IDDELETE,131,146,50,14,NOT WS_VISIBLE | WS_DISABLED
+    EDITTEXT        IDC_BASE_SPINX,172,39,36,14,ES_AUTOHSCROLL
+    EDITTEXT        IDC_BASE_SPINY,172,55,36,14,ES_AUTOHSCROLL
+    EDITTEXT        IDC_BASE_SPINZ,172,71,36,14,ES_AUTOHSCROLL
+    EDITTEXT        IDC_BASE_SPIN_SPEED,134,89,36,14,ES_AUTOHSCROLL
+    LTEXT           "Spin axis",IDC_AL_z4,176,27,29,8
+    LTEXT           "X",IDC_AL_x3,84,43,8,8
+    LTEXT           "Y",IDC_AL_y3,84,58,8,8
+    LTEXT           "Z",IDC_AL_z5,84,72,8,8
+    GROUPBOX        "Orientation and spin",IDC_STATIC,74,18,140,95,BS_CENTER
+    EDITTEXT        IDC_BASE_FACTION,147,122,80,14,ES_AUTOHSCROLL | ES_READONLY
+    PUSHBUTTON      "Type",IDC_BASE_SETTYPE,7,122,21,14
+    EDITTEXT        IDC_BASE_TYPE,71,146,40,14,ES_AUTOHSCROLL | ES_READONLY | NOT WS_VISIBLE
+END
+
+IDD_ROCKDLG DIALOGEX 0, 0, 347, 173
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Rock properties"
+FONT 8, "MS Sans Serif", 0, 0, 0x1
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,0,159,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,297,159,50,14
+    COMBOBOX        IDC_ROCK_TEMPLATE,227,161,65,113,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    EDITTEXT        IDC_ROCK_NAME,29,6,95,14,ES_AUTOHSCROLL
+    LTEXT           "Name",IDC_AL_Name,5,9,20,8
+    EDITTEXT        IDC_ROCK_POSX,17,34,36,14,ES_AUTOHSCROLL
+    EDITTEXT        IDC_ROCK_POSY,17,50,36,14,ES_AUTOHSCROLL
+    EDITTEXT        IDC_ROCK_POSZ,17,65,36,14,ES_AUTOHSCROLL
+    EDITTEXT        IDC_ROCK_HE1,298,27,46,14,ES_AUTOHSCROLL
+    LTEXT           "X",IDC_AL_x,7,38,8,8
+    LTEXT           "Y",IDC_AL_y,7,53,8,8
+    LTEXT           "Z",IDC_AL_z,7,68,8,8
+    LTEXT           "Template",IDC_S_Base,191,164,30,8,NOT WS_GROUP
+    RTEXT           "He3 total",IDC_ROCK_HE1capt,266,31,30,8
+    EDITTEXT        IDC_ROCK_O1X,77,51,36,14,ES_AUTOHSCROLL
+    EDITTEXT        IDC_ROCK_O1Y,77,67,36,14,ES_AUTOHSCROLL
+    EDITTEXT        IDC_ROCK_O1Z,77,82,36,14,ES_AUTOHSCROLL
+    LTEXT           "O1",IDC_AL_x2,87,39,8,8
+    LTEXT           "O2",IDC_AL_y2,128,39,10,8
+    LTEXT           "Spin speed",IDC_AL_z2,79,104,36,8
+    EDITTEXT        IDC_ROCK_O2X,116,51,36,14,ES_AUTOHSCROLL
+    EDITTEXT        IDC_ROCK_O2Y,116,67,36,14,ES_AUTOHSCROLL
+    EDITTEXT        IDC_ROCK_O2Z,116,83,36,14,ES_AUTOHSCROLL
+    EDITTEXT        IDC_ROCK_SPINX,154,51,36,14,ES_AUTOHSCROLL
+    EDITTEXT        IDC_ROCK_SPINY,154,67,36,14,ES_AUTOHSCROLL
+    EDITTEXT        IDC_ROCK_SPINZ,154,83,36,14,ES_AUTOHSCROLL
+    EDITTEXT        IDC_ROCK_SPIN_SPEED,116,101,36,14,ES_AUTOHSCROLL
+    LTEXT           "Spin axis",IDC_AL_z4,158,39,29,8
+    LTEXT           "X",IDC_AL_x3,66,55,8,8
+    LTEXT           "Y",IDC_AL_y3,66,70,8,8
+    LTEXT           "Z",IDC_AL_z5,66,84,8,8
+    GROUPBOX        "Orientation and spin",IDC_STATIC,56,30,140,91
+    CONTROL         "Hidden",IDC_ROCK_NHIDDEN,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,125,8,39,10
+    CONTROL         "Asteriod",IDC_ROCK_F8,"Button",BS_AUTOCHECKBOX | BS_NOTIFY | WS_TABSTOP,303,72,41,10
+    CONTROL         "Helium",IDC_ROCK_F1,"Button",BS_AUTOCHECKBOX | BS_NOTIFY | WS_TABSTOP,303,84,37,10
+    CONTROL         "Uranium",IDC_ROCK_F16,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,303,108,42,10
+    CONTROL         "Silicon",IDC_ROCK_F32,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,303,120,37,10
+    CONTROL         "Carbon",IDC_ROCK_F64,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,303,132,39,10
+    COMBOBOX        IDC_ROCK_ICON,279,7,65,113,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Icon",IDC_S_Base2,260,9,15,8,NOT WS_GROUP
+    EDITTEXT        IDC_ROCK_HE2,298,43,46,14,ES_AUTOHSCROLL
+    RTEXT           "He3 init",IDC_ROCK_HE2capt,271,46,25,8
+    GROUPBOX        "Features",IDC_STATIC,297,60,47,84
+    EDITTEXT        IDC_ROCK_SIG,215,23,36,14,ES_AUTOHSCROLL | ES_NUMBER
+    EDITTEXT        IDC_ROCK_RADIUS,215,7,36,14,ES_AUTOHSCROLL | ES_NUMBER
+    LTEXT           "Sig",IDC_AL_Name6,202,27,11,8
+    LTEXT           "Radius",IDC_AL_Name7,191,10,23,8
+    EDITTEXT        IDC_ROCK_HP,215,40,36,14,ES_AUTOHSCROLL | ES_NUMBER
+    LTEXT           "HP",IDC_AL_Name8,202,43,11,8
+    CONTROL         "Phantom",IDC_ROCK_PHANTOM,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,202,70,44,10
+    CONTROL         "HP gauge",IDC_ROCK_GAUGE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,202,56,48,10
+    COMBOBOX        IDC_ROCK_RENDER,56,127,91,134,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    RTEXT           "Model",IDC_S_Nebbg,19,130,32,8
+    PUSHBUTTON      "Apply to current sector",IDAPPLYTOSECT,55,159,76,14,NOT WS_VISIBLE
+    PUSHBUTTON      "Apply to all",IDAPPLYTOALL,135,159,50,14,NOT WS_VISIBLE
+    CONTROL         "Thorium",IDC_ROCK_F4,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,303,96,40,10
+    EDITTEXT        IDC_ROCK_CUSTOM_MODEL,149,126,74,14,ES_AUTOHSCROLL | ES_READONLY
+END
+
+IDD_ROCKTPLDLG DIALOGEX 0, 0, 296, 103
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Rock defaults"
+FONT 8, "MS Sans Serif", 0, 0, 0x1
+BEGIN
+    DEFPUSHBUTTON   "Save",IDOK,0,89,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,246,89,50,14
+    EDITTEXT        IDC_ROCK_SIG,31,38,36,14,ES_AUTOHSCROLL
+    EDITTEXT        IDC_ROCK_RADIUS,31,22,36,14,ES_AUTOHSCROLL | ES_NUMBER
+    LTEXT           "Sig",IDC_AL_Name6,18,42,11,8
+    LTEXT           "Radius",IDC_AL_Name7,7,25,23,8
+    EDITTEXT        IDC_ROCK_HP,31,55,36,14,ES_AUTOHSCROLL
+    LTEXT           "HP",IDC_AL_Name8,18,58,11,8
+    CONTROL         "Random",IDC_RADIUS_RND,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,72,25,43,10
+    CONTROL         "Radius factor",IDC_SIG_AUTO,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,71,41,58,10
+    CONTROL         "Radius factor",IDC_HP_AUTO,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,71,58,58,10
+    PUSHBUTTON      "Apply to current sector",IDAPPLYTOSECT,84,89,76,14
+    PUSHBUTTON      "Apply to all",IDAPPLYTOALL,164,89,50,14
+    CONTROL         "Include in apply to ...",IDC_RADIUS_INC,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,134,26,81,10
+    CONTROL         "Include in apply to ...",IDC_SIG_INC,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,134,41,81,10
+    CONTROL         "Include in apply to ...",IDC_HP_INC,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,134,58,81,10
+    EDITTEXT        IDC_RADIUS_MIN,248,28,36,14,ES_AUTOHSCROLL | ES_NUMBER
+    LTEXT           "Min",IDC_A_RADIUS_MIN,232,31,12,8
+    EDITTEXT        IDC_RADIUS_MAX,248,44,36,14,ES_AUTOHSCROLL | ES_NUMBER
+    LTEXT           "Max",IDC_A_RADIUS_MAX,231,47,14,8
+    GROUPBOX        "Random radius",IDC_S_RADFRAME,227,19,62,44
+    CONTROL         "Tab1",IDC_TAB_ROCKS,"SysTabControl32",0x0,2,2,293,82
+END
+
+IDD_GETNUMDLG DIALOGEX 0, 0, 186, 77
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Number request"
+FONT 8, "MS Sans Serif", 0, 0, 0x0
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,7,56,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,129,56,50,14
+    EDITTEXT        IDC_NUMBER,115,27,40,14,ES_AUTOHSCROLL | ES_NUMBER
+    RTEXT           "",IDC_CAPTION,7,30,105,8
+END
+
+IDD_ROCKSLAYOUTDLG DIALOGEX 0, 0, 182, 116
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Rocks layout settings"
+FONT 8, "MS Sans Serif", 0, 0, 0x0
+BEGIN
+    DEFPUSHBUTTON   "Generate",IDOK,7,95,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,125,95,50,14
+    EDITTEXT        IDC_C1X,21,17,45,14,ES_AUTOHSCROLL
+    EDITTEXT        IDC_C1Y,21,32,45,14,ES_AUTOHSCROLL
+    EDITTEXT        IDC_C1Z,21,46,45,14,ES_AUTOHSCROLL
+    LTEXT           "X",IDC_AL_x,11,20,8,8
+    LTEXT           "Y",IDC_AL_y,11,35,8,8
+    LTEXT           "Z",IDC_AL_z,11,50,8,8
+    LTEXT           "Center",IDC_STATIC,29,7,22,8
+    EDITTEXT        IDC_RADIUS1,108,24,45,14,ES_AUTOHSCROLL
+    LTEXT           "Radius",IDC_STATIC,82,27,23,8
+    EDITTEXT        IDC_VARZ,107,47,45,14,ES_AUTOHSCROLL
+    LTEXT           "Z Variance",IDC_STATIC,69,50,36,8
+    EDITTEXT        IDC_NBROCKS,89,73,45,14,ES_AUTOHSCROLL
+    LTEXT           "Number of rocks",IDC_STATIC,33,76,53,8
+END
+
+IDD_RANDOMDLG DIALOGEX 0, 0, 273, 130
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Randomize options"
+FONT 8, "MS Sans Serif", 0, 0, 0x0
+BEGIN
+    DEFPUSHBUTTON   "Randomize",IDOK,7,107,50,16
+    PUSHBUTTON      "Cancel",IDCANCEL,216,107,50,16
+    EDITTEXT        IDC_RA1,109,7,40,14,ES_AUTOHSCROLL
+    EDITTEXT        IDC_RA2,109,22,40,14,ES_AUTOHSCROLL
+    EDITTEXT        IDC_RA3,109,36,40,14,ES_AUTOHSCROLL
+    EDITTEXT        IDC_RA4,109,50,40,14,ES_AUTOHSCROLL
+    EDITTEXT        IDC_RA5,109,66,40,14,ES_AUTOHSCROLL
+    RTEXT           "Base radius for neutral sectors",IDC_STATIC,7,10,96,8
+    RTEXT           "Base radius for home sectors",IDC_STATIC,11,24,92,8
+    RTEXT           "Distance variation",IDC_STATIC,45,38,58,8
+    RTEXT           "Angle variation",IDC_STATIC,55,53,48,8
+    RTEXT           "Radius variation",IDC_STATIC,51,68,52,8
+    PUSHBUTTON      "Default",IDC_DEFS,95,107,50,16
+    CONTROL         "exclude plnt19 alephs",IDC_CKB19,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,173,41,85,10
+    CONTROL         "exclude plnt42 alephs",IDC_CKB42,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,173,57,85,10
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO
+BEGIN
+    IDD_ABOUTBOX, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 228
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 104
+    END
+
+    IDD_MAP, DIALOG
+    BEGIN
+        BOTTOMMARGIN, 326
+        HORZGUIDE, 326
+    END
+
+    IDD_SECTDLG, DIALOG
+    BEGIN
+        LEFTMARGIN, 1
+        RIGHTMARGIN, 406
+    END
+
+    IDD_ALEPHDLG, DIALOG
+    BEGIN
+        BOTTOMMARGIN, 139
+    END
+
+    IDD_BASEDLG, DIALOG
+    BEGIN
+        RIGHTMARGIN, 235
+        BOTTOMMARGIN, 160
+    END
+
+    IDD_ROCKDLG, DIALOG
+    BEGIN
+        BOTTOMMARGIN, 162
+    END
+
+    IDD_ROCKTPLDLG, DIALOG
+    BEGIN
+        BOTTOMMARGIN, 95
+    END
+
+    IDD_GETNUMDLG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 179
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 70
+    END
+
+    IDD_ROCKSLAYOUTDLG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 175
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 109
+    END
+
+    IDD_RANDOMDLG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 266
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 123
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog Info
+//
+
+IDD_BASEDLG DLGINIT
+BEGIN
+    IDC_BASE_TEAM, 0x403, 2, 0
+0x0031, 
+    IDC_BASE_TEAM, 0x403, 2, 0
+0x0032, 
+    IDC_BASE_TEAM, 0x403, 2, 0
+0x0033, 
+    IDC_BASE_TEAM, 0x403, 2, 0
+0x0034, 
+    IDC_BASE_TEAM, 0x403, 2, 0
+0x0035, 
+    IDC_BASE_TEAM, 0x403, 2, 0
+0x0036, 
+    0
+END
+
+IDD_ROCKDLG DLGINIT
+BEGIN
+    IDC_ROCK_TEMPLATE, 0x403, 9, 0
+0x7341, 0x6574, 0x6972, 0x646f, "\000" 
+    IDC_ROCK_TEMPLATE, 0x403, 7, 0
+0x6548, 0x696c, 0x6d75, "\000" 
+    IDC_ROCK_TEMPLATE, 0x403, 8, 0
+0x7255, 0x6e61, 0x7569, 0x006d, 
+    IDC_ROCK_TEMPLATE, 0x403, 8, 0
+0x6953, 0x696c, 0x6f63, 0x006e, 
+    IDC_ROCK_TEMPLATE, 0x403, 7, 0
+0x6143, 0x6272, 0x6e6f, "\000" 
+    IDC_ROCK_TEMPLATE, 0x403, 8, 0
+0x6854, 0x726f, 0x7569, 0x006d, 
+    IDC_ROCK_ICON, 0x403, 11, 0
+0x656d, 0x6574, 0x726f, 0x6369, 0x6e6f, "\000" 
+    IDC_ROCK_ICON, 0x403, 11, 0
+0x6568, 0x696c, 0x6d75, 0x6f72, 0x6b63, "\000" 
+    IDC_ROCK_ICON, 0x403, 11, 0
+0x6163, 0x6272, 0x6e6f, 0x6f72, 0x6b63, "\000" 
+    IDC_ROCK_ICON, 0x403, 11, 0
+0x6f63, 0x7070, 0x7265, 0x6f72, 0x6b63, "\000" 
+    IDC_ROCK_ICON, 0x403, 9, 0
+0x6f67, 0x646c, 0x6f72, 0x6b63, "\000" 
+    IDC_ROCK_ICON, 0x403, 8, 0
+0x6f68, 0x7274, 0x636f, 0x006b, 
+    IDC_ROCK_ICON, 0x403, 10, 0
+0x6177, 0x6574, 0x7272, 0x636f, 0x006b, 
+    IDC_ROCK_RENDER, 0x403, 8, 0
+0x6762, 0x6e72, 0x3064, 0x0033, 
+    IDC_ROCK_RENDER, 0x403, 8, 0
+0x6762, 0x6e72, 0x3064, 0x0034, 
+    IDC_ROCK_RENDER, 0x403, 8, 0
+0x6762, 0x6e72, 0x3064, 0x0035, 
+    IDC_ROCK_RENDER, 0x403, 8, 0
+0x6762, 0x6e72, 0x3564, 0x0030, 
+    IDC_ROCK_RENDER, 0x403, 8, 0
+0x6762, 0x6e72, 0x3564, 0x0031, 
+    IDC_ROCK_RENDER, 0x403, 8, 0
+0x6762, 0x6e72, 0x3564, 0x0032, 
+    IDC_ROCK_RENDER, 0x403, 8, 0
+0x6762, 0x6e72, 0x3564, 0x0033, 
+    IDC_ROCK_RENDER, 0x403, 8, 0
+0x6762, 0x6e72, 0x3564, 0x0034, 
+    IDC_ROCK_RENDER, 0x403, 8, 0
+0x6762, 0x6e72, 0x3564, 0x0035, 
+    IDC_ROCK_RENDER, 0x403, 8, 0
+0x6762, 0x6e72, 0x3564, 0x0036, 
+    IDC_ROCK_RENDER, 0x403, 8, 0
+0x6762, 0x6e72, 0x3564, 0x0037, 
+    IDC_ROCK_RENDER, 0x403, 7, 0
+0x5543, 0x5453, 0x4d4f, "\000" 
+    0
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// AFX_DIALOG_LAYOUT
+//
+
+IDD_ABOUTBOX AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
+
+#endif    // Neutral resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+/////////////////////////////////////////////////////////////////////////////
+// English (United States) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+#pragma code_page(1252)
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Version
+//
+
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION 1,9,7,0
+ PRODUCTVERSION 1,9,7,0
+ FILEFLAGSMASK 0x0L
+#ifdef _DEBUG
+ FILEFLAGS 0x1L
+#else
+ FILEFLAGS 0x0L
+#endif
+ FILEOS 0x4L
+ FILETYPE 0x1L
+ FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "040904b0"
+        BEGIN
+            VALUE "BuildFlavor", "Retail"
+            VALUE "CompanyName", "Kirth Gersen"
+            VALUE "FileDescription", "Allegiance Map Editor"
+            VALUE "FileVersion", "1.9.7.0"
+            VALUE "InternalName", "AME"
+            VALUE "LegalCopyright", "Copyright © 2001-2017. All rights reserved."
+            VALUE "OriginalFilename", "AME.exe"
+            VALUE "ProductName", "Allegiance Map Editor"
+            VALUE "ProductVersion", "1.9.7.0"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x409, 1200
+    END
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// String Table
+//
+
+STRINGTABLE
+BEGIN
+    IDS_ABOUTBOX            "&About AME..."
+    IDS_PROPERTIES          "Properties"
+    IDP_SOCKETS_INIT_FAILED "Windows sockets initialization failed."
+    IDS_DELETE              "Delete"
+    IDS_ADDBASE             "Add base"
+    IDS_ADDROCK             "Add rock"
+    IDS_COPY                "Copy"
+END
+
+#endif    // English (United States) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+/////////////////////////////////////////////////////////////////////////////
+// French (France) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_FRA)
+LANGUAGE LANG_FRENCH, SUBLANG_FRENCH
+#pragma code_page(1252)
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE 
+BEGIN
+    "#include ""afxres.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE 
+BEGIN
+    "#define _AFX_NO_SPLITTER_RESOURCES\r\n"
+    "#define _AFX_NO_OLE_RESOURCES\r\n"
+    "#define _AFX_NO_TRACKER_RESOURCES\r\n"
+    "#define _AFX_NO_PROPERTY_RESOURCES\r\n"
+    "\r\n"
+    "#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)\r\n"
+    "#ifdef _WIN32\r\n"
+    "LANGUAGE 9, 1\r\n"
+    "#pragma code_page(1252)\r\n"
+    "#endif //_WIN32\r\n"
+    "#include ""res\\AGM.rc2""  // non-Microsoft Visual C++ edited resources\r\n"
+    "#include ""afxres.rc""         // Standard components\r\n"
+    "#endif\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDR_MAINFRAME           ICON                    "res\\Agmlogo.ico"
+
+IDR_MAINFRAME1          ICON                    "res\\idr_main.ico"
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Accelerator
+//
+
+IDR_ACCELERATOR_SECTWND ACCELERATORS
+BEGIN
+    "C",            ID_EDIT_COPY,           VIRTKEY, CONTROL, NOINVERT
+    "V",            ID_EDIT_PASTE,          VIRTKEY, CONTROL, NOINVERT
+END
+
+#endif    // French (France) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+#define _AFX_NO_SPLITTER_RESOURCES
+#define _AFX_NO_OLE_RESOURCES
+#define _AFX_NO_TRACKER_RESOURCES
+#define _AFX_NO_PROPERTY_RESOURCES
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+#ifdef _WIN32
+LANGUAGE 9, 1
+#pragma code_page(1252)
+#endif //_WIN32
+#include "res\AGM.rc2"  // non-Microsoft Visual C++ edited resources
+#include "afxres.rc"         // Standard components
+#endif
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+

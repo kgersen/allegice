@@ -1,0 +1,965 @@
+//Microsoft Developer Studio generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "afxres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// English (U.S.) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+#ifdef _WIN32
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+#pragma code_page(1252)
+#endif //_WIN32
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_ABOUTBOX DIALOGEX 0, 0, 235, 103
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "About AGM"
+FONT 8, "MS Sans Serif"
+BEGIN
+    ICON            IDR_MAINFRAME,IDC_STATIC,11,17,21,20
+    LTEXT           "AGM Version 1.0 BETA 1 INTERIM 5",IDC_STATIC,40,10,119,
+                    8,SS_NOPREFIX
+    LTEXT           "Copyright (C) 2001 - Kirth Gersen aka KGJV",IDC_STATIC,
+                    40,25,145,8
+    DEFPUSHBUTTON   "OK",IDOK,178,7,50,14,WS_GROUP
+    LTEXT           "kgersen@hotmail.com for bugs/comments",IDC_STATIC,39,42,
+                    162,8
+    LTEXT           "http://www.geocities.com/kgersen",IDC_STATIC,38,57,162,
+                    8
+    LTEXT           "Logo by Noodle",IDC_STATIC,37,74,162,8
+END
+
+IDD_AGM_DIALOG DIALOGEX 0, 0, 450, 318
+STYLE DS_MODALFRAME | DS_3DLOOK | DS_CENTER | WS_MINIMIZEBOX | WS_POPUP | 
+    WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+EXSTYLE WS_EX_APPWINDOW
+CAPTION "Allegiance™ Game Manager"
+FONT 8, "MS Sans Serif"
+BEGIN
+    PUSHBUTTON      "Quit",IDOK,393,297,50,14
+    EDITTEXT        IDC_EDITRES,7,7,385,14,ES_AUTOHSCROLL | WS_DISABLED
+    CONTROL         "Lock game settings",IDC_LockGameOpen,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,16,46,77,10
+    COMBOBOX        IDC_InitialMinersPerTeam,394,148,34,91,CBS_DROPDOWNLIST | 
+                    CBS_SORT | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Initial miners per team",IDC_STATIC,323,150,70,12
+    COMBOBOX        IDC_MaxMinersPerTeam,394,164,34,102,CBS_DROPDOWNLIST | 
+                    CBS_SORT | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Maximum miners per team",IDC_STATIC,311,166,82,12
+    CONTROL         "Allow Supremacy",IDC_AllowSupremacyPath,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,16,81,74,10
+    CONTROL         "Allow Expansion",IDC_AllowExpansionPath,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,16,93,74,10
+    CONTROL         "Allow Tactical",IDC_AllowTacticalPath,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,16,105,74,10
+    CONTROL         "Allow Shipyard",IDC_AllowShipyardPath,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,16,117,74,10
+    CONTROL         "Lock team settings",IDC_LockTeamSettings,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,16,60,75,10
+    CONTROL         "Reveal map",IDC_ShowMap,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,16,144,55,10
+    COMBOBOX        IDC_Teams,77,180,34,82,CBS_DROPDOWNLIST | CBS_SORT | 
+                    WS_VSCROLL | WS_TABSTOP
+    CONTROL         "Number of teams",IDC_STATIC,"Static",SS_LEFTNOWORDWRAP | 
+                    WS_GROUP,19,183,58,10
+    COMBOBOX        IDC_CivIDs1,178,198,92,62,CBS_DROPDOWNLIST | WS_VSCROLL | 
+                    WS_TABSTOP
+    COMBOBOX        IDC_CivIDs2,178,213,92,88,CBS_DROPDOWNLIST | WS_VSCROLL | 
+                    WS_TABSTOP
+    COMBOBOX        IDC_CivIDs3,178,228,92,94,CBS_DROPDOWNLIST | WS_VSCROLL | 
+                    WS_TABSTOP
+    COMBOBOX        IDC_CivIDs4,178,243,92,78,CBS_DROPDOWNLIST | WS_VSCROLL | 
+                    WS_TABSTOP
+    COMBOBOX        IDC_CivIDs5,178,257,92,82,CBS_DROPDOWNLIST | WS_VSCROLL | 
+                    WS_TABSTOP
+    COMBOBOX        IDC_CivIDs6,178,272,92,71,CBS_DROPDOWNLIST | WS_VSCROLL | 
+                    WS_TABSTOP
+    EDITTEXT        IDC_TeamName1,49,198,123,14,ES_AUTOHSCROLL
+    EDITTEXT        IDC_TeamName2,49,213,123,14,ES_AUTOHSCROLL
+    EDITTEXT        IDC_TeamName3,49,228,123,14,ES_AUTOHSCROLL
+    EDITTEXT        IDC_TeamName4,49,242,123,14,ES_AUTOHSCROLL
+    EDITTEXT        IDC_TeamName5,49,256,123,14,ES_AUTOHSCROLL
+    EDITTEXT        IDC_TeamName6,49,271,123,14,ES_AUTOHSCROLL
+    LTEXT           "Team 1",IDC_STATIC_TEAM1,21,201,25,8
+    LTEXT           "Team 2",IDC_STATIC_TEAM2,21,216,25,8
+    LTEXT           "Team 3",IDC_STATIC_TEAM3,21,232,25,8
+    LTEXT           "Team 4",IDC_STATIC_TEAM4,21,246,25,8
+    LTEXT           "Team 5",IDC_STATIC_TEAM5,21,260,25,8
+    LTEXT           "Team 6",IDC_STATIC_TEAM6,21,275,25,8
+    LTEXT           "Names",IDC_STATIC,133,186,30,8
+    LTEXT           "Factions",IDC_STATIC,178,186,39,8
+    CONTROL         "Allow Drones",IDC_Drones,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,16,130,58,10
+    COMBOBOX        IDC_MaxImbalance,339,270,34,73,CBS_DROPDOWNLIST | 
+                    CBS_SORT | WS_VSCROLL | WS_TABSTOP
+    CTEXT           "Custom map",IDC_S_CUSTMAP,391,184,40,8
+    COMBOBOX        IDC_StartingMoney,177,57,34,116,CBS_DROPDOWNLIST | 
+                    CBS_SORT | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Starting money",IDC_STATIC,127,59,50,12
+    COMBOBOX        IDC_He3Density,177,72,34,115,CBS_DROPDOWNLIST | CBS_SORT | 
+                    WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Total money",IDC_STATIC,134,74,40,12
+    COMBOBOX        IDC_PlayerSectorMineableAsteroids,177,87,34,119,
+                    CBS_DROPDOWNLIST | CBS_SORT | WS_VSCROLL | WS_TABSTOP
+    COMBOBOX        IDC_NeutralSectorMineableAsteroids,177,101,34,133,
+                    CBS_DROPDOWNLIST | CBS_SORT | WS_VSCROLL | WS_TABSTOP
+    COMBOBOX        IDC_PlayerSectorSpecialAsteroids,177,115,34,134,
+                    CBS_DROPDOWNLIST | CBS_SORT | WS_VSCROLL | WS_TABSTOP
+    COMBOBOX        IDC_NeutralSectorSpecialAsteroids,177,129,34,131,
+                    CBS_DROPDOWNLIST | CBS_SORT | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Home sectors He3",IDC_STATIC,114,88,60,8
+    LTEXT           "Neutral sectors He3",IDC_STATIC,109,103,64,8
+    LTEXT           "Home sectors resources",IDC_STATIC,96,116,77,12
+    LTEXT           "Neutral sectors resources",IDC_STATIC,92,131,81,8
+    COMBOBOX        IDC_PlayerSectorAsteroids,177,145,34,111,
+                    CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Home sectors asteroids",IDC_STATIC,98,148,73,8
+    COMBOBOX        IDC_NeutralSectorAsteroids,177,161,34,89,
+                    CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Neutral sectors asteroids",IDC_STATIC,94,164,79,8
+    EDITTEXT        IDC_GameName,54,25,155,14,ES_AUTOHSCROLL
+    LTEXT           "Game name",IDC_STATIC,13,28,39,8
+    EDITTEXT        IDC_StoryText,221,42,222,99,ES_MULTILINE | 
+                    ES_AUTOVSCROLL | ES_AUTOHSCROLL | ES_WANTRETURN | 
+                    WS_VSCROLL
+    GROUPBOX        "",IDC_STATIC,15,175,259,117
+    LTEXT           "Story text (appears during countdown)",IDC_STATIC,271,
+                    28,149,8
+    PUSHBUTTON      "Load from server",IDC_BUT_LOADREG,8,297,65,14
+    PUSHBUTTON      "Save to server",IDC_BUT_SAVEREG,76,297,65,14
+    PUSHBUTTON      "Load from file",IDC_BUT_LOADFILE,147,297,65,14,
+                    WS_DISABLED
+    PUSHBUTTON      "Save to file",IDC_BUT_SAVEFILE,218,297,65,14,
+                    WS_DISABLED
+    PUSHBUTTON      "About",IDC_BUT_About,339,297,50,14
+    EDITTEXT        IDC_CustomMap,378,194,65,14,ES_AUTOHSCROLL
+    RTEXT           "Max imbalance",IDC_STATIC,284,272,51,12
+    PUSHBUTTON      "Select map",IDC_BUT_MAP,393,209,50,14
+    COMBOBOX        IDC_TotalMaxPlayers,339,222,34,91,CBS_DROPDOWNLIST | 
+                    CBS_SORT | WS_VSCROLL | WS_TABSTOP
+    RTEXT           "Total max players",IDC_STATIC,279,224,56,8
+    COMBOBOX        IDC_MinPlayers,339,238,34,91,CBS_DROPDOWNLIST | CBS_SORT | 
+                    WS_DISABLED | WS_VSCROLL | WS_TABSTOP
+    COMBOBOX        IDC_MaxPlayers,339,254,34,91,CBS_DROPDOWNLIST | CBS_SORT | 
+                    WS_DISABLED | WS_VSCROLL | WS_TABSTOP
+    RTEXT           "Min players",IDC_STATIC,279,241,56,8
+    RTEXT           "Max players",IDC_STATIC,279,257,56,8
+    PUSHBUTTON      "2H",IDC_BUT_2H,397,8,13,14
+    PUSHBUTTON      "2F",IDC_BUT_2F,413,8,13,14
+    COMBOBOX        IDC_MapType,297,194,75,98,CBS_DROPDOWNLIST | WS_VSCROLL | 
+                    WS_TABSTOP
+    LTEXT           "Map",IDC_S_MAP,281,196,16,8
+    EDITTEXT        IDC_MapSize,333,208,40,14,ES_AUTOHSCROLL | NOT 
+                    WS_VISIBLE | WS_DISABLED
+    PUSHBUTTON      "CD",IDC_BUT_CORE,429,8,13,14
+    PUSHBUTTON      "MAP EDITOR",IDC_MAPEDIT,393,254,50,14
+    CONTROL         "Allow empty teams",IDC_AllowEmptyTeams,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,15,166,74,10
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Version
+//
+
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION 1,0,0,1
+ PRODUCTVERSION 1,0,0,1
+ FILEFLAGSMASK 0x3fL
+#ifdef _DEBUG
+ FILEFLAGS 0x1L
+#else
+ FILEFLAGS 0x0L
+#endif
+ FILEOS 0x4L
+ FILETYPE 0x1L
+ FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "040904b0"
+        BEGIN
+            VALUE "CompanyName", "Kirth Gersen\0"
+            VALUE "FileDescription", "AllegianceTM Game Manager\0"
+            VALUE "FileVersion", "1.0.BETA.1.INT5\0"
+            VALUE "InternalName", "AGM\0"
+            VALUE "LegalCopyright", "Copyright (C) 2001 - Kirth Gersen aka KGJV\0"
+            VALUE "OriginalFilename", "AGM.EXE\0"
+            VALUE "ProductName", "AGM Application\0"
+            VALUE "ProductVersion", "1.0\0"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x409, 1200
+    END
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO 
+BEGIN
+    IDD_ABOUTBOX, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 228
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 96
+    END
+
+    IDD_AGM_DIALOG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 443
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 311
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog Info
+//
+
+IDD_AGM_DIALOG DLGINIT
+BEGIN
+    IDC_InitialMinersPerTeam, 0x403, 2, 0
+0x0030, 
+    IDC_InitialMinersPerTeam, 0x403, 2, 0
+0x0031, 
+    IDC_InitialMinersPerTeam, 0x403, 2, 0
+0x0032, 
+    IDC_InitialMinersPerTeam, 0x403, 2, 0
+0x0033, 
+    IDC_InitialMinersPerTeam, 0x403, 2, 0
+0x0034, 
+    IDC_InitialMinersPerTeam, 0x403, 2, 0
+0x0035, 
+    IDC_InitialMinersPerTeam, 0x403, 2, 0
+0x0036, 
+    IDC_InitialMinersPerTeam, 0x403, 2, 0
+0x0037, 
+    IDC_InitialMinersPerTeam, 0x403, 2, 0
+0x0038, 
+    IDC_InitialMinersPerTeam, 0x403, 2, 0
+0x0039, 
+    IDC_MaxMinersPerTeam, 0x403, 2, 0
+0x0030, 
+    IDC_MaxMinersPerTeam, 0x403, 2, 0
+0x0031, 
+    IDC_MaxMinersPerTeam, 0x403, 2, 0
+0x0032, 
+    IDC_MaxMinersPerTeam, 0x403, 2, 0
+0x0033, 
+    IDC_MaxMinersPerTeam, 0x403, 2, 0
+0x0034, 
+    IDC_MaxMinersPerTeam, 0x403, 2, 0
+0x0035, 
+    IDC_MaxMinersPerTeam, 0x403, 2, 0
+0x0036, 
+    IDC_MaxMinersPerTeam, 0x403, 2, 0
+0x0037, 
+    IDC_MaxMinersPerTeam, 0x403, 2, 0
+0x0038, 
+    IDC_MaxMinersPerTeam, 0x403, 2, 0
+0x0039, 
+    IDC_Teams, 0x403, 2, 0
+0x0032, 
+    IDC_Teams, 0x403, 2, 0
+0x0033, 
+    IDC_Teams, 0x403, 2, 0
+0x0034, 
+    IDC_Teams, 0x403, 2, 0
+0x0035, 
+    IDC_Teams, 0x403, 2, 0
+0x0036, 
+    IDC_MaxImbalance, 0x403, 2, 0
+0x0031, 
+    IDC_MaxImbalance, 0x403, 2, 0
+0x0032, 
+    IDC_MaxImbalance, 0x403, 2, 0
+0x0033, 
+    IDC_StartingMoney, 0x403, 2, 0
+0x0030, 
+    IDC_StartingMoney, 0x403, 2, 0
+0x0031, 
+    IDC_StartingMoney, 0x403, 2, 0
+0x0032, 
+    IDC_StartingMoney, 0x403, 2, 0
+0x0033, 
+    IDC_StartingMoney, 0x403, 2, 0
+0x0034, 
+    IDC_StartingMoney, 0x403, 2, 0
+0x0035, 
+    IDC_StartingMoney, 0x403, 2, 0
+0x0036, 
+    IDC_StartingMoney, 0x403, 2, 0
+0x0037, 
+    IDC_StartingMoney, 0x403, 2, 0
+0x0038, 
+    IDC_StartingMoney, 0x403, 2, 0
+0x0039, 
+    IDC_He3Density, 0x403, 2, 0
+0x0030, 
+    IDC_He3Density, 0x403, 2, 0
+0x0031, 
+    IDC_He3Density, 0x403, 2, 0
+0x0032, 
+    IDC_He3Density, 0x403, 2, 0
+0x0033, 
+    IDC_He3Density, 0x403, 2, 0
+0x0034, 
+    IDC_He3Density, 0x403, 2, 0
+0x0035, 
+    IDC_He3Density, 0x403, 2, 0
+0x0036, 
+    IDC_He3Density, 0x403, 2, 0
+0x0037, 
+    IDC_He3Density, 0x403, 2, 0
+0x0038, 
+    IDC_He3Density, 0x403, 2, 0
+0x0039, 
+    IDC_PlayerSectorMineableAsteroids, 0x403, 2, 0
+0x0030, 
+    IDC_PlayerSectorMineableAsteroids, 0x403, 2, 0
+0x0031, 
+    IDC_PlayerSectorMineableAsteroids, 0x403, 2, 0
+0x0032, 
+    IDC_PlayerSectorMineableAsteroids, 0x403, 2, 0
+0x0033, 
+    IDC_PlayerSectorMineableAsteroids, 0x403, 2, 0
+0x0034, 
+    IDC_PlayerSectorMineableAsteroids, 0x403, 2, 0
+0x0035, 
+    IDC_PlayerSectorMineableAsteroids, 0x403, 2, 0
+0x0036, 
+    IDC_PlayerSectorMineableAsteroids, 0x403, 2, 0
+0x0037, 
+    IDC_PlayerSectorMineableAsteroids, 0x403, 2, 0
+0x0038, 
+    IDC_PlayerSectorMineableAsteroids, 0x403, 2, 0
+0x0039, 
+    IDC_NeutralSectorMineableAsteroids, 0x403, 2, 0
+0x0030, 
+    IDC_NeutralSectorMineableAsteroids, 0x403, 2, 0
+0x0031, 
+    IDC_NeutralSectorMineableAsteroids, 0x403, 2, 0
+0x0032, 
+    IDC_NeutralSectorMineableAsteroids, 0x403, 2, 0
+0x0033, 
+    IDC_NeutralSectorMineableAsteroids, 0x403, 2, 0
+0x0034, 
+    IDC_NeutralSectorMineableAsteroids, 0x403, 2, 0
+0x0035, 
+    IDC_NeutralSectorMineableAsteroids, 0x403, 2, 0
+0x0036, 
+    IDC_NeutralSectorMineableAsteroids, 0x403, 2, 0
+0x0037, 
+    IDC_NeutralSectorMineableAsteroids, 0x403, 2, 0
+0x0038, 
+    IDC_NeutralSectorMineableAsteroids, 0x403, 2, 0
+0x0039, 
+    IDC_PlayerSectorSpecialAsteroids, 0x403, 2, 0
+0x0030, 
+    IDC_PlayerSectorSpecialAsteroids, 0x403, 2, 0
+0x0031, 
+    IDC_PlayerSectorSpecialAsteroids, 0x403, 2, 0
+0x0032, 
+    IDC_PlayerSectorSpecialAsteroids, 0x403, 2, 0
+0x0033, 
+    IDC_PlayerSectorSpecialAsteroids, 0x403, 2, 0
+0x0034, 
+    IDC_PlayerSectorSpecialAsteroids, 0x403, 2, 0
+0x0035, 
+    IDC_PlayerSectorSpecialAsteroids, 0x403, 2, 0
+0x0036, 
+    IDC_PlayerSectorSpecialAsteroids, 0x403, 2, 0
+0x0037, 
+    IDC_PlayerSectorSpecialAsteroids, 0x403, 2, 0
+0x0038, 
+    IDC_PlayerSectorSpecialAsteroids, 0x403, 2, 0
+0x0039, 
+    IDC_NeutralSectorSpecialAsteroids, 0x403, 2, 0
+0x0030, 
+    IDC_NeutralSectorSpecialAsteroids, 0x403, 2, 0
+0x0031, 
+    IDC_NeutralSectorSpecialAsteroids, 0x403, 2, 0
+0x0032, 
+    IDC_NeutralSectorSpecialAsteroids, 0x403, 2, 0
+0x0033, 
+    IDC_NeutralSectorSpecialAsteroids, 0x403, 2, 0
+0x0034, 
+    IDC_NeutralSectorSpecialAsteroids, 0x403, 2, 0
+0x0035, 
+    IDC_NeutralSectorSpecialAsteroids, 0x403, 2, 0
+0x0036, 
+    IDC_NeutralSectorSpecialAsteroids, 0x403, 2, 0
+0x0037, 
+    IDC_NeutralSectorSpecialAsteroids, 0x403, 2, 0
+0x0038, 
+    IDC_NeutralSectorSpecialAsteroids, 0x403, 2, 0
+0x0039, 
+    IDC_PlayerSectorAsteroids, 0x403, 2, 0
+0x0030, 
+    IDC_PlayerSectorAsteroids, 0x403, 2, 0
+0x0031, 
+    IDC_PlayerSectorAsteroids, 0x403, 2, 0
+0x0032, 
+    IDC_PlayerSectorAsteroids, 0x403, 2, 0
+0x0033, 
+    IDC_PlayerSectorAsteroids, 0x403, 2, 0
+0x0034, 
+    IDC_PlayerSectorAsteroids, 0x403, 2, 0
+0x0035, 
+    IDC_PlayerSectorAsteroids, 0x403, 2, 0
+0x0036, 
+    IDC_PlayerSectorAsteroids, 0x403, 2, 0
+0x0037, 
+    IDC_PlayerSectorAsteroids, 0x403, 2, 0
+0x0038, 
+    IDC_PlayerSectorAsteroids, 0x403, 2, 0
+0x0039, 
+    IDC_PlayerSectorAsteroids, 0x403, 3, 0
+0x3031, "\000" 
+    IDC_PlayerSectorAsteroids, 0x403, 3, 0
+0x3531, "\000" 
+    IDC_PlayerSectorAsteroids, 0x403, 3, 0
+0x3032, "\000" 
+    IDC_PlayerSectorAsteroids, 0x403, 3, 0
+0x3532, "\000" 
+    IDC_PlayerSectorAsteroids, 0x403, 3, 0
+0x3033, "\000" 
+    IDC_PlayerSectorAsteroids, 0x403, 3, 0
+0x3533, "\000" 
+    IDC_PlayerSectorAsteroids, 0x403, 3, 0
+0x3933, "\000" 
+    IDC_NeutralSectorAsteroids, 0x403, 2, 0
+0x0030, 
+    IDC_NeutralSectorAsteroids, 0x403, 2, 0
+0x0031, 
+    IDC_NeutralSectorAsteroids, 0x403, 2, 0
+0x0032, 
+    IDC_NeutralSectorAsteroids, 0x403, 2, 0
+0x0033, 
+    IDC_NeutralSectorAsteroids, 0x403, 2, 0
+0x0034, 
+    IDC_NeutralSectorAsteroids, 0x403, 2, 0
+0x0035, 
+    IDC_NeutralSectorAsteroids, 0x403, 2, 0
+0x0036, 
+    IDC_NeutralSectorAsteroids, 0x403, 2, 0
+0x0037, 
+    IDC_NeutralSectorAsteroids, 0x403, 2, 0
+0x0038, 
+    IDC_NeutralSectorAsteroids, 0x403, 2, 0
+0x0039, 
+    IDC_NeutralSectorAsteroids, 0x403, 3, 0
+0x3031, "\000" 
+    IDC_NeutralSectorAsteroids, 0x403, 3, 0
+0x3531, "\000" 
+    IDC_NeutralSectorAsteroids, 0x403, 3, 0
+0x3032, "\000" 
+    IDC_NeutralSectorAsteroids, 0x403, 3, 0
+0x3532, "\000" 
+    IDC_NeutralSectorAsteroids, 0x403, 3, 0
+0x3033, "\000" 
+    IDC_NeutralSectorAsteroids, 0x403, 3, 0
+0x3533, "\000" 
+    IDC_NeutralSectorAsteroids, 0x403, 3, 0
+0x3933, "\000" 
+    IDC_TotalMaxPlayers, 0x403, 2, 0
+0x0032, 
+    IDC_TotalMaxPlayers, 0x403, 2, 0
+0x0038, 
+    IDC_TotalMaxPlayers, 0x403, 3, 0
+0x3631, "\000" 
+    IDC_TotalMaxPlayers, 0x403, 3, 0
+0x3233, "\000" 
+    IDC_TotalMaxPlayers, 0x403, 3, 0
+0x3436, "\000" 
+    0
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// String Table
+//
+
+STRINGTABLE 
+BEGIN
+    IDS_ABOUTBOX            "&About AGM..."
+    IDS_PROPERTIES          "Properties"
+    IDP_SOCKETS_INIT_FAILED "Windows sockets initialization failed."
+    IDS_DELETE              "Delete"
+    IDS_ADDBASE             "Add base"
+    IDS_ADDROCK             "Add rock"
+    IDS_COPY                "Copy"
+END
+
+#endif    // English (U.S.) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+/////////////////////////////////////////////////////////////////////////////
+// French (France) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_FRA)
+#ifdef _WIN32
+LANGUAGE LANG_FRENCH, SUBLANG_FRENCH
+#pragma code_page(1252)
+#endif //_WIN32
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE 
+BEGIN
+    "#include ""afxres.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE 
+BEGIN
+    "#define _AFX_NO_SPLITTER_RESOURCES\r\n"
+    "#define _AFX_NO_OLE_RESOURCES\r\n"
+    "#define _AFX_NO_TRACKER_RESOURCES\r\n"
+    "#define _AFX_NO_PROPERTY_RESOURCES\r\n"
+    "\r\n"
+    "#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)\r\n"
+    "#ifdef _WIN32\r\n"
+    "LANGUAGE 9, 1\r\n"
+    "#pragma code_page(1252)\r\n"
+    "#endif //_WIN32\r\n"
+    "#include ""res\\AGM.rc2""  // non-Microsoft Visual C++ edited resources\r\n"
+    "#include ""afxres.rc""         // Standard components\r\n"
+    "#endif\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDR_MAINFRAME           ICON                    "res\\Agmlogo.ico"
+IDR_MAINFRAME1          ICON                    "res\\idr_main.ico"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_MAP DIALOGEX 0, 0, 494, 327
+STYLE DS_LOCALEDIT | DS_MODALFRAME | DS_3DLOOK | DS_CENTER | WS_MINIMIZEBOX | 
+    WS_MAXIMIZEBOX | WS_POPUP | WS_CAPTION
+EXSTYLE WS_EX_APPWINDOW
+CAPTION "Allegiance Map Editor"
+FONT 8, "MS Sans Serif"
+BEGIN
+    PUSHBUTTON      "Quit",ID_MAP_QUIT,444,312,50,14
+    LISTBOX         IDC_LB_SECTORS,5,18,74,176,LBS_SORT | 
+                    LBS_NOINTEGRALHEIGHT | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Sectors",IDC_STATIC_Sectors,8,6,44,8
+    PUSHBUTTON      "2DMAP",IDC_2DMAP_OLD,7,199,152,105,NOT WS_VISIBLE
+    PUSHBUTTON      "Save",ID_MAP_SAVE,104,312,50,14,WS_DISABLED
+    GROUPBOX        "",IDC_SECTVIEW_FRAME,169,17,324,290,NOT WS_VISIBLE
+    PUSHBUTTON      "Save as ...",ID_MAP_SAVEAS,156,312,50,14,WS_DISABLED
+    PUSHBUTTON      "Load",ID_MAP_LOAD,52,312,50,14
+    PUSHBUTTON      "New",ID_MAP_NEW,0,312,50,14
+    LTEXT           "",IDC_MAP_NAME,170,3,322,14,WS_BORDER
+    PUSHBUTTON      "Sectors",IDC_B_TPL_SECTS,98,26,42,14,WS_DISABLED
+    PUSHBUTTON      "Bases",IDC_B_TPL_BASES,98,58,42,14,WS_DISABLED
+    PUSHBUTTON      "Alephs",IDC_B_TPL_ALEPHS,98,42,42,14,WS_DISABLED
+    PUSHBUTTON      "Rocks 1",IDC_B_TPL_ROCKS1,98,74,42,14,WS_DISABLED
+    PUSHBUTTON      "Rocks 2",IDC_B_TPL_ROCKS2,98,90,42,14,WS_DISABLED
+    PUSHBUTTON      "Rocks 3",IDC_B_TPL_ROCKS3,98,106,42,14,WS_DISABLED
+    PUSHBUTTON      "Rocks 4",IDC_B_TPL_ROCKS4,98,122,42,14,WS_DISABLED
+    GROUPBOX        "Templates",IDC_STATIC,93,15,52,125,BS_CENTER | 
+                    WS_DISABLED
+    PUSHBUTTON      "Delete all alephs",IDC_B_DELALL_ALEPHS,90,147,57,14,
+                    WS_DISABLED
+    PUSHBUTTON      "Delete all bases",IDC_B_DELALL_BASES,90,163,57,14,
+                    WS_DISABLED
+    PUSHBUTTON      "Delete all rocks",IDC_B_DELALL_ROCKS,90,179,57,14,
+                    WS_DISABLED
+END
+
+IDD_SECTDLG DIALOGEX 0, 0, 240, 157
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Sector properties"
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "Apply",ID_MAP_S_APPLY,2,143,50,14
+    COMBOBOX        IDC_SECT_GLOBE,170,2,65,113,CBS_DROPDOWNLIST | 
+                    WS_VSCROLL | WS_TABSTOP
+    COMBOBOX        IDC_SECT_NEBBG,170,16,65,134,CBS_DROPDOWNLIST | 
+                    WS_VSCROLL | WS_TABSTOP
+    RTEXT           "Globe",IDC_S_Globe,128,3,32,8
+    RTEXT           "Nebulas",IDC_S_Nebbg,128,18,32,8
+    COMBOBOX        IDC_SECT_TEAM,170,31,65,117,CBS_DROPDOWNLIST | 
+                    WS_VSCROLL | WS_TABSTOP
+    RTEXT           "Team",IDC_S_Team,127,32,32,8
+    EDITTEXT        IDC_SECT_NAME,46,2,78,14,ES_AUTOHSCROLL
+    LTEXT           "Name",IDC_S_Name,20,5,20,8
+    CONTROL         "color 1",IDC_SECT_COL1,"Button",BS_OWNERDRAW | 
+                    WS_TABSTOP,35,63,37,14
+    CONTROL         "color 2",IDC_SECT_COL2,"Button",BS_OWNERDRAW | 
+                    WS_TABSTOP,35,81,37,14
+    CONTROL         "color 3",IDC_SECT_COL3,"Button",BS_OWNERDRAW | 
+                    WS_TABSTOP,113,64,37,14
+    CONTROL         "color 4",IDC_SECT_COL4,"Button",BS_OWNERDRAW | 
+                    WS_TABSTOP,113,82,37,14
+    CONTROL         "Ambiant",IDC_SECT_COL5,"Button",BS_OWNERDRAW | 
+                    WS_TABSTOP,113,100,37,14
+    EDITTEXT        IDC_SECT_POSX,88,21,36,14,ES_AUTOHSCROLL
+    EDITTEXT        IDC_SECT_POSY,88,37,36,14,ES_AUTOHSCROLL
+    RTEXT           "Color 1",IDC_S_Col1,0,65,32,8
+    RTEXT           "Color 2",IDC_S_Col2,0,82,32,8
+    RTEXT           "Color 3",IDC_S_Col3,78,66,32,8
+    RTEXT           "Color 4",IDC_S_Col4,78,85,32,8
+    RTEXT           "Ambiant color",IDC_S_Col5,65,103,44,8
+    LTEXT           "X",IDC_S_Posx,78,26,8,8
+    LTEXT           "Y",IDC_S_PosY,78,40,8,8
+    PUSHBUTTON      "Delete",ID_MAP_S_DELETE,93,143,50,14
+    PUSHBUTTON      "Cancel",ID_SDLG_CANCEL,189,143,50,14
+END
+
+IDD_ALEPHDLG DIALOGEX 0, 0, 302, 135
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Aleph properties"
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,3,119,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,251,119,50,14
+    COMBOBOX        IDC_ALEPH_RENDER,237,2,65,113,CBS_DROPDOWNLIST | 
+                    WS_VSCROLL | WS_TABSTOP
+    EDITTEXT        IDC_A_NAME,29,2,95,14,ES_AUTOHSCROLL
+    LTEXT           "Name",IDC_AL_Name,6,5,20,8
+    EDITTEXT        IDC_ALEPH_POSX,25,35,36,14,ES_AUTOHSCROLL
+    EDITTEXT        IDC_ALEPH_POSY,25,51,36,14,ES_AUTOHSCROLL
+    EDITTEXT        IDC_ALEPH_POSZ,25,66,36,14,ES_AUTOHSCROLL
+    EDITTEXT        IDC_ALEPH_SIG,265,20,36,14,ES_AUTOHSCROLL
+    EDITTEXT        IDC_ALEPH_RADIUS,265,36,36,14,ES_AUTOHSCROLL
+    LTEXT           "X",IDC_AL_x,15,39,8,8
+    LTEXT           "Y",IDC_AL_y,15,54,8,8
+    LTEXT           "Z",IDC_AL_z,15,69,8,8
+    LTEXT           "Render",IDC_AL_Name2,206,5,24,8
+    LTEXT           "Sig",IDC_AL_Name3,252,23,11,8
+    LTEXT           "Radius",IDC_AL_Name4,241,39,23,8
+    EDITTEXT        IDC_ALEPH_O1X,97,44,36,14,ES_AUTOHSCROLL
+    EDITTEXT        IDC_ALEPH_O1Y,97,60,36,14,ES_AUTOHSCROLL
+    EDITTEXT        IDC_ALEPH_O1Z,98,76,36,14,ES_AUTOHSCROLL
+    LTEXT           "Orientation",IDC_AL_x2,100,33,35,8
+    LTEXT           "Z",IDC_AL_y2,86,78,8,8
+    EDITTEXT        IDC_ALEPH_SPINX,142,44,36,14,ES_AUTOHSCROLL
+    EDITTEXT        IDC_ALEPH_SPINY,142,60,36,14,ES_AUTOHSCROLL
+    EDITTEXT        IDC_ALEPH_SPINZ,142,76,36,14,ES_AUTOHSCROLL
+    PUSHBUTTON      "Delete",IDDELETE,128,119,50,14,NOT WS_VISIBLE | 
+                    WS_DISABLED
+    EDITTEXT        IDC_ALEPH_SPIN_SPEED,184,61,36,14,ES_AUTOHSCROLL
+    GROUPBOX        "Orientation and spin",IDC_STATIC,77,17,155,91
+    LTEXT           "Spin speed",IDC_AL_z3,183,49,36,8
+    LTEXT           "X",IDC_AL_x4,85,46,8,8
+    LTEXT           "Spin axis",IDC_AL_x6,145,33,29,8
+    LTEXT           "Y",IDC_AL_y4,86,63,8,8
+    CONTROL         "Always to center",IDC_ALEPH_AUTOORIENT,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,108,94,68,10
+    CONTROL         "no spin",IDC_ALEPH_NOSPIN,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,185,94,39,10
+END
+
+IDD_BASEDLG DIALOGEX 0, 0, 239, 162
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Base properties"
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,2,146,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,185,146,50,14
+    COMBOBOX        IDC_BASE_TEAM,188,3,43,113,CBS_DROPDOWNLIST | WS_VSCROLL | 
+                    WS_TABSTOP
+    EDITTEXT        IDC_BASE_NAME,29,2,111,14,ES_AUTOHSCROLL
+    LTEXT           "Name",IDC_AL_Name,6,5,20,8
+    EDITTEXT        IDC_BASE_POSX,24,43,36,14,ES_AUTOHSCROLL
+    EDITTEXT        IDC_BASE_POSY,24,59,36,14,ES_AUTOHSCROLL
+    EDITTEXT        IDC_BASE_POSZ,24,74,36,14,ES_AUTOHSCROLL
+    EDITTEXT        IDC_BASE_TYPENAME,31,122,111,14,ES_AUTOHSCROLL | 
+                    ES_READONLY
+    LTEXT           "X",IDC_AL_x,14,47,8,8
+    LTEXT           "Y",IDC_AL_y,14,62,8,8
+    LTEXT           "Z",IDC_AL_z,14,77,8,8
+    LTEXT           "Team",IDC_S_Base,162,4,19,8,NOT WS_GROUP
+    EDITTEXT        IDC_BASE_O1X,95,39,36,14,ES_AUTOHSCROLL
+    EDITTEXT        IDC_BASE_O1Y,95,55,36,14,ES_AUTOHSCROLL
+    EDITTEXT        IDC_BASE_O1Z,95,70,36,14,ES_AUTOHSCROLL
+    LTEXT           "O1",IDC_AL_x2,105,27,8,8
+    LTEXT           "O2",IDC_AL_y2,146,27,10,8
+    LTEXT           "Spin speed",IDC_AL_z2,97,92,36,8
+    EDITTEXT        IDC_BASE_O2X,134,39,36,14,ES_AUTOHSCROLL
+    EDITTEXT        IDC_BASE_O2Y,134,55,36,14,ES_AUTOHSCROLL
+    EDITTEXT        IDC_BASE_O2Z,134,71,36,14,ES_AUTOHSCROLL
+    PUSHBUTTON      "Delete",IDDELETE,131,146,50,14,NOT WS_VISIBLE | 
+                    WS_DISABLED
+    EDITTEXT        IDC_BASE_SPINX,172,39,36,14,ES_AUTOHSCROLL
+    EDITTEXT        IDC_BASE_SPINY,172,55,36,14,ES_AUTOHSCROLL
+    EDITTEXT        IDC_BASE_SPINZ,172,71,36,14,ES_AUTOHSCROLL
+    EDITTEXT        IDC_BASE_SPIN_SPEED,134,89,36,14,ES_AUTOHSCROLL
+    LTEXT           "Spin axis",IDC_AL_z4,176,27,29,8
+    LTEXT           "X",IDC_AL_x3,84,43,8,8
+    LTEXT           "Y",IDC_AL_y3,84,58,8,8
+    LTEXT           "Z",IDC_AL_z5,84,72,8,8
+    GROUPBOX        "Orientation and spin",IDC_STATIC,74,18,140,95,BS_CENTER
+    EDITTEXT        IDC_BASE_FACTION,147,122,80,14,ES_AUTOHSCROLL | 
+                    ES_READONLY
+    PUSHBUTTON      "Type",IDC_BASE_SETTYPE,7,122,21,14
+    EDITTEXT        IDC_BASE_TYPE,71,146,40,14,ES_AUTOHSCROLL | ES_READONLY | 
+                    NOT WS_VISIBLE
+END
+
+IDD_ROCKDLG DIALOGEX 0, 0, 347, 162
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Rock properties"
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,0,148,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,297,148,50,14
+    COMBOBOX        IDC_ROCK_TEMPLATE,222,148,65,113,CBS_DROPDOWNLIST | 
+                    WS_VSCROLL | WS_TABSTOP
+    EDITTEXT        IDC_ROCK_NAME,29,6,95,14,ES_AUTOHSCROLL
+    LTEXT           "Name",IDC_AL_Name,5,9,20,8
+    EDITTEXT        IDC_ROCK_POSX,17,34,36,14,ES_AUTOHSCROLL
+    EDITTEXT        IDC_ROCK_POSY,17,50,36,14,ES_AUTOHSCROLL
+    EDITTEXT        IDC_ROCK_POSZ,17,65,36,14,ES_AUTOHSCROLL
+    EDITTEXT        IDC_ROCK_HE1,298,27,46,14,ES_AUTOHSCROLL
+    LTEXT           "X",IDC_AL_x,7,38,8,8
+    LTEXT           "Y",IDC_AL_y,7,53,8,8
+    LTEXT           "Z",IDC_AL_z,7,68,8,8
+    LTEXT           "Template",IDC_S_Base,186,151,30,8,NOT WS_GROUP
+    RTEXT           "He3 total",IDC_ROCK_HE1capt,266,31,30,8
+    EDITTEXT        IDC_ROCK_O1X,77,51,36,14,ES_AUTOHSCROLL
+    EDITTEXT        IDC_ROCK_O1Y,77,67,36,14,ES_AUTOHSCROLL
+    EDITTEXT        IDC_ROCK_O1Z,77,82,36,14,ES_AUTOHSCROLL
+    LTEXT           "O1",IDC_AL_x2,87,39,8,8
+    LTEXT           "O2",IDC_AL_y2,128,39,10,8
+    LTEXT           "Spin speed",IDC_AL_z2,79,104,36,8
+    EDITTEXT        IDC_ROCK_O2X,116,51,36,14,ES_AUTOHSCROLL
+    EDITTEXT        IDC_ROCK_O2Y,116,67,36,14,ES_AUTOHSCROLL
+    EDITTEXT        IDC_ROCK_O2Z,116,83,36,14,ES_AUTOHSCROLL
+    EDITTEXT        IDC_ROCK_SPINX,154,51,36,14,ES_AUTOHSCROLL
+    EDITTEXT        IDC_ROCK_SPINY,154,67,36,14,ES_AUTOHSCROLL
+    EDITTEXT        IDC_ROCK_SPINZ,154,83,36,14,ES_AUTOHSCROLL
+    EDITTEXT        IDC_ROCK_SPIN_SPEED,116,101,36,14,ES_AUTOHSCROLL
+    LTEXT           "Spin axis",IDC_AL_z4,158,39,29,8
+    LTEXT           "X",IDC_AL_x3,66,55,8,8
+    LTEXT           "Y",IDC_AL_y3,66,70,8,8
+    LTEXT           "Z",IDC_AL_z5,66,84,8,8
+    GROUPBOX        "Orientation and spin",IDC_STATIC,56,30,140,91
+    CONTROL         "Hidden",IDC_ROCK_NHIDDEN,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,125,8,39,10
+    CONTROL         "Asteriod",IDC_ROCK_F8,"Button",BS_AUTOCHECKBOX | 
+                    BS_NOTIFY | WS_TABSTOP,303,72,41,10
+    CONTROL         "Helium",IDC_ROCK_F1,"Button",BS_AUTOCHECKBOX | 
+                    BS_NOTIFY | WS_TABSTOP,303,84,37,10
+    CONTROL         "Uranium",IDC_ROCK_F16,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,303,96,42,10
+    CONTROL         "Silicon",IDC_ROCK_F32,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,303,108,37,10
+    CONTROL         "Carbon",IDC_ROCK_F64,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,303,120,39,10
+    COMBOBOX        IDC_ROCK_ICON,279,7,65,113,CBS_DROPDOWNLIST | WS_VSCROLL | 
+                    WS_TABSTOP
+    LTEXT           "Icon",IDC_S_Base2,260,9,15,8,NOT WS_GROUP
+    EDITTEXT        IDC_ROCK_HE2,298,43,46,14,ES_AUTOHSCROLL
+    RTEXT           "He3 init",IDC_ROCK_HE2capt,271,46,25,8
+    GROUPBOX        "Features",IDC_STATIC,297,60,47,75
+    EDITTEXT        IDC_ROCK_SIG,215,23,36,14,ES_AUTOHSCROLL | ES_NUMBER
+    EDITTEXT        IDC_ROCK_RADIUS,215,7,36,14,ES_AUTOHSCROLL | ES_NUMBER
+    LTEXT           "Sig",IDC_AL_Name6,202,27,11,8
+    LTEXT           "Radius",IDC_AL_Name7,191,10,23,8
+    EDITTEXT        IDC_ROCK_HP,215,40,36,14,ES_AUTOHSCROLL | ES_NUMBER
+    LTEXT           "HP",IDC_AL_Name8,202,43,11,8
+    CONTROL         "Slider1",IDC_ROCK_HULL,"msctls_trackbar32",
+                    TBS_AUTOTICKS | TBS_BOTH | WS_DISABLED | WS_TABSTOP,217,
+                    57,42,15
+    LTEXT           "HP%",IDC_AL_Name9,200,61,16,8,WS_DISABLED
+    CONTROL         "Phantom",IDC_ROCK_PHANTOM,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,208,77,44,10
+    CONTROL         "HP gauge",IDC_ROCK_GAUGE,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,208,90,48,10
+    COMBOBOX        IDC_ROCK_RENDER,56,127,91,134,CBS_DROPDOWNLIST | 
+                    WS_VSCROLL | WS_TABSTOP
+    RTEXT           "Render",IDC_S_Nebbg,19,130,32,8
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO 
+BEGIN
+    IDD_MAP, DIALOG
+    BEGIN
+        RIGHTMARGIN, 466
+        VERTGUIDE, 159
+        BOTTOMMARGIN, 326
+        HORZGUIDE, 178
+    END
+
+    IDD_SECTDLG, DIALOG
+    BEGIN
+        LEFTMARGIN, 1
+    END
+
+    IDD_ALEPHDLG, DIALOG
+    BEGIN
+        BOTTOMMARGIN, 133
+    END
+
+    IDD_BASEDLG, DIALOG
+    BEGIN
+        RIGHTMARGIN, 235
+        BOTTOMMARGIN, 160
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog Info
+//
+
+IDD_BASEDLG DLGINIT
+BEGIN
+    IDC_BASE_TEAM, 0x403, 2, 0
+0x0031, 
+    IDC_BASE_TEAM, 0x403, 2, 0
+0x0032, 
+    IDC_BASE_TEAM, 0x403, 2, 0
+0x0033, 
+    IDC_BASE_TEAM, 0x403, 2, 0
+0x0034, 
+    IDC_BASE_TEAM, 0x403, 2, 0
+0x0035, 
+    IDC_BASE_TEAM, 0x403, 2, 0
+0x0036, 
+    0
+END
+
+IDD_ROCKDLG DLGINIT
+BEGIN
+    IDC_ROCK_TEMPLATE, 0x403, 9, 0
+0x7341, 0x6574, 0x6972, 0x646f, "\000" 
+    IDC_ROCK_TEMPLATE, 0x403, 7, 0
+0x6548, 0x696c, 0x6d75, "\000" 
+    IDC_ROCK_TEMPLATE, 0x403, 8, 0
+0x7255, 0x6e61, 0x7569, 0x006d, 
+    IDC_ROCK_TEMPLATE, 0x403, 8, 0
+0x6953, 0x696c, 0x6f63, 0x006e, 
+    IDC_ROCK_TEMPLATE, 0x403, 7, 0
+0x6143, 0x6272, 0x6e6f, "\000" 
+    IDC_ROCK_ICON, 0x403, 11, 0
+0x656d, 0x6574, 0x726f, 0x6369, 0x6e6f, "\000" 
+    IDC_ROCK_ICON, 0x403, 11, 0
+0x6568, 0x696c, 0x6d75, 0x6f72, 0x6b63, "\000" 
+    IDC_ROCK_ICON, 0x403, 11, 0
+0x6163, 0x6272, 0x6e6f, 0x6f72, 0x6b63, "\000" 
+    IDC_ROCK_ICON, 0x403, 11, 0
+0x6f63, 0x7070, 0x7265, 0x6f72, 0x6b63, "\000" 
+    IDC_ROCK_ICON, 0x403, 9, 0
+0x6f67, 0x646c, 0x6f72, 0x6b63, "\000" 
+    IDC_ROCK_ICON, 0x403, 8, 0
+0x6f68, 0x7274, 0x636f, 0x006b, 
+    IDC_ROCK_ICON, 0x403, 10, 0
+0x6177, 0x6574, 0x7272, 0x636f, 0x006b, 
+    IDC_ROCK_RENDER, 0x403, 8, 0
+0x6762, 0x6e72, 0x3064, 0x0033, 
+    IDC_ROCK_RENDER, 0x403, 8, 0
+0x6762, 0x6e72, 0x3064, 0x0034, 
+    IDC_ROCK_RENDER, 0x403, 8, 0
+0x6762, 0x6e72, 0x3064, 0x0035, 
+    IDC_ROCK_RENDER, 0x403, 8, 0
+0x6762, 0x6e72, 0x3564, 0x0030, 
+    IDC_ROCK_RENDER, 0x403, 8, 0
+0x6762, 0x6e72, 0x3564, 0x0031, 
+    IDC_ROCK_RENDER, 0x403, 8, 0
+0x6762, 0x6e72, 0x3564, 0x0032, 
+    IDC_ROCK_RENDER, 0x403, 8, 0
+0x6762, 0x6e72, 0x3564, 0x0033, 
+    IDC_ROCK_RENDER, 0x403, 8, 0
+0x6762, 0x6e72, 0x3564, 0x0034, 
+    IDC_ROCK_RENDER, 0x403, 8, 0
+0x6762, 0x6e72, 0x3564, 0x0035, 
+    IDC_ROCK_RENDER, 0x403, 8, 0
+0x6762, 0x6e72, 0x3564, 0x0036, 
+    IDC_ROCK_RENDER, 0x403, 8, 0
+0x6762, 0x6e72, 0x3564, 0x0037, 
+    0
+END
+
+#endif    // French (France) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+#define _AFX_NO_SPLITTER_RESOURCES
+#define _AFX_NO_OLE_RESOURCES
+#define _AFX_NO_TRACKER_RESOURCES
+#define _AFX_NO_PROPERTY_RESOURCES
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+#ifdef _WIN32
+LANGUAGE 9, 1
+#pragma code_page(1252)
+#endif //_WIN32
+#include "res\AGM.rc2"  // non-Microsoft Visual C++ edited resources
+#include "afxres.rc"         // Standard components
+#endif
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+
