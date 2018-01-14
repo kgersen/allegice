@@ -1,0 +1,68 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="..\ICE\IGCCore.cpp" />
+    <ClCompile Include="2DMap.cpp" />
+    <ClCompile Include="AGM.cpp" />
+    <ClCompile Include="AlephDlg.cpp" />
+    <ClCompile Include="BaseDlg.cpp" />
+    <ClCompile Include="BitmapGlue.cpp" />
+    <ClCompile Include="BMPMDLButton.cpp" />
+    <ClCompile Include="ColorButton.cpp" />
+    <ClCompile Include="GetNumDlg.cpp" />
+    <ClCompile Include="IGCMap.cpp" />
+    <ClCompile Include="MAPDlg.cpp" />
+    <ClCompile Include="MDLFile.cpp" />
+    <ClCompile Include="RandomDlg.cpp" />
+    <ClCompile Include="RockDlg.cpp" />
+    <ClCompile Include="RocksLayoutDlg.cpp" />
+    <ClCompile Include="RockTpl.cpp" />
+    <ClCompile Include="RockTplDlg.cpp" />
+    <ClCompile Include="SectDlg.cpp" />
+    <ClCompile Include="SectWnd.cpp" />
+    <ClCompile Include="stdafx.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\ICE\corestruct.h" />
+    <ClInclude Include="2DMap.h" />
+    <ClInclude Include="AGM.h" />
+    <ClInclude Include="AlephDlg.h" />
+    <ClInclude Include="BaseDlg.h" />
+    <ClInclude Include="BitmapGlue.h" />
+    <ClInclude Include="BMPMDLButton.h" />
+    <ClInclude Include="ColorButton.h" />
+    <ClInclude Include="GetNumDlg.h" />
+    <ClInclude Include="IGCMap.h" />
+    <ClInclude Include="MAPDlg.h" />
+    <ClInclude Include="mapstruct.h" />
+    <ClInclude Include="MDLFile.h" />
+    <ClInclude Include="RandomDlg.h" />
+    <ClInclude Include="Resource.h" />
+    <ClInclude Include="RockDlg.h" />
+    <ClInclude Include="RocksLayoutDlg.h" />
+    <ClInclude Include="RockTpl.h" />
+    <ClInclude Include="RockTplDlg.h" />
+    <ClInclude Include="SectDlg.h" />
+    <ClInclude Include="SectWnd.h" />
+    <ClInclude Include="ServerCtrl.h" />
+    <ClInclude Include="stdafx.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="readme.htm" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="res">
+      <UniqueIdentifier>{3b3a1053-95e7-4b95-b346-b487c6a96b99}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="AGM.rc">
+      <Filter>res</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="res\Agmlogo.ico">
+      <Filter>res</Filter>
+    </Image>
+  </ItemGroup>
+</Project>

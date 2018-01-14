@@ -59,7 +59,7 @@
       <Command>copy "$(ProjectDir)\..\ICE\External\FreeImage\Dist\FreeImage.dll" "$(OutDir)"
 </Command>
       <Inputs>..\ICE\External\FreeImage\Dist\FreeImage.dll;%(Inputs)</Inputs>
-      <Outputs>$(OutDir)FreeImage.dll;%(Outputs)</Outputs>
+      <Outputs>$(OutDir)\FreeImage.dll;%(Outputs)</Outputs>
     </CustomBuildStep>
     <Midl>
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -98,7 +98,7 @@
       <Command>copy "$(ProjectDir)\..\ICE\External\FreeImage\Dist\FreeImage.dll" "$(OutDir)"
 </Command>
       <Inputs>..\ICE\External\FreeImage\Dist\FreeImage.dll;%(Inputs)</Inputs>
-      <Outputs>$(OutDir)FreeImage.dll;%(Outputs)</Outputs>
+      <Outputs>$(OutDir)\FreeImage.dll;%(Outputs)</Outputs>
     </CustomBuildStep>
     <Midl>
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -195,7 +195,6 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="res\Agmlogo.ico" />
-    <Image Include="res\idr_main.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -84,7 +84,7 @@ FONT 8, "MS Sans Serif", 0, 0, 0x1
 BEGIN
     ICON            IDR_MAINFRAME,IDC_STATIC,7,7,20,20
     DEFPUSHBUTTON   "OK",IDOK,178,7,50,14,WS_GROUP
-    LTEXT           "Copyright (C) 2001-2017 Kirth Gersen (KGJV)",IDC_STATIC,40,25,188,8
+    LTEXT           "Copyright (C) 2001-2018 Kirth Gersen (KGJV)",IDC_STATIC,40,25,188,8
     LTEXT           "kgersen@hotmail.com",IDC_STATIC,40,39,119,8
     LTEXT           "Logo by Nick Thoman (NoodleNT)",IDC_STATIC,40,50,179,8
     LTEXT           "Other decoders: Your_Persona, EvanTaylor, tpaganj, Vlymoxyd",IDC_STATIC,39,72,179,21
@@ -1338,6 +1338,10 @@ BEGIN
         BOTTOMMARGIN, 276
     END
 
+    IDD_MISSILEDLG, DIALOG
+    BEGIN
+    END
+
     IDD_PROBEDLG, DIALOG
     BEGIN
         BOTTOMMARGIN, 276
@@ -1391,8 +1395,8 @@ LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 3,4,7,0
- PRODUCTVERSION 3,4,7,0
+ FILEVERSION 3,4,8,0
+ PRODUCTVERSION 3,4,8,0
  FILEFLAGSMASK 0x17L
 #ifdef _DEBUG
  FILEFLAGS 0x1L
@@ -1410,12 +1414,12 @@ BEGIN
             VALUE "Comments", "IGC Core Editor"
             VALUE "CompanyName", "Kirth Gersen/KGJV "
             VALUE "FileDescription", "IGC Core Editor"
-            VALUE "FileVersion", "3.47"
-            VALUE "InternalName", "2017-09-02"
-            VALUE "LegalCopyright", "Copyright (C) Kirth Gersen 2001-2017"
+            VALUE "FileVersion", "3.4.8.0"
+            VALUE "InternalName", "2018-01-15"
+            VALUE "LegalCopyright", "Copyright (C) Kirth Gersen 2001-2018"
             VALUE "OriginalFilename", "ICE.EXE"
             VALUE "ProductName", "ICE"
-            VALUE "ProductVersion", "3.47"
+            VALUE "ProductVersion", "3.4.8.0"
         END
     END
     BLOCK "VarFileInfo"

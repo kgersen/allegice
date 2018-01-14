@@ -44,7 +44,6 @@
 #define IDD_ROCKDLG                     129
 #define IDM_ADDROCKSLAYOUT              129
 #define IDM_TPL_ALEPHS                  134
-#define IDR_MAINFRAME1                  135
 #define IDM_TPL_ROCKS                   135
 #define IDM_TPL_SECTORS                 136
 #define IDD_ROCKTPLDLG                  137
@@ -337,7 +336,7 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        140
+#define _APS_NEXT_RESOURCE_VALUE        141
 #define _APS_NEXT_COMMAND_VALUE         32774
 #define _APS_NEXT_CONTROL_VALUE         1234
 #define _APS_NEXT_SYMED_VALUE           145

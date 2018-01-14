@@ -645,8 +645,6 @@ END
 // remains consistent on all systems.
 IDR_MAINFRAME           ICON                    "res\\Agmlogo.ico"
 
-IDR_MAINFRAME1          ICON                    "res\\idr_main.ico"
-
 
 /////////////////////////////////////////////////////////////////////////////
 //
