@@ -356,6 +356,8 @@ NEW IN 3.46 (not published)
 NEW IN 3.47
 	* supports now Allegiance 1.4 registry (will fallback to 1.2 if 1.4 not found)
 	* min target is now Windows 7 (sorry XP & before)
+NEW IN 3.48
+	* support new user registry
 Known bugs:
 	when in sorting mode, launched parts (mines,missiles,probes and drones) are not shown.
 
