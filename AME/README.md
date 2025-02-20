@@ -23,9 +23,6 @@ LICENSE:
 Copyright 2000-2002 Kirth Gersen, All rights reserved.  
 [http://www.alleg.net](http://www.alleg.net) 
 
-This is the 3 **th** release of AME  
-This is the 3 th public release of AME.
-
 Thx to Nick Thoman  (NoodleNT) for his cool icon , gj man :)  
 Thx to Maurice Spee for the SLA.
 
@@ -343,9 +340,9 @@ General fix: Works with new cores from Allegiance Final update
 **?/?/???: 1.97 release**
 *   lost changes (probably not important)
 
-**02/20/2025: 1.98**
+**02/20/2025: 1.98 release**
 * built with VS2020
-* sector planet bitmap is now customizable (select the last value in the dropdown)
+* sector planet bitmap is now customizable (select the last value in the dropdown). not added to sector templates.
 
 Please all bugs report to [www.alleg.net](http://www.alleg.net) in the corresponding board or on Alleg discord.
 
