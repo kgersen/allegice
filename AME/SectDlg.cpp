@@ -45,8 +45,15 @@ void CSectDlg::DoDataExchange(CDataExchange* pDX)
 		{
 			cbglobe->SetCurSel(cbglobe->GetCount()-1);
 		}
+		
+		DDX_CBString(pDX, IDC_SECT_NEBBG, nebbg);
+		CComboBox* cbnebp = (CComboBox*)CWnd::GetDlgItem(IDC_SECT_NEBBG);
+		if (cbnebp->GetCurSel() == CB_ERR)
+		{
+			cbnebp->SetCurSel(cbnebp->GetCount() - 1);
+		}
 	}
-	DDX_CBString(pDX, IDC_SECT_NEBBG, nebbg);
+	DDX_Text(pDX, IDC_SECT_NEBBGNAME, nebbg);
 	DDX_Text(pDX, IDC_SECT_GLOBENAME, globe);
 	DDX_CBString(pDX, IDC_SECT_TEAM, team);
 	DDX_Text(pDX, IDC_SECT_NAME, name);
@@ -165,6 +172,7 @@ BOOL CSectDlg::OnInitDialog()
 	{
 		cbneb->AddString(IGCNebplnt[i]);
 	}
+	cbneb->AddString("custom bitmap");
 
 	for (int i=0;i<7;i++)
 	{
@@ -203,8 +211,41 @@ void CSectDlg::OnClickedSdlgCancel(void)
 void CSectDlg::OnCbnSelchangeSectNebbg()
 {
 	CString nebbg;
-	GetDlgItemText(IDC_SECT_NEBBG,nebbg);
-	PlanetBmp.LoadMDLFile(sArtPath + "\\" + nebbg +".mdl");
+	CComboBox* cbneb = (CComboBox*)CWnd::GetDlgItem(IDC_SECT_NEBBG);
+
+	if (cbneb->GetCurSel() == (cbneb->GetCount() - 1)) // last = custom
+	{
+		CString startpath = sArtPath + "\\*.mdl";
+		CFileDialog cfd(TRUE, "mdl", startpath, OFN_FILEMUSTEXIST | OFN_NOCHANGEDIR | OFN_NONETWORKBUTTON, "Allegiance bitmap|*bmp.mdl|", this, OPENFILENAME_SIZE_VERSION_400);
+		if (cfd.DoModal() == IDOK)
+		{
+
+			nebbg = cfd.GetFileTitle();
+			if (nebbg.GetLength() > 12)
+			{
+				AfxMessageBox("'" + nebbg + "' bitmap name is too long (max 12 cars)");
+				return;
+			}
+			CMDLFile mdlfile;
+			if (!mdlfile.ReadFromFile(cfd.GetPathName()))
+			{
+				AfxMessageBox("error opening bitmap file '" + cfd.GetFileName() + "'");
+				return;
+			}
+			if (mdlfile.RootObject)
+				if (mdlfile.RootObject->type != mdl_image)
+				{
+					AfxMessageBox("invalid bitmap file '" + cfd.GetFileName() + "'");
+					return;
+				}
+		}
+	}
+	else
+	{
+		cbneb->GetLBText(cbneb->GetCurSel(), nebbg);
+	}
+	SetDlgItemText(IDC_SECT_NEBBGNAME, nebbg);
+	PlanetBmp.LoadMDLFile(sArtPath + "\\" + nebbg + ".mdl");
 	PlanetBmp.Invalidate(TRUE);
 }
 

@@ -24,14 +24,14 @@ LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
 // Dialog
 //
 
-IDD_ABOUTBOX DIALOGEX 0, 0, 235, 111
+IDD_ABOUTBOX DIALOGEX 0, 0, 235, 110
 STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "About AME"
 FONT 8, "MS Sans Serif", 0, 0, 0x1
 BEGIN
     ICON            IDR_MAINFRAME,IDC_STATIC,11,17,20,20
-    LTEXT           "AME Version 1.97",IDC_STATIC,40,10,58,8,SS_NOPREFIX
-    LTEXT           "Copyright (C) 2002-2017 - Kirth Gersen (KGJV)",IDC_STATIC,40,25,145,8
+    LTEXT           "AME Version 1.98",IDC_STATIC,40,10,58,8,SS_NOPREFIX
+    LTEXT           "Copyright (C) 2002-2025 - Kirth Gersen (KGJV)",IDC_STATIC,40,25,145,8
     DEFPUSHBUTTON   "OK",IDOK,178,7,50,14,WS_GROUP
     LTEXT           "kgersen@hotmail.com for bugs/comments",IDC_STATIC,39,42,162,8
     LTEXT           "http://www.alleg.net/",IDC_STATIC,38,57,162,8
@@ -71,7 +71,7 @@ BEGIN
     PUSHBUTTON      "About",IDC_ABOUT,389,312,50,14
 END
 
-IDD_SECTDLG DIALOGEX 0, 0, 407, 210
+IDD_SECTDLG DIALOGEX 0, 0, 407, 209
 STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "Sector properties"
 FONT 8, "MS Sans Serif", 0, 0, 0x1
@@ -105,17 +105,18 @@ BEGIN
     RTEXT           "Stars count",IDC_S_PosY4,19,156,37,8
     EDITTEXT        IDC_SECT_STARSEED,61,169,36,14,ES_AUTOHSCROLL | ES_NUMBER
     RTEXT           "Stars seed",IDC_S_PosX4,22,172,34,8
-    EDITTEXT        IDC_SECT_PLLAT,191,50,36,14,ES_AUTOHSCROLL
-    EDITTEXT        IDC_SECT_PLLONG,191,66,36,14,ES_AUTOHSCROLL
-    RTEXT           "Sin Latitude %",IDC_S_PosX5,142,53,46,8
-    RTEXT           "Longitude %",IDC_S_PosY5,148,68,40,8
-    EDITTEXT        IDC_SECT_PLRADIUS,191,81,36,14,ES_AUTOHSCROLL | ES_NUMBER
-    RTEXT           "Radius",IDC_S_PosX6,147,84,41,8
+    EDITTEXT        IDC_SECT_PLLAT,191,65,36,14,ES_AUTOHSCROLL
+    EDITTEXT        IDC_SECT_PLLONG,191,81,36,14,ES_AUTOHSCROLL
+    RTEXT           "Sin Latitude %",IDC_S_PosX5,142,68,46,8
+    RTEXT           "Longitude %",IDC_S_PosY5,148,83,40,8
+    EDITTEXT        IDC_SECT_PLRADIUS,191,96,36,14,ES_AUTOHSCROLL | ES_NUMBER
+    RTEXT           "Radius",IDC_S_PosX6,147,99,41,8
     RTEXT           "Bitmap",IDC_S_Globe2,125,38,32,8
     GROUPBOX        "Planet",IDC_STATIC,128,23,278,167
     LTEXT           "Dir will be auto-normalized",IDC_STATIC,14,121,82,8
     CONTROL         "",IDC_PLANET,"Button",BS_OWNERDRAW | BS_TOP,232,31,170,156,WS_EX_STATICEDGE
-    EDITTEXT        IDC_SECT_GLOBENAME,250,2,74,14,ES_AUTOHSCROLL | ES_READONLY
+    EDITTEXT        IDC_SECT_GLOBENAME,250,2,74,14,ES_AUTOHSCROLL | ES_READONLY | NOT WS_TABSTOP
+    EDITTEXT        IDC_SECT_NEBBGNAME,161,50,66,14,ES_AUTOHSCROLL | ES_READONLY | NOT WS_TABSTOP
 END
 
 IDD_ALEPHDLG DIALOGEX 0, 0, 338, 141
@@ -382,6 +383,7 @@ BEGIN
     BEGIN
         LEFTMARGIN, 1
         RIGHTMARGIN, 406
+        TOPMARGIN, 1
     END
 
     IDD_ALEPHDLG, DIALOG
@@ -520,6 +522,11 @@ BEGIN
     0
 END
 
+IDD_SECTDLG AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
+
 #endif    // Neutral resources
 /////////////////////////////////////////////////////////////////////////////
 
@@ -537,8 +544,8 @@ LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 1,9,7,0
- PRODUCTVERSION 1,9,7,0
+ FILEVERSION 1,9,8,0
+ PRODUCTVERSION 1,9,8,0
  FILEFLAGSMASK 0x0L
 #ifdef _DEBUG
  FILEFLAGS 0x1L
@@ -556,12 +563,12 @@ BEGIN
             VALUE "BuildFlavor", "Retail"
             VALUE "CompanyName", "Kirth Gersen"
             VALUE "FileDescription", "Allegiance Map Editor"
-            VALUE "FileVersion", "1.9.7.0"
+            VALUE "FileVersion", "1.9.8.0"
             VALUE "InternalName", "AME"
-            VALUE "LegalCopyright", "Copyright © 2001-2017. All rights reserved."
+            VALUE "LegalCopyright", "Copyright © 2001-2025. All rights reserved."
             VALUE "OriginalFilename", "AME.exe"
             VALUE "ProductName", "Allegiance Map Editor"
-            VALUE "ProductVersion", "1.9.7.0"
+            VALUE "ProductVersion", "1.9.8.0"
         END
     END
     BLOCK "VarFileInfo"

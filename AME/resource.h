@@ -308,6 +308,8 @@
 #define IDC_ROCK_CUSTOM_MODEL           1212
 #define IDC_SECT_GLOBENAME              1212
 #define IDC_RA1                         1213
+#define IDC_SECT_NEBPBITMAP             1213
+#define IDC_SECT_NEBBGNAME              1213
 #define IDC_RA2                         1214
 #define IDC_RA3                         1215
 #define IDC_RADIUS1                     1216
@@ -336,7 +338,7 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        141
+#define _APS_NEXT_RESOURCE_VALUE        142
 #define _APS_NEXT_COMMAND_VALUE         32774
 #define _APS_NEXT_CONTROL_VALUE         1234
 #define _APS_NEXT_SYMED_VALUE           145
