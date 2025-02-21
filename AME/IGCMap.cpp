@@ -1,4 +1,4 @@
-#include "StdAfx.h"
+#include "stdafx.h"
 #include "Resource.h"
 #include "igcmap.h"
 #ifdef _AGM
