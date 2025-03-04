@@ -48,9 +48,6 @@
     <ClInclude Include="stdafx.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="readme.htm" />
-  </ItemGroup>
-  <ItemGroup>
     <Filter Include="res">
       <UniqueIdentifier>{3b3a1053-95e7-4b95-b346-b487c6a96b99}</UniqueIdentifier>
     </Filter>
@@ -64,5 +61,8 @@
     <Image Include="res\Agmlogo.ico">
       <Filter>res</Filter>
     </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="README.md" />
   </ItemGroup>
 </Project>

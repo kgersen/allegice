@@ -315,7 +315,7 @@ void CSectWnd::OnPaint(void)
 				sectinfo.nbAsteriod,sectinfo.nbUranium,sectinfo.nbSilicon,sectinfo.nbUranium);
 		dc.SetTextColor(RGB(0x00,0x00,0xFF));
 		dc.TextOut(1,16,sinfos);
-		if ((dragobject != NULL) & (bSettingZ))
+		if ((dragobject != NULL) && (bSettingZ))
 		{
 			CString cs;
 			//CPoint ps = dragobject->GetPos2D();
@@ -325,7 +325,7 @@ void CSectWnd::OnPaint(void)
 			CPoint p = dragobject->GetPos2D();
 			dc.TextOut(p.x,p.y+24,cs);
 		}
-		if ((dragobject != NULL) & (!bSettingZ))
+		if ((dragobject != NULL) && (!bSettingZ))
 		{
 			CString cs;
 			//CPoint ps = dragobject->GetPos2D();

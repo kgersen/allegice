@@ -146,8 +146,14 @@ BOOL CMAPDlg::OnInitDialog()
 	char pdata[255];
 	DWORD psize = 255;
 	HKEY hKey;
+	LONG regres;
 
-	LONG regres = RegOpenKeyEx(HKEY_LOCAL_MACHINE,"SOFTWARE\\Microsoft\\Microsoft Games\\Allegiance\\1.0",0, KEY_READ, &hKey);
+	regres = RegOpenKeyEx(HKEY_CURRENT_USER, "SOFTWARE\\Microsoft\\Microsoft Games\\Allegiance\\1.4", 0, KEY_READ, &hKey);
+	if (regres != ERROR_SUCCESS)
+		regres = RegOpenKeyEx(HKEY_LOCAL_MACHINE, "SOFTWARE\\Microsoft\\Microsoft Games\\Allegiance\\1.4", 0, KEY_READ, &hKey);
+	if (regres != ERROR_SUCCESS)
+		regres = RegOpenKeyEx(HKEY_LOCAL_MACHINE, "SOFTWARE\\Microsoft\\Microsoft Games\\Allegiance\\1.2", 0, KEY_READ, &hKey);
+
 	if (regres == ERROR_SUCCESS)
 	{
 		if (RegQueryValueEx(hKey,"ArtPath",NULL,NULL,(LPBYTE)pdata,&psize)==ERROR_SUCCESS)
