@@ -1,4 +1,5 @@
-# Allegiance IGC Core editor 
+# ICE Allegiance IGC Core editor and AME Allegiance Map Editor
+
 For latest release and Windows binary see the Release section.
 
 Community site: http://www.freeallegiance.org/

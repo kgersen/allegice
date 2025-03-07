@@ -189,9 +189,11 @@
     <ResourceCompile Include="AGM.rc" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="readme1.gif" />
     <Image Include="res\Agmlogo.ico" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="CHANGELOG.md" />
     <None Include="README.md" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -51,6 +51,9 @@
     <Filter Include="res">
       <UniqueIdentifier>{3b3a1053-95e7-4b95-b346-b487c6a96b99}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Docs">
+      <UniqueIdentifier>{6d644d9a-c873-4fd6-ab12-f5d628fdd196}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="AGM.rc">
@@ -61,8 +64,16 @@
     <Image Include="res\Agmlogo.ico">
       <Filter>res</Filter>
     </Image>
+    <Image Include="readme1.gif">
+      <Filter>Docs</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
-    <None Include="README.md" />
+    <None Include="README.md">
+      <Filter>Docs</Filter>
+    </None>
+    <None Include="CHANGELOG.md">
+      <Filter>Docs</Filter>
+    </None>
   </ItemGroup>
 </Project>

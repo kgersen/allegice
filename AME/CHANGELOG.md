@@ -1,5 +1,9 @@
 # AME (ALLEGIANCE MAP EDITOR) - Release History
 
+## Version 1.99 (no published yet)
+- find artwork path using stream reg key first
+- 
+
 ## Version 1.98 (February 20, 2025)
 - Built with VS2022
 - Sector planet bitmap is now customizable (select the last value in the dropdown)
