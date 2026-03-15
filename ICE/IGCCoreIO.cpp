@@ -23,24 +23,20 @@
 #include "Resource.h"
 #include "corestruct.h"
 
-#ifdef _DEBUG
-#define new DEBUG_NEW
-#undef THIS_FILE
-static char THIS_FILE[] = __FILE__;
-#endif
+// #ifdef _DEBUG
+// #define new DEBUG_NEW
+// #undef THIS_FILE
+// static char THIS_FILE[] = __FILE__;
+// #endif
 
 bool CIGCCore::SaveAsText(CString filepath)
 {
 	CStdioFile ctmp;
 	CString stmp;
 
-	try
+	if (!ctmp.Open(filepath, CFile::modeCreate | CFile::modeReadWrite))
 	{
-		ctmp.Open(filepath,CFile::modeCreate|CFile::modeReadWrite);
-	}
-	catch(char * str)
-	{
-		AfxMessageBox(str);
+		// AfxMessageBox(str);
 		return false;
 	}
 	SortEntries();

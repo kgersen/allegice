@@ -1,117 +1,92 @@
-// ICE.cpp : Defines the class behaviors for the application.
-//
-
 #include "stdafx.h"
 #include "ICE.h"
-#include "corestruct.h"
-#include "CivDlg.h"
-#include "ChaffDlg.h"
-#include "DevelDlg.h"
-#include "DroneDlg.h"
-#include "MineDlg.h"
-#include "MissileDlg.h"
-#include "PartDlg.h"
-#include "ProbeDlg.h"
-#include "ProjectileDlg.h"
-#include "ShipDlg.h"
-#include "StationDlg.h"
-#include "ConstantsDlg.h"
-#include "TreasureDlg.h"
 #include "ICEDlg.h"
+#include "imgui.h"
+#include "imgui_impl_glfw.h"
+#include "imgui_impl_opengl3.h"
+#include <GLFW/glfw3.h>
+#include <stdio.h>
 
-#ifdef _DEBUG
-#define new DEBUG_NEW
-#undef THIS_FILE
-static char THIS_FILE[] = __FILE__;
-#endif
-
-
-// CICEApp
-
-BEGIN_MESSAGE_MAP(CICEApp, CWinApp)
-	ON_COMMAND(ID_HELP, CWinApp::OnHelp)
-END_MESSAGE_MAP()
-
-
-// CICEApp construction
-
-CICEApp::CICEApp()
+static void glfw_error_callback(int error, const char* description)
 {
-	// Place all significant initialization in InitInstance
+    fprintf(stderr, "GLFW Error %d: %s\n", error, description);
 }
 
-
-// The one and only CICEApp object
-
-CICEApp theApp;
-
-
-// CICEApp initialization
-
-BOOL CICEApp::InitInstance()
+int main(int argc, char** argv)
 {
-	CVersionApp::InitInstance();
-//---------------------------------
-	char pdata[255];
-	DWORD psize = 255;
-	LONG regres;
-	HKEY hKey;
+    // Setup window
+    glfwSetErrorCallback(glfw_error_callback);
+    if (!glfwInit())
+        return 1;
 
-	// read the parameters in the registry - try KHCU first then 1.4 (steam) then 1.2 (regular)
-	regres = RegOpenKeyEx(HKEY_CURRENT_USER, "SOFTWARE\\Microsoft\\Microsoft Games\\Allegiance\\1.4", 0, KEY_READ, &hKey);
-	if (regres != ERROR_SUCCESS)
-		regres = RegOpenKeyEx(HKEY_LOCAL_MACHINE, "SOFTWARE\\Microsoft\\Microsoft Games\\Allegiance\\1.4", 0, KEY_READ, &hKey);
-	if (regres != ERROR_SUCCESS)
-		regres = RegOpenKeyEx(HKEY_LOCAL_MACHINE,"SOFTWARE\\Microsoft\\Microsoft Games\\Allegiance\\1.2",0, KEY_READ, &hKey);
+    // Decide GL+GLSL versions
+#if defined(__APPLE__)
+    const char* glsl_version = "#version 150";
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 2);
+    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);  // 3.2+ only
+    glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);            // Required on Mac
+#else
+    const char* glsl_version = "#version 130";
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
+#endif
 
-	if (regres != ERROR_SUCCESS)
-	{
-		AfxMessageBox(_T("Allegiance is not installed !!!"));
-		// todo: ask for artwork location or ignore artwork stuff
-		return FALSE;
-	}
+    // Create window with graphics context
+    GLFWwindow* window = glfwCreateWindow(1280, 720, "AllegICE (ImGui)", nullptr, nullptr);
+    if (window == nullptr)
+        return 1;
+    glfwMakeContextCurrent(window);
+    glfwSwapInterval(1); // Enable vsync
 
-	regres = RegQueryValueEx(hKey,"ArtPath",NULL,NULL,(LPBYTE)pdata,&psize);
-	RegCloseKey(hKey);
+    // Setup Dear ImGui context
+    IMGUI_CHECKVERSION();
+    ImGui::CreateContext();
+    ImGuiIO& io = ImGui::GetIO(); (void)io;
+    io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
 
-	// create igpp based on the registry
-	if (regres != ERROR_SUCCESS)
-	{
-		AfxMessageBox(_T("Allegiance ArtPath key not found in registry !!!"));
-		return FALSE;
-	}
-//------------------------------------
+    // Setup Dear ImGui style
+    ImGui::StyleColorsDark();
 
-	CICEDlg dlg;
-	dlg.sTitle = GetAppDescription() + " " + GetAppVersion()+ " " + GetAppInternalName();
-	dlg.sVersion = GetAppProductName() + " " + GetAppVersion() + " " + GetAppInternalName();
-	dlg.cArtPath = pdata;
-	//dlg.cArtPath = dlg.cArtPath + "\\artwork";
-	m_pMainWnd = &dlg;
+    // Setup Platform/Renderer backends
+    ImGui_ImplGlfw_InitForOpenGL(window, true);
+    ImGui_ImplOpenGL3_Init(glsl_version);
 
-	dlg.iBackIcon = LoadIcon(IDI_ICONBACK);
-	dlg.iJumpIcon = LoadIcon(IDI_ICONFWD);
+    // Initialize ICEDlg stub
+    CICEDlg dlg;
 
-	if (m_lpCmdLine[0] != _T('\0'))
-	{
-      // Open a file passed as the first command line parameter.
-      dlg.sCoreArg = m_lpCmdLine;
-	  dlg.sCoreArg.Trim("\"");
-	}
-  
+    // Main loop
+    while (!glfwWindowShouldClose(window))
+    {
+        glfwPollEvents();
 
-	int nResponse = dlg.DoModal();
-	if (nResponse == IDOK)
-	{
-		//  dismissed with OK
-	}
-	else if (nResponse == IDCANCEL)
-	{
-		//  dismissed with Cancel
-	}
+        // Start the Dear ImGui frame
+        ImGui_ImplOpenGL3_NewFrame();
+        ImGui_ImplGlfw_NewFrame();
+        ImGui::NewFrame();
 
-	// Since the dialog has been closed, return FALSE so that we exit the
-	//  application, rather than start the application's message pump.
+        // Render ICEDlg UI
+        dlg.RenderImGui();
 
-	return FALSE;
+        // Rendering
+        ImGui::Render();
+        int display_w, display_h;
+        glfwGetFramebufferSize(window, &display_w, &display_h);
+        glViewport(0, 0, display_w, display_h);
+        glClearColor(0.45f, 0.55f, 0.60f, 1.00f);
+        glClear(GL_COLOR_BUFFER_BIT);
+        ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+
+        glfwSwapBuffers(window);
+    }
+
+    // Cleanup
+    ImGui_ImplOpenGL3_Shutdown();
+    ImGui_ImplGlfw_Shutdown();
+    ImGui::DestroyContext();
+
+    glfwDestroyWindow(window);
+    glfwTerminate();
+
+    return 0;
 }

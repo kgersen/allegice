@@ -25,6 +25,6 @@ public:
 	afx_msg void OnBnClickedDecodeh();
 	afx_msg void OnBnClickedDecodesel();
 protected:
-	UCHAR *rawdata;
-	UINT rawsize;
+	unsigned char *rawdata;
+	unsigned int rawsize;
 };

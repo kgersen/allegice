@@ -21,7 +21,7 @@
 // Use at your own risk!
 // ==========================================================
 
-#include <afxtempl.h>
+// #include <afxtempl.h>
 #pragma once
 #pragma pack(1)
 

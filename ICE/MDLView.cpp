@@ -27,7 +27,7 @@ CMDLView::CMDLView(CWnd* pParent /*=NULL*/)
 CMDLView::~CMDLView()
 {
 	if (rawdata)
-		delete rawdata;
+		delete[] rawdata;
 }
 
 void CMDLView::DoDataExchange(CDataExchange* pDX)
@@ -67,8 +67,8 @@ BOOL CMDLView::OnInitDialog(void)
 	}
 	else
 	{
-		rawsize = (UINT)fMDL.GetLength();
-		rawdata = new UCHAR[rawsize];
+		rawsize = (unsigned int)fMDL.GetLength();
+		rawdata = new unsigned char[rawsize];
 		fMDL.Read(rawdata,rawsize);
 		fMDL.Close();
 		UpdateData(FALSE);

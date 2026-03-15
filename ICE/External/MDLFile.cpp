@@ -8,11 +8,11 @@
 #include "mdlfile.h"
 #include "BitmapGlue.h"
 
-#ifdef _DEBUG
-#define new DEBUG_NEW
-#undef THIS_FILE
-static char THIS_FILE[] = __FILE__;
-#endif
+// #ifdef _DEBUG
+// #define new DEBUG_NEW
+// #undef THIS_FILE
+// static char THIS_FILE[] = __FILE__;
+// #endif
 
 // constructor - init all vars to NULL/0
 CMDLFile::CMDLFile(void)
@@ -702,7 +702,7 @@ bool CMDLFile::SaveToBMP(CString fnbmp)
 }
 // contruct a MDL from a bmp
 // should be an overload of CMDLFile() constructor
-bool CMDLFile::FromBMP(CString fname, CString bname)
+bool CMDLFile::FromBMP(CString fname, CString baseName)
 {
 	long w,h;
 	WORD *lp16Bits = ReadBMP(fname,&w,&h);
@@ -724,7 +724,7 @@ bool CMDLFile::FromBMP(CString fname, CString bname)
 	//memcpy(mdlimage->undecoded,MDLImageInit,MDLImageInitSize);
 	RootObject->image = mdlimage;
 	NumTextures = 0;
-	Textures = new CString(bname);
+	Textures = new CString(baseName);
 	return true;
 }
 

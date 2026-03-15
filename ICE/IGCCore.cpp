@@ -40,17 +40,17 @@
 #include "Resource.h"
 #include "corestruct.h"
 
-#ifdef _DEBUG
-#define new DEBUG_NEW
-#undef THIS_FILE
-static char THIS_FILE[] = __FILE__;
-#endif
+// #ifdef _DEBUG
+// #define new DEBUG_NEW
+// #undef THIS_FILE
+// static char THIS_FILE[] = __FILE__;
+// #endif
 
 CIGCCore::CIGCCore(void)
 {
 	pConstants = NULL;
 }
-#define FreeArray(a)	{for (int j=0;j<(a).GetSize();j++){void * p = (void *)(a).GetAt(j);	(a).SetAt(j,NULL);	delete p;}}
+#define FreeArray(a)	{for (int j=0;j<(a).GetSize();j++){void * p = (void *)(a)[j];	(a).SetAt(j,NULL);	delete p;}}
 
 CIGCCore::~CIGCCore(void)
 {
@@ -106,9 +106,9 @@ bool CIGCCore::ReadFromFile(CString fn)
 		{
 		case OT_constants: // Assume 1 per core
 			{
-				ASSERT(pConstants == NULL);
+				// ASSERT(pConstants == NULL);
 				pConstants = new IGCCoreConstants;
-				ASSERT(size == sizeof(*pConstants));
+				// ASSERT(size == sizeof(*pConstants));
 				cfmap.Read(pConstants,size);
 			}
 			break;
