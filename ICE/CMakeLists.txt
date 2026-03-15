@@ -73,4 +73,11 @@ target_precompile_headers(ICE PRIVATE stdafx.h)
 # Set subsystem to Windows
 set_target_properties(ICE PROPERTIES LINK_FLAGS "/SUBSYSTEM:WINDOWS")
 
+# Copy FreeImage.dll to the output directory
+add_custom_command(TARGET ICE POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy_if_different
+    "${CMAKE_CURRENT_SOURCE_DIR}/External/FreeImage/Dist/FreeImage.dll"
+    $<TARGET_FILE_DIR:ICE>
+)
+
 add_subdirectory(IGCLib)

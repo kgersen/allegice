@@ -69,3 +69,10 @@ target_link_libraries(AME PRIVATE
 
 target_precompile_headers(AME PRIVATE stdafx.h)
 set_target_properties(AME PROPERTIES LINK_FLAGS "/SUBSYSTEM:WINDOWS")
+
+# Copy FreeImage.dll to the output directory
+add_custom_command(TARGET AME POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy_if_different
+    "${CMAKE_CURRENT_SOURCE_DIR}/../ICE/External/FreeImage/Dist/FreeImage.dll"
+    $<TARGET_FILE_DIR:AME>
+)
