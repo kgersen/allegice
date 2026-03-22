@@ -4,7 +4,7 @@
 	Copyright (C) Kirth Gersen, 2001-2002.  All rights reserved.
 	v 0.96
 */
-#include "StdAfx.h"
+#include "stdafx.h"
 #include "mdlfile.h"
 #include "BitmapGlue.h"
 

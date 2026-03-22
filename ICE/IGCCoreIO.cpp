@@ -19,8 +19,8 @@
 // THIS DISCLAIMER.
 //
 
-#include "StdAfx.h"
-#include "Resource.h"
+#include "stdafx.h"
+#include "resource.h"
 #include "corestruct.h"
 
 // #ifdef _DEBUG

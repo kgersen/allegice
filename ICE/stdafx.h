@@ -11,7 +11,7 @@
 #define WINVER 0x0601  
 #define _WIN32_WINNT 0x0601  
 
-#include <SDKDDKVer.h>
+// #include <SDKDDKVer.h>
 
 //// Modify the following defines if you have to target a platform prior to the ones specified below.
 //#ifndef WINVER				// Allow use of features specific to Win 2K or later
@@ -30,7 +30,7 @@
 //#define _WIN32_IE 0x0502
 //#endif
 
-#include <windows.h>
+// #include <windows.h>
 #include <string>
 #include <vector>
 #include <list>
@@ -53,6 +53,8 @@ typedef int BOOL;
 #define WORD unsigned short
 #define DWORD unsigned long
 #define UINT unsigned int
+#define LONGLONG long long
+#define ULONGLONG unsigned long long
 
 // Stub CString using std::string
 class CString {
@@ -297,89 +299,7 @@ typedef struct _D3DCOLORVALUE {
 // Allegiance Source includes
 // adjust paths 
 // TODO: reference current alleg source files instead of these copies but requires to split igc.h into 3 files
-#include "IGCLib\igcstatic.h"
-
-#define DECLARE_DYNAMIC(a)
-#define IMPLEMENT_DYNAMIC(a, b)
-#define afx_msg
-#define DECLARE_MESSAGE_MAP()
-#define BEGIN_MESSAGE_MAP(a, b)
-#define END_MESSAGE_MAP()
-#define ON_COMMAND(a, b)
-#define ON_BN_CLICKED(a, b)
-#define ON_WM_PAINT()
-#define ON_WM_QUERYDRAGICON()
-
-// BOOL moved to top
-
-class CDataExchange;
-#define DDX_Text(pDX, nID, value)
-#define DDX_Check(pDX, nID, value)
-#define DDX_CBIndex(pDX, nID, value)
-#define DDX_CBString(pDX, nID, value)
-
-class CWnd {
-public:
-    HWND m_hWnd;
-    CWnd() : m_hWnd(NULL) {}
-    virtual ~CWnd() {}
-    void MessageBox(const char* msg, const char* title = "ICE", int type = 0) {}
-    CWnd* GetDlgItem(int nID) { return NULL; }
-    void SetDlgItemText(int nID, const char* text) {
-        if (m_hWnd) ::SetDlgItemTextA(m_hWnd, nID, text);
-    }
-    BOOL SubclassDlgItem(int nID, CWnd* pParent) { return TRUE; }
-    HLOCAL GetHandle() { return NULL; }
-    void GetWindowText(CString& s) {}
-    void SetWindowText(const char* s) {}
-    void UpdateData(BOOL b = TRUE) {}
-};
-
-class CDataExchange {
-public:
-    BOOL m_bSaveAndValidate;
-    CDataExchange() : m_bSaveAndValidate(FALSE) {}
-};
-
-class CDialog : public CWnd {
-public:
-    CDialog(int nID = 0, CWnd* pParent = NULL) {}
-    virtual BOOL OnInitDialog() { return TRUE; }
-    virtual void DoDataExchange(CDataExchange* pDX) {}
-};
-
-class CEdit : public CWnd {
-public:
-    void GetSel(int& start, int& end) { start = end = 0; }
-    HLOCAL GetHandle() { return NULL; }
-};
-
-class CComboBox : public CWnd {
-public:
-    void ResetContent() {}
-    int AddString(const char*) { return 0; }
-    void SetItemDataPtr(int, void*) {}
-    int GetCount() { return 0; }
-    void* GetItemDataPtr(int) { return NULL; }
-    int GetCurSel() { return -1; }
-    void SetCurSel(int) {}
-};
-
-class CBMPMDLButton : public CWnd {
-public:
-    void SetPath(const char*) {}
-    void SetModel(const char*) {}
-    void LoadMDLFile(const char*) {}
-};
-
-class CMenu {
-public:
-    HMENU m_hMenu;
-    CMenu() : m_hMenu(NULL) {}
-    void DestroyMenu() {}
-    void CreatePopupMenu() {}
-    void AppendMenu(UINT, UINT_PTR, const char*) {}
-};
+#include "IGCLib/igcstatic.h"
 
 class IMainUI {
 public:

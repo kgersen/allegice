@@ -36,8 +36,8 @@
 //				// use cigccore->SaveToFile(sIGCfilepath) to write back the .igc file
 //          }
 
-#include "StdAfx.h"
-#include "Resource.h"
+#include "stdafx.h"
+#include "resource.h"
 #include "corestruct.h"
 
 // #ifdef _DEBUG

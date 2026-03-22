@@ -13,6 +13,11 @@
 #ifndef IGC_TYPES_H
 #define IGC_TYPES_H
 
+#include <cstdint>
+
+// Cross-platform typedef for Microsoft __int64
+typedef int64_t __int64;
+
 // ExplosionType
 typedef int ExplosionType;
 const ExplosionType c_etMine            = 1;
@@ -309,32 +314,32 @@ const WarningMask   c_wmCrowdedSector = 0x02;
 typedef char BuyableGroupID;
 
 /*
-· Max Speed: Up the sides maximum speed 
-· Rate of Yaw: Increase angle of turn per sec
-· Rate of Pitch: Increase angle of turn per sec
-· Rate of acceleration: Increase your acceleration
-· Energy level: Boosts available energy for firing weapons and other stuff.
-· Energy Level recharge rate: Faster recharge rate
-· Mounts: Give ships bigger carrying capabilities.
-· Shield strength: Better shields more hp
-· Shield Recharge: Better recharge.
-· Hull strength: Better Armor more hp
-· Afterburner fuel efficiency: More miles per gallon
-· Afterburner speed multiplier: Top speed enhanced
-· Signature: Dampens your global signature.
-· Scan Range: Ups the area by an amount
-· Space station shield strength: More hit points.
-· Space station hull strength: More hull hit points
-· Miner productivity: Increase the dollar amount given to players at the completion of a round trip.
-· Weapon Cost: Make all weapons a little cheaper
-· Equipment Cost: make all equipment cheaper
-· Ship Cost: Make ships cheaper
-· Missile Speed/Accuracy?/Recalc time: A global attribute to improve Missiles chance of hitting.
-· Projectile Damage: Ups damage
-· Missile Damage: Ups damage
-· Weapon Range: Improves distance
-· Drone targeting : Improves accuracy
-· Auto turret accuracy rating.: Improves accuracy (possibly same as above.)
+ï¿½ Max Speed: Up the sides maximum speed 
+ï¿½ Rate of Yaw: Increase angle of turn per sec
+ï¿½ Rate of Pitch: Increase angle of turn per sec
+ï¿½ Rate of acceleration: Increase your acceleration
+ï¿½ Energy level: Boosts available energy for firing weapons and other stuff.
+ï¿½ Energy Level recharge rate: Faster recharge rate
+ï¿½ Mounts: Give ships bigger carrying capabilities.
+ï¿½ Shield strength: Better shields more hp
+ï¿½ Shield Recharge: Better recharge.
+ï¿½ Hull strength: Better Armor more hp
+ï¿½ Afterburner fuel efficiency: More miles per gallon
+ï¿½ Afterburner speed multiplier: Top speed enhanced
+ï¿½ Signature: Dampens your global signature.
+ï¿½ Scan Range: Ups the area by an amount
+ï¿½ Space station shield strength: More hit points.
+ï¿½ Space station hull strength: More hull hit points
+ï¿½ Miner productivity: Increase the dollar amount given to players at the completion of a round trip.
+ï¿½ Weapon Cost: Make all weapons a little cheaper
+ï¿½ Equipment Cost: make all equipment cheaper
+ï¿½ Ship Cost: Make ships cheaper
+ï¿½ Missile Speed/Accuracy?/Recalc time: A global attribute to improve Missiles chance of hitting.
+ï¿½ Projectile Damage: Ups damage
+ï¿½ Missile Damage: Ups damage
+ï¿½ Weapon Range: Improves distance
+ï¿½ Drone targeting : Improves accuracy
+ï¿½ Auto turret accuracy rating.: Improves accuracy (possibly same as above.)
 */
 
 

@@ -1,9 +1,6 @@
-# Removed MFC linking flag
-# set(CMAKE_MFC_FLAG 1) # Set to 1 for static linking, 2 for shared linking
-
-
 # Add definitions for MultiByte character set
 add_definitions(-D_MBCS)
+project(ICE)
 
 set(ICE_SOURCES
 #    BMPMDLButton.cpp
@@ -29,13 +26,6 @@ set(ICE_SOURCES
 #    VersionApp.cpp
     External/BitmapGlue.cpp
     External/MDLFile.cpp
-    ${imgui_SOURCE_DIR}/imgui.cpp
-    ${imgui_SOURCE_DIR}/imgui_demo.cpp
-    ${imgui_SOURCE_DIR}/imgui_draw.cpp
-    ${imgui_SOURCE_DIR}/imgui_tables.cpp
-    ${imgui_SOURCE_DIR}/imgui_widgets.cpp
-    ${imgui_SOURCE_DIR}/backends/imgui_impl_glfw.cpp
-    ${imgui_SOURCE_DIR}/backends/imgui_impl_opengl3.cpp
     ICE.rc
 )
 
@@ -65,32 +55,39 @@ set(ICE_HEADERS
     External/MDLFile.h
 )
 
-add_executable(ICE WIN32 ${ICE_SOURCES} ${ICE_HEADERS})
+add_executable(${PROJECT_NAME}  ${ICE_SOURCES})
+target_link_libraries(${PROJECT_NAME} PRIVATE imgui)
 
-target_include_directories(ICE PRIVATE 
+target_include_directories(${PROJECT_NAME} PRIVATE 
     ${CMAKE_CURRENT_SOURCE_DIR}
+    ${CMAKE_CURRENT_SOURCE_DIR}/IGCLib
     ${CMAKE_CURRENT_SOURCE_DIR}/External/FreeImage/Dist
     ${imgui_SOURCE_DIR}
     ${imgui_SOURCE_DIR}/backends
 )
 
-target_link_libraries(ICE PRIVATE 
-    ${CMAKE_CURRENT_SOURCE_DIR}/External/FreeImage/Dist/FreeImage.lib
-    glfw
-    opengl32
-)
+target_link_libraries(${PROJECT_NAME} PRIVATE IGCLib)
+target_link_libraries(${PROJECT_NAME} PRIVATE imgui)
 
-# Precompiled headers
-target_precompile_headers(ICE PRIVATE stdafx.h)
+# --- Emscripten flags ---
+if (EMSCRIPTEN)
+    set(EM_FLAGS
+        "-sUSE_SDL=3"          # Use the Emscripten SDL3 port
+        "-sWASM=1"
+        "-sALLOW_MEMORY_GROWTH=1"
+        "-sFULL_ES3=1"
+        "-sUSE_WEBGL2=1"
+    )
 
-# Set subsystem to Windows
-set_target_properties(ICE PROPERTIES LINK_FLAGS "/SUBSYSTEM:WINDOWS")
+    string(JOIN " " EM_FLAGS_STR ${EM_FLAGS})
 
-# Copy FreeImage.dll to the output directory
-add_custom_command(TARGET ICE POST_BUILD
-    COMMAND ${CMAKE_COMMAND} -E copy_if_different
-    "${CMAKE_CURRENT_SOURCE_DIR}/External/FreeImage/Dist/FreeImage.dll"
-    $<TARGET_FILE_DIR:ICE>
-)
+    set_target_properties(${PROJECT_NAME} PROPERTIES
+        SUFFIX ".html"
+        LINK_FLAGS "${EM_FLAGS_STR}"
+    )
 
-# add_subdirectory(IGCLib)
+    # SDL3 port headers need to be available at compile time too
+    target_compile_options(${PROJECT_NAME} PRIVATE "-sUSE_SDL=3")
+    target_compile_options(imgui PRIVATE "-sUSE_SDL=3")
+endif()
+

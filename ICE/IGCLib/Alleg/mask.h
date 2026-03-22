@@ -7,6 +7,18 @@
 #ifndef _mask_H_
 #define _mask_H_
 
+#include <algorithm>
+#include <cstring>
+#include <cstdio>
+
+// Cross-platform definitions for Windows API functions
+#ifndef CopyMemory
+#define CopyMemory memcpy
+#endif
+#ifndef ZeroMemory
+#define ZeroMemory(p, s) memset((p), 0, (s))
+#endif
+
 
 //////////////////////////////////////////////////////////////////////////////
 //
@@ -189,7 +201,7 @@ template<int nBits> class TLargeBitMask
 		// CHECK THIS, IT MIGHT OVERFLOW ! -KGJV
         void ToString(char* pszBytes, int cch) const
         {
-          int cb = min(cch / 2, sizeof(m_bits));
+          int cb = std::min(cch / 2, (int)sizeof(m_bits));
           for (int i = 0; i < cb; ++i)
           {
             char szByte[3];
@@ -205,16 +217,16 @@ template<int nBits> class TLargeBitMask
             return false;
           BYTE bits[sizeof(m_bits)];
           ZeroMemory(bits, sizeof(bits));
-          int cb = min(cch / 2, sizeof(m_bits));
+          int cb = std::min(cch / 2, (int)sizeof(m_bits));
           for (int i = 0; i < cb; ++i)
           {
             char szByte[3];
             CopyMemory(szByte, pszBits + (i * 2), 2);
             szByte[2] = '\0';
-            long nBits = strtoul(szByte, NULL, 16);
-            if ((0 == nBits || ULONG_MAX == nBits) && ERANGE == errno)
+            long nBitsValue = strtoul(szByte, NULL, 16);
+            if ((0 == nBitsValue || ULONG_MAX == nBitsValue) && ERANGE == errno)
               return false;
-            bits[i] = (BYTE)nBits;
+            bits[i] = (BYTE)nBitsValue;
           }
 
           Set(bits);

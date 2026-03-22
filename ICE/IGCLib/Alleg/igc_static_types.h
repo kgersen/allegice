@@ -41,11 +41,12 @@ typedef struct _D3DCOLORVALUE {
 #endif
 
 // adjust paths 
-#include "..\Zlib\vector.h"
-#include "..\Zlib\mask.h"
-#include "..\_Utility\constants.h"
-#include "..\igc\igc_types.h"
-#include "..\igc\igc_static.h" >>THIS IS THIS FILE<<
+// Note: These parent directory includes are commented out as the files are now local
+// #include "..\Zlib\vector.h"
+// #include "..\Zlib\mask.h"
+// #include "..\_Utility\constants.h"
+// #include "..\igc\igc_types.h"
+// #include "..\igc\igc_static.h" >>THIS IS THIS FILE<<
 */
 
 #ifndef IGC_STATIC_H

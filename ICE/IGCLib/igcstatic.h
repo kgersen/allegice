@@ -37,8 +37,8 @@ typedef struct _D3DCOLORVALUE {
 // Allegiance Source includes
 // adjust paths 
 // TODO: reference current alleg source files instead of these copies but requires to split igc.h into 3 files
-#include "Alleg\vector.h"
-#include "Alleg\mask.h"
-#include "Alleg\constants.h"
-#include "Alleg\igc_types.h"
-#include "Alleg\igc_static_types.h"
+#include "Alleg/vector.h"
+#include "Alleg/mask.h"
+#include "Alleg/constants.h"
+#include "Alleg/igc_types.h"
+#include "Alleg/igc_static_types.h"
