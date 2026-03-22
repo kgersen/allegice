@@ -6,7 +6,7 @@
 	v 0.94
 */
 #include "stdafx.h"
-#include <freeimage.h>
+#include <FreeImage.h>
 
 // #ifdef _DEBUG
 // #define new DEBUG_NEW

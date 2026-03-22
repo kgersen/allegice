@@ -12,7 +12,7 @@ set(ICE_SOURCES
     ICEDlg.cpp
     IGCCore.cpp
     IGCCoreIO.cpp
-    MDLView.cpp
+#    MDLView.cpp
 #    MineDlg.cpp
 #    MissileDlg.cpp
 #    PartDlg.cpp
@@ -38,7 +38,7 @@ set(ICE_HEADERS
 #    DroneDlg.h
     ICE.h
     ICEDlg.h
-    MDLView.h
+#    MDLView.h
 #    MineDlg.h
 #    MissileDlg.h
 #    PartDlg.h

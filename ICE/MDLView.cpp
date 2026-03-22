@@ -4,7 +4,7 @@
 #include "stdafx.h"
 #include "ICE.h"
 #include "corestruct.h"
-#include "BMPMDLButton.h"
+//#include "BMPMDLButton.h"
 #include "MDLView.h"
 
 #ifdef _DEBUG

@@ -6,7 +6,7 @@
 	v 0.94
 */
 #include "stdafx.h"
-#include <freeimage.h>
+#include <FreeImage.h>
 
 // save a bmp file in 24 bits format
 void CreateBMP24File(CString pszFile, PBITMAPINFO pbi,LPBYTE lpBits) 
