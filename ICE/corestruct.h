@@ -705,8 +705,8 @@ public:
 	int PartSize(PtrCorePart ppart);
 	bool ReadFromFile(CString);
 	bool SaveToFile(CString);
-	CMenu mBasesMenu;
-	CComboBox cbRenders;
+	// CMenu mBasesMenu;
+	// CComboBox cbRenders;
 	void BuildBasesMenu(UINT);
 	//void BuildRenders(CComboBox *);
 	PtrCoreStationType GetBase(unsigned short uid);

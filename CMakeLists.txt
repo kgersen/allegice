@@ -15,6 +15,14 @@ FetchContent_Declare(
 )
 FetchContent_MakeAvailable(imgui)
 
+# Fetch FreeImage
+FetchContent_Declare(
+    FreeImage
+    GIT_REPOSITORY https://github.com/danoli3/FreeImage.git
+    GIT_TAG        3.19.10
+)
+FetchContent_MakeAvailable(FreeImage)
+
 # --- ImGui target ---
 add_library(imgui STATIC
     ${imgui_SOURCE_DIR}/imgui.cpp

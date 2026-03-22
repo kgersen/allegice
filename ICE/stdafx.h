@@ -48,11 +48,16 @@ typedef int BOOL;
 #define FALSE 0
 #endif
 
+typedef const char* LPCSTR;
+
 #define UCHAR unsigned char
 #define BYTE unsigned char
 #define WORD unsigned short
 #define DWORD unsigned long
 #define UINT unsigned int
+typedef int32_t LONG;
+typedef int32_t LPARAM; // fixme for 32/64 issue
+#define ULONG unsigned long
 #define LONGLONG long long
 #define ULONGLONG unsigned long long
 
@@ -301,11 +306,11 @@ typedef struct _D3DCOLORVALUE {
 // TODO: reference current alleg source files instead of these copies but requires to split igc.h into 3 files
 #include "IGCLib/igcstatic.h"
 
-class IMainUI {
-public:
-    virtual void SelectPCE(LPARAM p) = 0;
-    virtual HICON GetJumpIcon() = 0;
-};
+// class IMainUI {
+// public:
+//     virtual void SelectPCE(LPARAM p) = 0;
+//     virtual HICON GetJumpIcon() = 0;
+// };
 
 #ifdef _DEBUG
 // simple debug fucntion

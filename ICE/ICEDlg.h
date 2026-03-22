@@ -2,7 +2,7 @@
 
 #include "stdafx.h"
 #include "corestruct.h"
-#include "IGCCore.h"
+// #include "IGCCore.h"
 
 // Forward declare ImGui types so we don't need to include imgui.h everywhere if possible
 namespace ImGui { }

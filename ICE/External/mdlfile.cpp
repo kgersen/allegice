@@ -6,7 +6,7 @@
 */
 #include "stdafx.h"
 #include "mdlfile.h"
-#include "BitmapGlue.h"
+// #include "BitmapGlue.h"
 
 // #ifdef _DEBUG
 // #define new DEBUG_NEW
@@ -382,7 +382,7 @@ bool CMDLFile::ReadFromFile(CString sFileName)
 						}
 						if (!matched)
 						{
-							ReadError.Format("unmatched l2type = %s\n",l2type);
+							ReadError.Format("unmatched l2type = %s\n",(LPCSTR)l2type);
 							cont = false;
 							break;
 						}
@@ -458,9 +458,9 @@ CString CMDLFile::DumpObject(PtrMDLObject po, int level)
 		{
 			CString child = DumpObject(po->childrens[n],level+1);
 			child.AppendFormat(",\n");
-			fmt.AppendFormat("%s%s",hd,child);
+			fmt.AppendFormat("%s%s",(LPCSTR)hd,(LPCSTR)child);
 		}
-		fmt.AppendFormat("%s)\n",hd);
+		fmt.AppendFormat("%s)\n",(LPCSTR)hd);
 	}
 	return fmt;
 }
@@ -473,9 +473,9 @@ void CMDLFile::ObjectToXFile(PtrMDLObject po,CStdioFile *cf,CString level)
 	{
 		// po->mesh->nvertex,po->mesh->nfaces)
 		CString fmt;
-		fmt.Format("Frame %s\n{",level);
+		fmt.Format("Frame %s\n{",(LPCSTR)level);
 		cf->WriteString(fmt);
-		fmt.Format("  Mesh %s_mesh {\n",level);
+		fmt.Format("  Mesh %s_mesh {\n",(LPCSTR)level);
 		cf->WriteString(fmt);
 		fmt.Format("    %d;\n",po->mesh->nvertex);
 		cf->WriteString(fmt);
@@ -542,7 +542,7 @@ void CMDLFile::ObjectToXFile(PtrMDLObject po,CStdioFile *cf,CString level)
 				else
 					cf->WriteString(";\n");
 			}
-			fmt.Format(     "        Material %s\n",Textures[po->textidx]);
+			fmt.Format(     "        Material %s\n",(LPCSTR)Textures[po->textidx]);
             cf->WriteString(fmt);
 
 			cf->WriteString("              {\n");
@@ -553,7 +553,7 @@ void CMDLFile::ObjectToXFile(PtrMDLObject po,CStdioFile *cf,CString level)
 
 			cf->WriteString("                TextureFileName\n");
 			cf->WriteString("                {\n");
-			fmt.Format("                    \"%s\";\n",Textures[po->textidx]+".bmp");
+			fmt.Format("                    \"%s.bmp\";\n",(LPCSTR)Textures[po->textidx]);
             cf->WriteString(fmt);
 			cf->WriteString("                }\n");
 			cf->WriteString("              }\n");
@@ -574,7 +574,7 @@ void CMDLFile::ObjectToXFile(PtrMDLObject po,CStdioFile *cf,CString level)
 		for(int n=0;n<po->nchildren;n++)
 		{
 			CString lev = level;
-			lev.AppendFormat("%s-%d",rootype,n);
+			lev.AppendFormat("%s-%d",(LPCSTR)rootype,(LPCSTR)n);
 			ObjectToXFile(po->childrens[n],cf,lev);
 		}
 		cf->WriteString("//\n");
@@ -590,7 +590,7 @@ bool CMDLFile::SaveToXFile(CString sFileName)
 	cf.WriteString("xof 0303txt 0032\n");
 	PtrMDLObject po = RootObject;
 	CString fmt;
-	fmt.Format("//Dump of %s\n",sFileName);
+	fmt.Format("//Dump of %s\n",(LPCSTR)sFileName);
 	cf.WriteString(fmt);
 	fmt.Format("//Lights = %d\n",NumLights);
 	cf.WriteString(fmt);
@@ -617,7 +617,7 @@ bool CMDLFile::SaveToXFile(CString sFileName)
 	for (int n=0;n<NumFrameDatas;n++)
 	{
 		fmt.Format("//%s | %f %f %f | %f %f %f %f %f %f\n",
-			FrameDatas[n].name,
+			(LPCSTR)FrameDatas[n].name,
 			FrameDatas[n].posx,
 			FrameDatas[n].posy,
 			FrameDatas[n].posz,
@@ -656,50 +656,50 @@ void CMDLFile::DumpMesh(CStdioFile *sf, MDLMesh *mesh)
 }
 
 // warning stupid code below - should use freeimage 565 conversion
-bool CMDLFile::SaveToBMP(CString fnbmp)
-{
-	if (!RootObject) return false;
-	if (RootObject->type != mdl_image) return false;
-	MDLImage *img = RootObject->image;
-	if (!img) return false;
+// bool CMDLFile::SaveToBMP(CString fnbmp)
+// {
+// 	if (!RootObject) return false;
+// 	if (RootObject->type != mdl_image) return false;
+// 	MDLImage *img = RootObject->image;
+// 	if (!img) return false;
 	
-	UCHAR *lp24Bits = new UCHAR[img->header.m_size.x*img->header.m_size.y*3];
-	WORD *lp16bits = (WORD*)img->bitmap;
-	for (int y=0;y<img->header.m_size.y;y++)
-		for (int x=0;x<img->header.m_size.x;x++)
-		{ 
-			// 16 = 5red, 6green, 5blue
-			int p16 = y*img->header.m_size.x+x;
-			int p24 = ((img->header.m_size.y-1-y)*img->header.m_size.x+x)*3; // inverted lines (start from bottom)
-			WORD b16 = lp16bits[p16];
-			ULONG	red = b16 & 0xF800;
-					red = red>>11;
-					red = (red*256)/32;
-			ULONG	green = b16 & 0x7E0;
-					green = green>>5;
-					green = (green*256)/64;
-			ULONG	blue = b16 & 0x1F;
-					blue = (blue*256)/32;
+// 	UCHAR *lp24Bits = new UCHAR[img->header.m_size.x*img->header.m_size.y*3];
+// 	WORD *lp16bits = (WORD*)img->bitmap;
+// 	for (int y=0;y<img->header.m_size.y;y++)
+// 		for (int x=0;x<img->header.m_size.x;x++)
+// 		{ 
+// 			// 16 = 5red, 6green, 5blue
+// 			int p16 = y*img->header.m_size.x+x;
+// 			int p24 = ((img->header.m_size.y-1-y)*img->header.m_size.x+x)*3; // inverted lines (start from bottom)
+// 			WORD b16 = lp16bits[p16];
+// 			ULONG	red = b16 & 0xF800;
+// 					red = red>>11;
+// 					red = (red*256)/32;
+// 			ULONG	green = b16 & 0x7E0;
+// 					green = green>>5;
+// 					green = (green*256)/64;
+// 			ULONG	blue = b16 & 0x1F;
+// 					blue = (blue*256)/32;
 
-			lp24Bits[p24] = (UCHAR)blue;
-			lp24Bits[p24+1] = (UCHAR)green;
-			lp24Bits[p24+2] = (UCHAR)red;
-		}
-	PBITMAPINFO pbmi;
-    pbmi = (PBITMAPINFO) LocalAlloc(LPTR, sizeof(BITMAPINFOHEADER)); 
-    pbmi->bmiHeader.biSize = sizeof(BITMAPINFOHEADER); 
-    pbmi->bmiHeader.biWidth = img->header.m_size.x; 
-    pbmi->bmiHeader.biHeight = img->header.m_size.y; 
-    pbmi->bmiHeader.biPlanes = 1; 
-    pbmi->bmiHeader.biBitCount = 24; 
-    pbmi->bmiHeader.biCompression = BI_RGB; 
-    pbmi->bmiHeader.biSizeImage = ((pbmi->bmiHeader.biWidth * 24 +31) & ~31) /8
-                                  * pbmi->bmiHeader.biHeight; 
-    pbmi->bmiHeader.biClrImportant = 0; 
+// 			lp24Bits[p24] = (UCHAR)blue;
+// 			lp24Bits[p24+1] = (UCHAR)green;
+// 			lp24Bits[p24+2] = (UCHAR)red;
+// 		}
+// 	PBITMAPINFO pbmi;
+//     pbmi = (PBITMAPINFO) LocalAlloc(LPTR, sizeof(BITMAPINFOHEADER)); 
+//     pbmi->bmiHeader.biSize = sizeof(BITMAPINFOHEADER); 
+//     pbmi->bmiHeader.biWidth = img->header.m_size.x; 
+//     pbmi->bmiHeader.biHeight = img->header.m_size.y; 
+//     pbmi->bmiHeader.biPlanes = 1; 
+//     pbmi->bmiHeader.biBitCount = 24; 
+//     pbmi->bmiHeader.biCompression = BI_RGB; 
+//     pbmi->bmiHeader.biSizeImage = ((pbmi->bmiHeader.biWidth * 24 +31) & ~31) /8
+//                                   * pbmi->bmiHeader.biHeight; 
+//     pbmi->bmiHeader.biClrImportant = 0; 
 	
-	CreateBMP24File(fnbmp, pbmi, lp24Bits);
-	return true;
-}
+// 	CreateBMP24File(fnbmp, pbmi, lp24Bits);
+// 	return true;
+// }
 // contruct a MDL from a bmp
 // should be an overload of CMDLFile() constructor
 bool CMDLFile::FromBMP(CString fname, CString baseName)

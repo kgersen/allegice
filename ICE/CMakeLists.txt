@@ -1,5 +1,4 @@
 # Add definitions for MultiByte character set
-add_definitions(-D_MBCS)
 project(ICE)
 
 set(ICE_SOURCES
@@ -25,7 +24,7 @@ set(ICE_SOURCES
 #    TreasureDlg.cpp
 #    VersionApp.cpp
     External/BitmapGlue.cpp
-    External/MDLFile.cpp
+    External/mdlfile.cpp
     ICE.rc
 )
 
@@ -52,7 +51,7 @@ set(ICE_HEADERS
 #    TreasureDlg.h
 #    VersionApp.h
     External/BitmapGlue.h
-    External/MDLFile.h
+    External/mdlfile.h
 )
 
 add_executable(${PROJECT_NAME}  ${ICE_SOURCES})
@@ -61,16 +60,18 @@ target_link_libraries(${PROJECT_NAME} PRIVATE imgui)
 target_include_directories(${PROJECT_NAME} PRIVATE 
     ${CMAKE_CURRENT_SOURCE_DIR}
     ${CMAKE_CURRENT_SOURCE_DIR}/IGCLib
-    ${CMAKE_CURRENT_SOURCE_DIR}/External/FreeImage/Dist
+    ${FreeImage_SOURCE_DIR}/Source
     ${imgui_SOURCE_DIR}
     ${imgui_SOURCE_DIR}/backends
 )
 
 target_link_libraries(${PROJECT_NAME} PRIVATE IGCLib)
 target_link_libraries(${PROJECT_NAME} PRIVATE imgui)
+target_link_libraries(${PROJECT_NAME} PRIVATE FreeImage)
 
 # --- Emscripten flags ---
 if (EMSCRIPTEN)
+    message("Using EMSCRIPTEN")
     set(EM_FLAGS
         "-sUSE_SDL=3"          # Use the Emscripten SDL3 port
         "-sWASM=1"
